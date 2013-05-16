@@ -1,3 +1,4 @@
+# Default .gitignore for Ruby
 *.gem
 *.rbc
 .bundle
@@ -16,3 +17,14 @@ tmp
 .yardoc
 _yardoc
 doc/
+
+# Vim
+*.swp
+
+# OS X
+.DS_Store
+
+# Puppet
+metadata.json
+coverage/
+spec/fixtures/modules/*
