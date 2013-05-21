@@ -1,6 +1,6 @@
 #  ## Class: ssh ##
 # 
-# Puppet module to manage SSH.
+# Manage ssh client and server.
 # 
 # ### Parameters ###
 # 

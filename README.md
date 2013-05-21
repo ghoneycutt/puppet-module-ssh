@@ -1,6 +1,8 @@
 # puppet-module-ssh #
 
-Puppet module to manage SSH.
+Manage ssh client and server.
+
+The module uses exported resources to manage ssh keys and removes ssh keys that are not managed by puppet. This behavior is managed by the parameters ssh_key_ensure and purge_keys.
 
 # Compatability #
 
