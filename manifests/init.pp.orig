@@ -131,18 +131,10 @@
 # - *Default*: "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
 # 
 class ssh (
-  #$packages                = ['openssh-server',
-  #                            'openssh-server',
-  #                            'openssh-clients'],
-  #Below is the array for Solaris packages
-  #$packages                = ['SUNWsshdr'
-  #                            'SUNWsshcu'
-  #                            'SUNWsshdu'
-  #                            'SUNWsshr'
-  #                            'SUNWsshu'],
-
-  $packages                = hiera('ssh_packages'),
-  $permit_root_login       = hiera('permit_root_login'),
+  $packages                = ['openssh-server',
+                              'openssh-server',
+                              'openssh-clients'],
+  $permit_root_login       = 'no',
   $purge_keys              = 'true',
   $manage_firewall         = false,
   $ssh_config_path         = '/etc/ssh/ssh_config',
@@ -154,7 +146,7 @@ class ssh (
   $sshd_config_group       = 'root',
   $sshd_config_mode        = '0600',
   $service_ensure          = 'running',
-  $service_name            = hiera('ssh_service'),
+  $service_name            = 'sshd',
   $service_enable          = 'true',
   $service_hasrestart      = 'true',
   $service_hasstatus       = 'true',

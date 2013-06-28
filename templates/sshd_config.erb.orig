@@ -23,8 +23,8 @@ Protocol 2
 # HostKey for protocol version 1
 #HostKey /etc/ssh/ssh_host_key
 # HostKeys for protocol version 2
-HostKey /etc/ssh/ssh_host_rsa_key
-HostKey /etc/ssh/ssh_host_dsa_key
+#HostKey /etc/ssh/ssh_host_rsa_key
+#HostKey /etc/ssh/ssh_host_dsa_key
 
 # Lifetime and size of ephemeral version 1 server key
 #KeyRegenerationInterval 1h
@@ -32,10 +32,8 @@ HostKey /etc/ssh/ssh_host_dsa_key
 
 # Logging
 # obsoletes QuietMode and FascistLogging
-SyslogFacility AUTH
-
-#Does not work with Solaris
-#SyslogFacility AUTHPRIV
+#SyslogFacility AUTH
+SyslogFacility AUTHPRIV
 #LogLevel INFO
 
 # Authentication:
@@ -77,9 +75,8 @@ ChallengeResponseAuthentication no
 # GSSAPI options
 #GSSAPIAuthentication no
 GSSAPIAuthentication yes
-#Does not work with Solaris sshd, default set for Linux
 #GSSAPICleanupCredentials yes
-#GSSAPICleanupCredentials yes
+GSSAPICleanupCredentials yes
 
 # Set this to 'yes' to enable PAM authentication, account processing,
 # and session processing. If this is enabled, PAM authentication will
@@ -90,15 +87,12 @@ GSSAPIAuthentication yes
 # session checks to run without PAM authentication, then enable this but set
 # ChallengeResponseAuthentication=no
 #UsePAM no
-#Does not work with Solaris sshd
-#UsePAM yes
+UsePAM yes
 
-#Does not work with Solaris sshd
 # Accept locale-related environment variables
-#AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
-#AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
-#AcceptEnv LC_IDENTIFICATION LC_ALL
-#
+AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+AcceptEnv LC_IDENTIFICATION LC_ALL
 #AllowTcpForwarding yes
 #GatewayPorts no
 #X11Forwarding no
@@ -122,19 +116,7 @@ X11Forwarding yes
 #ChrootDirectory none
 
 # no default banner path
-#Added default banner path
-Banner /etc/issue
+##Banner /etc/motd
 
 # override default of no subsystems
-#Subsystem	sftp	/usr/libexec/openssh/sftp-server
-Subsystem	sftp	internal-sftp
-
-<% if @operatingsystem != 'Solaris' -%>
-#These settings are Linux-specific and do not work with Solaris sshd
-UsePAM yes
-# Accept locale-related environment variables
-AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
-AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
-AcceptEnv LC_IDENTIFICATION LC_ALL
-#
-<% end -%>
+Subsystem	sftp	/usr/libexec/openssh/sftp-server
