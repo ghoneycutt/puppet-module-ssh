@@ -135,10 +135,10 @@ class ssh (
   #                            'openssh-server',
   #                            'openssh-clients'],
   #Below is the array for Solaris packages
-  #$packages                = ['SUNWsshdr'
-  #                            'SUNWsshcu'
-  #                            'SUNWsshdu'
-  #                            'SUNWsshr'
+  #$packages                = ['SUNWsshdr',
+  #                            'SUNWsshcu',
+  #                            'SUNWsshdu',
+  #                            'SUNWsshr',
   #                            'SUNWsshu'],
 
   $packages                = hiera('ssh_packages'),
