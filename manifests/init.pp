@@ -131,10 +131,18 @@
 # - *Default*: "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
 #
 class ssh (
-  $packages                = ['openssh-server',
-                              'openssh-server',
-                              'openssh-clients'],
-  $permit_root_login       = 'no',
+  #$packages                = ['openssh-server',
+  #                            'openssh-server',
+  #                            'openssh-clients'],
+  #Below is the array for Solaris packages
+  #$packages                = ['SUNWsshdr',
+  #                            'SUNWsshcu',
+  #                            'SUNWsshdu',
+  #                            'SUNWsshr',
+  #                            'SUNWsshu'],
+
+  $packages                = hiera('ssh::packages'),
+  $permit_root_login       = hiera('ssh::permit_root_login'),
   $purge_keys              = 'true',
   $manage_firewall         = false,
   $ssh_config_path         = '/etc/ssh/ssh_config',
@@ -146,7 +154,7 @@ class ssh (
   $sshd_config_group       = 'root',
   $sshd_config_mode        = '0600',
   $service_ensure          = 'running',
-  $service_name            = 'sshd',
+  $service_name            = hiera('ssh::service'),
   $service_enable          = 'true',
   $service_hasrestart      = 'true',
   $service_hasstatus       = 'true',
@@ -186,10 +194,25 @@ class ssh (
     }
   }
 
-  package { 'ssh_packages':
-    ensure => installed,
-    name   => $packages,
+  #package { 'ssh_packages':
+  #  ensure => installed,
+  #  name   => $packages,
+  #}
+
+  #Used define to check the status of individual installed packages
+  #because of a puppet bug where package resource seems to fail for an array
+  #of Solaris packages
+  #Also used before instead of require for dependency check because of an issue
+  #with the unique name in define; @@sshkey checked dependency on sshd_config
+
+  define ssh_package_check() {
+    package { $name:
+      ensure => installed,
+      before => File['ssh_config' , 'sshd_config'],
+    }
   }
+
+  ssh_package_check { $packages: }
 
   file  { 'ssh_config' :
     ensure  => file,
@@ -198,7 +221,7 @@ class ssh (
     group   => $ssh_config_group,
     mode    => $ssh_config_mode,
     content => template('ssh/ssh_config.erb'),
-    require => Package['ssh_packages'],
+    #require => Package['ssh_packages'],
   }
 
   file  { 'sshd_config' :
@@ -208,7 +231,7 @@ class ssh (
     owner   => $sshd_config_owner,
     group   => $sshd_config_group,
     content => template('ssh/sshd_config.erb'),
-    require => Package['ssh_packages'],
+    #require => Package['ssh_packages'],
   }
 
   case $manage_root_ssh_config {
@@ -263,10 +286,11 @@ class ssh (
 
   # export each node's ssh key
   @@sshkey { $::fqdn :
-    ensure  => $ssh_key_ensure,
-    type    => $ssh_key_type,
-    key     => $key,
-    require => Package['ssh_packages'],
+    ensure   => $ssh_key_ensure,
+    type     => $ssh_key_type,
+    key      => $key,
+    #require => Package['ssh_packages'],
+    require  => File['sshd_config'],
   }
 
   # import all nodes' ssh keys
