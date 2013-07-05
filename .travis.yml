@@ -1,0 +1,13 @@
+language: ruby
+before_script: "gem install --no-ri --no-rdoc bundler"
+after_script:
+script: 'SPEC_OPTS="--format documentation" bundle exec rake spec'
+notifications:
+  email: false
+rvm:
+  - 1.9.3
+  - 1.8.7
+env:
+  - PUPPET_VERSION=2.7.13
+  - PUPPET_VERSION=3.2.1
+gemfile: Gemfile
