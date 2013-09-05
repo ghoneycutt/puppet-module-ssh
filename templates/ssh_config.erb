@@ -50,6 +50,15 @@ Host *
 # to the original X11 display. As virtually no X11 client supports the untrusted
 # mode correctly we set this to yes.
   ForwardX11Trusted yes
+<% if @ssh_config_forward_agent -%>
+  ForwardAgent <%= @ssh_config_forward_agent %>
+<% end -%>
+<% if @ssh_config_forward_x11 -%>
+  ForwardX11 <%= @ssh_config_forward_x11 %>
+<% end -%>
+<% if @ssh_config_server_alive_interval -%>
+  ServerAliveInterval <%= @ssh_config_server_alive_interval %>
+<% end -%>
 # Send locale-related environment variables
   SendEnv LANG LANGUAGE LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
   SendEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
