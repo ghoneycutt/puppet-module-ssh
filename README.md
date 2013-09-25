@@ -4,6 +4,8 @@ Manage ssh client and server.
 
 The module uses exported resources to manage ssh keys and removes ssh keys that are not managed by puppet. This behavior is managed by the parameters ssh_key_ensure and purge_keys.
 
+===
+
 # Compatability #
 
 This module has been tested to work on the following systems.
@@ -11,7 +13,15 @@ This module has been tested to work on the following systems.
  * EL 5
  * EL 6
 
+===
+
 # Parameters #
+
+keys
+----
+Hash of keys for user's ~/.ssh/authorized_keys
+
+- *Default*: undefined
 
 packages
 --------
@@ -138,3 +148,24 @@ root_ssh_config_content
 Content of root's ~/.ssh/config.
 
 - *Default*: "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
+
+===
+
+# Manage user's ssh_authorized_keys
+This works by passing the ssh::keys hash to the ssh_authorized_keys type with create_resources(). Because of this, you may specify any valid parameter for ssh_authorized_key. See the [Type Reference](http://docs.puppetlabs.com/references/stable/type.html#ssh_authorized_key) for a complete list.
+
+## Sample usage:
+Push authorized key "root_for_userX" and remove key "root_for_userY" through Hiera.
+
+<pre>
+ssh::keys:
+  root_for_userX:
+    ensure: present
+    user: root
+    type: dsa
+    key: AAAA...==
+  root_for_userY:
+    ensure: absent
+    user: root
+</pre>
+
