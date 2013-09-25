@@ -130,6 +130,25 @@
 #
 # - *Default*: "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
 #
+# keys
+# ----
+# Keys for user's ~/.ssh/authorized_keys
+#
+# - *Default*: undefined
+#
+# Sample usage:
+# # Push authorized key "root_for_userX" and remove key "root_for_userY" with hiera
+#
+# ssh::keys:
+#   root_for_userX:
+#     ensure: present
+#     user: root
+#     type: dsa
+#     key: AAAA...==
+#   root_for_userY:
+#     ensure: absent
+#     user: root
+#
 class ssh (
   $packages                = ['openssh-server',
                               'openssh-server',
@@ -154,6 +173,7 @@ class ssh (
   $ssh_key_type            = 'ssh-rsa',
   $manage_root_ssh_config  = 'false',
   $root_ssh_config_content = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
+  $keys                    = undef,
 ) {
 
   case $permit_root_login {
@@ -275,5 +295,13 @@ class ssh (
   # remove ssh key's not managed by puppet
   resources  { 'sshkey':
     purge => $purge_keys,
+  }
+
+  # push ssh authorized keys
+  if $keys != undef {
+    $keytype = type($keys)
+    if $keytype == 'hash' {
+      create_resources(ssh_authorized_key, $keys)
+    }
   }
 }

@@ -247,4 +247,30 @@ describe 'ssh' do
       })
     }
   end
+  context 'with keys defined' do
+    let(:params) { { :keys => {
+      'root_for_userX' => {
+        'ensure' => 'present',
+        'user'   => 'root',
+        'type'   => 'dsa',
+        'key'    => 'AAAA==',
+      },
+      'root_for_userY' => {
+        'ensure' => 'absent',
+        'user'   => 'root',
+      }
+    } } }
+    it {
+      should contain_ssh_authorized_key('root_for_userX').with({
+        'ensure' => 'present',
+        'user'   => 'root',
+        'type'   => 'dsa',
+        'key'    => 'AAAA==',
+      })
+      should contain_ssh_authorized_key('root_for_userY').with({
+        'ensure' => 'absent',
+        'user'   => 'root',
+      })
+    }
+  end
 end
