@@ -12,6 +12,7 @@ This module has been tested to work on the following systems.
 
  * EL 5
  * EL 6
+ * SLES 11
 
 ===
 
@@ -169,3 +170,10 @@ ssh::keys:
     user: root
 </pre>
 
+===
+
+# Suse specific Hiera settings:
+
+<pre>
+ssh::packages: openssh
+</pre>

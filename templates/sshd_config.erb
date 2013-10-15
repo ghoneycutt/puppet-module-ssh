@@ -119,4 +119,8 @@ X11Forwarding yes
 ##Banner /etc/motd
 
 # override default of no subsystems
-Subsystem	sftp	/usr/libexec/openssh/sftp-server
+<% if operatingsystem =~ /RedHat|CentOS/ -%>
+Subsystem       sftp    /usr/libexec/openssh/sftp-server
+<% elsif operatingsystem =~ /SLED|SLES/ -%>
+Subsystem       sftp    /usr/lib64/ssh/sftp-server
+<% end -%>
