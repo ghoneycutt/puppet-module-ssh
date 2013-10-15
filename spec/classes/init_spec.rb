@@ -1,10 +1,11 @@
 require 'spec_helper'
 describe 'ssh' do
 
-  context 'with default params' do
+  context 'with default params on osfamily RedHat' do
     let :facts do
       {
         :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
         :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
       }
     end
@@ -46,7 +47,39 @@ describe 'ssh' do
     }
 
     it {
+      should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/)
+    }
+
+    it {
+      should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/)
+    }
+
+    it {
       should contain_file('sshd_config').with_content(/^PermitRootLogin no$/)
+    }
+
+    it {
+      should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/)
+    }
+
+    it {
+      should contain_file('sshd_config').with_content(/^PrintMotd yes$/)
+    }
+
+    it {
+      should contain_file('sshd_config').with_content(/^UseDNS yes$/)
+    }
+
+    it {
+      should contain_file('sshd_config').with_content(/^Banner none$/)
+    }
+
+    it {
+      should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/)
+    }
+
+    it {
+      should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/libexec\/openssh\/sftp-server$/)
     }
 
     it {
@@ -67,7 +100,7 @@ describe 'ssh' do
     }
   end
 
-  context 'with manage_root_ssh_config set to \'true\'' do
+  context 'with manage_root_ssh_config set to \'true\' on valid osfamily' do
     let :facts do
       {
         :fqdn      => 'monkey.example.com',
@@ -85,60 +118,6 @@ describe 'ssh' do
     it { should include_class('common')}
 
     it {
-      should contain_package('ssh_packages').with({
-        'ensure' => 'installed',
-        'name'   => ['openssh-server','openssh-server','openssh-clients'],
-      })
-    }
-
-    it {
-      should contain_file('ssh_config').with({
-        'ensure' => 'file',
-        'path'    => '/etc/ssh/ssh_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0644',
-        'require' => 'Package[ssh_packages]',
-      })
-    }
-
-    it {
-      should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/)
-    }
-
-    it {
-      should contain_file('sshd_config').with({
-        'ensure' => 'file',
-        'path'    => '/etc/ssh/sshd_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0600',
-        'require' => 'Package[ssh_packages]',
-      })
-    }
-
-    it {
-      should contain_file('sshd_config').with_content(/^PermitRootLogin no$/)
-    }
-
-    it {
-      should contain_service('sshd_service').with({
-        'ensure'     => 'running',
-        'name'       => 'sshd',
-        'enable'     => 'true',
-        'hasrestart' => 'true',
-        'hasstatus'  => 'true',
-        'subscribe'  => 'File[sshd_config]',
-      })
-    }
-
-    it {
-      should contain_resources('sshkey').with({
-        'purge' => 'true',
-      })
-    }
-
-    it {
       should contain_file('root_ssh_dir').with({
         'ensure'  => 'directory',
         'path'    => '/root/.ssh',
@@ -148,9 +127,19 @@ describe 'ssh' do
         'require' => 'Common::Mkdir_p[/root/.ssh]',
       })
     }
+
+    it {
+      should contain_file('root_ssh_config').with({
+        'ensure'  => 'file',
+        'path'    => '/root/.ssh/config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0600',
+      })
+    }
   end
 
-  context 'with manage_root_ssh_config set to invalid value' do
+  context 'with manage_root_ssh_config set to invalid value on valid osfamily' do
     let :facts do
       {
         :fqdn      => 'monkey.example.com',
@@ -170,10 +159,11 @@ describe 'ssh' do
     end
   end
 
-  context 'with manage_firewall set to true' do
+  context 'with manage_firewall set to true on valid osfamily' do
     let :facts do
       {
         :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
         :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
       }
     end
@@ -186,60 +176,6 @@ describe 'ssh' do
     it { should_not include_class('common')}
 
     it {
-      should contain_package('ssh_packages').with({
-        'ensure' => 'installed',
-        'name'   => ['openssh-server','openssh-server','openssh-clients'],
-      })
-    }
-
-    it {
-      should contain_file('ssh_config').with({
-        'ensure' => 'file',
-        'path'    => '/etc/ssh/ssh_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0644',
-        'require' => 'Package[ssh_packages]',
-      })
-    }
-
-    it {
-      should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/)
-    }
-
-    it {
-      should contain_file('sshd_config').with({
-        'ensure' => 'file',
-        'path'    => '/etc/ssh/sshd_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0600',
-        'require' => 'Package[ssh_packages]',
-      })
-    }
-
-    it {
-      should contain_file('sshd_config').with_content(/^PermitRootLogin no$/)
-    }
-
-    it {
-      should contain_service('sshd_service').with({
-        'ensure'     => 'running',
-        'name'       => 'sshd',
-        'enable'     => 'true',
-        'hasrestart' => 'true',
-        'hasstatus'  => 'true',
-        'subscribe'  => 'File[sshd_config]',
-      })
-    }
-
-    it {
-      should contain_resources('sshkey').with({
-        'purge' => 'true',
-      })
-    }
-
-    it {
       should contain_firewall('22 open port 22 for SSH').with({
         'action' => 'accept',
         'dport'  => '22',
@@ -247,7 +183,11 @@ describe 'ssh' do
       })
     }
   end
-  context 'with keys defined' do
+
+  context 'with keys defined on valid osfamily' do
+    let :facts do
+      { :osfamily  => 'RedHat' }
+    end
     let(:params) { { :keys => {
       'root_for_userX' => {
         'ensure' => 'present',
@@ -267,6 +207,9 @@ describe 'ssh' do
         'type'   => 'dsa',
         'key'    => 'AAAA==',
       })
+    }
+
+    it {
       should contain_ssh_authorized_key('root_for_userY').with({
         'ensure' => 'absent',
         'user'   => 'root',
