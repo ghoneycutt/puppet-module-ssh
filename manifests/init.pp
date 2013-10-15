@@ -16,9 +16,7 @@
 #     user: root
 #
 class ssh (
-  $packages                         = ['openssh-server',
-                                        'openssh-server',
-                                        'openssh-clients'],
+  $packages                         = 'USE_DEFAULTS',
   $permit_root_login                = 'no',
   $purge_keys                       = 'true',
   $manage_firewall                  = false,
@@ -40,7 +38,7 @@ class ssh (
   $sshd_config_use_dns              = 'yes',
   $sshd_config_banner               = 'none',
   $sshd_config_xauth_location       = '/usr/bin/xauth',
-  $sshd_config_subsystem_sftp       = '/usr/libexec/openssh/sftp-server',
+  $sshd_config_subsystem_sftp       = 'USE_DEFAULTS',
   $service_ensure                   = 'running',
   $service_name                     = 'sshd',
   $service_enable                   = 'true',
@@ -83,9 +81,33 @@ class ssh (
     }
   }
 
+  case $::osfamily {
+    'RedHat': {
+      $default_packages                   = ['openssh-server',
+                                              'openssh-server',
+                                              'openssh-clients']
+      $default_sshd_config_subsystem_sftp = '/usr/libexec/openssh/sftp-server'
+    }
+    default: {
+      fail("ssh supports osfamily RedHat. Detected osfamily is <${::osfamily}>.")
+    }
+  }
+
+  if $packages == 'USE_DEFAULTS' {
+    $packages_real = $default_packages
+  } else {
+    $packages_real = $packages
+  }
+
+  if $sshd_config_subsystem_sftp == 'USE_DEFAULTS' {
+    $sshd_config_subsystem_sftp_real = $default_sshd_config_subsystem_sftp
+  } else {
+    $sshd_config_subsystem_sftp_real = $sshd_config_subsystem_sftp
+  }
+
   package { 'ssh_packages':
     ensure => installed,
-    name   => $packages,
+    name   => $packages_real,
   }
 
   file  { 'ssh_config' :

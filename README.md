@@ -234,4 +234,3 @@ ssh::keys:
     ensure: absent
     user: root
 </pre>
-
