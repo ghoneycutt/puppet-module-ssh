@@ -71,6 +71,24 @@ ssh_config's mode.
 
 - *Default*: '0644'
 
+ssh_config_forward_x11
+----------------------
+ForwardX11 option in ssh_config. Not set by default.
+
+- *Default*: undef
+
+ssh_config_forward_agent
+------------------------
+ForwardAgent option in ssh_config. Not set by default.
+
+- *Default*: undef
+
+ssh_config_server_alive_interval
+--------------------------------
+ServerAliveInterval option in ssh_config. Not set by default.
+
+- *Default*: undef
+
 sshd_config_path
 ----------------
 Path to sshd_config.
@@ -94,6 +112,54 @@ sshd_config_mode
 sshd_config's mode.
 
 - *Default*: '0600'
+
+sshd_config_syslog_facility
+---------------------------
+SyslogFacility option in sshd_config.
+
+- *Default*: 'AUTH'
+
+sshd_config_login_grace_time
+----------------------------
+LoginGraceTime option in sshd_config.
+
+- *Default*: '120'
+
+sshd_config_challenge_resp_auth
+-------------------------------
+ChallengeResponseAuthentication option in sshd_config.
+
+- *Default*: 'no'
+
+sshd_config_print_motd
+----------------------
+PrintMotd option in sshd_config.
+
+- *Default*: 'yes'
+
+sshd_config_use_dns
+-------------------
+UseDNS option in sshd_config.
+
+- *Default*: 'yes'
+
+sshd_config_banner
+------------------
+Banner option in sshd_config.
+
+- *Default*: 'none'
+
+sshd_config_xauth_location
+--------------------------
+XAuthLocation option in sshd_config.
+
+- *Default*: '/usr/bin/xauth'
+
+sshd_config_subsystem_sftp
+--------------------------
+Path to sftp file transfer subsystem in sshd_config.
+
+- *Default*: '/usr/libexec/openssh/sftp-server'
 
 service_ensure
 --------------
