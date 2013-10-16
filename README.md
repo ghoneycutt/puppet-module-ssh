@@ -12,6 +12,7 @@ This module has been tested to work on the following systems.
 
  * EL 5
  * EL 6
+ * SLES 11
 
 ===
 

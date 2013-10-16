@@ -88,8 +88,20 @@ class ssh (
                                               'openssh-clients']
       $default_sshd_config_subsystem_sftp = '/usr/libexec/openssh/sftp-server'
     }
+    'Suse': {
+      $default_packages                     = 'openssh'
+      if $::architecture == 'x86_64' {
+        $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
+      }
+      elsif $::architecture == 'i386' {
+        $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
+      }
+      else {
+      fail("ssh supports architecture x86_64 & i386 for Suse. Detected architecture is <${::architecture}>.")
+      }
+    }
     default: {
-      fail("ssh supports osfamily RedHat. Detected osfamily is <${::osfamily}>.")
+      fail("ssh supports osfamily RedHat & Suse. Detected osfamily is <${::osfamily}>.")
     }
   }
 
