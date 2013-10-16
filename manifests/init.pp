@@ -39,6 +39,12 @@ class ssh (
   $sshd_config_banner               = 'none',
   $sshd_config_xauth_location       = '/usr/bin/xauth',
   $sshd_config_subsystem_sftp       = 'USE_DEFAULTS',
+  $sshd_config_passwordauth         = 'yes',
+  $sshd_config_allowtcpforwarding   = 'yes',
+  $sshd_config_x11forwarding        = 'yes',
+  $sshd_config_usepam               = 'yes',
+  $sshd_config_clientaliveinterval  = '0',
+  $sshd_config_serverkeybits        = '768',
   $service_ensure                   = 'running',
   $service_name                     = 'sshd',
   $service_enable                   = 'true',
@@ -79,6 +85,42 @@ class ssh (
     default: {
       fail("purge_keys must be 'true' or 'false' and is ${purge_keys}")
     }
+  }
+
+  case $sshd_config_passwordauth {
+    'no', 'yes': {
+    }
+    default: {
+      fail("sshd_config_passwordauth may be either 'yes' or 'no' and is set to ${sshd_config_passwordauth}")
+    }
+  }
+
+  case $sshd_config_allowtcpforwarding {
+    'no', 'yes': {
+    }
+    default: {
+      fail("sshd_config_allowtcpforwarding may be either 'yes' or 'no' and is set to ${sshd_config_allowtcpforwarding}")
+    }
+  }
+
+  case $sshd_config_x11forwarding {
+    'no', 'yes': {
+    }
+    default: {
+      fail("sshd_config_x11forwarding may be either 'yes' or 'no' and is set to ${sshd_config_x11forwarding}")
+    }
+  }
+
+  case $sshd_config_usepam {
+    'no', 'yes': {
+    }
+    default: {
+      fail("sshd_config_usepam may be either 'yes' or 'no' and is set to ${sshd_config_usepam}")
+    }
+  }
+
+  if $sshd_config_serverkeybits < '512' {
+    fail("sshd_config_serverkeybits needs a minimum value of 512 and is set to ${sshd_config_serverkeybits}")
   }
 
   case $::osfamily {

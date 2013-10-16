@@ -83,6 +83,30 @@ describe 'ssh' do
     }
 
     it {
+      should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/)
+    }
+
+    it {
+      should contain_file('sshd_config').with_content(/^PasswordAuthentication yes$/)
+    }
+
+    it {
+      should contain_file('sshd_config').with_content(/^UsePAM yes$/)
+    }
+
+    it {
+      should contain_file('sshd_config').with_content(/^AllowTcpForwarding yes$/)
+    }
+
+    it {
+      should contain_file('sshd_config').with_content(/^X11Forwarding yes$/)
+    }
+
+    it {
+      should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/)
+    }
+
+    it {
       should contain_service('sshd_service').with({
         'ensure'     => 'running',
         'name'       => 'sshd',

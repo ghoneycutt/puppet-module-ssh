@@ -161,6 +161,42 @@ Path to sftp file transfer subsystem in sshd_config.
 
 - *Default*: '/usr/libexec/openssh/sftp-server'
 
+sshd_config_passwordauth
+------------------------
+PasswordAuthentication in sshd_config.
+
+- *Default*: 'yes'
+
+sshd_config_allowtcpforwarding
+------------------------
+AllowTcpForwarding in sshd_config.
+
+- *Default*: 'yes'
+
+sshd_config_x11forwarding
+------------------------
+X11Forwarding in sshd_config.
+
+- *Default*: 'yes'
+
+sshd_config_usepam
+------------------------
+UsePam in  sshd_config.
+
+- *Default*: 'yes'
+
+sshd_config_clientaliveinterval
+------------------------
+ClientAliveInterval in sshd_config.
+
+- *Default*: '0'
+
+sshd_config_serverkeybits
+------------------------
+ServerKeyBits in sshd_config.
+
+- *Default*: '768'
+
 service_ensure
 --------------
 Ensure SSH service is running. Valid values are 'stopped' and 'running'.
