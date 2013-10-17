@@ -54,6 +54,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
     it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
+    it { should contain_file('sshd_config').with_content(/^Banner none$/) }
     it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
     it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/libexec\/openssh\/sftp-server$/) }
 
