@@ -1,19 +1,6 @@
 # == Class: ssh
 #
-# Manage ssh client and server.
-#
-# Sample usage:
-# # Push authorized key "root_for_userX" and remove key "root_for_userY" with hiera
-#
-# ssh::keys:
-#   root_for_userX:
-#     ensure: present
-#     user: root
-#     type: dsa
-#     key: AAAA...==
-#   root_for_userY:
-#     ensure: absent
-#     user: root
+# Manage ssh client and server
 #
 class ssh (
   $packages                         = 'USE_DEFAULTS',
