@@ -1,4 +1,4 @@
-# ## Class: ssh ##
+# == Class: ssh
 #
 # Manage ssh client and server
 #
