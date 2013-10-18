@@ -28,6 +28,7 @@ Protocol 2
 
 # Lifetime and size of ephemeral version 1 server key
 #KeyRegenerationInterval 1h
+#ServerKeyBits 768
 ServerKeyBits <%= @sshd_config_serverkeybits %>
 
 # Logging
@@ -40,6 +41,7 @@ SyslogFacility <%= @sshd_config_syslog_facility %>
 
 #LoginGraceTime 120
 LoginGraceTime <%= @sshd_config_login_grace_time %>
+#PermitRootLogin yes
 PermitRootLogin <%= @permit_root_login %>
 #StrictModes yes
 #MaxAuthTries 6
@@ -59,6 +61,7 @@ PermitRootLogin <%= @permit_root_login %>
 #IgnoreRhosts yes
 
 # To disable tunneled clear text passwords, change to no here!
+#PasswordAuthentication no
 PasswordAuthentication <%= @sshd_config_passwordauth %>
 #PermitEmptyPasswords no
 
@@ -86,14 +89,17 @@ GSSAPICleanupCredentials yes
 # "PermitRootLogin without-password". If you just want the PAM account and
 # session checks to run without PAM authentication, then enable this but set
 # ChallengeResponseAuthentication=no
+#UsePAM no
 UsePAM <%= @sshd_config_usepam %>
 
 # Accept locale-related environment variables
 AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
 AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
 AcceptEnv LC_IDENTIFICATION LC_ALL
+#AllowTcpForwarding yes
 AllowTcpForwarding <%= @sshd_config_allowtcpforwarding %>
 #GatewayPorts no
+#X11Forwarding no
 X11Forwarding <%= @sshd_config_x11forwarding %>
 #X11DisplayOffset 10
 #X11UseLocalhost yes
@@ -105,6 +111,7 @@ PrintMotd <%= @sshd_config_print_motd %>
 #UsePrivilegeSeparation yes
 #PermitUserEnvironment no
 #Compression delayed
+#ClientAliveInterval 0
 ClientAliveInterval <%= @sshd_config_clientaliveinterval %>
 #ClientAliveCountMax 3
 #ShowPatchLevel no
