@@ -57,13 +57,19 @@ class ssh (
   $root_ssh_config_content          = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
 ) {
 
-  case $permit_root_login {
-    'no', 'yes', 'without-password', 'forced-commands-only': {
-      # noop
-    }
-    default: {
-      fail("permit_root_login may be either 'yes', 'without-password', 'forced-commands-only' or 'no' and is set to ${permit_root_login}")
-    }
+  # <validating variables>
+  validate_re($permit_root_login, '^(yes|no|without-password|forced-commands-only)$', "permit_root_login may be either 'yes', 'no' 'without-password' and 'forced-commands-only' and is set to '${permit_root_login}'")
+  validate_re($purge_keys, '^(true|false)$', "purge_keys may be either 'true' or 'false' and is set to '${purge_keys}'")
+  validate_re($sshd_config_allowtcpforwarding, '^(yes|no)$', "sshd_config_allowtcpforwarding may be either 'yes' or 'no' and is set to '${sshd_config_allowtcpforwarding}'")
+  validate_re($sshd_config_passwordauth, '^(yes|no)$', "sshd_config_passwordauth may be either 'yes' or 'no' and is set to '${sshd_config_passwordauth}'")
+  validate_re($sshd_config_usepam, '^(yes|no)$', "sshd_config_usepam may be either 'yes' or 'no' and is set to '${sshd_config_usepam}'")
+  validate_re($sshd_config_x11forwarding, '^(yes|no)$', "sshd_config_x11forwarding may be either 'yes' or 'no' and is set to '${sshd_config_x11forwarding}'")
+
+  if is_integer($sshd_config_serverkeybits) == false {
+    fail("sshd_config_serverkeybits must be an integer and is set to '${sshd_config_serverkeybits}'")
+  }
+  if $sshd_config_serverkeybits < '512' {
+    fail("sshd_config_serverkeybits needs a minimum value of 512 and is set to '${sshd_config_serverkeybits}'")
   }
 
   case $ssh_key_type {
@@ -77,57 +83,13 @@ class ssh (
       fail("ssh_key_type must be 'ssh-rsa', 'rsa', 'ssh-dsa', or 'dsa' and is ${ssh_key_type}")
     }
   }
-
-  case $purge_keys {
-    'true','false': {
-      # noop
-    }
-    default: {
-      fail("purge_keys must be 'true' or 'false' and is ${purge_keys}")
-    }
-  }
-
-  case $sshd_config_passwordauth {
-    'no', 'yes': {
-    }
-    default: {
-      fail("sshd_config_passwordauth may be either 'yes' or 'no' and is set to ${sshd_config_passwordauth}")
-    }
-  }
-
-  case $sshd_config_allowtcpforwarding {
-    'no', 'yes': {
-    }
-    default: {
-      fail("sshd_config_allowtcpforwarding may be either 'yes' or 'no' and is set to ${sshd_config_allowtcpforwarding}")
-    }
-  }
-
-  case $sshd_config_x11forwarding {
-    'no', 'yes': {
-    }
-    default: {
-      fail("sshd_config_x11forwarding may be either 'yes' or 'no' and is set to ${sshd_config_x11forwarding}")
-    }
-  }
-
-  case $sshd_config_usepam {
-    'no', 'yes': {
-    }
-    default: {
-      fail("sshd_config_usepam may be either 'yes' or 'no' and is set to ${sshd_config_usepam}")
-    }
-  }
-
-  if $sshd_config_serverkeybits < '512' {
-    fail("sshd_config_serverkeybits needs a minimum value of 512 and is set to ${sshd_config_serverkeybits}")
-  }
+  # </validating variables>
 
   case $::osfamily {
     'RedHat': {
       $default_packages                   = ['openssh-server',
-                                              'openssh-server',
-                                              'openssh-clients']
+                                             'openssh-server',
+                                             'openssh-clients']
       $default_sshd_config_subsystem_sftp = '/usr/libexec/openssh/sftp-server'
     }
     default: {
