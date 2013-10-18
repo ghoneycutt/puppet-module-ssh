@@ -88,8 +88,8 @@ class ssh (
   case $::osfamily {
     'RedHat': {
       $default_packages                   = ['openssh-server',
-                                             'openssh-server',
-                                             'openssh-clients']
+                                              'openssh-server',
+                                              'openssh-clients']
       $default_sshd_config_subsystem_sftp = '/usr/libexec/openssh/sftp-server'
     }
     default: {
