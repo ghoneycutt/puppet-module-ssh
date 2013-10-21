@@ -145,7 +145,7 @@ sshd_config's owner.
 sshd_config_path
 ----------------
 Path to sshd_config.
-- *Default*: '/etc/ssh/sshd_config
+- *Default*: '/etc/ssh/sshd_config'
 
 sshd_login_grace_time
 ---------------------
