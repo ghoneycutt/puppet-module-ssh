@@ -40,11 +40,11 @@ class ssh (
   $sshd_config_xauth_location       = '/usr/bin/xauth',
   $sshd_config_subsystem_sftp       = 'USE_DEFAULTS',
   $sshd_password_authentication     = 'yes',
-  $sshd_config_allowtcpforwarding   = 'yes',
-  $sshd_config_x11forwarding        = 'yes',
-  $sshd_config_usepam               = 'yes',
-  $sshd_config_clientaliveinterval  = '0',
-  $sshd_config_serverkeybits        = '768',
+  $sshd_allow_tcp_forwarding        = 'yes',
+  $sshd_x11_forwarding              = 'yes',
+  $sshd_use_pam                     = 'yes',
+  $sshd_client_alive_interval       = '0',
+  $sshd_server_key_bits             = '768',
   $service_ensure                   = 'running',
   $service_name                     = 'sshd',
   $service_enable                   = 'true',
@@ -60,16 +60,16 @@ class ssh (
   # <validating variables>
   validate_re($permit_root_login, '^(yes|no|without-password|forced-commands-only)$', "permit_root_login may be either 'yes', 'no' 'without-password' and 'forced-commands-only' and is set to '${permit_root_login}'")
   validate_re($purge_keys, '^(true|false)$', "purge_keys may be either 'true' or 'false' and is set to '${purge_keys}'")
-  validate_re($sshd_config_allowtcpforwarding, '^(yes|no)$', "sshd_config_allowtcpforwarding may be either 'yes' or 'no' and is set to '${sshd_config_allowtcpforwarding}'")
+  validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to '${sshd_allow_tcp_forwarding}'")
   validate_re($sshd_password_authentication, '^(yes|no)$', "sshd_password_authentication may be either 'yes' or 'no' and is set to '${sshd_password_authentication}'")
-  validate_re($sshd_config_usepam, '^(yes|no)$', "sshd_config_usepam may be either 'yes' or 'no' and is set to '${sshd_config_usepam}'")
-  validate_re($sshd_config_x11forwarding, '^(yes|no)$', "sshd_config_x11forwarding may be either 'yes' or 'no' and is set to '${sshd_config_x11forwarding}'")
+  validate_re($sshd_use_pam, '^(yes|no)$', "sshd_use_pam may be either 'yes' or 'no' and is set to '${sshd_use_pam}'")
+  validate_re($sshd_x11_forwarding, '^(yes|no)$', "sshd_x11_forwarding may be either 'yes' or 'no' and is set to '${sshd_x11_forwarding}'")
 
-  if is_integer($sshd_config_serverkeybits) == false {
-    fail("sshd_config_serverkeybits must be an integer and is set to '${sshd_config_serverkeybits}'")
+  if is_integer($sshd_server_key_bits) == false {
+    fail("sshd_server_key_bits must be an integer and is set to '${sshd_server_key_bits}'")
   }
-  if $sshd_config_serverkeybits < '512' {
-    fail("sshd_config_serverkeybits needs a minimum value of 512 and is set to '${sshd_config_serverkeybits}'")
+  if $sshd_server_key_bits < '512' {
+    fail("sshd_server_key_bits needs a minimum value of 512 and is set to '${sshd_server_key_bits}'")
   }
 
   case $ssh_key_type {

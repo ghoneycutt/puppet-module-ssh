@@ -29,7 +29,7 @@ Protocol 2
 # Lifetime and size of ephemeral version 1 server key
 #KeyRegenerationInterval 1h
 #ServerKeyBits 768
-ServerKeyBits <%= @sshd_config_serverkeybits %>
+ServerKeyBits <%= @sshd_server_key_bits %>
 
 # Logging
 # obsoletes QuietMode and FascistLogging
@@ -90,17 +90,17 @@ GSSAPICleanupCredentials yes
 # session checks to run without PAM authentication, then enable this but set
 # ChallengeResponseAuthentication=no
 #UsePAM no
-UsePAM <%= @sshd_config_usepam %>
+UsePAM <%= @sshd_use_pam %>
 
 # Accept locale-related environment variables
 AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
 AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
 AcceptEnv LC_IDENTIFICATION LC_ALL
 #AllowTcpForwarding yes
-AllowTcpForwarding <%= @sshd_config_allowtcpforwarding %>
+AllowTcpForwarding <%= @sshd_allow_tcp_forwarding %>
 #GatewayPorts no
 #X11Forwarding no
-X11Forwarding <%= @sshd_config_x11forwarding %>
+X11Forwarding <%= @sshd_x11_forwarding %>
 #X11DisplayOffset 10
 #X11UseLocalhost yes
 #PrintMotd yes
@@ -112,7 +112,7 @@ PrintMotd <%= @sshd_config_print_motd %>
 #PermitUserEnvironment no
 #Compression delayed
 #ClientAliveInterval 0
-ClientAliveInterval <%= @sshd_config_clientaliveinterval %>
+ClientAliveInterval <%= @sshd_client_alive_interval %>
 #ClientAliveCountMax 3
 #ShowPatchLevel no
 #UseDNS yes
