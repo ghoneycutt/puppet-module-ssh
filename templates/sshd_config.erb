@@ -34,13 +34,13 @@ ServerKeyBits <%= @sshd_server_key_bits %>
 # Logging
 # obsoletes QuietMode and FascistLogging
 #SyslogFacility AUTH
-SyslogFacility <%= @sshd_config_syslog_facility %>
+SyslogFacility <%= @sshd_syslog_facility %>
 #LogLevel INFO
 
 # Authentication:
 
 #LoginGraceTime 120
-LoginGraceTime <%= @sshd_config_login_grace_time %>
+LoginGraceTime <%= @sshd_login_grace_time %>
 #PermitRootLogin yes
 PermitRootLogin <%= @permit_root_login %>
 #StrictModes yes
@@ -67,7 +67,7 @@ PasswordAuthentication <%= @sshd_password_authentication %>
 
 # Change to no to disable s/key passwords
 #ChallengeResponseAuthentication yes
-ChallengeResponseAuthentication <%= @sshd_config_challenge_resp_auth %>
+ChallengeResponseAuthentication <%= @sshd_challenge_response_authentication %>
 
 # Kerberos options
 #KerberosAuthentication no
@@ -104,7 +104,7 @@ X11Forwarding <%= @sshd_x11_forwarding %>
 #X11DisplayOffset 10
 #X11UseLocalhost yes
 #PrintMotd yes
-PrintMotd <%= @sshd_config_print_motd %>
+PrintMotd <%= @sshd_print_motd %>
 #PrintLastLog yes
 #TCPKeepAlive yes
 #UseLogin no

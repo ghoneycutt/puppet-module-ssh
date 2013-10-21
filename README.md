@@ -113,28 +113,32 @@ sshd_config's mode.
 
 - *Default*: '0600'
 
-sshd_config_syslog_facility
----------------------------
-SyslogFacility option in sshd_config.
-
+sshd_syslog_facility
+--------------------
+SyslogFacility option in sshd_config:
+Gives the facility code that is used when logging messages from sshd(8).  The possible values are:
+DAEMON, USER, AUTH, LOCAL0, LOCAL1, LOCAL2, LOCAL3, LOCAL4, LOCAL5, LOCAL6, LOCAL7.
 - *Default*: 'AUTH'
 
-sshd_config_login_grace_time
-----------------------------
-LoginGraceTime option in sshd_config.
-
+sshd_login_grace_time
+---------------------
+LoginGraceTime option in sshd_config:
+The server disconnects after this time if the user has not successfully logged in.
+If the value is 0, there is no time limit.
 - *Default*: '120'
 
-sshd_config_challenge_resp_auth
--------------------------------
-ChallengeResponseAuthentication option in sshd_config.
-
+sshd_challenge_response_authentication
+--------------------------------------
+ChallengeResponseAuthentication option in sshd_config:
+Specifies whether challenge-response authentication is allowed (e.g. via PAM).
+The OpenSSH default is 'yes'.
 - *Default*: 'no'
 
-sshd_config_print_motd
-----------------------
-PrintMotd option in sshd_config.
-
+sshd_print_motd
+---------------
+PrintMotd option in sshd_config:
+Specifies whether sshd(8) should print /etc/motd when a user logs in interactively.
+(On some systems it is also printed by the shell, /etc/profile, or equivalent.)
 - *Default*: 'yes'
 
 sshd_config_use_dns
