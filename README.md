@@ -176,8 +176,8 @@ AllowTcpForwarding in sshd_config.
 sshd_config_x11forwarding
 ------------------------
 X11Forwarding in sshd_config.
-
-- *Default*: 'yes'
+Specifies whether X11 forwarding is permitted. The default is 'no'.
+- *Default*: 'no'
 
 sshd_config_usepam
 ------------------------
@@ -194,7 +194,8 @@ ClientAliveInterval in sshd_config.
 sshd_config_serverkeybits
 ------------------------
 ServerKeyBits in sshd_config.
-
+Defines the number of bits in the ephemeral protocol version 1 server key.
+The minimum value is 512, and the OpenSSH default is 1024.
 - *Default*: '768'
 
 service_ensure
