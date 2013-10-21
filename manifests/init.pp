@@ -89,13 +89,13 @@ class ssh (
         }
       }
     }
-    'Ubuntu': {
+    'Debian': {
 	   $default_packages                  = [ 'openssh-server',
 	                                          'openssh-client']
 	   $default_sshd_config_subsystem_sftp = '/usr/lib/openssh/sftp-server'
     }
     default: {
-      fail("ssh supports osfamilies RedHat, Suse and Ubuntu. Detected osfamily is <${::osfamily}>.")
+      fail("ssh supports osfamilies RedHat, Suse and Debian/Ubuntu. Detected osfamily is <${::osfamily}>.")
     }
   }
 
