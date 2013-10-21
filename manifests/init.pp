@@ -35,10 +35,10 @@ class ssh (
   $sshd_login_grace_time            = '120',
   $sshd_challenge_response_authentication = 'no',
   $sshd_print_motd                  = 'yes',
-  $sshd_config_use_dns              = 'yes',
-  $sshd_config_banner               = 'none',
-  $sshd_config_xauth_location       = '/usr/bin/xauth',
-  $sshd_config_subsystem_sftp       = 'USE_DEFAULTS',
+  $sshd_use_dns                     = 'yes',
+  $sshd_banner                      = 'none',
+  $sshd_x_auth_location             = '/usr/bin/xauth',
+  $sshd_subsystem_sftp       = 'USE_DEFAULTS',
   $sshd_password_authentication     = 'yes',
   $sshd_allow_tcp_forwarding        = 'yes',
   $sshd_x11_forwarding              = 'yes',
@@ -90,7 +90,7 @@ class ssh (
       $default_packages                   = ['openssh-server',
                                               'openssh-server',
                                               'openssh-clients']
-      $default_sshd_config_subsystem_sftp = '/usr/libexec/openssh/sftp-server'
+      $default_sshd_subsystem_sftp = '/usr/libexec/openssh/sftp-server'
     }
     default: {
       fail("ssh supports osfamily RedHat. Detected osfamily is <${::osfamily}>.")
@@ -103,10 +103,10 @@ class ssh (
     $packages_real = $packages
   }
 
-  if $sshd_config_subsystem_sftp == 'USE_DEFAULTS' {
-    $sshd_config_subsystem_sftp_real = $default_sshd_config_subsystem_sftp
+  if $sshd_subsystem_sftp == 'USE_DEFAULTS' {
+    $sshd_subsystem_sftp_real = $default_sshd_subsystem_sftp
   } else {
-    $sshd_config_subsystem_sftp_real = $sshd_config_subsystem_sftp
+    $sshd_subsystem_sftp_real = $sshd_subsystem_sftp
   }
 
   package { 'ssh_packages':

@@ -141,28 +141,34 @@ Specifies whether sshd(8) should print /etc/motd when a user logs in interactive
 (On some systems it is also printed by the shell, /etc/profile, or equivalent.)
 - *Default*: 'yes'
 
-sshd_config_use_dns
--------------------
-UseDNS option in sshd_config.
-
+sshd_use_dns
+------------
+UseDNS option in sshd_config:
+Specifies whether sshd(8) should look up the remote host name and check that the resolved
+host name for the remote IP address maps back to the very same IP address.
 - *Default*: 'yes'
 
-sshd_config_banner
-------------------
-Banner option in sshd_config.
+sshd_banner
+-----------
+Banner option in sshd_config:
+The contents of the specified file are sent to the remote user before authentication is allowed.
+If the argument is “none” then no banner is displayed. This option is only available for protocol
+version 2.
 
 - *Default*: 'none'
 
-sshd_config_xauth_location
---------------------------
-XAuthLocation option in sshd_config.
-
+sshd_x_auth_location
+--------------------
+XAuthLocation option in sshd_config:
+Specifies the full pathname of the xauth(1) program.
 - *Default*: '/usr/bin/xauth'
 
-sshd_config_subsystem_sftp
---------------------------
-Path to sftp file transfer subsystem in sshd_config.
-
+sshd_subsystem_sftp
+-------------------
+Subsystem in sshd_config:
+Configures an external subsystem (e.g. file transfer daemon). Arguments should be a subsystem
+name and a command (with optional arguments) to execute upon subsystem request.
+The command sftp-server(8) implements the “sftp” file transfer subsystem.
 - *Default*: '/usr/libexec/openssh/sftp-server'
 
 $sshd_password_authentication

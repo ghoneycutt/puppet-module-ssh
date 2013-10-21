@@ -116,7 +116,7 @@ ClientAliveInterval <%= @sshd_client_alive_interval %>
 #ClientAliveCountMax 3
 #ShowPatchLevel no
 #UseDNS yes
-UseDNS <%= @sshd_config_use_dns %>
+UseDNS <%= @sshd_use_dns %>
 #PidFile /var/run/sshd.pid
 #MaxStartups 10
 #PermitTunnel no
@@ -124,10 +124,10 @@ UseDNS <%= @sshd_config_use_dns %>
 
 # no default banner path
 #Banner none
-Banner <%= @sshd_config_banner %>
+Banner <%= @sshd_banner %>
 
 #XAuthLocation /usr/bin/xauth
-XAuthLocation <%= @sshd_config_xauth_location %>
+XAuthLocation <%= @sshd_x_auth_location %>
 
 # override default of no subsystems
-Subsystem sftp <%= @sshd_config_subsystem_sftp_real %>
+Subsystem sftp <%= @sshd_subsystem_sftp_real %>
