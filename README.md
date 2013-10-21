@@ -35,7 +35,7 @@ Manage SSH config of root. Valid values are 'true' and 'false'.
 packages
 --------
 Array of package names used for installation.
-- *Default*: 'openssh-server', 'openssh-server', 'openssh-clients'
+- *Default*: 'openssh-server', 'openssh-clients'
 
 permit_root_login
 -----------------
