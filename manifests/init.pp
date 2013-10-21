@@ -114,7 +114,7 @@ class ssh (
   }
 
   if $sshd_config_subsystem_sftp == 'USE_DEFAULTS' {
-    $sshd_config_subsystem_sftp_real = $default_sshd_config_subsystem_sftp
+    $sshd_config_subsystem_sftp_real = $default_sshd_subsystem_sftp
   } else {
     $sshd_config_subsystem_sftp_real = $sshd_config_subsystem_sftp
   }
