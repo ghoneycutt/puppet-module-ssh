@@ -161,10 +161,10 @@ Path to sftp file transfer subsystem in sshd_config.
 
 - *Default*: '/usr/libexec/openssh/sftp-server'
 
-sshd_config_passwordauth
-------------------------
+$sshd_password_authentication
+-----------------------------
 PasswordAuthentication in sshd_config.
-
+Specifies whether password authentication is allowed.  The default is 'yes'.
 - *Default*: 'yes'
 
 sshd_config_allowtcpforwarding

@@ -39,7 +39,7 @@ class ssh (
   $sshd_config_banner               = 'none',
   $sshd_config_xauth_location       = '/usr/bin/xauth',
   $sshd_config_subsystem_sftp       = 'USE_DEFAULTS',
-  $sshd_config_passwordauth         = 'yes',
+  $sshd_password_authentication     = 'yes',
   $sshd_config_allowtcpforwarding   = 'yes',
   $sshd_config_x11forwarding        = 'yes',
   $sshd_config_usepam               = 'yes',
@@ -61,7 +61,7 @@ class ssh (
   validate_re($permit_root_login, '^(yes|no|without-password|forced-commands-only)$', "permit_root_login may be either 'yes', 'no' 'without-password' and 'forced-commands-only' and is set to '${permit_root_login}'")
   validate_re($purge_keys, '^(true|false)$', "purge_keys may be either 'true' or 'false' and is set to '${purge_keys}'")
   validate_re($sshd_config_allowtcpforwarding, '^(yes|no)$', "sshd_config_allowtcpforwarding may be either 'yes' or 'no' and is set to '${sshd_config_allowtcpforwarding}'")
-  validate_re($sshd_config_passwordauth, '^(yes|no)$', "sshd_config_passwordauth may be either 'yes' or 'no' and is set to '${sshd_config_passwordauth}'")
+  validate_re($sshd_password_authentication, '^(yes|no)$', "sshd_password_authentication may be either 'yes' or 'no' and is set to '${sshd_password_authentication}'")
   validate_re($sshd_config_usepam, '^(yes|no)$', "sshd_config_usepam may be either 'yes' or 'no' and is set to '${sshd_config_usepam}'")
   validate_re($sshd_config_x11forwarding, '^(yes|no)$', "sshd_config_x11forwarding may be either 'yes' or 'no' and is set to '${sshd_config_x11forwarding}'")
 
