@@ -133,7 +133,7 @@ sshd_config's mode.
 sshd_syslog_facility
 --------------------
 SyslogFacility option in sshd_config:
-Gives the facility code that is used when logging messages from sshd(8).  The possible values are:
+Gives the facility code that is used when logging messages from sshd(8). The possible values are:
 DAEMON, USER, AUTH, LOCAL0, LOCAL1, LOCAL2, LOCAL3, LOCAL4, LOCAL5, LOCAL6, LOCAL7.
 - *Default*: 'AUTH'
 
@@ -209,7 +209,7 @@ Specifies whether X11 forwarding is permitted.
 sshd_use_pam
 ------------
 UsePam in sshd_config:
-Enables the Pluggable Authentication Module interface.  If set to 'yes' this will enable PAM
+Enables the Pluggable Authentication Module interface. If set to 'yes' this will enable PAM
 authentication using ChallengeResponseAuthentication and PasswordAuthentication in addition
 to PAM account and session module processing for all authentication types.
 - *Default*: 'no'
@@ -219,7 +219,7 @@ sshd_client_alive_interval
 ClientAliveInterval in sshd_config:
 Sets a timeout interval in seconds after which if no data has been received from the client,
 sshd(8) will send a message through the encrypted channel to request a response from the
-client.  The default is 0, indicating that these messages will not be sent to the client.
+client. The default is 0, indicating that these messages will not be sent to the client.
 This option applies to protocol version 2 only.
 - *Default*: '0'
 
@@ -284,6 +284,49 @@ Content of root's ~/.ssh/config.
 
 - *Default*: "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
 
+===
+# Hiera keys with module defaults:
+<pre>
+ssh::keys: undef
+ssh::manage_firewall: false
+ssh::manage_root_ssh_config: 'false'
+ssh::packages: 'USE_DEFAULTS'
+ssh::permit_root_login: 'no'
+ssh::purge_keys: 'true'
+ssh::root_ssh_config_content: "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
+ssh::service_enable: 'true'
+ssh::service_ensure: 'running'
+ssh::service_hasrestart: 'true'
+ssh::service_hasstatus: 'true'
+ssh::service_name: 'sshd'
+ssh::ssh_config_group: 'root'
+ssh::ssh_config_mode: '0644'
+ssh::ssh_config_owner: 'root'
+ssh::ssh_config_path: '/etc/ssh/ssh_config'
+ssh::sshd_allow_tcp_forwarding: 'yes'
+ssh::sshd_banner: 'none'
+ssh::sshd_challenge_response_authentication: 'no'
+ssh::sshd_client_alive_interval: '0'
+ssh::sshd_config_group: 'root'
+ssh::sshd_config_mode: '0600'
+ssh::sshd_config_owner: 'root'
+ssh::sshd_config_path: '/etc/ssh/sshd_config'
+ssh::sshd_login_grace_time: '120'
+ssh::sshd_password_authentication: 'yes'
+ssh::sshd_print_motd: 'yes'
+ssh::sshd_server_key_bits: '768'
+ssh::sshd_subsystem_sftp: 'USE_DEFAULTS'
+ssh::sshd_syslog_facility: 'AUTH'
+ssh::sshd_use_dns: 'yes'
+ssh::sshd_use_pam: 'yes'
+ssh::sshd_x11_forwarding: 'yes'
+ssh::sshd_x_auth_location: '/usr/bin/xauth'
+ssh::ssh_forward_agent: undef
+ssh::ssh_forward_x11: undef
+ssh::ssh_key_ensure: 'present'
+ssh::ssh_key_type: 'ssh-rsa'
+ssh::ssh_server_alive_interval: undef
+</pre>
 ===
 
 # Manage user's ssh_authorized_keys
