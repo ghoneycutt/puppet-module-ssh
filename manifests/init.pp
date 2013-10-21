@@ -27,7 +27,6 @@ class ssh (
   $sshd_config_xauth_location       = '/usr/bin/xauth',
   $sshd_config_subsystem_sftp       = 'USE_DEFAULTS',
   $service_ensure                   = 'running',
-  $service_name                     = 'sshd',
   $service_enable                   = 'true',
   $service_hasrestart               = 'true',
   $service_hasstatus                = 'true',
@@ -71,12 +70,13 @@ class ssh (
   case $::osfamily {
     'RedHat': {
       $default_packages                   = ['openssh-server',
-                                              'openssh-server',
                                               'openssh-clients']
       $default_sshd_config_subsystem_sftp = '/usr/libexec/openssh/sftp-server'
+      $service_name                     = 'sshd'
     }
     'Suse': {
       $default_packages                     = 'openssh'
+      $service_name                     = 'sshd'
       case $::architecture {
         'x86_64': {
           $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
@@ -84,13 +84,20 @@ class ssh (
         'i386' : {
           $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
         }
+	
         default: {
           fail("ssh supports architectures x86_64 and i386 for Suse. Detected architecture is <${::architecture}>.")
         }
       }
     }
+    'Debian': {
+	   $default_packages                  = [ 'openssh-server',
+	                                          'openssh-client']
+	   $default_sshd_config_subsystem_sftp = '/usr/lib/openssh/sftp-server'
+	   $service_name                       = 'ssh'
+    }
     default: {
-      fail("ssh supports osfamilies RedHat and Suse. Detected osfamily is <${::osfamily}>.")
+      fail("ssh supports osfamilies RedHat, Suse and Debian/Ubuntu. Detected osfamily is <${::osfamily}>.")
     }
   }
 
