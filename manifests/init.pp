@@ -27,7 +27,6 @@ class ssh (
   $sshd_config_xauth_location       = '/usr/bin/xauth',
   $sshd_config_subsystem_sftp       = 'USE_DEFAULTS',
   $service_ensure                   = 'running',
-  $service_name                     = 'sshd',
   $service_enable                   = 'true',
   $service_hasrestart               = 'true',
   $service_hasstatus                = 'true',
@@ -73,9 +72,11 @@ class ssh (
       $default_packages                   = ['openssh-server',
                                               'openssh-clients']
       $default_sshd_config_subsystem_sftp = '/usr/libexec/openssh/sftp-server'
+      $service_name                     = 'sshd'
     }
     'Suse': {
       $default_packages                     = 'openssh'
+      $service_name                     = 'sshd'
       case $::architecture {
         'x86_64': {
           $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
