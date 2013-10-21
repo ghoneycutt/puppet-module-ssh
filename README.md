@@ -72,22 +72,39 @@ ssh_config's mode.
 
 - *Default*: '0644'
 
-ssh_config_forward_x11
-----------------------
-ForwardX11 option in ssh_config. Not set by default.
+ssh_forward_x11
+---------------
+ForwardX11 option in ssh_config:
+Specifies whether X11 connections will be automatically redirected over the secure
+channel and DISPLAY set. The default is 'no'.
 
+X11 forwarding should be enabled with caution. Users with the ability to bypass file
+permissions on the remote host (for the user's X11 authorization database) can access
+the local X11 display through the forwarded connection. An attacker may then be able
+to perform activities such as keystroke monitoring if the ForwardX11Trusted option is
+also enabled.
 - *Default*: undef
 
-ssh_config_forward_agent
-------------------------
-ForwardAgent option in ssh_config. Not set by default.
+ssh_forward_agent
+-----------------
+ForwardAgent option in ssh_config:
+Specifies whether the connection to the authentication agent (if any) will be forwarded
+to the remote machine. The default is 'no'.
 
+Agent forwarding should be enabled with caution. Users with the ability to bypass file
+permissions on the remote host (for the agent's Unix-domain socket) can access the local
+agent through the forwarded connection. An attacker cannot obtain key material from the
+agent, however they can perform operations on the keys that enable them to authenticate
+using the identities loaded into the agent.
 - *Default*: undef
 
-ssh_config_server_alive_interval
---------------------------------
-ServerAliveInterval option in ssh_config. Not set by default.
-
+ssh_server_alive_interval
+-------------------------
+ServerAliveInterval option in ssh_config:
+Sets a timeout interval in seconds after which if no data has been received from the server,
+ssh(1) will send a message through the encrypted channel to request a response from the server.
+The default is 0, indicating that these messages will not be sent to the server, or 300 if the
+BatchMode option is set. This option applies to protocol version 2 only.
 - *Default*: undef
 
 sshd_config_path
@@ -114,53 +131,105 @@ sshd_config's mode.
 
 - *Default*: '0600'
 
-sshd_config_syslog_facility
----------------------------
-SyslogFacility option in sshd_config.
-
+sshd_syslog_facility
+--------------------
+SyslogFacility option in sshd_config:
+Gives the facility code that is used when logging messages from sshd(8).  The possible values are:
+DAEMON, USER, AUTH, LOCAL0, LOCAL1, LOCAL2, LOCAL3, LOCAL4, LOCAL5, LOCAL6, LOCAL7.
 - *Default*: 'AUTH'
 
-sshd_config_login_grace_time
-----------------------------
-LoginGraceTime option in sshd_config.
-
+sshd_login_grace_time
+---------------------
+LoginGraceTime option in sshd_config:
+The server disconnects after this time if the user has not successfully logged in.
+If the value is 0, there is no time limit.
 - *Default*: '120'
 
-sshd_config_challenge_resp_auth
--------------------------------
-ChallengeResponseAuthentication option in sshd_config.
-
+sshd_challenge_response_authentication
+--------------------------------------
+ChallengeResponseAuthentication option in sshd_config:
+Specifies whether challenge-response authentication is allowed (e.g. via PAM).
+The OpenSSH default is 'yes'.
 - *Default*: 'no'
 
-sshd_config_print_motd
-----------------------
-PrintMotd option in sshd_config.
-
+sshd_print_motd
+---------------
+PrintMotd option in sshd_config:
+Specifies whether sshd(8) should print /etc/motd when a user logs in interactively.
+(On some systems it is also printed by the shell, /etc/profile, or equivalent.)
 - *Default*: 'yes'
 
-sshd_config_use_dns
--------------------
-UseDNS option in sshd_config.
-
+sshd_use_dns
+------------
+UseDNS option in sshd_config:
+Specifies whether sshd(8) should look up the remote host name and check that the resolved
+host name for the remote IP address maps back to the very same IP address.
 - *Default*: 'yes'
 
-sshd_config_banner
-------------------
-Banner option in sshd_config.
+sshd_banner
+-----------
+Banner option in sshd_config:
+The contents of the specified file are sent to the remote user before authentication is allowed.
+If the argument is “none” then no banner is displayed. This option is only available for protocol
+version 2.
 
 - *Default*: 'none'
 
-sshd_config_xauth_location
---------------------------
-XAuthLocation option in sshd_config.
-
+sshd_x_auth_location
+--------------------
+XAuthLocation option in sshd_config:
+Specifies the full pathname of the xauth(1) program.
 - *Default*: '/usr/bin/xauth'
 
-sshd_config_subsystem_sftp
---------------------------
-Path to sftp file transfer subsystem in sshd_config.
-
+sshd_subsystem_sftp
+-------------------
+Subsystem in sshd_config:
+Configures an external subsystem (e.g. file transfer daemon). Arguments should be a subsystem
+name and a command (with optional arguments) to execute upon subsystem request.
+The command sftp-server(8) implements the “sftp” file transfer subsystem.
 - *Default*: '/usr/libexec/openssh/sftp-server'
+
+$sshd_password_authentication
+-----------------------------
+PasswordAuthentication in sshd_config:
+Specifies whether password authentication is allowed.
+- *Default*: 'yes'
+
+sshd_allow_tcp_forwarding
+-------------------------
+AllowTcpForwarding in sshd_config:
+Specifies whether TCP forwarding is permitted.
+- *Default*: 'yes'
+
+sshd_x11_forwarding
+-------------------
+X11Forwarding in sshd_config.
+Specifies whether X11 forwarding is permitted.
+- *Default*: 'no'
+
+sshd_use_pam
+------------
+UsePam in sshd_config:
+Enables the Pluggable Authentication Module interface.  If set to 'yes' this will enable PAM
+authentication using ChallengeResponseAuthentication and PasswordAuthentication in addition
+to PAM account and session module processing for all authentication types.
+- *Default*: 'no'
+
+sshd_client_alive_interval
+--------------------------
+ClientAliveInterval in sshd_config:
+Sets a timeout interval in seconds after which if no data has been received from the client,
+sshd(8) will send a message through the encrypted channel to request a response from the
+client.  The default is 0, indicating that these messages will not be sent to the client.
+This option applies to protocol version 2 only.
+- *Default*: '0'
+
+sshd_server_key_bits
+--------------------
+ServerKeyBits in sshd_config:
+Defines the number of bits in the ephemeral protocol version 1 server key.
+The minimum value is 512, and the OpenSSH default is 1024.
+- *Default*: '768'
 
 service_ensure
 --------------

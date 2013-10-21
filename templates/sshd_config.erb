@@ -29,17 +29,19 @@ Protocol 2
 # Lifetime and size of ephemeral version 1 server key
 #KeyRegenerationInterval 1h
 #ServerKeyBits 768
+ServerKeyBits <%= @sshd_server_key_bits %>
 
 # Logging
 # obsoletes QuietMode and FascistLogging
 #SyslogFacility AUTH
-SyslogFacility <%= @sshd_config_syslog_facility %>
+SyslogFacility <%= @sshd_syslog_facility %>
 #LogLevel INFO
 
 # Authentication:
 
 #LoginGraceTime 120
-LoginGraceTime <%= @sshd_config_login_grace_time %>
+LoginGraceTime <%= @sshd_login_grace_time %>
+#PermitRootLogin yes
 PermitRootLogin <%= @permit_root_login %>
 #StrictModes yes
 #MaxAuthTries 6
@@ -60,12 +62,12 @@ PermitRootLogin <%= @permit_root_login %>
 
 # To disable tunneled clear text passwords, change to no here!
 #PasswordAuthentication yes
+PasswordAuthentication <%= @sshd_password_authentication %>
 #PermitEmptyPasswords no
-PasswordAuthentication yes
 
 # Change to no to disable s/key passwords
 #ChallengeResponseAuthentication yes
-ChallengeResponseAuthentication <%= @sshd_config_challenge_resp_auth %>
+ChallengeResponseAuthentication <%= @sshd_challenge_response_authentication %>
 
 # Kerberos options
 #KerberosAuthentication no
@@ -88,20 +90,21 @@ GSSAPICleanupCredentials yes
 # session checks to run without PAM authentication, then enable this but set
 # ChallengeResponseAuthentication=no
 #UsePAM no
-UsePAM yes
+UsePAM <%= @sshd_use_pam %>
 
 # Accept locale-related environment variables
 AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
 AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
 AcceptEnv LC_IDENTIFICATION LC_ALL
 #AllowTcpForwarding yes
+AllowTcpForwarding <%= @sshd_allow_tcp_forwarding %>
 #GatewayPorts no
 #X11Forwarding no
-X11Forwarding yes
+X11Forwarding <%= @sshd_x11_forwarding %>
 #X11DisplayOffset 10
 #X11UseLocalhost yes
 #PrintMotd yes
-PrintMotd <%= @sshd_config_print_motd %>
+PrintMotd <%= @sshd_print_motd %>
 #PrintLastLog yes
 #TCPKeepAlive yes
 #UseLogin no
@@ -109,10 +112,11 @@ PrintMotd <%= @sshd_config_print_motd %>
 #PermitUserEnvironment no
 #Compression delayed
 #ClientAliveInterval 0
+ClientAliveInterval <%= @sshd_client_alive_interval %>
 #ClientAliveCountMax 3
 #ShowPatchLevel no
 #UseDNS yes
-UseDNS <%= @sshd_config_use_dns %>
+UseDNS <%= @sshd_use_dns %>
 #PidFile /var/run/sshd.pid
 #MaxStartups 10
 #PermitTunnel no
@@ -120,10 +124,10 @@ UseDNS <%= @sshd_config_use_dns %>
 
 # no default banner path
 #Banner none
-Banner <%= @sshd_config_banner %>
+Banner <%= @sshd_banner %>
 
 #XAuthLocation /usr/bin/xauth
-XAuthLocation <%= @sshd_config_xauth_location %>
+XAuthLocation <%= @sshd_x_auth_location %>
 
 # override default of no subsystems
-Subsystem sftp <%= @sshd_config_subsystem_sftp_real %>
+Subsystem sftp <%= @sshd_subsystem_sftp_real %>
