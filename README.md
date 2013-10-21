@@ -71,22 +71,39 @@ ssh_config's mode.
 
 - *Default*: '0644'
 
-ssh_config_forward_x11
-----------------------
-ForwardX11 option in ssh_config. Not set by default.
+ssh_forward_x11
+---------------
+ForwardX11 option in ssh_config:
+Specifies whether X11 connections will be automatically redirected over the secure
+channel and DISPLAY set. The default is 'no'.
 
+X11 forwarding should be enabled with caution. Users with the ability to bypass file
+permissions on the remote host (for the user's X11 authorization database) can access
+the local X11 display through the forwarded connection. An attacker may then be able
+to perform activities such as keystroke monitoring if the ForwardX11Trusted option is
+also enabled.
 - *Default*: undef
 
-ssh_config_forward_agent
-------------------------
-ForwardAgent option in ssh_config. Not set by default.
+ssh_forward_agent
+-----------------
+ForwardAgent option in ssh_config:
+Specifies whether the connection to the authentication agent (if any) will be forwarded
+to the remote machine. The default is 'no'.
 
+Agent forwarding should be enabled with caution. Users with the ability to bypass file
+permissions on the remote host (for the agent's Unix-domain socket) can access the local
+agent through the forwarded connection. An attacker cannot obtain key material from the
+agent, however they can perform operations on the keys that enable them to authenticate
+using the identities loaded into the agent.
 - *Default*: undef
 
-ssh_config_server_alive_interval
---------------------------------
-ServerAliveInterval option in ssh_config. Not set by default.
-
+ssh_server_alive_interval
+-------------------------
+ServerAliveInterval option in ssh_config:
+Sets a timeout interval in seconds after which if no data has been received from the server,
+ssh(1) will send a message through the encrypted channel to request a response from the server.
+The default is 0, indicating that these messages will not be sent to the server, or 300 if the
+BatchMode option is set. This option applies to protocol version 2 only.
 - *Default*: undef
 
 sshd_config_path
