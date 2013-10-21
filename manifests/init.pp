@@ -70,19 +70,19 @@ class ssh (
 
   case $::osfamily {
     'RedHat': {
-      $default_packages                   = ['openssh-server',
-                                              'openssh-server',
-                                              'openssh-clients']
-      $default_sshd_config_subsystem_sftp = '/usr/libexec/openssh/sftp-server'
+      $default_packages                = ['openssh-server',
+                                          'openssh-server',
+                                          'openssh-clients']
+      $default_sshd_subsystem_sftp     = '/usr/libexec/openssh/sftp-server'
     }
     'Suse': {
-      $default_packages                     = 'openssh'
+      $default_packages                = 'openssh'
       case $::architecture {
         'x86_64': {
-          $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
+          $default_sshd_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
         }
         'i386' : {
-          $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
+          $default_sshd_subsystem_sftp = '/usr/lib/ssh/sftp-server'
         }
         default: {
           fail("ssh supports architectures x86_64 and i386 for Suse. Detected architecture is <${::architecture}>.")
@@ -101,7 +101,7 @@ class ssh (
   }
 
   if $sshd_config_subsystem_sftp == 'USE_DEFAULTS' {
-    $sshd_config_subsystem_sftp_real = $default_sshd_config_subsystem_sftp
+    $sshd_config_subsystem_sftp_real = $default_sshd_subsystem_sftp
   } else {
     $sshd_config_subsystem_sftp_real = $sshd_config_subsystem_sftp
   }
