@@ -20,7 +20,6 @@ class ssh (
   $manage_firewall                        = false,
   $manage_root_ssh_config                 = 'false',
   $packages                               = 'USE_DEFAULTS',
-  $permit_root_login                      = 'no',
   $purge_keys                             = 'true',
   $root_ssh_config_content                = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
   $service_enable                         = 'true',
@@ -42,6 +41,7 @@ class ssh (
   $sshd_config_path                       = '/etc/ssh/sshd_config',
   $sshd_login_grace_time                  = '120',
   $sshd_password_authentication           = 'yes',
+  $sshd_permit_root_login                 = 'no',
   $sshd_print_motd                        = 'yes',
   $sshd_server_key_bits                   = '768',
   $sshd_subsystem_sftp                    = 'USE_DEFAULTS',
@@ -58,7 +58,7 @@ class ssh (
 ) {
 
   # <validating variables>
-  validate_re($permit_root_login, '^(yes|no|without-password|forced-commands-only)$', "permit_root_login may be either 'yes', 'no' 'without-password' and 'forced-commands-only' and is set to '${permit_root_login}'")
+  validate_re($sshd_permit_root_login, '^(yes|no|without-password|forced-commands-only)$', "sshd_permit_root_login may be either 'yes', 'no' 'without-password' and 'forced-commands-only' and is set to '${sshd_permit_root_login}'")
   validate_re($purge_keys, '^(true|false)$', "purge_keys may be either 'true' or 'false' and is set to '${purge_keys}'")
   validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to '${sshd_allow_tcp_forwarding}'")
   validate_re($sshd_password_authentication, '^(yes|no)$', "sshd_password_authentication may be either 'yes' or 'no' and is set to '${sshd_password_authentication}'")

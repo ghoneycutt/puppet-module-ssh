@@ -37,11 +37,6 @@ packages
 Array of package names used for installation.
 - *Default*: 'openssh-server', 'openssh-clients'
 
-permit_root_login
------------------
-Allow root login. Valid values are 'yes', 'without-password', 'forced-commands-only', 'no'.
-- *Default*: no
-
 purge_keys
 ----------
 Remove keys not managed by puppet.
@@ -160,6 +155,11 @@ PasswordAuthentication in sshd_config:
 Specifies whether password authentication is allowed.
 - *Default*: 'yes'
 
+sshd_permit_root_login
+-----------------
+Allow root login. Valid values are 'yes', 'without-password', 'forced-commands-only', 'no'.
+- *Default*: no
+
 sshd_print_motd
 ---------------
 PrintMotd option in sshd_config:
@@ -269,7 +269,6 @@ ssh::keys: undef
 ssh::manage_firewall: false
 ssh::manage_root_ssh_config: 'false'
 ssh::packages: 'USE_DEFAULTS'
-ssh::permit_root_login: 'no'
 ssh::purge_keys: 'true'
 ssh::root_ssh_config_content: "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
 ssh::service_enable: 'true'
@@ -291,6 +290,7 @@ ssh::sshd_config_owner: 'root'
 ssh::sshd_config_path: '/etc/ssh/sshd_config'
 ssh::sshd_login_grace_time: '120'
 ssh::sshd_password_authentication: 'yes'
+ssh::sshd_permit_root_login: 'no'
 ssh::sshd_print_motd: 'yes'
 ssh::sshd_server_key_bits: '768'
 ssh::sshd_subsystem_sftp: 'USE_DEFAULTS'
