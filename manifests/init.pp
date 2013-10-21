@@ -93,6 +93,7 @@ class ssh (
 	   $default_packages                  = [ 'openssh-server',
 	                                          'openssh-client']
 	   $default_sshd_config_subsystem_sftp = '/usr/lib/openssh/sftp-server'
+	   $service_name                       = 'ssh'
     }
     default: {
       fail("ssh supports osfamilies RedHat, Suse and Debian/Ubuntu. Detected osfamily is <${::osfamily}>.")
