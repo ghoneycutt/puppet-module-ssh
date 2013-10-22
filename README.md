@@ -8,11 +8,12 @@ The module uses exported resources to manage ssh keys and removes ssh keys that 
 
 # Compatability #
 
-This module has been tested to work on the following systems.
+This module has been tested to work on the following systems with Puppet v3.
 
  * EL 5
  * EL 6
  * SLES 11
+ * Ubuntu 12.04 LTS
 
 ===
 

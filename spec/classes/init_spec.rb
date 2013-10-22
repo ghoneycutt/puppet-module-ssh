@@ -16,7 +16,7 @@ describe 'ssh' do
     it {
       should contain_package('ssh_packages').with({
         'ensure' => 'installed',
-        'name'   => ['openssh-server','openssh-server','openssh-clients'],
+        'name'   => ['openssh-server','openssh-clients'],
       })
     }
 
@@ -62,6 +62,99 @@ describe 'ssh' do
       should contain_service('sshd_service').with({
         'ensure'     => 'running',
         'name'       => 'sshd',
+        'enable'     => 'true',
+        'hasrestart' => 'true',
+        'hasstatus'  => 'true',
+        'subscribe'  => 'File[sshd_config]',
+      })
+    }
+
+    it {
+      should contain_resources('sshkey').with({
+        'purge' => 'true',
+      })
+    }
+  end
+
+  context 'with default params on osfamily Debian operatingsystem Debian' do
+    let :facts do
+      {
+        :fqdn            => 'monkey.example.com',
+        :osfamily        => 'Debian',
+        :operatingsystem => 'Debian',
+        :sshrsakey       => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+
+    it 'should fail' do
+      expect {
+        should include_class('ssh')
+      }.to raise_error(Puppet::Error,/ssh supports Debian variant Ubuntu. Your osfamily is <Debian> and operatingsystem is <Debian>./)
+    end
+  end
+
+  context 'with default params on osfamily Debian operatingsystem Ubuntu' do
+    let :facts do
+      {
+        :fqdn            => 'monkey.example.com',
+        :osfamily        => 'Debian',
+        :operatingsystem => 'Ubuntu',
+        :sshrsakey       => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    it { should include_class('ssh')}
+
+    it { should_not include_class('common')}
+
+    it {
+      should contain_package('ssh_packages').with({
+        'ensure' => 'installed',
+        'name'   => ['openssh-server','openssh-client'],
+      })
+    }
+
+    it {
+      should contain_file('ssh_config').with({
+        'ensure' => 'file',
+        'path'    => '/etc/ssh/ssh_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0644',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
+
+    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
+    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
+    it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
+
+    it {
+      should contain_file('sshd_config').with({
+        'ensure'  => 'file',
+        'path'    => '/etc/ssh/sshd_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0600',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
+    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitRootLogin no$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
+    it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
+    it { should contain_file('sshd_config').with_content(/^Banner none$/) }
+    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
+    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/openssh\/sftp-server$/) }
+
+    it {
+      should contain_service('sshd_service').with({
+        'ensure'     => 'running',
+        'name'       => 'ssh',
         'enable'     => 'true',
         'hasrestart' => 'true',
         'hasstatus'  => 'true',
