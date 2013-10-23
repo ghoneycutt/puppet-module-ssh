@@ -667,7 +667,7 @@ describe 'ssh' do
 
   context 'with keys defined on valid osfamily' do
     let :facts do
-      { :osfamily  => 'Debian'
+      { :osfamily  => 'Debian',
         :operatingsystem => 'Ubuntu',
       }
     end
