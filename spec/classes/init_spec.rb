@@ -575,7 +575,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^UseDNS no$/) }
     it { should contain_file('sshd_config').with_content(/^Banner \/etc\/sshd_banner$/) }
     it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
-    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/openssh\/sftp$/) }
+    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/openssh\/sftp-server$/) }
   end
 
   context 'with manage_root_ssh_config set to \'true\' on valid osfamily' do
@@ -852,7 +852,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^UseDNS no$/) }
     it { should contain_file('sshd_config').with_content(/^Banner \/etc\/sshd_banner$/) }
     it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
-    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/openssh\/sftp$/) }
+    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/openssh\/sftp-server$/) }
   end
 
   context 'with manage_root_ssh_config set to \'true\' on valid osfamily' do
