@@ -38,15 +38,33 @@ class ssh (
   $root_ssh_config_content          = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
 ) {
 
-  case $permit_root_login {
-    'no', 'yes', 'without-password', 'forced-commands-only': {
-      # noop
-    }
-    default: {
-      fail("permit_root_login may be either 'yes', 'without-password', 'forced-commands-only' or 'no' and is set to ${permit_root_login}")
-    }
-  }
-
+  # <validating variables>
+  validate_re($manage_firewall, '^(true|false)$', "manage_firewall may be either 'true' or 'false' and is set to '${manage_firewall}'")
+  validate_re($manage_root_ssh_config, '^(true|false)$', "manage_root_ssh_config may be either 'true' or 'false' and is set to '${manage_root_ssh_config}'")
+  validate_re($permit_root_login, '^(yes|no|without-password|forced-commands-only)$', "permit_root_login may be either 'yes', 'no' 'without-password' and 'forced-commands-only' and is set to '${permit_root_login}'")
+  validate_re($purge_keys, '^(true|false)$', "purge_keys may be either 'true' or 'false' and is set to '${purge_keys}'")
+  validate_re($service_enable, '^(true|false)$', "service_enable may be either 'true' or 'false' and is set to '${service_enable}'")
+  validate_re($service_ensure, '^(running|stopped)$', "service_ensure may be either 'running' or 'stopped' and is set to '${service_ensure}'")
+  validate_re($service_hasrestart, '^(true|false)$', "service_hasrestart may be either 'true' or 'false' and is set to '${service_hasrestart}'")
+  validate_re($service_hasstatus, '^(true|false)$', "service_hasstatus may be either 'true' or 'false' and is set to '${service_hasstatus}'")
+  validate_absolute_path($ssh_config_path)
+  validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to '${sshd_allow_tcp_forwarding}'")
+  validate_re($sshd_challenge_response_authentication, '^(yes|no)$', "sshd_challenge_response_authentication may be either 'yes' or 'no' and is set to '${sshd_challenge_response_authentication}'")
+  if is_integer($sshd_client_alive_interval) == false { fail("sshd_client_alive_interval must be an integer and is set to '${sshd_client_alive_interval}'") }
+  validate_absolute_path($sshd_config_path)
+  if is_integer($sshd_login_grace_time) == false { fail("sshd_login_grace_time must be an integer and is set to '${sshd_login_grace_time}'") }
+  validate_re($sshd_password_authentication, '^(yes|no)$', "sshd_password_authentication may be either 'yes' or 'no' and is set to '${sshd_password_authentication}'")
+  validate_re($sshd_print_motd, '^(yes|no)$', "sshd_print_motd may be either 'yes' or 'no' and is set to '${sshd_print_motd}'")
+  if is_integer($sshd_server_key_bits) == false { fail("sshd_server_key_bits must be an integer and is set to '${sshd_server_key_bits}'") }
+  if $sshd_server_key_bits < '512' { fail("sshd_server_key_bits needs a minimum value of 512 and is set to '${sshd_server_key_bits}'") }
+  validate_re($sshd_syslog_facility, '^(DAEMON|USER|AUTH|LOCAL[0-7])$', "sshd_syslog_facility may be either 'DAEMIN', 'USER', 'AUTH' or 'LOCAL[0-7]' and is set to '${sshd_syslog_facility}'")
+  validate_re($sshd_use_dns, '^(yes|no)$', "sshd_use_dns may be either 'yes' or 'no' and is set to '${sshd_use_dns}'")
+  validate_re($sshd_use_pam, '^(yes|no)$', "sshd_use_pam may be either 'yes' or 'no' and is set to '${sshd_use_pam}'")
+  validate_re($sshd_x11_forwarding, '^(yes|no)$', "sshd_x11_forwarding may be either 'yes' or 'no' and is set to '${sshd_x11_forwarding}'")
+  validate_absolute_path($sshd_x_auth_location)
+  if empty($ssh_forward_agent) == false { validate_re($ssh_forward_agent, '^(yes|no)$', "ssh_forward_agent may be either 'yes' or 'no' and is set to '${ssh_forward_agent}'") }
+  if empty($ssh_forward_x11) == false { validate_re($ssh_forward_x11, '^(yes|no)$', "ssh_forward_x11 may be either 'yes' or 'no' and is set to '${ssh_forward_x11}'") }
+  validate_re($ssh_key_ensure, '^(present|absent)$', "ssh_key_ensure may be either 'present' or 'absent' and is set to '${ssh_key_ensure}'"
   case $ssh_key_type {
     'ssh-rsa','rsa': {
       $key = $::sshrsakey
@@ -58,15 +76,8 @@ class ssh (
       fail("ssh_key_type must be 'ssh-rsa', 'rsa', 'ssh-dsa', or 'dsa' and is ${ssh_key_type}")
     }
   }
-
-  case $purge_keys {
-    'true','false': {
-      # noop
-    }
-    default: {
-      fail("purge_keys must be 'true' or 'false' and is ${purge_keys}")
-    }
-  }
+  if is_integer($ssh_server_alive_interval) == false { fail("ssh_server_alive_interval must be an integer and is set to '${ssh_server_alive_interval}'") }
+  # </validating variables>
 
   case $::osfamily {
     'RedHat': {
