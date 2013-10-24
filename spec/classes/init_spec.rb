@@ -314,7 +314,7 @@ describe 'ssh' do
       }
     end
     let :params do
-      { :manage_firewall => true }
+      { :manage_firewall => 'true' }
     end
 
     it { should include_class('ssh')}

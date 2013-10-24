@@ -6,7 +6,7 @@ class ssh (
   $packages                         = 'USE_DEFAULTS',
   $permit_root_login                = 'no',
   $purge_keys                       = 'true',
-  $manage_firewall                  = false,
+  $manage_firewall                  = 'false',
   $ssh_config_path                  = '/etc/ssh/ssh_config',
   $ssh_config_owner                 = 'root',
   $ssh_config_group                 = 'root',
@@ -193,7 +193,7 @@ class ssh (
     subscribe  => File['sshd_config'],
   }
 
-  if $manage_firewall == true {
+  if $manage_firewall == 'true' {
     firewall { '22 open port 22 for SSH':
       action => 'accept',
       dport  => 22,
