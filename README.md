@@ -47,7 +47,7 @@ manage_firewall
 ---------------
 Open firewall for SSH service.
 
-- *Default*: false
+- *Default*: 'false'
 
 ssh_config_path
 ---------------
