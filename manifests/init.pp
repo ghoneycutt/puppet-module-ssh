@@ -40,13 +40,13 @@ class ssh (
 
   # <validating variables>
 #  validate_re($manage_firewall, '^(true|false)$', "manage_firewall may be either 'true' or 'false' and is set to '${manage_firewall}'")
-  validate_re($manage_root_ssh_config, '^(true|false)$', "manage_root_ssh_config may be either 'true' or 'false' and is set to '${manage_root_ssh_config}'")
+#  validate_re($manage_root_ssh_config, '^(true|false)$', "manage_root_ssh_config may be either 'true' or 'false' and is set to '${manage_root_ssh_config}'")
   validate_re($permit_root_login, '^(yes|no|without-password|forced-commands-only)$', "permit_root_login may be either 'yes', 'no' 'without-password' and 'forced-commands-only' and is set to '${permit_root_login}'")
-  validate_re($purge_keys, '^(true|false)$', "purge_keys may be either 'true' or 'false' and is set to '${purge_keys}'")
-  validate_re($service_enable, '^(true|false)$', "service_enable may be either 'true' or 'false' and is set to '${service_enable}'")
+#  validate_re($purge_keys, '^(true|false)$', "purge_keys may be either 'true' or 'false' and is set to '${purge_keys}'")
+#  validate_re($service_enable, '^(true|false)$', "service_enable may be either 'true' or 'false' and is set to '${service_enable}'")
   validate_re($service_ensure, '^(running|stopped)$', "service_ensure may be either 'running' or 'stopped' and is set to '${service_ensure}'")
-  validate_re($service_hasrestart, '^(true|false)$', "service_hasrestart may be either 'true' or 'false' and is set to '${service_hasrestart}'")
-  validate_re($service_hasstatus, '^(true|false)$', "service_hasstatus may be either 'true' or 'false' and is set to '${service_hasstatus}'")
+#  validate_re($service_hasrestart, '^(true|false)$', "service_hasrestart may be either 'true' or 'false' and is set to '${service_hasrestart}'")
+#  validate_re($service_hasstatus, '^(true|false)$', "service_hasstatus may be either 'true' or 'false' and is set to '${service_hasstatus}'")
   validate_absolute_path($ssh_config_path)
   validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to '${sshd_allow_tcp_forwarding}'")
   validate_re($sshd_challenge_response_authentication, '^(yes|no)$', "sshd_challenge_response_authentication may be either 'yes' or 'no' and is set to '${sshd_challenge_response_authentication}'")
