@@ -64,7 +64,7 @@ class ssh (
   validate_absolute_path($sshd_x_auth_location)
   if empty($ssh_forward_agent) == false { validate_re($ssh_forward_agent, '^(yes|no)$', "ssh_forward_agent may be either 'yes' or 'no' and is set to '${ssh_forward_agent}'") }
   if empty($ssh_forward_x11) == false { validate_re($ssh_forward_x11, '^(yes|no)$', "ssh_forward_x11 may be either 'yes' or 'no' and is set to '${ssh_forward_x11}'") }
-  validate_re($ssh_key_ensure, '^(present|absent)$', "ssh_key_ensure may be either 'present' or 'absent' and is set to '${ssh_key_ensure}'"
+  validate_re($ssh_key_ensure, '^(present|absent)$', "ssh_key_ensure may be either 'present' or 'absent' and is set to '${ssh_key_ensure}'")
   case $ssh_key_type {
     'ssh-rsa','rsa': {
       $key = $::sshrsakey
