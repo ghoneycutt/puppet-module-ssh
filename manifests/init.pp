@@ -39,7 +39,7 @@ class ssh (
 ) {
 
   # <validating variables>
-  validate_re($manage_firewall, '^(true|false)$', "manage_firewall may be either 'true' or 'false' and is set to '${manage_firewall}'")
+#  validate_re($manage_firewall, '^(true|false)$', "manage_firewall may be either 'true' or 'false' and is set to '${manage_firewall}'")
   validate_re($manage_root_ssh_config, '^(true|false)$', "manage_root_ssh_config may be either 'true' or 'false' and is set to '${manage_root_ssh_config}'")
   validate_re($permit_root_login, '^(yes|no|without-password|forced-commands-only)$', "permit_root_login may be either 'yes', 'no' 'without-password' and 'forced-commands-only' and is set to '${permit_root_login}'")
   validate_re($purge_keys, '^(true|false)$', "purge_keys may be either 'true' or 'false' and is set to '${purge_keys}'")
