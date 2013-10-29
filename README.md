@@ -217,8 +217,56 @@ Content of root's ~/.ssh/config.
 
 - *Default*: "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
 
-===
+$sshd_password_authentication
+-----------------------------
+PasswordAuthentication in sshd_config.
+Specifies whether password authentication is allowed.
 
+- *Default*: 'yes'
+
+sshd_allow_tcp_forwarding
+-------------------------
+AllowTcpForwarding in sshd_config.
+Specifies whether TCP forwarding is permitted.
+
+- *Default*: 'yes'
+
+sshd_x11_forwarding
+-------------------
+X11Forwarding in sshd_config.
+Specifies whether X11 forwarding is permitted.
+
+- *Default*: 'no'
+
+sshd_use_pam
+------------
+UsePam in sshd_config.
+Enables the Pluggable Authentication Module interface. If set to 'yes' this will enable PAM
+authentication using ChallengeResponseAuthentication and PasswordAuthentication in addition
+to PAM account and session module processing for all authentication types.
+
+- *Default*: 'no'
+
+sshd_client_alive_interval
+--------------------------
+ClientAliveInterval in sshd_config.
+Sets a timeout interval in seconds after which if no data has been received from the client,
+sshd(8) will send a message through the encrypted channel to request a response from the
+client. The default is 0, indicating that these messages will not be sent to the client.
+This option applies to protocol version 2 only.
+
+- *Default*: '0'
+
+sshd_server_key_bits
+--------------------
+ServerKeyBits in sshd_config.
+
+Defines the number of bits in the ephemeral protocol version 1 server key.
+The minimum value is 512, and the OpenSSH default is 1024.
+
+- *Default*: '768'
+
+===
 # Manage user's ssh_authorized_keys
 This works by passing the ssh::keys hash to the ssh_authorized_keys type with create_resources(). Because of this, you may specify any valid parameter for ssh_authorized_key. See the [Type Reference](http://docs.puppetlabs.com/references/stable/type.html#ssh_authorized_key) for a complete list.
 

@@ -57,6 +57,12 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^Banner none$/) }
     it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
     it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/libexec\/openssh\/sftp-server$/) }
+    it { should contain_file('sshd_config').with_content(/^PasswordAuthentication yes$/) }
+    it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding yes$/) }
+    it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
+    it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
+    it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
+    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -150,11 +156,181 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^Banner none$/) }
     it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
     it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/openssh\/sftp-server$/) }
+    it { should contain_file('sshd_config').with_content(/^PasswordAuthentication yes$/) }
+    it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding yes$/) }
+    it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
+    it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
+    it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
+    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
 
     it {
       should contain_service('sshd_service').with({
         'ensure'     => 'running',
         'name'       => 'ssh',
+        'enable'     => 'true',
+        'hasrestart' => 'true',
+        'hasstatus'  => 'true',
+        'subscribe'  => 'File[sshd_config]',
+      })
+    }
+
+    it {
+      should contain_resources('sshkey').with({
+        'purge' => 'true',
+      })
+    }
+  end
+
+  context 'with default params on osfamily Suse architecture x86_64' do
+    let :facts do
+      {
+        :fqdn         => 'monkey.example.com',
+        :osfamily     => 'Suse',
+        :architecture => 'x86_64',
+        :sshrsakey    => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    it { should include_class('ssh')}
+
+    it { should_not include_class('common')}
+
+    it {
+      should contain_package('ssh_packages').with({
+        'ensure' => 'installed',
+        'name'   => 'openssh',
+      })
+    }
+
+    it {
+      should contain_file('ssh_config').with({
+        'ensure' => 'file',
+        'path'    => '/etc/ssh/ssh_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0644',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
+
+    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
+    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
+    it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
+
+    it {
+      should contain_file('sshd_config').with({
+        'ensure'  => 'file',
+        'path'    => '/etc/ssh/sshd_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0600',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
+    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitRootLogin no$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
+    it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
+    it { should contain_file('sshd_config').with_content(/^Banner none$/) }
+    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
+    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib64\/ssh\/sftp-server$/) }
+    it { should contain_file('sshd_config').with_content(/^PasswordAuthentication yes$/) }
+    it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding yes$/) }
+    it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
+    it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
+    it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
+    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
+
+    it {
+      should contain_service('sshd_service').with({
+        'ensure'     => 'running',
+        'name'       => 'sshd',
+        'enable'     => 'true',
+        'hasrestart' => 'true',
+        'hasstatus'  => 'true',
+        'subscribe'  => 'File[sshd_config]',
+      })
+    }
+
+    it {
+      should contain_resources('sshkey').with({
+        'purge' => 'true',
+      })
+    }
+  end
+
+  context 'with default params on osfamily Suse architecture i386' do
+    let :facts do
+      {
+        :fqdn         => 'monkey.example.com',
+        :osfamily     => 'Suse',
+        :architecture => 'i386',
+        :sshrsakey    => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    it { should include_class('ssh')}
+
+    it { should_not include_class('common')}
+
+    it {
+      should contain_package('ssh_packages').with({
+        'ensure' => 'installed',
+        'name'   => 'openssh',
+      })
+    }
+
+    it {
+      should contain_file('ssh_config').with({
+        'ensure' => 'file',
+        'path'    => '/etc/ssh/ssh_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0644',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
+
+    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
+    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
+    it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
+
+    it {
+      should contain_file('sshd_config').with({
+        'ensure'  => 'file',
+        'path'    => '/etc/ssh/sshd_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0600',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
+    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitRootLogin no$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
+    it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
+    it { should contain_file('sshd_config').with_content(/^Banner none$/) }
+    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
+    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/ssh\/sftp-server$/) }
+    it { should contain_file('sshd_config').with_content(/^PasswordAuthentication yes$/) }
+    it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding yes$/) }
+    it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
+    it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
+    it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
+    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
+
+    it {
+      should contain_service('sshd_service').with({
+        'ensure'     => 'running',
+        'name'       => 'sshd',
         'enable'     => 'true',
         'hasrestart' => 'true',
         'hasstatus'  => 'true',
@@ -221,6 +397,12 @@ describe 'ssh' do
         :sshd_config_banner              => '/etc/sshd_banner',
         :sshd_config_xauth_location      => '/opt/ssh/bin/xauth',
         :sshd_config_subsystem_sftp      => '/opt/ssh/bin/sftp',
+        :sshd_password_authentication    => 'no',
+        :sshd_allow_tcp_forwarding       => 'no',
+        :sshd_x11_forwarding             => 'no',
+        :sshd_use_pam                    => 'no',
+        :sshd_client_alive_interval      => '242',
+        :sshd_server_key_bits            => '1024',
       }
     end
 
@@ -244,6 +426,12 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^Banner \/etc\/sshd_banner$/) }
     it { should contain_file('sshd_config').with_content(/^XAuthLocation \/opt\/ssh\/bin\/xauth$/) }
     it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/opt\/ssh\/bin\/sftp$/) }
+    it { should contain_file('sshd_config').with_content(/^PasswordAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding no$/) }
+    it { should contain_file('sshd_config').with_content(/^X11Forwarding no$/) }
+    it { should contain_file('sshd_config').with_content(/^UsePAM no$/) }
+    it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 242$/) }
+    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
   end
 
   context 'with manage_root_ssh_config set to \'true\' on valid osfamily' do
@@ -302,6 +490,139 @@ describe 'ssh' do
       expect {
         should include_class('ssh')
       }.to raise_error(Puppet::Error,/manage_root_ssh_config is <invalid> and must be \'true\' or \'false\'./)
+    end
+  end
+
+  context 'with sshd_password_authentication set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :sshd_password_authentication => 'invalid' }
+    end
+
+    it 'should fail' do
+      expect {
+        should include_class('ssh')
+      }.to raise_error(Puppet::Error,/sshd_password_authentication may be either \'yes\' or \'no\' and is set to \'invalid\'./)
+    end
+  end
+
+  context 'with sshd_allow_tcp_forwarding set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :sshd_allow_tcp_forwarding => 'invalid' }
+    end
+
+    it 'should fail' do
+      expect {
+        should include_class('ssh')
+      }.to raise_error(Puppet::Error,/sshd_allow_tcp_forwarding may be either \'yes\' or \'no\' and is set to \'invalid\'./)
+    end
+  end
+
+  context 'with sshd_x11_forwarding set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :sshd_x11_forwarding => 'invalid' }
+    end
+
+    it 'should fail' do
+      expect {
+        should include_class('ssh')
+      }.to raise_error(Puppet::Error,/sshd_x11_forwarding may be either \'yes\' or \'no\' and is set to \'invalid\'./)
+    end
+  end
+
+  context 'with sshd_use_pam set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :sshd_use_pam => 'invalid' }
+    end
+
+    it 'should fail' do
+      expect {
+        should include_class('ssh')
+      }.to raise_error(Puppet::Error,/sshd_use_pam may be either \'yes\' or \'no\' and is set to \'invalid\'./)
+    end
+  end
+
+  context 'with sshd_client_alive_interval set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :sshd_client_alive_interval => 'invalid' }
+    end
+
+    it 'should fail' do
+      expect {
+        should include_class('ssh')
+      }.to raise_error(Puppet::Error,/sshd_client_alive_interval must be an integer and is set to \'invalid\'./)
+    end
+  end
+
+  context 'with sshd_server_key_bits set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :sshd_server_key_bits => 'invalid' }
+    end
+
+    it 'should fail' do
+      expect {
+        should include_class('ssh')
+      }.to raise_error(Puppet::Error,/sshd_server_key_bits must be an integer and is set to \'invalid\'./)
+    end
+  end
+
+  context 'with sshd_server_key_bits set to too small value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :sshd_server_key_bits => '242' }
+    end
+
+    it 'should fail' do
+      expect {
+        should include_class('ssh')
+      }.to raise_error(Puppet::Error,/sshd_server_key_bits needs a minimum value of 512 and is set to \'242\'./)
     end
   end
 
