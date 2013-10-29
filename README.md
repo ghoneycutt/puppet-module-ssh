@@ -261,52 +261,6 @@ The default is 0, indicating that these messages will not be sent to the server,
 BatchMode option is set. This option applies to protocol version 2 only.
 - *Default*: undef
 
-
-===
-# Hiera keys with module defaults:
-<pre>
-ssh::keys: undef
-ssh::manage_firewall: false
-ssh::manage_root_ssh_config: 'false'
-ssh::packages: 'USE_DEFAULTS'
-ssh::purge_keys: 'true'
-ssh::root_ssh_config_content: "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
-ssh::service_enable: 'true'
-ssh::service_ensure: 'running'
-ssh::service_hasrestart: 'true'
-ssh::service_hasstatus: 'true'
-ssh::service_name: 'sshd'
-ssh::ssh_config_group: 'root'
-ssh::ssh_config_mode: '0644'
-ssh::ssh_config_owner: 'root'
-ssh::ssh_config_path: '/etc/ssh/ssh_config'
-ssh::sshd_allow_tcp_forwarding: 'yes'
-ssh::sshd_banner: 'none'
-ssh::sshd_challenge_response_authentication: 'no'
-ssh::sshd_client_alive_interval: '0'
-ssh::sshd_config_group: 'root'
-ssh::sshd_config_mode: '0600'
-ssh::sshd_config_owner: 'root'
-ssh::sshd_config_path: '/etc/ssh/sshd_config'
-ssh::sshd_login_grace_time: '120'
-ssh::sshd_password_authentication: 'yes'
-ssh::sshd_permit_root_login: 'no'
-ssh::sshd_print_motd: 'yes'
-ssh::sshd_server_key_bits: '768'
-ssh::sshd_subsystem_sftp: 'USE_DEFAULTS'
-ssh::sshd_syslog_facility: 'AUTH'
-ssh::sshd_use_dns: 'yes'
-ssh::sshd_use_pam: 'yes'
-ssh::sshd_x11_forwarding: 'yes'
-ssh::sshd_x_auth_location: '/usr/bin/xauth'
-ssh::ssh_forward_agent: undef
-ssh::ssh_forward_x11: undef
-ssh::ssh_key_ensure: 'present'
-ssh::ssh_key_type: 'ssh-rsa'
-ssh::ssh_server_alive_interval: undef
-</pre>
-===
-
 # Manage user's ssh_authorized_keys
 This works by passing the ssh::keys hash to the ssh_authorized_keys type with create_resources(). Because of this, you may specify any valid parameter for ssh_authorized_key. See the [Type Reference](http://docs.puppetlabs.com/references/stable/type.html#ssh_authorized_key) for a complete list.
 
