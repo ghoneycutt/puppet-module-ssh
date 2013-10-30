@@ -41,7 +41,6 @@ class ssh (
   $sshd_x11_forwarding              = 'yes',
   $sshd_use_pam                     = 'yes',
   $sshd_client_alive_interval       = '0',
-  $sshd_server_key_bits             = '768',
 ) {
 
   # <validating variables>
@@ -50,10 +49,7 @@ class ssh (
   validate_re($sshd_x11_forwarding, '^(yes|no)$', "sshd_x11_forwarding may be either 'yes' or 'no' and is set to '${sshd_x11_forwarding}'.")
   validate_re($sshd_use_pam, '^(yes|no)$', "sshd_use_pam may be either 'yes' or 'no' and is set to '${sshd_use_pam}'.")
   if is_integer($sshd_client_alive_interval) == false { fail("sshd_client_alive_interval must be an integer and is set to '${sshd_client_alive_interval}'.") }
-  if is_integer($sshd_server_key_bits) == false { fail("sshd_server_key_bits must be an integer and is set to '${sshd_server_key_bits}'.") }
-  if $sshd_server_key_bits < '512' { fail("sshd_server_key_bits needs a minimum value of 512 and is set to '${sshd_server_key_bits}'.") }
   # </validating variables>
-
 
   case $permit_root_login {
     'no', 'yes', 'without-password', 'forced-commands-only': {

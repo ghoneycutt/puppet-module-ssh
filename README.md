@@ -257,15 +257,6 @@ This option applies to protocol version 2 only.
 
 - *Default*: '0'
 
-sshd_server_key_bits
---------------------
-ServerKeyBits in sshd_config.
-
-Defines the number of bits in the ephemeral protocol version 1 server key.
-The minimum value is 512, and the OpenSSH default is 1024.
-
-- *Default*: '768'
-
 ===
 # Manage user's ssh_authorized_keys
 This works by passing the ssh::keys hash to the ssh_authorized_keys type with create_resources(). Because of this, you may specify any valid parameter for ssh_authorized_key. See the [Type Reference](http://docs.puppetlabs.com/references/stable/type.html#ssh_authorized_key) for a complete list.

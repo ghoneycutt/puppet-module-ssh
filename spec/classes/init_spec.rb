@@ -62,7 +62,6 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
-    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -161,7 +160,6 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
-    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -243,7 +241,6 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
-    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -325,7 +322,6 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
-    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -402,7 +398,6 @@ describe 'ssh' do
         :sshd_x11_forwarding             => 'no',
         :sshd_use_pam                    => 'no',
         :sshd_client_alive_interval      => '242',
-        :sshd_server_key_bits            => '1024',
       }
     end
 
@@ -431,7 +426,6 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding no$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM no$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 242$/) }
-    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
   end
 
   context 'with manage_root_ssh_config set to \'true\' on valid osfamily' do
@@ -585,44 +579,6 @@ describe 'ssh' do
       expect {
         should include_class('ssh')
       }.to raise_error(Puppet::Error,/sshd_client_alive_interval must be an integer and is set to \'invalid\'./)
-    end
-  end
-
-  context 'with sshd_server_key_bits set to invalid value on valid osfamily' do
-    let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
-    end
-    let :params do
-      { :sshd_server_key_bits => 'invalid' }
-    end
-
-    it 'should fail' do
-      expect {
-        should include_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_server_key_bits must be an integer and is set to \'invalid\'./)
-    end
-  end
-
-  context 'with sshd_server_key_bits set to too small value on valid osfamily' do
-    let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
-    end
-    let :params do
-      { :sshd_server_key_bits => '242' }
-    end
-
-    it 'should fail' do
-      expect {
-        should include_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_server_key_bits needs a minimum value of 512 and is set to \'242\'./)
     end
   end
 
