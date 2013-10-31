@@ -130,7 +130,3 @@ XAuthLocation <%= @sshd_config_xauth_location %>
 
 # override default of no subsystems
 Subsystem sftp <%= @sshd_config_subsystem_sftp_real %>
-<% if @sshd_config_sendenv_xmodifiers_real == true -%>
-
-SendEnv XMODIFIERS
-<% end -%>

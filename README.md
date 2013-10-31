@@ -180,12 +180,6 @@ This option applies to protocol version 2 only.
 
 - *Default*: '0'
 
-sshd_config_sendenv_xmodifiers
------------------------
-Set 'SendEnv XMODIFIERS' in sshd_config.
-
-- *Default*: false
-
 keys
 ----
 Hash of keys for user's ~/.ssh/authorized_keys
