@@ -32,6 +32,7 @@ describe 'ssh' do
     }
 
     it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
+    it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
 
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
@@ -50,7 +51,7 @@ describe 'ssh' do
 
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
-    it { should contain_file('sshd_config').with_content(/^PermitRootLogin no$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
     it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
@@ -130,6 +131,7 @@ describe 'ssh' do
     }
 
     it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
+    it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
 
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
@@ -148,7 +150,7 @@ describe 'ssh' do
 
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
-    it { should contain_file('sshd_config').with_content(/^PermitRootLogin no$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
     it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
@@ -211,6 +213,7 @@ describe 'ssh' do
     }
 
     it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
+    it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
 
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
@@ -229,7 +232,7 @@ describe 'ssh' do
 
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
-    it { should contain_file('sshd_config').with_content(/^PermitRootLogin no$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
     it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
@@ -292,6 +295,7 @@ describe 'ssh' do
     }
 
     it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
+    it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
 
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
@@ -310,7 +314,7 @@ describe 'ssh' do
 
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
-    it { should contain_file('sshd_config').with_content(/^PermitRootLogin no$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
     it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
@@ -370,6 +374,7 @@ describe 'ssh' do
     }
 
     it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
+    it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
     it { should contain_file('ssh_config').with_content(/^  ForwardAgent yes$/) }
     it { should contain_file('ssh_config').with_content(/^  ForwardX11 yes$/) }
     it { should contain_file('ssh_config').with_content(/^  ServerAliveInterval 300$/) }
@@ -388,7 +393,7 @@ describe 'ssh' do
       {
         :sshd_config_syslog_facility     => 'DAEMON',
         :sshd_config_login_grace_time    => '60',
-        :permit_root_login               => 'yes',
+        :permit_root_login               => 'no',
         :sshd_config_challenge_resp_auth => 'yes',
         :sshd_config_print_motd          => 'no',
         :sshd_config_use_dns             => 'no',
@@ -416,7 +421,7 @@ describe 'ssh' do
 
     it { should contain_file('sshd_config').with_content(/^SyslogFacility DAEMON$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 60$/) }
-    it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitRootLogin no$/) }
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^PrintMotd no$/) }
     it { should contain_file('sshd_config').with_content(/^UseDNS no$/) }

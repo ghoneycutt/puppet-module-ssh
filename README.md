@@ -63,7 +63,7 @@ ServerAliveInterval option in ssh_config. Not set by default.
 
 ssh_config_sendenv_xmodifiers
 -----------------------
-Set 'SendEnv XMODIFIERS' in ssh_config.
+Boolean to set 'SendEnv XMODIFIERS' in ssh_config.
 
 - *Default*: false
 
@@ -190,13 +190,13 @@ packages
 --------
 Array of package names used for installation.
 
-- *Default*: 'openssh-server', 'openssh-server', 'openssh-clients'
+- *Default*: Based on OS
 
 permit_root_login
 -----------------
-Allow root login. Valid values are 'yes', 'without-password', 'forced-commands-only', 'no'.
+Allow root login. Valid values are 'yes', 'without-password', 'forced-commands-only', and 'no'.
 
-- *Default*: no
+- *Default*: yes
 
 purge_keys
 ----------
@@ -220,7 +220,7 @@ service_name
 ------------
 Name of the SSH service.
 
-- *Default*: 'sshd'
+- *Default*: Based on OS
 
 service_enable
 --------------

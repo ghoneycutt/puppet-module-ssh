@@ -4,7 +4,7 @@
 #
 class ssh (
   $packages                         = 'USE_DEFAULTS',
-  $permit_root_login                = 'no',
+  $permit_root_login                = 'yes',
   $purge_keys                       = 'true',
   $manage_firewall                  = false,
   $ssh_config_path                  = '/etc/ssh/ssh_config',
