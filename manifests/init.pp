@@ -27,7 +27,6 @@ class ssh (
   $sshd_config_banner               = 'none',
   $sshd_config_xauth_location       = '/usr/bin/xauth',
   $sshd_config_subsystem_sftp       = 'USE_DEFAULTS',
-  $sshd_config_sendenv_xmodifiers   = false,
   $service_ensure                   = 'running',
   $service_name                     = 'USE_DEFAULTS',
   $service_enable                   = 'true',
@@ -61,18 +60,6 @@ class ssh (
     }
     default: {
       fail("ssh_config_sendenv_xmodifiers type must be true or false.")
-    }
-  }
-
-  case type($sshd_config_sendenv_xmodifiers) {
-    'string': {
-      $sshd_config_sendenv_xmodifiers_real = str2bool($sshd_config_sendenv_xmodifiers)
-    }
-    'boolean': {
-      $sshd_config_sendenv_xmodifiers_real = $sshd_config_sendenv_xmodifiers
-    }
-    default: {
-      fail("sshd_config_sendenv_xmodifiers type must be true or false.")
     }
   }
 
