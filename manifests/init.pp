@@ -36,14 +36,26 @@ class ssh (
   $keys                             = undef,
   $manage_root_ssh_config           = 'false',
   $root_ssh_config_content          = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
+  $sshd_password_authentication     = 'yes',
+  $sshd_allow_tcp_forwarding        = 'yes',
+  $sshd_x11_forwarding              = 'yes',
+  $sshd_use_pam                     = 'yes',
+  $sshd_client_alive_interval       = '0',
 ) {
+
+  # validate params
+  validate_re($sshd_password_authentication, '^(yes|no)$', "sshd_password_authentication may be either 'yes' or 'no' and is set to <${sshd_password_authentication}>.")
+  validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to <${sshd_allow_tcp_forwarding}>.")
+  validate_re($sshd_x11_forwarding, '^(yes|no)$', "sshd_x11_forwarding may be either 'yes' or 'no' and is set to <${sshd_x11_forwarding}>.")
+  validate_re($sshd_use_pam, '^(yes|no)$', "sshd_use_pam may be either 'yes' or 'no' and is set to <${sshd_use_pam}>.")
+  if is_integer($sshd_client_alive_interval) == false { fail("sshd_client_alive_interval must be an integer and is set to <${sshd_client_alive_interval}>.") }
 
   case $permit_root_login {
     'no', 'yes', 'without-password', 'forced-commands-only': {
       # noop
     }
     default: {
-      fail("permit_root_login may be either 'yes', 'without-password', 'forced-commands-only' or 'no' and is set to ${permit_root_login}")
+      fail("permit_root_login may be either 'yes', 'without-password', 'forced-commands-only' or 'no' and is set to <${permit_root_login}>")
     }
   }
 
@@ -55,7 +67,7 @@ class ssh (
       $key = $::sshdsakey
     }
     default: {
-      fail("ssh_key_type must be 'ssh-rsa', 'rsa', 'ssh-dsa', or 'dsa' and is ${ssh_key_type}")
+      fail("ssh_key_type must be 'ssh-rsa', 'rsa', 'ssh-dsa', or 'dsa' and is <${ssh_key_type}>")
     }
   }
 
@@ -64,7 +76,7 @@ class ssh (
       # noop
     }
     default: {
-      fail("purge_keys must be 'true' or 'false' and is ${purge_keys}")
+      fail("purge_keys must be 'true' or 'false' and is <${purge_keys}>")
     }
   }
 
