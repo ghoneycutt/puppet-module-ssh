@@ -14,6 +14,7 @@ class ssh (
   $ssh_config_forward_x11           = undef,
   $ssh_config_forward_agent         = undef,
   $ssh_config_server_alive_interval = undef,
+  $ssh_config_sendenv_xmodifiers    = false,
   $sshd_config_path                 = '/etc/ssh/sshd_config',
   $sshd_config_owner                = 'root',
   $sshd_config_group                = 'root',
@@ -26,6 +27,7 @@ class ssh (
   $sshd_config_banner               = 'none',
   $sshd_config_xauth_location       = '/usr/bin/xauth',
   $sshd_config_subsystem_sftp       = 'USE_DEFAULTS',
+  $sshd_config_sendenv_xmodifiers   = false,
   $service_ensure                   = 'running',
   $service_name                     = 'USE_DEFAULTS',
   $service_enable                   = 'true',
@@ -49,6 +51,30 @@ class ssh (
   validate_re($sshd_x11_forwarding, '^(yes|no)$', "sshd_x11_forwarding may be either 'yes' or 'no' and is set to <${sshd_x11_forwarding}>.")
   validate_re($sshd_use_pam, '^(yes|no)$', "sshd_use_pam may be either 'yes' or 'no' and is set to <${sshd_use_pam}>.")
   if is_integer($sshd_client_alive_interval) == false { fail("sshd_client_alive_interval must be an integer and is set to <${sshd_client_alive_interval}>.") }
+
+  case type($ssh_config_sendenv_xmodifiers) {
+    'string': {
+      $ssh_config_sendenv_xmodifiers_real = str2bool($ssh_config_sendenv_xmodifiers)
+    }
+    'boolean': {
+      $ssh_config_sendenv_xmodifiers_real = $ssh_config_sendenv_xmodifiers
+    }
+    default: {
+      fail("ssh_config_sendenv_xmodifiers type must be true or false.")
+    }
+  }
+
+  case type($sshd_config_sendenv_xmodifiers) {
+    'string': {
+      $sshd_config_sendenv_xmodifiers_real = str2bool($sshd_config_sendenv_xmodifiers)
+    }
+    'boolean': {
+      $sshd_config_sendenv_xmodifiers_real = $sshd_config_sendenv_xmodifiers
+    }
+    default: {
+      fail("sshd_config_sendenv_xmodifiers type must be true or false.")
+    }
+  }
 
   case $permit_root_login {
     'no', 'yes', 'without-password', 'forced-commands-only': {
