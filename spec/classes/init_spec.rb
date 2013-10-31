@@ -502,7 +502,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should include_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_password_authentication may be either \'yes\' or \'no\' and is set to \'invalid\'./)
+      }.to raise_error(Puppet::Error,/sshd_password_authentication may be either \'yes\' or \'no\' and is set to <invalid>./)
     end
   end
 
@@ -521,7 +521,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should include_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_allow_tcp_forwarding may be either \'yes\' or \'no\' and is set to \'invalid\'./)
+      }.to raise_error(Puppet::Error,/sshd_allow_tcp_forwarding may be either \'yes\' or \'no\' and is set to <invalid>./)
     end
   end
 
@@ -540,7 +540,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should include_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_x11_forwarding may be either \'yes\' or \'no\' and is set to \'invalid\'./)
+      }.to raise_error(Puppet::Error,/sshd_x11_forwarding may be either \'yes\' or \'no\' and is set to <invalid>./)
     end
   end
 
@@ -559,7 +559,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should include_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_use_pam may be either \'yes\' or \'no\' and is set to \'invalid\'./)
+      }.to raise_error(Puppet::Error,/sshd_use_pam may be either \'yes\' or \'no\' and is set to <invalid>./)
     end
   end
 
@@ -578,7 +578,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should include_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_client_alive_interval must be an integer and is set to \'invalid\'./)
+      }.to raise_error(Puppet::Error,/sshd_client_alive_interval must be an integer and is set to <invalid>./)
     end
   end
 
