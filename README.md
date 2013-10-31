@@ -19,36 +19,6 @@ This module has been tested to work on the following systems with Puppet v3.
 
 # Parameters #
 
-keys
-----
-Hash of keys for user's ~/.ssh/authorized_keys
-
-- *Default*: undefined
-
-packages
---------
-Array of package names used for installation.
-
-- *Default*: 'openssh-server', 'openssh-server', 'openssh-clients'
-
-permit_root_login
------------------
-Allow root login. Valid values are 'yes', 'without-password', 'forced-commands-only', 'no'.
-
-- *Default*: no
-
-purge_keys
-----------
-Remove keys not managed by puppet.
-
-- *Default*: 'true'
-
-manage_firewall
----------------
-Open firewall for SSH service.
-
-- *Default*: false
-
 ssh_config_path
 ---------------
 Path to ssh_config.
@@ -90,6 +60,12 @@ ssh_config_server_alive_interval
 ServerAliveInterval option in ssh_config. Not set by default.
 
 - *Default*: undef
+
+ssh_config_sendenv_xmodifiers
+-----------------------
+Set 'SendEnv XMODIFIERS' in ssh_config.
+
+- *Default*: false
 
 sshd_config_path
 ----------------
@@ -163,6 +139,83 @@ Path to sftp file transfer subsystem in sshd_config.
 
 - *Default*: '/usr/libexec/openssh/sftp-server'
 
+
+sshd_password_authentication
+-----------------------------
+PasswordAuthentication in sshd_config.
+Specifies whether password authentication is allowed.
+
+- *Default*: 'yes'
+
+sshd_allow_tcp_forwarding
+-------------------------
+AllowTcpForwarding in sshd_config.
+Specifies whether TCP forwarding is permitted.
+
+- *Default*: 'yes'
+
+sshd_x11_forwarding
+-------------------
+X11Forwarding in sshd_config.
+Specifies whether X11 forwarding is permitted.
+
+- *Default*: 'no'
+
+sshd_use_pam
+------------
+UsePam in sshd_config.
+Enables the Pluggable Authentication Module interface. If set to 'yes' this will enable PAM
+authentication using ChallengeResponseAuthentication and PasswordAuthentication in addition
+to PAM account and session module processing for all authentication types.
+
+- *Default*: 'no'
+
+sshd_client_alive_interval
+--------------------------
+ClientAliveInterval in sshd_config.
+Sets a timeout interval in seconds after which if no data has been received from the client,
+sshd(8) will send a message through the encrypted channel to request a response from the
+client. The default is 0, indicating that these messages will not be sent to the client.
+This option applies to protocol version 2 only.
+
+- *Default*: '0'
+
+sshd_config_sendenv_xmodifiers
+-----------------------
+Set 'SendEnv XMODIFIERS' in sshd_config.
+
+- *Default*: false
+
+keys
+----
+Hash of keys for user's ~/.ssh/authorized_keys
+
+- *Default*: undefined
+
+packages
+--------
+Array of package names used for installation.
+
+- *Default*: 'openssh-server', 'openssh-server', 'openssh-clients'
+
+permit_root_login
+-----------------
+Allow root login. Valid values are 'yes', 'without-password', 'forced-commands-only', 'no'.
+
+- *Default*: no
+
+purge_keys
+----------
+Remove keys not managed by puppet.
+
+- *Default*: 'true'
+
+manage_firewall
+---------------
+Open firewall for SSH service.
+
+- *Default*: false
+
 service_ensure
 --------------
 Ensure SSH service is running. Valid values are 'stopped' and 'running'.
@@ -217,45 +270,6 @@ Content of root's ~/.ssh/config.
 
 - *Default*: "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
 
-$sshd_password_authentication
------------------------------
-PasswordAuthentication in sshd_config.
-Specifies whether password authentication is allowed.
-
-- *Default*: 'yes'
-
-sshd_allow_tcp_forwarding
--------------------------
-AllowTcpForwarding in sshd_config.
-Specifies whether TCP forwarding is permitted.
-
-- *Default*: 'yes'
-
-sshd_x11_forwarding
--------------------
-X11Forwarding in sshd_config.
-Specifies whether X11 forwarding is permitted.
-
-- *Default*: 'no'
-
-sshd_use_pam
-------------
-UsePam in sshd_config.
-Enables the Pluggable Authentication Module interface. If set to 'yes' this will enable PAM
-authentication using ChallengeResponseAuthentication and PasswordAuthentication in addition
-to PAM account and session module processing for all authentication types.
-
-- *Default*: 'no'
-
-sshd_client_alive_interval
---------------------------
-ClientAliveInterval in sshd_config.
-Sets a timeout interval in seconds after which if no data has been received from the client,
-sshd(8) will send a message through the encrypted channel to request a response from the
-client. The default is 0, indicating that these messages will not be sent to the client.
-This option applies to protocol version 2 only.
-
-- *Default*: '0'
 
 ===
 # Manage user's ssh_authorized_keys
