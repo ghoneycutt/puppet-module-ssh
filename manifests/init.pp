@@ -117,14 +117,14 @@ class ssh (
     }
     'Debian': {
       case $::operatingsystem {
-        'Ubuntu': {
+        'Ubuntu', 'Debian': {
           $default_packages                   = [ 'openssh-server',
                                                   'openssh-client']
           $default_sshd_config_subsystem_sftp = '/usr/lib/openssh/sftp-server'
           $default_service_name               = 'ssh'
         }
         default: {
-          fail("ssh supports Debian variant Ubuntu. Your osfamily is <${::osfamily}> and operatingsystem is <${::operatingsystem}>.")
+          fail("ssh supports Debian and Ubuntu. Your osfamily is <${::osfamily}> and operatingsystem is <${::operatingsystem}>.")
         }
       }
     }

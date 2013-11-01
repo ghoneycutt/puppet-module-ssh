@@ -92,11 +92,71 @@ describe 'ssh' do
       }
     end
 
-    it 'should fail' do
-      expect {
-        should include_class('ssh')
-      }.to raise_error(Puppet::Error,/ssh supports Debian variant Ubuntu. Your osfamily is <Debian> and operatingsystem is <Debian>./)
-    end
+    it { should include_class('ssh')}
+
+    it { should_not include_class('common')}
+
+    it {
+      should contain_package('ssh_packages').with({
+        'ensure' => 'installed',
+        'name'   => ['openssh-server','openssh-client'],
+      })
+    }
+
+    it {
+      should contain_file('ssh_config').with({
+        'ensure' => 'file',
+        'path'    => '/etc/ssh/ssh_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0644',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
+
+    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
+    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
+    it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
+
+    it {
+      should contain_file('sshd_config').with({
+        'ensure'  => 'file',
+        'path'    => '/etc/ssh/sshd_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0600',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
+    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitRootLogin no$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
+    it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
+    it { should contain_file('sshd_config').with_content(/^Banner none$/) }
+    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
+    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/openssh\/sftp-server$/) }
+
+    it {
+      should contain_service('sshd_service').with({
+        'ensure'     => 'running',
+        'name'       => 'ssh',
+        'enable'     => 'true',
+        'hasrestart' => 'true',
+        'hasstatus'  => 'true',
+        'subscribe'  => 'File[sshd_config]',
+      })
+    }
+
+    it {
+      should contain_resources('sshkey').with({
+        'purge' => 'true',
+      })
+    }
   end
 
   context 'with default params on osfamily Debian operatingsystem Ubuntu' do
@@ -653,6 +713,560 @@ describe 'ssh' do
   context 'with keys defined on valid osfamily' do
     let :facts do
       { :osfamily  => 'RedHat' }
+    end
+    let(:params) { { :keys => {
+      'root_for_userX' => {
+        'ensure' => 'present',
+        'user'   => 'root',
+        'type'   => 'dsa',
+        'key'    => 'AAAA==',
+      },
+      'root_for_userY' => {
+        'ensure' => 'absent',
+        'user'   => 'root',
+      }
+    } } }
+
+    it {
+      should contain_ssh_authorized_key('root_for_userX').with({
+        'ensure' => 'present',
+        'user'   => 'root',
+        'type'   => 'dsa',
+        'key'    => 'AAAA==',
+      })
+    }
+
+    it {
+      should contain_ssh_authorized_key('root_for_userY').with({
+        'ensure' => 'absent',
+        'user'   => 'root',
+      })
+    }
+  end
+  context 'with default params on osfamily Debian and operatingsystem Ubuntu' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'Debian',
+        :operatingsystem => 'Ubuntu',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    it { should include_class('ssh')}
+
+    it { should_not include_class('common')}
+
+    it {
+      should contain_package('ssh_packages').with({
+        'ensure' => 'installed',
+        'name'   => ['openssh-server','openssh-client'],
+      })
+    }
+
+    it {
+      should contain_file('ssh_config').with({
+        'ensure' => 'file',
+        'path'    => '/etc/ssh/ssh_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0644',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
+
+    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
+    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
+    it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
+
+    it {
+      should contain_file('sshd_config').with({
+        'ensure' => 'file',
+        'path'    => '/etc/ssh/sshd_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0600',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
+    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitRootLogin no$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
+    it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
+    it { should contain_file('sshd_config').with_content(/^Banner none$/) }
+    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
+    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/openssh\/sftp-server$/) }
+
+    it {
+      should contain_service('sshd_service').with({
+        'ensure'     => 'running',
+        'name'       => 'ssh',
+        'enable'     => 'true',
+        'hasrestart' => 'true',
+        'hasstatus'  => 'true',
+        'subscribe'  => 'File[sshd_config]',
+      })
+    }
+
+    it {
+      should contain_resources('sshkey').with({
+        'purge' => 'true',
+      })
+    }
+  end
+
+  context 'with optional params used in ssh_config set on osfamily Debian' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'Debian',
+        :operatingsystem => 'Ubuntu',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      {
+        :ssh_config_forward_agent         => 'yes',
+        :ssh_config_forward_x11           => 'yes',
+        :ssh_config_server_alive_interval => '300',
+      }
+    end
+
+    it {
+      should contain_file('ssh_config').with({
+        'ensure' => 'file',
+        'path'    => '/etc/ssh/ssh_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0644',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
+    it { should contain_file('ssh_config').with_content(/^  ForwardAgent yes$/) }
+    it { should contain_file('ssh_config').with_content(/^  ForwardX11 yes$/) }
+    it { should contain_file('ssh_config').with_content(/^  ServerAliveInterval 300$/) }
+  end
+
+  context 'with params used in sshd_config set on osfamily Debian' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'Debian',
+        :operatingsystem => 'Ubuntu',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      {
+        :sshd_config_syslog_facility     => 'DAEMON',
+        :sshd_config_login_grace_time    => '60',
+        :permit_root_login               => 'yes',
+        :sshd_config_challenge_resp_auth => 'yes',
+        :sshd_config_print_motd          => 'no',
+        :sshd_config_use_dns             => 'no',
+        :sshd_config_banner              => '/etc/sshd_banner',
+        :sshd_config_xauth_location      => '/usr/bin/xauth',
+        :sshd_config_subsystem_sftp      => '/usr/lib/openssh/sftp-server',
+      }
+    end
+
+    it {
+      should contain_file('sshd_config').with({
+        'ensure' => 'file',
+        'path'    => '/etc/ssh/sshd_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0600',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('sshd_config').with_content(/^SyslogFacility DAEMON$/) }
+    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 60$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
+    it { should contain_file('sshd_config').with_content(/^PrintMotd no$/) }
+    it { should contain_file('sshd_config').with_content(/^UseDNS no$/) }
+    it { should contain_file('sshd_config').with_content(/^Banner \/etc\/sshd_banner$/) }
+    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
+    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/openssh\/sftp-server$/) }
+  end
+
+  context 'with manage_root_ssh_config set to \'true\' on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'Debian',
+        :operatingsystem => 'Ubuntu',
+        :root_home => '/root',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :manage_root_ssh_config => 'true' }
+    end
+
+    it { should include_class('ssh')}
+
+    it { should include_class('common')}
+
+    it {
+      should contain_file('root_ssh_dir').with({
+        'ensure'  => 'directory',
+        'path'    => '/root/.ssh',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0700',
+        'require' => 'Common::Mkdir_p[/root/.ssh]',
+      })
+    }
+
+    it {
+      should contain_file('root_ssh_config').with({
+        'ensure'  => 'file',
+        'path'    => '/root/.ssh/config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0600',
+      })
+    }
+  end
+
+  context 'with manage_root_ssh_config set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'Debian',
+        :operatingsystem => 'Ubuntu',
+        :root_home => '/root',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :manage_root_ssh_config => 'invalid' }
+    end
+
+    it 'should fail' do
+      expect {
+        should include_class('ssh')
+      }.to raise_error(Puppet::Error,/manage_root_ssh_config is <invalid> and must be \'true\' or \'false\'./)
+    end
+  end
+
+  context 'with manage_firewall set to true on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'Debian',
+        :operatingsystem => 'Ubuntu',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :manage_firewall => true }
+    end
+
+    it { should include_class('ssh')}
+
+    it { should_not include_class('common')}
+
+    it {
+      should contain_firewall('22 open port 22 for SSH').with({
+        'action' => 'accept',
+        'dport'  => '22',
+        'proto'  => 'tcp',
+      })
+    }
+  end
+
+  context 'with keys defined on valid osfamily' do
+    let :facts do
+      { :osfamily  => 'Debian',
+        :operatingsystem => 'Ubuntu',
+      }
+    end
+    let(:params) { { :keys => {
+      'root_for_userX' => {
+        'ensure' => 'present',
+        'user'   => 'root',
+        'type'   => 'dsa',
+        'key'    => 'AAAA==',
+      },
+      'root_for_userY' => {
+        'ensure' => 'absent',
+        'user'   => 'root',
+      }
+    } } }
+
+    it {
+      should contain_ssh_authorized_key('root_for_userX').with({
+        'ensure' => 'present',
+        'user'   => 'root',
+        'type'   => 'dsa',
+        'key'    => 'AAAA==',
+      })
+    }
+
+    it {
+      should contain_ssh_authorized_key('root_for_userY').with({
+        'ensure' => 'absent',
+        'user'   => 'root',
+      })
+    }
+  end
+  context 'with default params on osfamily Debian and operatingsystem Debian' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'Debian',
+        :operatingsystem => 'Debian',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    it { should include_class('ssh')}
+
+    it { should_not include_class('common')}
+
+    it {
+      should contain_package('ssh_packages').with({
+        'ensure' => 'installed',
+        'name'   => ['openssh-server','openssh-client'],
+      })
+    }
+
+    it {
+      should contain_file('ssh_config').with({
+        'ensure' => 'file',
+        'path'    => '/etc/ssh/ssh_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0644',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
+
+    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
+    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
+    it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
+
+    it {
+      should contain_file('sshd_config').with({
+        'ensure' => 'file',
+        'path'    => '/etc/ssh/sshd_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0600',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
+    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitRootLogin no$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
+    it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
+    it { should contain_file('sshd_config').with_content(/^Banner none$/) }
+    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
+    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/openssh\/sftp-server$/) }
+
+    it {
+      should contain_service('sshd_service').with({
+        'ensure'     => 'running',
+        'name'       => 'ssh',
+        'enable'     => 'true',
+        'hasrestart' => 'true',
+        'hasstatus'  => 'true',
+        'subscribe'  => 'File[sshd_config]',
+      })
+    }
+
+    it {
+      should contain_resources('sshkey').with({
+        'purge' => 'true',
+      })
+    }
+  end
+
+  context 'with optional params used in ssh_config set on osfamily Debian and operatingsystem Debian' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'Debian',
+        :operatingsystem => 'Debian',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      {
+        :ssh_config_forward_agent         => 'yes',
+        :ssh_config_forward_x11           => 'yes',
+        :ssh_config_server_alive_interval => '300',
+      }
+    end
+
+    it {
+      should contain_file('ssh_config').with({
+        'ensure' => 'file',
+        'path'    => '/etc/ssh/ssh_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0644',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
+    it { should contain_file('ssh_config').with_content(/^  ForwardAgent yes$/) }
+    it { should contain_file('ssh_config').with_content(/^  ForwardX11 yes$/) }
+    it { should contain_file('ssh_config').with_content(/^  ServerAliveInterval 300$/) }
+  end
+
+  context 'with params used in sshd_config set on osfamily Debian and operatingsystem Debian' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'Debian',
+        :operatingsystem => 'Debian',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      {
+        :sshd_config_syslog_facility     => 'DAEMON',
+        :sshd_config_login_grace_time    => '60',
+        :permit_root_login               => 'yes',
+        :sshd_config_challenge_resp_auth => 'yes',
+        :sshd_config_print_motd          => 'no',
+        :sshd_config_use_dns             => 'no',
+        :sshd_config_banner              => '/etc/sshd_banner',
+        :sshd_config_xauth_location      => '/usr/bin/xauth',
+        :sshd_config_subsystem_sftp      => '/usr/lib/openssh/sftp-server',
+      }
+    end
+
+    it {
+      should contain_file('sshd_config').with({
+        'ensure' => 'file',
+        'path'    => '/etc/ssh/sshd_config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0600',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
+
+    it { should contain_file('sshd_config').with_content(/^SyslogFacility DAEMON$/) }
+    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 60$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
+    it { should contain_file('sshd_config').with_content(/^PrintMotd no$/) }
+    it { should contain_file('sshd_config').with_content(/^UseDNS no$/) }
+    it { should contain_file('sshd_config').with_content(/^Banner \/etc\/sshd_banner$/) }
+    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
+    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/openssh\/sftp-server$/) }
+  end
+
+  context 'with manage_root_ssh_config set to \'true\' on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'Debian',
+        :operatingsystem => 'Debian',
+        :root_home => '/root',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :manage_root_ssh_config => 'true' }
+    end
+
+    it { should include_class('ssh')}
+
+    it { should include_class('common')}
+
+    it {
+      should contain_file('root_ssh_dir').with({
+        'ensure'  => 'directory',
+        'path'    => '/root/.ssh',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0700',
+        'require' => 'Common::Mkdir_p[/root/.ssh]',
+      })
+    }
+
+    it {
+      should contain_file('root_ssh_config').with({
+        'ensure'  => 'file',
+        'path'    => '/root/.ssh/config',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0600',
+      })
+    }
+  end
+
+  context 'with manage_root_ssh_config set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'Debian',
+        :operatingsystem => 'Debian',
+        :root_home => '/root',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :manage_root_ssh_config => 'invalid' }
+    end
+
+    it 'should fail' do
+      expect {
+        should include_class('ssh')
+      }.to raise_error(Puppet::Error,/manage_root_ssh_config is <invalid> and must be \'true\' or \'false\'./)
+    end
+  end
+
+  context 'with manage_firewall set to true on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'Debian',
+        :operatingsystem => 'Debian',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :manage_firewall => true }
+    end
+
+    it { should include_class('ssh')}
+
+    it { should_not include_class('common')}
+
+    it {
+      should contain_firewall('22 open port 22 for SSH').with({
+        'action' => 'accept',
+        'dport'  => '22',
+        'proto'  => 'tcp',
+      })
+    }
+  end
+
+  context 'with keys defined on valid osfamily' do
+    let :facts do
+      { :osfamily  => 'Debian',
+        :operatingsystem => 'Debian',
+      }
     end
     let(:params) { { :keys => {
       'root_for_userX' => {
