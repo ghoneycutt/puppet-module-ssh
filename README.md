@@ -92,6 +92,12 @@ sshd_config's mode.
 
 - *Default*: '0600'
 
+sshd_config_port
+---------------------------
+String to specify listen port for sshd. Port option in sshd_config.
+
+- *Default*: 22
+
 sshd_config_syslog_facility
 ---------------------------
 SyslogFacility option in sshd_config.
