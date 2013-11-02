@@ -10,6 +10,7 @@ The module uses exported resources to manage ssh keys and removes ssh keys that 
 
 This module has been tested to work on the following systems with Puppet v3.
 
+ * Debian 7
  * EL 5
  * EL 6
  * SLES 11
