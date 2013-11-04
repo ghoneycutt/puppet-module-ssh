@@ -24,8 +24,8 @@ Protocol 2
 # HostKey for protocol version 1
 #HostKey /etc/ssh/ssh_host_key
 # HostKeys for protocol version 2
-#HostKey /etc/ssh/ssh_host_rsa_key
-#HostKey /etc/ssh/ssh_host_dsa_key
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_dsa_key
 
 # Lifetime and size of ephemeral version 1 server key
 #KeyRegenerationInterval 1h
@@ -78,8 +78,6 @@ ChallengeResponseAuthentication <%= @sshd_config_challenge_resp_auth %>
 # GSSAPI options
 #GSSAPIAuthentication no
 GSSAPIAuthentication yes
-#GSSAPICleanupCredentials yes
-GSSAPICleanupCredentials yes
 
 # Set this to 'yes' to enable PAM authentication, account processing,
 # and session processing. If this is enabled, PAM authentication will
@@ -89,6 +87,9 @@ GSSAPICleanupCredentials yes
 # "PermitRootLogin without-password". If you just want the PAM account and
 # session checks to run without PAM authentication, then enable this but set
 # ChallengeResponseAuthentication=no
+<% if @ssh_options_solaris_enable_real != true -%>
+#GSSAPICleanupCredentials yes
+GSSAPICleanupCredentials yes
 #UsePAM no
 UsePAM <%= @sshd_use_pam %>
 
@@ -96,6 +97,9 @@ UsePAM <%= @sshd_use_pam %>
 AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
 AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
 AcceptEnv LC_IDENTIFICATION LC_ALL
+#UseDNS yes
+UseDNS <%= @sshd_config_use_dns %>
+<% end -%>
 #AllowTcpForwarding yes
 AllowTcpForwarding <%= @sshd_allow_tcp_forwarding %>
 #GatewayPorts no
@@ -115,8 +119,6 @@ PrintMotd <%= @sshd_config_print_motd %>
 ClientAliveInterval <%= @sshd_client_alive_interval %>
 #ClientAliveCountMax 3
 #ShowPatchLevel no
-#UseDNS yes
-UseDNS <%= @sshd_config_use_dns %>
 #PidFile /var/run/sshd.pid
 #MaxStartups 10
 #PermitTunnel no
@@ -127,7 +129,7 @@ UseDNS <%= @sshd_config_use_dns %>
 Banner <%= @sshd_config_banner %>
 
 #XAuthLocation /usr/bin/xauth
-XAuthLocation <%= @sshd_config_xauth_location %>
+XAuthLocation <%= @sshd_config_xauth_location_real %>
 
 # override default of no subsystems
 Subsystem sftp <%= @sshd_config_subsystem_sftp_real %>
