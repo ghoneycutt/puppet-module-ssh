@@ -19,6 +19,7 @@ class ssh (
   $sshd_config_owner                = 'root',
   $sshd_config_group                = 'root',
   $sshd_config_mode                 = '0600',
+  $sshd_config_port                 = '22',
   $sshd_config_syslog_facility      = 'AUTH',
   $sshd_config_login_grace_time     = '120',
   $sshd_config_challenge_resp_auth  = 'no',
@@ -45,6 +46,7 @@ class ssh (
 ) {
 
   # validate params
+  validate_re($sshd_config_port, '^\d+$', "sshd_config_port must be a valid number and is set to <${sshd_config_port}>")
   validate_re($sshd_password_authentication, '^(yes|no)$', "sshd_password_authentication may be either 'yes' or 'no' and is set to <${sshd_password_authentication}>.")
   validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to <${sshd_allow_tcp_forwarding}>.")
   validate_re($sshd_x11_forwarding, '^(yes|no)$', "sshd_x11_forwarding may be either 'yes' or 'no' and is set to <${sshd_x11_forwarding}>.")
@@ -116,17 +118,10 @@ class ssh (
       }
     }
     'Debian': {
-      case $::operatingsystem {
-        'Ubuntu': {
-          $default_packages                   = [ 'openssh-server',
-                                                  'openssh-client']
-          $default_sshd_config_subsystem_sftp = '/usr/lib/openssh/sftp-server'
-          $default_service_name               = 'ssh'
-        }
-        default: {
-          fail("ssh supports Debian variant Ubuntu. Your osfamily is <${::osfamily}> and operatingsystem is <${::operatingsystem}>.")
-        }
-      }
+      $default_packages                   = [ 'openssh-server',
+                                              'openssh-client']
+      $default_sshd_config_subsystem_sftp = '/usr/lib/openssh/sftp-server'
+      $default_service_name               = 'ssh'
     }
     default: {
       fail("ssh supports osfamilies RedHat, Suse and Debian. Detected osfamily is <${::osfamily}>.")

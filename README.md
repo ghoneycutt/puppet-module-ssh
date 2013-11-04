@@ -10,6 +10,7 @@ The module uses exported resources to manage ssh keys and removes ssh keys that 
 
 This module has been tested to work on the following systems with Puppet v3.
 
+ * Debian 7
  * EL 5
  * EL 6
  * SLES 11
@@ -90,6 +91,12 @@ sshd_config_mode
 sshd_config's mode.
 
 - *Default*: '0600'
+
+sshd_config_port
+---------------------------
+String to specify listen port for sshd. Port option in sshd_config.
+
+- *Default*: 22
 
 sshd_config_syslog_facility
 ---------------------------
