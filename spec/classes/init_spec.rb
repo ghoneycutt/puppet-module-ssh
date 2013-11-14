@@ -710,4 +710,15 @@ describe 'ssh' do
       })
     }
   end
+
+  context 'with keys specified as not of type hash' do
+    let(:params) { { :keys => [ 'not', 'a', 'hash' ] } }
+    let(:facts) { { :osfamily  => 'RedHat' } }
+
+    it 'should fail' do
+      expect {
+        should include_class('ssh')
+      }.to raise_error(Puppet::Error)
+    end
+  end
 end
