@@ -239,9 +239,7 @@ class ssh (
 
   # manage users' ssh authorized keys if present
   if $keys != undef {
-    $keys_type = type($keys)
-    if $keys_type == 'hash' {
-      create_resources(ssh_authorized_key, $keys)
-    }
+    validate_hash($keys)
+    create_resources(ssh_authorized_key, $keys)
   }
 }
