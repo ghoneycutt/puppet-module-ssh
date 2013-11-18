@@ -286,6 +286,12 @@ ssh::keys:
     user: root
     type: dsa
     key: AAAA...==
+  apachehup:
+    ensure: present
+    user: apachehup
+    type: rsa
+    key: 'AAAA...=='
+    options: 'command="/sbin/service httpd restart"'
   root_for_userY:
     ensure: absent
     user: root
