@@ -688,6 +688,13 @@ describe 'ssh' do
         'type'   => 'dsa',
         'key'    => 'AAAA==',
       },
+      'apache_hup' => {
+        'ensure'  => 'present',
+        'user'    => 'apachehup',
+        'type'    => 'dsa',
+        'key'     => 'AAAA==',
+        'options' => 'command="/sbin/service httpd restart"',
+      },
       'root_for_userY' => {
         'ensure' => 'absent',
         'user'   => 'root',
@@ -700,6 +707,16 @@ describe 'ssh' do
         'user'   => 'root',
         'type'   => 'dsa',
         'key'    => 'AAAA==',
+      })
+    }
+
+    it {
+      should contain_ssh_authorized_key('apache_hup').with({
+        'ensure'  => 'present',
+        'user'    => 'apachehup',
+        'type'    => 'dsa',
+        'key'     => 'AAAA==',
+        'options' => 'command="/sbin/service httpd restart"',
       })
     }
 
