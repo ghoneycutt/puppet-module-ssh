@@ -53,7 +53,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
     it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
     it { should contain_file('sshd_config').with_content(/^Banner none$/) }
@@ -387,7 +387,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
     it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
     it { should contain_file('sshd_config').with_content(/^Banner none$/) }
@@ -470,7 +470,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
     it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
     it { should contain_file('sshd_config').with_content(/^Banner none$/) }
@@ -553,7 +553,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
     it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
     it { should contain_file('sshd_config').with_content(/^Banner none$/) }
@@ -653,7 +653,7 @@ describe 'ssh' do
         :sshd_config_syslog_facility     => 'DAEMON',
         :sshd_config_login_grace_time    => '60',
         :permit_root_login               => 'no',
-        :sshd_config_challenge_resp_auth => 'yes',
+        :sshd_config_challenge_resp_auth => 'no',
         :sshd_config_print_motd          => 'no',
         :sshd_config_use_dns             => 'no',
         :sshd_config_banner              => '/etc/sshd_banner',
@@ -682,7 +682,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^SyslogFacility DAEMON$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 60$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin no$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^PrintMotd no$/) }
     it { should contain_file('sshd_config').with_content(/^UseDNS no$/) }
     it { should contain_file('sshd_config').with_content(/^Banner \/etc\/sshd_banner$/) }
