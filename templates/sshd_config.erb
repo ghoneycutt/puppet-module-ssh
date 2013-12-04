@@ -77,7 +77,10 @@ ChallengeResponseAuthentication <%= @sshd_config_challenge_resp_auth %>
 
 # GSSAPI options
 #GSSAPIAuthentication no
-GSSAPIAuthentication yes
+GSSAPIAuthentication <%= @sshd_gssapiauthentication %>
+<% if @sshd_gssapikeyexchange != nil -%>
+GSSAPIKeyExchange <%= @sshd_gssapikeyexchange %>
+<% end -%>
 
 # Set this to 'yes' to enable PAM authentication, account processing,
 # and session processing. If this is enabled, PAM authentication will
@@ -87,6 +90,9 @@ GSSAPIAuthentication yes
 # "PermitRootLogin without-password". If you just want the PAM account and
 # session checks to run without PAM authentication, then enable this but set
 # ChallengeResponseAuthentication=no
+<% if @ssh_options_solaris_enable_real == true -%>
+PAMAuthenticationViaKBDInt yes
+<% end -%>
 <% if @ssh_options_solaris_enable_real != true -%>
 #GSSAPICleanupCredentials yes
 GSSAPICleanupCredentials yes

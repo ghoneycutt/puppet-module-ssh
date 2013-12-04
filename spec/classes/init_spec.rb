@@ -155,7 +155,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
     it { should contain_file('sshd_config').with_content(/^Banner none$/) }
     it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/X\/bin\/xauth$/) }
@@ -234,7 +234,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
     it { should contain_file('sshd_config').with_content(/^Banner none$/) }
     it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/X\/bin\/xauth$/) }
@@ -311,7 +311,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
     it { should contain_file('sshd_config').with_content(/^Banner none$/) }
     it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/X\/bin\/xauth$/) }

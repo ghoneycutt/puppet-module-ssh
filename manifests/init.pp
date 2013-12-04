@@ -22,7 +22,7 @@ class ssh (
   $sshd_config_port                 = '22',
   $sshd_config_syslog_facility      = 'AUTH',
   $sshd_config_login_grace_time     = '120',
-  $sshd_config_challenge_resp_auth  = 'yes',
+  $sshd_config_challenge_resp_auth  = 'no',
   $sshd_config_print_motd           = 'yes',
   $sshd_config_use_dns              = 'yes',
   $sshd_config_banner               = 'none',
@@ -46,6 +46,8 @@ class ssh (
   $sshd_use_pam                     = 'yes',
   $sshd_client_alive_interval       = '0',
   $ssh_options_solaris_enable       = 'USE_DEFAULTS',
+  $sshd_gssapiauthentication        = 'yes',
+  $sshd_gssapikeyexchange           = undef,
 ) {
 
   case $::osfamily {
@@ -154,9 +156,21 @@ class ssh (
   }
 
   if $ssh_options_solaris_enable == 'USE_DEFAULTS' {
-    $ssh_options_solaris_enable_real = $default_ssh_options_solaris_enable
+    $ssh_options_solaris_enable_interm = $default_ssh_options_solaris_enable
   } else {
-    $ssh_options_solaris_enable_real = $ssh_options_solaris_enable
+    $ssh_options_solaris_enable_interm = $ssh_options_solaris_enable
+  }
+
+  case type($ssh_options_solaris_enable_interm) {
+    'string': {
+      $ssh_options_solaris_enable_real = str2bool($ssh_options_solaris_enable_interm)
+    }
+    'boolean': {
+      $ssh_options_solaris_enable_real = $ssh_options_solaris_enable_interm
+    }
+    default: {
+      fail('ssh_options_solaris_enable type must be true or false.')
+    }
   }
 
   # validate params
@@ -211,13 +225,13 @@ class ssh (
 
   if $ssh_package_adminfile_real != undef {
 
-    file { 'admin_file':
+    file { 'ssh_admin_file':
       ensure  => 'present',
       name    => $ssh_package_adminfile_real,
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
-      content => template('ssh/admin_file.erb'),
+      content => template('ssh/ssh_admin_file.erb'),
     }
   }
 
