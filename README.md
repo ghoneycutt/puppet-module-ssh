@@ -114,7 +114,7 @@ sshd_config_challenge_resp_auth
 -------------------------------
 ChallengeResponseAuthentication option in sshd_config.
 
-- *Default*: 'no'
+- *Default*: 'yes'
 
 sshd_config_print_motd
 ----------------------
