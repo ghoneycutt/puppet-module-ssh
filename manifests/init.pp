@@ -22,7 +22,7 @@ class ssh (
   $sshd_config_port                 = '22',
   $sshd_config_syslog_facility      = 'AUTH',
   $sshd_config_login_grace_time     = '120',
-  $sshd_config_challenge_resp_auth  = 'no',
+  $sshd_config_challenge_resp_auth  = 'yes',
   $sshd_config_print_motd           = 'yes',
   $sshd_config_use_dns              = 'yes',
   $sshd_config_banner               = 'none',
