@@ -405,6 +405,7 @@ describe 'ssh' do
         :sshd_config_print_motd          => 'no',
         :sshd_config_use_dns             => 'no',
         :sshd_config_banner              => '/etc/sshd_banner',
+        :sshd_banner_content             => 'textinbanner',
         :sshd_config_xauth_location      => '/opt/ssh/bin/xauth',
         :sshd_config_subsystem_sftp      => '/opt/ssh/bin/sftp',
         :sshd_password_authentication    => 'no',
@@ -441,6 +442,18 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding no$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM no$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 242$/) }
+
+    it {
+      should contain_file('sshd_banner').with({
+        'ensure'  => 'file',
+        'path'    => '/etc/sshd_banner',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0644',
+        'content' => 'textinbanner',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
   end
 
   context 'with manage_root_ssh_config set to \'true\' on valid osfamily' do
@@ -615,6 +628,46 @@ describe 'ssh' do
       }.to raise_error(Puppet::Error,/sshd_client_alive_interval must be an integer and is set to <invalid>./)
     end
   end
+
+  context 'with sshd_config_banner set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :sshd_config_banner => 'invalid/path' }
+    end
+
+    it 'should fail' do
+      expect {
+        should include_class('ssh')
+      }.to raise_error(Puppet::Error,/is not an absolute path/)
+    end
+  end
+  context 'with sshd_banner_content set and with default value on sshd_config_banner on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      {
+        :sshd_banner_content => 'textinbanner'
+      }
+    end
+
+    it 'should fail' do
+      expect {
+        should include_class('ssh')
+      }.to raise_error(Puppet::Error,/sshd_config_banner must be set to be able to use sshd_banner_content/)
+    end
+  end
+
 
   context 'with ssh_config_sendenv_xmodifiers set to invalid type, array' do
     let :facts do

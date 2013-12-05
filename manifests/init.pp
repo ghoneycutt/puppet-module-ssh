@@ -26,6 +26,10 @@ class ssh (
   $sshd_config_print_motd           = 'yes',
   $sshd_config_use_dns              = 'yes',
   $sshd_config_banner               = 'none',
+  $sshd_banner_content              = undef,
+  $sshd_banner_owner                = 'root',
+  $sshd_banner_group                = 'root',
+  $sshd_banner_mode                 = '0644',
   $sshd_config_xauth_location       = '/usr/bin/xauth',
   $sshd_config_subsystem_sftp       = 'USE_DEFAULTS',
   $service_ensure                   = 'running',
@@ -52,6 +56,13 @@ class ssh (
   validate_re($sshd_x11_forwarding, '^(yes|no)$', "sshd_x11_forwarding may be either 'yes' or 'no' and is set to <${sshd_x11_forwarding}>.")
   validate_re($sshd_use_pam, '^(yes|no)$', "sshd_use_pam may be either 'yes' or 'no' and is set to <${sshd_use_pam}>.")
   if is_integer($sshd_client_alive_interval) == false { fail("sshd_client_alive_interval must be an integer and is set to <${sshd_client_alive_interval}>.") }
+
+  if $sshd_config_banner != 'none' {
+    validate_absolute_path($sshd_config_banner)
+  }
+  if $sshd_banner_content != undef and $sshd_config_banner == 'none' {
+    fail("sshd_config_banner must be set to be able to use sshd_banner_content")
+  }
 
   case type($ssh_config_sendenv_xmodifiers) {
     'string': {
@@ -169,6 +180,18 @@ class ssh (
     group   => $sshd_config_group,
     content => template('ssh/sshd_config.erb'),
     require => Package['ssh_packages'],
+  }
+
+  if $sshd_config_banner != 'none' and $sshd_banner_content != undef {
+    file { 'sshd_banner' :
+      ensure => file,
+      path    => $sshd_config_banner,
+      mode    => $sshd_banner_mode,
+      owner   => $sshd_banner_owner,
+      group   => $sshd_banner_group,
+      content => $sshd_banner_content,
+      require => Package['ssh_packages'],
+    }
   }
 
   case $manage_root_ssh_config {
