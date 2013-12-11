@@ -44,6 +44,8 @@
 #   Tunnel no
 #   TunnelDevice any:any
 #   PermitLocalCommand no
+#   HashKnownHosts no
+   HashKnownHosts <%= @ssh_config_hash_known_hosts %>
 Host *
   GSSAPIAuthentication yes
 # If this option is set to yes then remote X11 clients will have full access
