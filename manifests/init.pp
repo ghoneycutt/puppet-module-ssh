@@ -63,7 +63,7 @@ class ssh (
       $ssh_config_sendenv_xmodifiers_real = $ssh_config_sendenv_xmodifiers
     }
     default: {
-      fail("ssh_config_sendenv_xmodifiers type must be true or false.")
+      fail('ssh_config_sendenv_xmodifiers type must be true or false.')
     }
   }
 
