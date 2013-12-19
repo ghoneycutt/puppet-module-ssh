@@ -7,6 +7,7 @@ class ssh (
   $permit_root_login                = 'yes',
   $purge_keys                       = 'true',
   $manage_firewall                  = false,
+  $ssh_config_hash_known_hosts      = 'no',
   $ssh_config_path                  = '/etc/ssh/ssh_config',
   $ssh_config_owner                 = 'root',
   $ssh_config_group                 = 'root',
@@ -46,6 +47,7 @@ class ssh (
 ) {
 
   # validate params
+  validate_re($ssh_config_hash_known_hosts, '^(yes|no)$', "ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts}>.")
   validate_re($sshd_config_port, '^\d+$', "sshd_config_port must be a valid number and is set to <${sshd_config_port}>")
   validate_re($sshd_password_authentication, '^(yes|no)$', "sshd_password_authentication may be either 'yes' or 'no' and is set to <${sshd_password_authentication}>.")
   validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to <${sshd_allow_tcp_forwarding}>.")
