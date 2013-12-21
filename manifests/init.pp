@@ -27,6 +27,10 @@ class ssh (
   $sshd_config_print_motd           = 'yes',
   $sshd_config_use_dns              = 'yes',
   $sshd_config_banner               = 'none',
+  $sshd_banner_content              = undef,
+  $sshd_banner_owner                = 'root',
+  $sshd_banner_group                = 'root',
+  $sshd_banner_mode                 = '0644',
   $sshd_config_xauth_location       = '/usr/bin/xauth',
   $sshd_config_subsystem_sftp       = 'USE_DEFAULTS',
   $service_ensure                   = 'running',
@@ -48,12 +52,19 @@ class ssh (
 
   # validate params
   validate_re($ssh_config_hash_known_hosts, '^(yes|no)$', "ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts}>.")
-  validate_re($sshd_config_port, '^\d+$', "sshd_config_port must be a valid number and is set to <${sshd_config_port}>")
-  validate_re($sshd_password_authentication, '^(yes|no)$', "sshd_password_authentication may be either 'yes' or 'no' and is set to <${sshd_password_authentication}>.")
-  validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to <${sshd_allow_tcp_forwarding}>.")
-  validate_re($sshd_x11_forwarding, '^(yes|no)$', "sshd_x11_forwarding may be either 'yes' or 'no' and is set to <${sshd_x11_forwarding}>.")
-  validate_re($sshd_use_pam, '^(yes|no)$', "sshd_use_pam may be either 'yes' or 'no' and is set to <${sshd_use_pam}>.")
-  if is_integer($sshd_client_alive_interval) == false { fail("sshd_client_alive_interval must be an integer and is set to <${sshd_client_alive_interval}>.") }
+  validate_re($sshd_config_port, '^\d+$', "ssh::sshd_config_port must be a valid number and is set to <${sshd_config_port}>.")
+  validate_re($sshd_password_authentication, '^(yes|no)$', "ssh::sshd_password_authentication may be either 'yes' or 'no' and is set to <${sshd_password_authentication}>.")
+  validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "ssh::sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to <${sshd_allow_tcp_forwarding}>.")
+  validate_re($sshd_x11_forwarding, '^(yes|no)$', "ssh::sshd_x11_forwarding may be either 'yes' or 'no' and is set to <${sshd_x11_forwarding}>.")
+  validate_re($sshd_use_pam, '^(yes|no)$', "ssh::sshd_use_pam may be either 'yes' or 'no' and is set to <${sshd_use_pam}>.")
+  if is_integer($sshd_client_alive_interval) == false { fail("ssh::sshd_client_alive_interval must be an integer and is set to <${sshd_client_alive_interval}>.") }
+
+  if $sshd_config_banner != 'none' {
+    validate_absolute_path($sshd_config_banner)
+  }
+  if $sshd_banner_content != undef and $sshd_config_banner == 'none' {
+    fail('ssh::sshd_config_banner must be set to be able to use sshd_banner_content.')
+  }
 
   case type($ssh_config_sendenv_xmodifiers) {
     'string': {
@@ -63,7 +74,7 @@ class ssh (
       $ssh_config_sendenv_xmodifiers_real = $ssh_config_sendenv_xmodifiers
     }
     default: {
-      fail('ssh_config_sendenv_xmodifiers type must be true or false.')
+      fail('ssh::ssh_config_sendenv_xmodifiers type must be true or false.')
     }
   }
 
@@ -72,7 +83,7 @@ class ssh (
       # noop
     }
     default: {
-      fail("permit_root_login may be either 'yes', 'without-password', 'forced-commands-only' or 'no' and is set to <${permit_root_login}>")
+      fail("ssh::permit_root_login may be either 'yes', 'without-password', 'forced-commands-only' or 'no' and is set to <${permit_root_login}>.")
     }
   }
 
@@ -84,7 +95,7 @@ class ssh (
       $key = $::sshdsakey
     }
     default: {
-      fail("ssh_key_type must be 'ssh-rsa', 'rsa', 'ssh-dsa', or 'dsa' and is <${ssh_key_type}>")
+      fail("ssh::ssh_key_type must be 'ssh-rsa', 'rsa', 'ssh-dsa', or 'dsa' and is <${ssh_key_type}>.")
     }
   }
 
@@ -93,7 +104,7 @@ class ssh (
       # noop
     }
     default: {
-      fail("purge_keys must be 'true' or 'false' and is <${purge_keys}>")
+      fail("ssh::purge_keys must be 'true' or 'false' and is <${purge_keys}>.")
     }
   }
 
@@ -173,6 +184,18 @@ class ssh (
     require => Package['ssh_packages'],
   }
 
+  if $sshd_config_banner != 'none' and $sshd_banner_content != undef {
+    file { 'sshd_banner' :
+      ensure  => file,
+      path    => $sshd_config_banner,
+      owner   => $sshd_banner_owner,
+      group   => $sshd_banner_group,
+      mode    => $sshd_banner_mode,
+      content => $sshd_banner_content,
+      require => Package['ssh_packages'],
+    }
+  }
+
   case $manage_root_ssh_config {
     'true': {
 
@@ -202,7 +225,7 @@ class ssh (
       # noop
     }
     default: {
-      fail("manage_root_ssh_config is <${manage_root_ssh_config}> and must be \'true\' or \'false\'.")
+      fail("ssh::manage_root_ssh_config is <${manage_root_ssh_config}> and must be \'true\' or \'false\'.")
     }
   }
 

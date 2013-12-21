@@ -147,6 +147,30 @@ Banner option in sshd_config.
 
 - *Default*: 'none'
 
+sshd_banner_content
+-------------------
+content parameter for file specified in sshd_config_banner
+
+- *Default*: undef
+
+sshd_banner_owner
+-----------------
+owner parameter for file specified in sshd_config_banner
+
+- *Default*: 'root'
+
+sshd_banner_group
+-----------------
+group parameter for file specified in sshd_config_banner
+
+- *Default*: 'root'
+
+sshd_banner_mode
+----------------
+mode parameter for file specified in sshd_config_banner
+
+- *Default*: '0644'
+
 sshd_config_xauth_location
 --------------------------
 XAuthLocation option in sshd_config.

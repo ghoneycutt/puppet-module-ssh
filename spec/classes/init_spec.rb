@@ -9,6 +9,9 @@ describe 'ssh' do
         :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
       }
     end
+
+    it { should compile.with_all_deps }
+
     it { should contain_class('ssh')}
 
     it { should_not contain_class('common')}
@@ -92,6 +95,8 @@ describe 'ssh' do
         :sshrsakey       => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
       }
     end
+    it { should compile.with_all_deps }
+
     it { should contain_class('ssh')}
 
     it { should_not contain_class('common')}
@@ -176,6 +181,9 @@ describe 'ssh' do
         :sshrsakey    => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
       }
     end
+
+    it { should compile.with_all_deps }
+
     it { should contain_class('ssh')}
 
     it { should_not contain_class('common')}
@@ -260,6 +268,9 @@ describe 'ssh' do
         :sshrsakey    => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
       }
     end
+
+    it { should compile.with_all_deps }
+
     it { should contain_class('ssh')}
 
     it { should_not contain_class('common')}
@@ -351,7 +362,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/ssh supports osfamilies RedHat, Suse and Debian. Detected osfamily is <C64>./)
+      }.to raise_error(Puppet::Error,/^ssh supports osfamilies RedHat, Suse and Debian. Detected osfamily is <C64>\./)
     end
   end
 
@@ -372,6 +383,8 @@ describe 'ssh' do
         :ssh_config_sendenv_xmodifiers    => true,
       }
     end
+
+    it { should compile.with_all_deps }
 
     it {
       should contain_file('ssh_config').with({
@@ -411,6 +424,7 @@ describe 'ssh' do
         :sshd_config_print_motd          => 'no',
         :sshd_config_use_dns             => 'no',
         :sshd_config_banner              => '/etc/sshd_banner',
+        :sshd_banner_content             => 'textinbanner',
         :sshd_config_xauth_location      => '/opt/ssh/bin/xauth',
         :sshd_config_subsystem_sftp      => '/opt/ssh/bin/sftp',
         :sshd_password_authentication    => 'no',
@@ -420,6 +434,8 @@ describe 'ssh' do
         :sshd_client_alive_interval      => '242',
       }
     end
+
+    it { should compile.with_all_deps }
 
     it {
       should contain_file('sshd_config').with({
@@ -447,6 +463,18 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding no$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM no$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 242$/) }
+
+    it {
+      should contain_file('sshd_banner').with({
+        'ensure'  => 'file',
+        'path'    => '/etc/sshd_banner',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0644',
+        'content' => 'textinbanner',
+        'require' => 'Package[ssh_packages]',
+      })
+    }
   end
 
   context 'with manage_root_ssh_config set to \'true\' on valid osfamily' do
@@ -461,6 +489,8 @@ describe 'ssh' do
     let :params do
       { :manage_root_ssh_config => 'true' }
     end
+
+    it { should compile.with_all_deps }
 
     it { should contain_class('ssh')}
 
@@ -522,7 +552,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_config_port must be a valid number and is set to <22invalid>./)
+      }.to raise_error(Puppet::Error,/^ssh::sshd_config_port must be a valid number and is set to <22invalid>\./)
     end
   end
 
@@ -542,7 +572,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/manage_root_ssh_config is <invalid> and must be \'true\' or \'false\'./)
+      }.to raise_error(Puppet::Error,/^ssh::manage_root_ssh_config is <invalid> and must be \'true\' or \'false\'\./)
     end
   end
 
@@ -561,7 +591,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_password_authentication may be either \'yes\' or \'no\' and is set to <invalid>./)
+      }.to raise_error(Puppet::Error,/^ssh::sshd_password_authentication may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 
@@ -580,7 +610,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_allow_tcp_forwarding may be either \'yes\' or \'no\' and is set to <invalid>./)
+      }.to raise_error(Puppet::Error,/^ssh::sshd_allow_tcp_forwarding may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 
@@ -599,7 +629,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_x11_forwarding may be either \'yes\' or \'no\' and is set to <invalid>./)
+      }.to raise_error(Puppet::Error,/^ssh::sshd_x11_forwarding may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 
@@ -618,7 +648,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_use_pam may be either \'yes\' or \'no\' and is set to <invalid>./)
+      }.to raise_error(Puppet::Error,/^ssh::sshd_use_pam may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 
@@ -637,9 +667,50 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_client_alive_interval must be an integer and is set to <invalid>./)
+      }.to raise_error(Puppet::Error,/^ssh::sshd_client_alive_interval must be an integer and is set to <invalid>\./)
     end
   end
+
+  context 'with sshd_config_banner set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :sshd_config_banner => 'invalid/path' }
+    end
+
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/is not an absolute path/)
+    end
+  end
+
+  context 'with sshd_banner_content set and with default value on sshd_config_banner on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      {
+        :sshd_banner_content => 'textinbanner'
+      }
+    end
+
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/^ssh::sshd_config_banner must be set to be able to use sshd_banner_content\./)
+    end
+  end
+
 
   context 'with ssh_config_sendenv_xmodifiers set to invalid type, array' do
     let :facts do
@@ -656,7 +727,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/ssh_config_sendenv_xmodifiers type must be true or false./)
+      }.to raise_error(Puppet::Error,/^ssh::ssh_config_sendenv_xmodifiers type must be true or false\./)
     end
   end
 
@@ -674,6 +745,8 @@ describe 'ssh' do
       }
     end
 
+    it { should compile.with_all_deps }
+
     it { should contain_file('ssh_config').with_content(/^  SendEnv XMODIFIERS$/) }
   end
 
@@ -688,6 +761,8 @@ describe 'ssh' do
     let :params do
       { :manage_firewall => true }
     end
+
+    it { should compile.with_all_deps }
 
     it { should contain_class('ssh')}
 
@@ -725,6 +800,8 @@ describe 'ssh' do
         'user'   => 'root',
       }
     } } }
+
+    it { should compile.with_all_deps }
 
     it {
       should contain_ssh_authorized_key('root_for_userX').with({
