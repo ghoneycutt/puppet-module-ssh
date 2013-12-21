@@ -356,7 +356,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/ssh supports osfamilies RedHat, Suse and Debian. Detected osfamily is <C64>./)
+      }.to raise_error(Puppet::Error,/^ssh supports osfamilies RedHat, Suse and Debian. Detected osfamily is <C64>\./)
     end
   end
 
@@ -525,7 +525,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_config_port must be a valid number and is set to <22invalid>./)
+      }.to raise_error(Puppet::Error,/^ssh::sshd_config_port must be a valid number and is set to <22invalid>\./)
     end
   end
 
@@ -545,7 +545,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/manage_root_ssh_config is <invalid> and must be \'true\' or \'false\'./)
+      }.to raise_error(Puppet::Error,/^ssh::manage_root_ssh_config is <invalid> and must be \'true\' or \'false\'\./)
     end
   end
 
@@ -564,7 +564,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_password_authentication may be either \'yes\' or \'no\' and is set to <invalid>./)
+      }.to raise_error(Puppet::Error,/^ssh::sshd_password_authentication may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 
@@ -583,7 +583,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_allow_tcp_forwarding may be either \'yes\' or \'no\' and is set to <invalid>./)
+      }.to raise_error(Puppet::Error,/^ssh::sshd_allow_tcp_forwarding may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 
@@ -602,7 +602,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_x11_forwarding may be either \'yes\' or \'no\' and is set to <invalid>./)
+      }.to raise_error(Puppet::Error,/^ssh::sshd_x11_forwarding may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 
@@ -621,7 +621,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_use_pam may be either \'yes\' or \'no\' and is set to <invalid>./)
+      }.to raise_error(Puppet::Error,/^ssh::sshd_use_pam may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 
@@ -640,7 +640,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_client_alive_interval must be an integer and is set to <invalid>./)
+      }.to raise_error(Puppet::Error,/^ssh::sshd_client_alive_interval must be an integer and is set to <invalid>\./)
     end
   end
 
@@ -680,7 +680,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/sshd_config_banner must be set to be able to use sshd_banner_content/)
+      }.to raise_error(Puppet::Error,/^ssh::sshd_config_banner must be set to be able to use sshd_banner_content\./)
     end
   end
 
@@ -700,7 +700,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/ssh_config_sendenv_xmodifiers type must be true or false./)
+      }.to raise_error(Puppet::Error,/^ssh::ssh_config_sendenv_xmodifiers type must be true or false\./)
     end
   end
 

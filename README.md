@@ -136,25 +136,25 @@ Banner option in sshd_config.
 
 sshd_banner_content
 -------------------
-Banner content in sshd_config_banner
+content parameter for file specified in sshd_config_banner
 
 - *Default*: undef
 
 sshd_banner_owner
 -----------------
-sshd_config_banner owner
+owner parameter for file specified in sshd_config_banner
 
 - *Default*: 'root'
 
 sshd_banner_group
 -----------------
-sshd_config_banner group
+group parameter for file specified in sshd_config_banner
 
 - *Default*: 'root'
 
 sshd_banner_mode
 ----------------
-sshd_config_banner mode
+mode parameter for file specified in sshd_config_banner
 
 - *Default*: '0644'
 
