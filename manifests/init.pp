@@ -7,6 +7,7 @@ class ssh (
   $permit_root_login                = 'yes',
   $purge_keys                       = 'true',
   $manage_firewall                  = false,
+  $ssh_config_hash_known_hosts      = 'no',
   $ssh_config_path                  = '/etc/ssh/ssh_config',
   $ssh_config_owner                 = 'root',
   $ssh_config_group                 = 'root',
@@ -50,6 +51,7 @@ class ssh (
 ) {
 
   # validate params
+  validate_re($ssh_config_hash_known_hosts, '^(yes|no)$', "ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts}>.")
   validate_re($sshd_config_port, '^\d+$', "ssh::sshd_config_port must be a valid number and is set to <${sshd_config_port}>.")
   validate_re($sshd_password_authentication, '^(yes|no)$', "ssh::sshd_password_authentication may be either 'yes' or 'no' and is set to <${sshd_password_authentication}>.")
   validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "ssh::sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to <${sshd_allow_tcp_forwarding}>.")
@@ -61,7 +63,7 @@ class ssh (
     validate_absolute_path($sshd_config_banner)
   }
   if $sshd_banner_content != undef and $sshd_config_banner == 'none' {
-    fail("ssh::sshd_config_banner must be set to be able to use sshd_banner_content.")
+    fail('ssh::sshd_config_banner must be set to be able to use sshd_banner_content.')
   }
 
   case type($ssh_config_sendenv_xmodifiers) {
@@ -72,7 +74,7 @@ class ssh (
       $ssh_config_sendenv_xmodifiers_real = $ssh_config_sendenv_xmodifiers
     }
     default: {
-      fail("ssh::ssh_config_sendenv_xmodifiers type must be true or false.")
+      fail('ssh::ssh_config_sendenv_xmodifiers type must be true or false.')
     }
   }
 
@@ -184,7 +186,7 @@ class ssh (
 
   if $sshd_config_banner != 'none' and $sshd_banner_content != undef {
     file { 'sshd_banner' :
-      ensure => file,
+      ensure  => file,
       path    => $sshd_config_banner,
       owner   => $sshd_banner_owner,
       group   => $sshd_banner_group,

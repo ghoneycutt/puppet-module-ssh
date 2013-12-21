@@ -36,6 +36,7 @@ describe 'ssh' do
 
     it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
     it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
+    it { should contain_file('ssh_config').with_content(/^   HashKnownHosts no$/) }
 
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
@@ -120,6 +121,7 @@ describe 'ssh' do
 
     it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
     it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
+    it { should contain_file('ssh_config').with_content(/^   HashKnownHosts no$/) }
 
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
@@ -179,6 +181,7 @@ describe 'ssh' do
         :sshrsakey    => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
       }
     end
+
     it { should compile.with_all_deps }
 
     it { should contain_class('ssh')}
@@ -205,6 +208,7 @@ describe 'ssh' do
 
     it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
     it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
+    it { should contain_file('ssh_config').with_content(/^   HashKnownHosts no$/) }
 
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
@@ -264,6 +268,7 @@ describe 'ssh' do
         :sshrsakey    => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
       }
     end
+
     it { should compile.with_all_deps }
 
     it { should contain_class('ssh')}
@@ -290,6 +295,7 @@ describe 'ssh' do
 
     it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
     it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
+    it { should contain_file('ssh_config').with_content(/^   HashKnownHosts no$/) }
 
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
@@ -370,6 +376,7 @@ describe 'ssh' do
     end
     let :params do
       {
+        :ssh_config_hash_known_hosts      => 'yes',
         :ssh_config_forward_agent         => 'yes',
         :ssh_config_forward_x11           => 'yes',
         :ssh_config_server_alive_interval => '300',
@@ -392,6 +399,7 @@ describe 'ssh' do
 
     it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
     it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
+    it { should contain_file('ssh_config').with_content(/^   HashKnownHosts yes$/) }
     it { should contain_file('ssh_config').with_content(/^  ForwardAgent yes$/) }
     it { should contain_file('ssh_config').with_content(/^  ForwardX11 yes$/) }
     it { should contain_file('ssh_config').with_content(/^  ServerAliveInterval 300$/) }
@@ -508,6 +516,25 @@ describe 'ssh' do
         'mode'    => '0600',
       })
     }
+  end
+
+  context 'with ssh_config_hash_known_hosts set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :ssh_config_hash_known_hosts => 'invalid' }
+    end
+
+    it 'should fail' do
+      expect {
+        should include_class('ssh')
+      }.to raise_error(Puppet::Error,/ssh_config_hash_known_hosts may be either \'yes\' or \'no\' and is set to <invalid>./)
+    end
   end
 
   context 'with sshd_config_port not being a valid number' do

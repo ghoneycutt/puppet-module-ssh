@@ -20,6 +20,19 @@ This module has been tested to work on the following systems with Puppet v3.
 
 # Parameters #
 
+ssh_config_hash_known_hosts
+---------------------------
+HashKnownHosts in ssh_config.
+Indicates that ssh should hash host names and addresses when they are added to ~/.ssh/known_hosts.
+These hashed names may be used normally by ssh and sshd, but they do not reveal identifying
+information should the file's contents be disclosed.  The default is 'no'.
+
+Note that existing names and addresses in known hosts files will not be converted automatically,
+but may be manually hashed using ssh-keygen. Use of this option may break facilities such as
+tab-completion that rely on being able to read unhashed host names from ~/.ssh/known_hosts.
+
+- *Default*: 'no'
+
 ssh_config_path
 ---------------
 Path to ssh_config.
