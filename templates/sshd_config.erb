@@ -18,7 +18,7 @@ Port <%= @sshd_config_port %>
 #Protocol 2,1
 Protocol 2
 #AddressFamily any
-#ListenAddress 0.0.0.0
+ListenAddress <%= @sshd_config_listenaddress %>
 #ListenAddress ::
 
 # HostKey for protocol version 1

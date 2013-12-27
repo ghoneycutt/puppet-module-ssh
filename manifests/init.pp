@@ -33,6 +33,7 @@ class ssh (
   $sshd_banner_mode                 = '0644',
   $sshd_config_xauth_location       = '/usr/bin/xauth',
   $sshd_config_subsystem_sftp       = 'USE_DEFAULTS',
+  $sshd_config_listenaddress	    = '0.0.0.0',
   $service_ensure                   = 'running',
   $service_name                     = 'USE_DEFAULTS',
   $service_enable                   = 'true',
