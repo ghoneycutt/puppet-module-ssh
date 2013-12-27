@@ -532,7 +532,7 @@ describe 'ssh' do
 
     it 'should fail' do
       expect {
-        should include_class('ssh')
+        should contain_class('ssh')
       }.to raise_error(Puppet::Error,/ssh_config_hash_known_hosts may be either \'yes\' or \'no\' and is set to <invalid>./)
     end
   end
