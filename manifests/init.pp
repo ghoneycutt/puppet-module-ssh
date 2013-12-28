@@ -33,7 +33,7 @@ class ssh (
   $sshd_banner_mode                 = '0644',
   $sshd_config_xauth_location       = '/usr/bin/xauth',
   $sshd_config_subsystem_sftp       = 'USE_DEFAULTS',
-  $sshd_config_listenaddress	    = '0.0.0.0',
+  $sshd_config_listenaddress	    = undef,
   $service_ensure                   = 'running',
   $service_name                     = 'USE_DEFAULTS',
   $service_enable                   = 'true',
@@ -58,6 +58,7 @@ class ssh (
   validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "ssh::sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to <${sshd_allow_tcp_forwarding}>.")
   validate_re($sshd_x11_forwarding, '^(yes|no)$', "ssh::sshd_x11_forwarding may be either 'yes' or 'no' and is set to <${sshd_x11_forwarding}>.")
   validate_re($sshd_use_pam, '^(yes|no)$', "ssh::sshd_use_pam may be either 'yes' or 'no' and is set to <${sshd_use_pam}>.")
+  validate_array($sshd_config_listenaddress)
   if is_integer($sshd_client_alive_interval) == false { fail("ssh::sshd_client_alive_interval must be an integer and is set to <${sshd_client_alive_interval}>.") }
 
   if $sshd_config_banner != 'none' {
