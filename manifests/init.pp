@@ -3,6 +3,7 @@
 # Manage ssh client and server
 #
 class ssh (
+  $hiera_merge                      = false,
   $packages                         = 'USE_DEFAULTS',
   $permit_root_login                = 'yes',
   $purge_keys                       = 'true',
@@ -64,6 +65,19 @@ class ssh (
   }
   if $sshd_banner_content != undef and $sshd_config_banner == 'none' {
     fail('ssh::sshd_config_banner must be set to be able to use sshd_banner_content.')
+  }
+
+  case type($hiera_merge) {
+    'string': {
+      validate_re($hiera_merge, '^(true|false)$', "ssh::hiera_merge may be either 'true' or 'false' and is set to <${hiera_merge}>.")
+      $hiera_merge_real = str2bool($hiera_merge)
+    }
+    'boolean': {
+      $hiera_merge_real = $hiera_merge
+    }
+    default: {
+      fail('ssh::hiera_merge type must be true or false.')
+    }
   }
 
   case type($ssh_config_sendenv_xmodifiers) {
@@ -264,7 +278,13 @@ class ssh (
 
   # manage users' ssh authorized keys if present
   if $keys != undef {
-    validate_hash($keys)
-    create_resources(ssh_authorized_key, $keys)
+    if $hiera_merge_real == true {
+      $keys_real = hiera_hash('ssh::keys')
+    } else {
+      $keys_real = $keys
+      notice('Future versions of the ssh module will default ssh::hiera_merge_real to true')
+    }
+    validate_hash($keys_real)
+    create_resources('ssh_authorized_key', $keys_real)
   }
 }
