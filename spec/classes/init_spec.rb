@@ -842,8 +842,8 @@ describe 'ssh' do
   end
 
   describe 'with hiera_merge parameter specified' do
-    context 'as a non-boolean' do
-      let(:params) { { :hiera_merge => 'not_a_boolean' } }
+    context 'as a non-boolean or non-string' do
+      let(:params) { { :hiera_merge => ['not_a_boolean','or_a_string'] } }
       let(:facts) do
         { :osfamily          => 'RedHat',
           :lsbmajdistrelease => '6',
@@ -852,6 +852,19 @@ describe 'ssh' do
 
       it 'should fail' do
         expect { should raise_error(Puppet::Error) }
+      end
+    end
+
+    context 'as an invalid string' do
+      let(:params) { { :hiera_merge => 'invalid_string' } }
+      let(:facts) do
+        { :osfamily          => 'RedHat',
+          :lsbmajdistrelease => '6',
+        }
+      end
+
+      it 'should fail' do
+        expect { should raise_error(Puppet::Error,/^ssh::hiera_merge may be either 'true' or 'false' and is set to <invalid_string>./) }
       end
     end
 
