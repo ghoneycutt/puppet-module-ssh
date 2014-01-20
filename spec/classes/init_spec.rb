@@ -840,4 +840,49 @@ describe 'ssh' do
       }.to raise_error(Puppet::Error)
     end
   end
+
+  describe 'with hiera_merge parameter specified' do
+    context 'as a non-boolean' do
+      let(:params) { { :hiera_merge => 'not_a_boolean' } }
+      let(:facts) do
+        { :osfamily          => 'RedHat',
+          :lsbmajdistrelease => '6',
+        }
+      end
+
+      it 'should fail' do
+        expect { should raise_error(Puppet::Error) }
+      end
+    end
+
+    ['true',true].each do |value|
+      context "as #{value}" do
+        let(:params) { { :hiera_merge => value } }
+        let(:facts) do
+          { :osfamily          => 'RedHat',
+            :lsbmajdistrelease => '6',
+          }
+        end
+
+        it { should compile.with_all_deps }
+
+        it { should contain_class('ssh') }
+      end
+    end
+
+    ['false',false].each do |value|
+      context "as #{value}" do
+        let(:params) { { :hiera_merge => value } }
+        let(:facts) do
+          { :osfamily          => 'RedHat',
+            :lsbmajdistrelease => '6',
+          }
+        end
+
+        it { should compile.with_all_deps }
+
+        it { should contain_class('ssh') }
+      end
+    end
+  end
 end

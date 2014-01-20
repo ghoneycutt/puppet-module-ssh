@@ -20,6 +20,15 @@ This module has been tested to work on the following systems with Puppet v3.
 
 # Parameters #
 
+hiera_merge
+-----------
+Boolean to merges all found instances of ssh::keys in Hiera. This is useful for specifying
+SSH keys at different levels of the hierarchy and having them all included in the catalog.
+
+This will default to 'true' in future versions.
+
+- *Default*: false
+
 ssh_config_hash_known_hosts
 ---------------------------
 HashKnownHosts in ssh_config.
