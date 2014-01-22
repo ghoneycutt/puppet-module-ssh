@@ -15,6 +15,7 @@ This module has been tested to work on the following systems with Puppet v3.
  * EL 6
  * SLES 11
  * Ubuntu 12.04 LTS
+ * Solaris 10
 
 ===
 
