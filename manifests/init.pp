@@ -49,6 +49,8 @@ class ssh (
   $sshd_x11_forwarding              = 'yes',
   $sshd_use_pam                     = 'yes',
   $sshd_client_alive_interval       = '0',
+  $sshd_config_authorized_keys_file = '.ssh/authorized_keys',
+  $sshd_config_strictmodes          = 'yes',
 ) {
 
   # validate params
