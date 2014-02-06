@@ -16,12 +16,13 @@ describe 'ssh' do
 
     it { should_not contain_class('common')}
 
-    it {
-      should contain_package('ssh_packages').with({
-        'ensure' => 'installed',
-        'name'   => ['openssh-server','openssh-clients'],
-      })
-    }
+    ['openssh-server','openssh-clients'].each do |pkg|
+      it {
+        should contain_package(pkg).with({
+          'ensure' => 'installed',
+        })
+      }
+    end
 
     it {
       should contain_file('ssh_config').with({
@@ -30,7 +31,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
-        'require' => 'Package[ssh_packages]',
+        'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
       })
     }
 
@@ -49,7 +50,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0600',
-        'require' => 'Package[ssh_packages]',
+        'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
       })
     }
 
@@ -101,12 +102,13 @@ describe 'ssh' do
 
     it { should_not contain_class('common')}
 
-    it {
-      should contain_package('ssh_packages').with({
-        'ensure' => 'installed',
-        'name'   => ['openssh-server','openssh-client'],
-      })
-    }
+    ['openssh-server','openssh-client'].each do |pkg|
+      it {
+        should contain_package(pkg).with({
+          'ensure' => 'installed',
+        })
+      }
+    end
 
     it {
       should contain_file('ssh_config').with({
@@ -115,7 +117,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
-        'require' => 'Package[ssh_packages]',
+        'require' => ['Package[openssh-server]', 'Package[openssh-client]'],
       })
     }
 
@@ -134,7 +136,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0600',
-        'require' => 'Package[ssh_packages]',
+        'require' => ['Package[openssh-server]', 'Package[openssh-client]'],
       })
     }
 
@@ -189,9 +191,8 @@ describe 'ssh' do
     it { should_not contain_class('common')}
 
     it {
-      should contain_package('ssh_packages').with({
+      should contain_package('openssh').with({
         'ensure' => 'installed',
-        'name'   => 'openssh',
       })
     }
 
@@ -202,7 +203,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
-        'require' => 'Package[ssh_packages]',
+        'require' => 'Package[openssh]',
       })
     }
 
@@ -221,7 +222,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0600',
-        'require' => 'Package[ssh_packages]',
+        'require' => 'Package[openssh]',
       })
     }
 
@@ -276,9 +277,8 @@ describe 'ssh' do
     it { should_not contain_class('common')}
 
     it {
-      should contain_package('ssh_packages').with({
+      should contain_package('openssh').with({
         'ensure' => 'installed',
-        'name'   => 'openssh',
       })
     }
 
@@ -289,7 +289,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
-        'require' => 'Package[ssh_packages]',
+        'require' => 'Package[openssh]',
       })
     }
 
@@ -308,7 +308,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0600',
-        'require' => 'Package[ssh_packages]',
+        'require' => 'Package[openssh]',
       })
     }
 
@@ -393,7 +393,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
-        'require' => 'Package[ssh_packages]',
+        'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
       })
     }
 
@@ -444,7 +444,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0600',
-        'require' => 'Package[ssh_packages]',
+        'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
       })
     }
 
@@ -472,7 +472,7 @@ describe 'ssh' do
         'group'   => 'root',
         'mode'    => '0644',
         'content' => 'textinbanner',
-        'require' => 'Package[ssh_packages]',
+        'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
       })
     }
   end
