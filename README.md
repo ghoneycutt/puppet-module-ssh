@@ -35,13 +35,13 @@ ssh_config_hash_known_hosts
 HashKnownHosts in ssh_config.
 Indicates that ssh should hash host names and addresses when they are added to ~/.ssh/known_hosts.
 These hashed names may be used normally by ssh and sshd, but they do not reveal identifying
-information should the file's contents be disclosed.  The default is 'no'.
+information should the file's contents be disclosed.  The default is 'no' on Linux OS.
 
 Note that existing names and addresses in known hosts files will not be converted automatically,
 but may be manually hashed using ssh-keygen. Use of this option may break facilities such as
 tab-completion that rely on being able to read unhashed host names from ~/.ssh/known_hosts.
 
-- *Default*: 'no'
+- *Default*: based on OS platform.
 
 ssh_config_path
 ---------------
@@ -87,7 +87,7 @@ ServerAliveInterval option in ssh_config. Not set by default.
 
 ssh_config_sendenv_xmodifiers
 -----------------------
-Boolean to set 'SendEnv XMODIFIERS' in ssh_config.
+Boolean to set 'SendEnv XMODIFIERS' in ssh_config. This option is only valid on Linux OS.
 
 - *Default*: false
 
@@ -111,9 +111,9 @@ sshd_config's group.
 
 sshd_config_mode
 ---------------
-sshd_config's mode.
+sshd_config's mode. The default is '0600' on Linux OS and '0644' on Solaris OS.
 
-- *Default*: '0600'
+- *Default*: based on OS platform.
 
 sshd_config_port
 ---------------------------
@@ -147,9 +147,9 @@ PrintMotd option in sshd_config.
 
 sshd_config_use_dns
 -------------------
-UseDNS option in sshd_config.
+UseDNS option in sshd_config. The default is 'yes' on Linux OS.
 
-- *Default*: 'yes'
+- *Default*: based on OS platform. (Only valid on Linux OS.)
 
 sshd_config_banner
 ------------------
@@ -185,13 +185,13 @@ sshd_config_xauth_location
 --------------------------
 XAuthLocation option in sshd_config.
 
-- *Default*: '/usr/bin/xauth'
+- *Default*: based on OS platform.
 
 sshd_config_subsystem_sftp
 --------------------------
 Path to sftp file transfer subsystem in sshd_config.
 
-- *Default*: '/usr/libexec/openssh/sftp-server'
+- *Default*: based on OS platform.
 
 
 sshd_password_authentication
@@ -211,9 +211,9 @@ Specifies whether TCP forwarding is permitted.
 sshd_x11_forwarding
 -------------------
 X11Forwarding in sshd_config.
-Specifies whether X11 forwarding is permitted.
+Specifies whether X11 forwarding is permitted. Module sets this option to 'yes'. Future release will update the default to be based on OS platform.
 
-- *Default*: 'no'
+- *Default*: 'yes'
 
 sshd_use_pam
 ------------
@@ -221,8 +221,9 @@ UsePam in sshd_config.
 Enables the Pluggable Authentication Module interface. If set to 'yes' this will enable PAM
 authentication using ChallengeResponseAuthentication and PasswordAuthentication in addition
 to PAM account and session module processing for all authentication types.
+This module sets this option to 'yes' on Linux OS and undef on Solaris OS.
 
-- *Default*: 'no'
+- *Default*: based on OS platform. (Valid only on Linux OS)
 
 sshd_client_alive_interval
 --------------------------
@@ -252,6 +253,57 @@ Allow root login. Valid values are 'yes', 'without-password', 'forced-commands-o
 
 - *Default*: yes
 
+ssh_config_forward_x11_trusted
+------------------------------
+ForwardX11Trusted. Determine remote X11 client access to the original X11 display.
+The option is set to 'yes' on Linux OS.
+
+- *Default*: based on OS platform. (Not valid on Solaris OS.)
+
+ssh_package_source
+------------------
+Source to SSH packages.
+
+- *Default*: based on OS platform. (used on Solaris)
+
+ssh_package_adminfile
+---------------------
+Path to admin file for SSH packages.
+
+- *Default*: based on OS platform. (used on Solaris)
+
+sshd_gssapiauthentication
+-------------------------
+GSSAPIAuthentication: Enables/disables GSS-API user authentication.
+
+- *Default*: based on OS platform.
+
+sshd_gssapikeyexchange
+----------------------
+GSSAPIKeyExchange: Enables/disables GSS-API-authenticated key exchanges.
+
+- *Default*: based on OS platform.
+
+sshd_pamauthenticationviakbdint
+-------------------------------
+PAMAuthenticationViaKBDInt: Use PAM via keyboard interactive method for authentication.
+
+- *Default*: based on OS platform. (valid on Solaris OS)
+
+sshd_gssapicleanupcredentials
+-----------------------------
+GSSAPICleanupCredentials: Specifies whether to automatically destroy the user's credentials on logout.
+Default is 'yes' on Linux OS.
+
+- *Default*: based on OS platform. (Only valid on Linux OS)
+
+ssh_acceptenv
+-------------
+Boolean to enable AcceptEnv and SendEnv options for specifying environment variables.
+Default is set to 'true' on Linux OS.
+
+- *Default*: based on OS platform. (Only valid on Linux OS)
+
 purge_keys
 ----------
 Remove keys not managed by puppet.
@@ -260,7 +312,7 @@ Remove keys not managed by puppet.
 
 manage_firewall
 ---------------
-Open firewall for SSH service.
+Open firewall for SSH service. Not used on Solaris OS.
 
 - *Default*: false
 
