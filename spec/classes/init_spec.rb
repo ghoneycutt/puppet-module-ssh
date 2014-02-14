@@ -671,6 +671,7 @@ describe 'ssh' do
     end
   end
  
+
   context 'with sshd_config_authorized_keys_file set to invalid value on valid osfamily' do
     let :facts do
       {
