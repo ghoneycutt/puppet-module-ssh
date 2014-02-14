@@ -317,6 +317,17 @@ Content of root's ~/.ssh/config.
 
 - *Default*: "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
 
+sshd_config_authorized_keys_file
+--------------------------------
+Manage the path of file that contains the public keys that can be used for user authentication, Valid value is absolute path
+
+- *Default*: '.ssh/authorized_keys'
+
+sshd_config_strictmodes
+----------------------
+Specifies whether sshd should check file modes and ownership of the user's files and home directory before accepting login, Valid values are 'yes' and 'no'
+- *Default*: 'yes'
+
 
 ===
 # Manage user's ssh_authorized_keys
