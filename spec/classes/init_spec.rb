@@ -670,7 +670,6 @@ describe 'ssh' do
       }.to raise_error(Puppet::Error,/^ssh::sshd_client_alive_interval must be an integer and is set to <invalid>\./)
     end
   end
- 
 
   context 'with sshd_config_authorized_keys_file set to invalid value on valid osfamily' do
     let :facts do
