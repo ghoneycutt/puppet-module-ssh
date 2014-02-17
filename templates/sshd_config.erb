@@ -30,7 +30,7 @@ Protocol 2
 # Lifetime and size of ephemeral version 1 server key
 #KeyRegenerationInterval 1h
 #ServerKeyBits 1024
-
+ServerKeyBits <%= @sshd_config_serverkeybits %>
 # Logging
 # obsoletes QuietMode and FascistLogging
 #SyslogFacility AUTH
@@ -44,12 +44,13 @@ LoginGraceTime <%= @sshd_config_login_grace_time %>
 #PermitRootLogin yes
 PermitRootLogin <%= @permit_root_login %>
 #StrictModes yes
+StrictModes <%= @sshd_config_strictmodes %>
 #MaxAuthTries 6
 
 #RSAAuthentication yes
 #PubkeyAuthentication yes
 #AuthorizedKeysFile .ssh/authorized_keys
-
+AuthorizedKeysFile <%= @sshd_config_authorized_keys_file %>
 # For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
 #RhostsRSAAuthentication no
 # similar for protocol version 2

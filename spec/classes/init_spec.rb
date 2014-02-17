@@ -69,6 +69,9 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
+    it { should contain_file('sshd_config').with_content(/^StrictModes yes$/) }
+    it { should contain_file('sshd_config').with_content(/^AuthorizedKeysFile \.ssh\/authorized_keys$/) }
+    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -155,6 +158,9 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
+    it { should contain_file('sshd_config').with_content(/^StrictModes yes$/) }
+    it { should contain_file('sshd_config').with_content(/^AuthorizedKeysFile \.ssh\/authorized_keys$/) }
+    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -241,6 +247,9 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
+    it { should contain_file('sshd_config').with_content(/^StrictModes yes$/) }
+    it { should contain_file('sshd_config').with_content(/^AuthorizedKeysFile \.ssh\/authorized_keys$/) }
+    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -327,6 +336,9 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
+    it { should contain_file('sshd_config').with_content(/^StrictModes yes$/) }
+    it { should contain_file('sshd_config').with_content(/^AuthorizedKeysFile \.ssh\/authorized_keys$/) }
+    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -381,6 +393,7 @@ describe 'ssh' do
         :ssh_config_forward_x11           => 'yes',
         :ssh_config_server_alive_interval => '300',
         :ssh_config_sendenv_xmodifiers    => true,
+        :sshd_config_serverkeybits        => '2048',
       }
     end
 
@@ -404,6 +417,7 @@ describe 'ssh' do
     it { should contain_file('ssh_config').with_content(/^  ForwardX11 yes$/) }
     it { should contain_file('ssh_config').with_content(/^  ServerAliveInterval 300$/) }
     it { should contain_file('ssh_config').with_content(/^  SendEnv XMODIFIERS$/) }
+    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 2048$/) }
   end
 
   context 'with params used in sshd_config set on valid osfamily' do
@@ -432,6 +446,9 @@ describe 'ssh' do
         :sshd_x11_forwarding             => 'no',
         :sshd_use_pam                    => 'no',
         :sshd_client_alive_interval      => '242',
+        :sshd_config_strictmodes          => 'no',
+        :sshd_config_authorized_keys_file => '.ssh/authorized_keys',
+        :sshd_config_serverkeybits        => '768',
       }
     end
 
@@ -463,6 +480,9 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding no$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM no$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 242$/) }
+    it { should contain_file('sshd_config').with_content(/^StrictModes no$/) }
+    it { should contain_file('sshd_config').with_content(/^AuthorizedKeysFile \.ssh\/authorized_keys$/) }
+    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
 
     it {
       should contain_file('sshd_banner').with({
@@ -670,7 +690,64 @@ describe 'ssh' do
       }.to raise_error(Puppet::Error,/^ssh::sshd_client_alive_interval must be an integer and is set to <invalid>\./)
     end
   end
+  
+  context 'with sshd_config_authorized_keys_file set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :sshd_config_authorized_keys_file => 'invalid/path' }
+    end
 
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/is not an absolute path/)
+    end
+  end
+  
+  context 'with sshd_config_strictmodes set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :sshd_config_strictmodes => 'invalid' }
+    end
+
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/^ssh::sshd_config_strictmodes may be either \'yes\' or \'no\' and is set to <invalid>\./)
+    end
+  end
+
+  context 'with sshd_config_serverkeybits set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :sshd_config_serverkeybits => 'invalid' }
+    end
+
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/^ssh::sshd_config_serverkeybits must be an integer and is set to <invalid>\./)
+    end
+  end
+  
   context 'with sshd_config_banner set to invalid value on valid osfamily' do
     let :facts do
       {
