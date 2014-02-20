@@ -281,7 +281,7 @@ class ssh (
     require => Package[$packages_real],
   }
 
-  if $ssh_key_import_real == 'true' {
+  if $ssh_key_import_real == true {
     # import all nodes' ssh keys
     Sshkey <<||>>
   }
