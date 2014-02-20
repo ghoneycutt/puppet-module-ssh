@@ -40,6 +40,7 @@ class ssh (
   $service_hasrestart               = 'true',
   $service_hasstatus                = 'true',
   $ssh_key_ensure                   = 'present',
+  $ssh_key_import                   = 'true',
   $ssh_key_type                     = 'ssh-rsa',
   $keys                             = undef,
   $manage_root_ssh_config           = 'false',
@@ -77,6 +78,19 @@ class ssh (
     }
     default: {
       fail('ssh::hiera_merge type must be true or false.')
+    }
+  }
+
+  case type($ssh_key_import) {
+    'string': {
+      validate_re($ssh_key_import, '^(true|false)$', "ssh::ssh_key_import may be either 'true' or 'false' and is set to <${ssh_key_import}>.")
+      $ssh_key_import_real = str2bool($ssh_key_import)
+    }
+    'boolean': {
+      $ssh_key_import_real = $ssh_key_import
+    }
+    default: {
+      fail('ssh::ssh_key_import type must be true or false.')
     }
   }
 
@@ -267,8 +281,10 @@ class ssh (
     require => Package[$packages_real],
   }
 
-  # import all nodes' ssh keys
-  Sshkey <<||>>
+  if $ssh_key_import_real == true {
+    # import all nodes' ssh keys
+    Sshkey <<||>>
+  }
 
   # remove ssh key's not managed by puppet
   resources  { 'sshkey':
