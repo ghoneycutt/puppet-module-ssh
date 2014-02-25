@@ -127,14 +127,15 @@ describe 'ssh' do
     it { should_not include_class('common')}
 
 
-    it {
-      should contain_package('ssh_packages').with({
-        'ensure' => 'installed',
-        'name'   => ['SUNWsshcu','SUNWsshdr','SUNWsshdu','SUNWsshr','SUNWsshu'],
-        'source' => '/var/spool/pkg',
-        'adminfile' => nil,
-      })
-    }
+    ['SUNWsshcu','SUNWsshdr','SUNWsshdu','SUNWsshr','SUNWsshu'].each do |pkg|
+      it {
+        should contain_package(pkg).with({
+          'ensure' => 'installed',
+          'source' => '/var/spool/pkg',
+          'adminfile' => nil,
+        })
+      }
+    end
 
     it {
       should contain_file('ssh_config').with({
@@ -143,7 +144,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
-        'require' => 'Package[ssh_packages]',
+        'require' => [ 'Package[SUNWsshcu]', 'Package[SUNWsshdr]', 'Package[SUNWsshdu]', 'Package[SUNWsshr]', 'Package[SUNWsshu]' ],
       })
     }
 
@@ -163,7 +164,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
-        'require' => 'Package[ssh_packages]',
+        'require' => [ 'Package[SUNWsshcu]', 'Package[SUNWsshdr]', 'Package[SUNWsshdu]', 'Package[SUNWsshr]', 'Package[SUNWsshu]' ],
       })
     }
 
@@ -214,15 +215,15 @@ describe 'ssh' do
 
     it { should_not include_class('common')}
 
-
-    it {
-      should contain_package('ssh_packages').with({
-        'ensure' => 'installed',
-        'name'   => ['SUNWsshcu','SUNWsshdr','SUNWsshdu','SUNWsshr','SUNWsshu'],
-        'source' => '/var/spool/pkg',
-        'adminfile' => nil,
-      })
-    }
+    ['SUNWsshcu','SUNWsshdr','SUNWsshdu','SUNWsshr','SUNWsshu'].each do |pkg|
+      it {
+        should contain_package(pkg).with({
+          'ensure' => 'installed',
+          'source' => '/var/spool/pkg',
+          'adminfile' => nil,
+        })
+      }
+    end
 
     it {
       should contain_file('ssh_config').with({
@@ -231,7 +232,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
-        'require' => 'Package[ssh_packages]',
+        'require' => [ 'Package[SUNWsshcu]', 'Package[SUNWsshdr]', 'Package[SUNWsshdu]', 'Package[SUNWsshr]', 'Package[SUNWsshu]' ],
       })
     }
 
@@ -251,7 +252,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
-        'require' => 'Package[ssh_packages]',
+        'require' => [ 'Package[SUNWsshcu]', 'Package[SUNWsshdr]', 'Package[SUNWsshdu]', 'Package[SUNWsshr]', 'Package[SUNWsshu]' ],
       })
     }
 
@@ -299,16 +300,18 @@ describe 'ssh' do
     end
 
     it { should include_class('ssh')}
+
     it { should_not include_class('common')}
 
-    it {
-      should contain_package('ssh_packages').with({
-        'ensure' => 'installed',
-        'name'   => ['SUNWsshcu','SUNWsshdr','SUNWsshdu','SUNWsshr','SUNWsshu'],
-        'source' => '/var/spool/pkg',
-        'adminfile' => nil,
-      })
-    }
+    ['SUNWsshcu','SUNWsshdr','SUNWsshdu','SUNWsshr','SUNWsshu'].each do |pkg|
+      it {
+        should contain_package(pkg).with({
+          'ensure' => 'installed',
+          'source' => '/var/spool/pkg',
+          'adminfile' => nil,
+        })
+      }
+    end
 
     it {
       should contain_file('ssh_config').with({
@@ -317,7 +320,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
-        'require' => 'Package[ssh_packages]',
+        'require' => [ 'Package[SUNWsshcu]', 'Package[SUNWsshdr]', 'Package[SUNWsshdu]', 'Package[SUNWsshr]', 'Package[SUNWsshu]' ],
       })
     }
 
@@ -337,7 +340,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
-        'require' => 'Package[ssh_packages]',
+        'require' => [ 'Package[SUNWsshcu]', 'Package[SUNWsshdr]', 'Package[SUNWsshdu]', 'Package[SUNWsshr]', 'Package[SUNWsshu]' ],
       })
     }
 
