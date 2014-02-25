@@ -346,9 +346,59 @@ class ssh (
     }
   }
 
-  package { 'ssh_packages':
+  case $::osfamily {
+    'RedHat': {
+      $default_packages                   = ['openssh-server',
+                                              'openssh-clients']
+      $default_sshd_config_subsystem_sftp = '/usr/libexec/openssh/sftp-server'
+      $default_service_name               = 'sshd'
+    }
+    'Suse': {
+      $default_packages     = 'openssh'
+      $default_service_name = 'sshd'
+      case $::architecture {
+        'x86_64': {
+          $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
+        }
+        'i386' : {
+          $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
+      }
+        default: {
+          fail("ssh supports architectures x86_64 and i386 for Suse. Detected architecture is <${::architecture}>.")
+        }
+      }
+    }
+    'Debian': {
+      $default_packages                   = [ 'openssh-server',
+                                              'openssh-client']
+      $default_sshd_config_subsystem_sftp = '/usr/lib/openssh/sftp-server'
+      $default_service_name               = 'ssh'
+    }
+    default: {
+      fail("ssh supports osfamilies RedHat, Suse and Debian. Detected osfamily is <${::osfamily}>.")
+    }
+  }
+
+  if $packages == 'USE_DEFAULTS' {
+    $packages_real = $default_packages
+  } else {
+    $packages_real = $packages
+  }
+
+  if $service_name == 'USE_DEFAULTS' {
+    $service_name_real = $default_service_name
+  } else {
+    $service_name_real = $service_name
+  }
+
+  if $sshd_config_subsystem_sftp == 'USE_DEFAULTS' {
+    $sshd_config_subsystem_sftp_real = $default_sshd_config_subsystem_sftp
+  } else {
+    $sshd_config_subsystem_sftp_real = $sshd_config_subsystem_sftp
+  }
+
+  package { $packages_real:
     ensure    => installed,
-    name      => $packages_real,
     source    => $ssh_package_source_real,
     adminfile => $ssh_package_adminfile_real,
   }
@@ -360,7 +410,7 @@ class ssh (
     group   => $ssh_config_group,
     mode    => $ssh_config_mode,
     content => template('ssh/ssh_config.erb'),
-    require => Package['ssh_packages'],
+    require => Package[$packages_real],
   }
 
   file  { 'sshd_config' :
@@ -370,7 +420,7 @@ class ssh (
     owner   => $sshd_config_owner,
     group   => $sshd_config_group,
     content => template('ssh/sshd_config.erb'),
-    require => Package['ssh_packages'],
+    require => Package[$packages_real],
   }
 
   if $sshd_config_banner != 'none' and $sshd_banner_content != undef {
@@ -381,7 +431,7 @@ class ssh (
       group   => $sshd_banner_group,
       mode    => $sshd_banner_mode,
       content => $sshd_banner_content,
-      require => Package['ssh_packages'],
+      require => Package[$packages_real],
     }
   }
 
@@ -440,7 +490,7 @@ class ssh (
     ensure  => $ssh_key_ensure,
     type    => $ssh_key_type,
     key     => $key,
-    require => Package['ssh_packages'],
+    require => Package[$packages_real],
   }
 
   # import all nodes' ssh keys
