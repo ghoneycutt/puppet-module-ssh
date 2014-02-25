@@ -8,6 +8,8 @@ class ssh (
   $permit_root_login                = 'yes',
   $purge_keys                       = 'true',
   $manage_firewall                  = false,
+  $ssh_package_source               = 'USE_DEFAULTS',
+  $ssh_package_adminfile            = 'USE_DEFAULTS',
   $ssh_config_hash_known_hosts      = 'USE_DEFAULTS',
   $ssh_config_path                  = '/etc/ssh/ssh_config',
   $ssh_config_owner                 = 'root',
@@ -18,6 +20,7 @@ class ssh (
   $ssh_config_forward_agent         = undef,
   $ssh_config_server_alive_interval = undef,
   $ssh_config_sendenv_xmodifiers    = false,
+  $ssh_sendenv                      = 'USE_DEFAULTS',
   $sshd_config_path                 = '/etc/ssh/sshd_config',
   $sshd_config_owner                = 'root',
   $sshd_config_group                = 'root',
@@ -35,6 +38,16 @@ class ssh (
   $sshd_banner_mode                 = '0644',
   $sshd_config_xauth_location       = 'USE_DEFAULTS',
   $sshd_config_subsystem_sftp       = 'USE_DEFAULTS',
+  $sshd_password_authentication     = 'yes',
+  $sshd_allow_tcp_forwarding        = 'yes',
+  $sshd_x11_forwarding              = 'yes',
+  $sshd_use_pam                     = 'USE_DEFAULTS',
+  $sshd_client_alive_interval       = '0',
+  $sshd_gssapiauthentication        = 'yes',
+  $sshd_gssapikeyexchange           = 'USE_DEFAULTS',
+  $sshd_pamauthenticationviakbdint  = 'USE_DEFAULTS',
+  $sshd_gssapicleanupcredentials    = 'USE_DEFAULTS',
+  $sshd_acceptenv                   = 'USE_DEFAULTS',
   $service_ensure                   = 'running',
   $service_name                     = 'USE_DEFAULTS',
   $service_enable                   = 'true',
@@ -45,54 +58,44 @@ class ssh (
   $keys                             = undef,
   $manage_root_ssh_config           = 'false',
   $root_ssh_config_content          = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
-  $sshd_password_authentication     = 'yes',
-  $sshd_allow_tcp_forwarding        = 'yes',
-  $sshd_x11_forwarding              = 'yes',
-  $sshd_use_pam                     = 'USE_DEFAULTS',
-  $sshd_client_alive_interval       = '0',
-  $ssh_package_source               = 'USE_DEFAULTS',
-  $ssh_package_adminfile            = 'USE_DEFAULTS',
-  $sshd_gssapiauthentication        = 'yes',
-  $sshd_gssapikeyexchange           = 'USE_DEFAULTS',
-  $sshd_pamauthenticationviakbdint  = 'USE_DEFAULTS',
-  $sshd_gssapicleanupcredentials    = 'USE_DEFAULTS',
-  $ssh_acceptenv                    = 'USE_DEFAULTS',
 ) {
 
   case $::osfamily {
     'RedHat': {
       $default_packages                        = ['openssh-server',
                                                   'openssh-clients']
-      $default_sshd_config_subsystem_sftp      = '/usr/libexec/openssh/sftp-server'
-      $default_ssh_config_hash_known_hosts     = 'no'
       $default_service_name                    = 'sshd'
+      $default_ssh_config_hash_known_hosts     = 'no'
       $default_ssh_config_forward_x11_trusted  = 'yes'
+      $default_ssh_package_source              = undef
+      $default_ssh_package_adminfile           = undef
+      $default_ssh_sendenv                     = true
+      $default_sshd_config_subsystem_sftp      = '/usr/libexec/openssh/sftp-server'
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
       $default_sshd_config_xauth_location      = '/usr/bin/xauth'
       $default_sshd_use_pam                    = 'yes'
-      $default_ssh_package_source              = undef
-      $default_ssh_package_adminfile           = undef
       $default_sshd_gssapikeyexchange          = undef
       $default_sshd_pamauthenticationviakbdint = undef
       $default_sshd_gssapicleanupcredentials   = 'yes'
-      $default_ssh_acceptenv                   = true
+      $default_sshd_acceptenv                   = true
     }
     'Suse': {
       $default_packages                        = 'openssh'
-      $default_ssh_config_hash_known_hosts     = 'no'
       $default_service_name                    = 'sshd'
+      $default_ssh_config_hash_known_hosts     = 'no'
+      $default_ssh_package_source              = undef
+      $default_ssh_package_adminfile           = undef
+      $default_ssh_sendenv                     = true
       $default_ssh_config_forward_x11_trusted  = 'yes'
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
       $default_sshd_config_xauth_location      = '/usr/bin/xauth'
       $default_sshd_use_pam                    = 'yes'
-      $default_ssh_package_source              = undef
-      $default_ssh_package_adminfile           = undef
       $default_sshd_gssapikeyexchange          = undef
       $default_sshd_pamauthenticationviakbdint = undef
       $default_sshd_gssapicleanupcredentials   = 'yes'
-      $default_ssh_acceptenv                   = true
+      $default_sshd_acceptenv                  = true
       case $::architecture {
         'x86_64': {
           $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
@@ -108,20 +111,21 @@ class ssh (
     'Debian': {
       $default_packages                        = ['openssh-server',
                                                   'openssh-client']
-      $default_ssh_config_hash_known_hosts     = 'no'
-      $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
       $default_service_name                    = 'ssh'
       $default_ssh_config_forward_x11_trusted  = 'yes'
+      $default_ssh_config_hash_known_hosts     = 'no'
+      $default_ssh_package_source              = undef
+      $default_ssh_package_adminfile           = undef
+      $default_ssh_sendenv                     = true
+      $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
       $default_sshd_config_xauth_location      = '/usr/bin/xauth'
       $default_sshd_use_pam                    = 'yes'
-      $default_ssh_package_source              = undef
-      $default_ssh_package_adminfile           = undef
       $default_sshd_gssapikeyexchange          = undef
       $default_sshd_pamauthenticationviakbdint = undef
       $default_sshd_gssapicleanupcredentials   = 'yes'
-      $default_ssh_acceptenv                   = true
+      $default_sshd_acceptenv                  = true
     }
     'Solaris': {
       $default_packages                        = ['SUNWsshcu',
@@ -130,25 +134,26 @@ class ssh (
                                                   'SUNWsshr',
                                                   'SUNWsshu']
       $default_ssh_config_hash_known_hosts     = undef
-      $default_sshd_config_subsystem_sftp      = '/usr/lib/ssh/sftp-server'
+      $default_ssh_package_source              = '/var/spool/pkg'
+      $default_ssh_package_adminfile           = undef
+      $default_ssh_sendenv                     = false
       $default_ssh_config_forward_x11_trusted  = undef
+      $default_sshd_config_subsystem_sftp      = '/usr/lib/ssh/sftp-server'
       $default_sshd_config_mode                = '0644'
       $default_sshd_config_use_dns             = undef
       $default_sshd_config_xauth_location      = '/usr/openwin/bin/xauth'
       $default_sshd_use_pam                    = undef
-      $default_ssh_package_source              = '/var/spool/pkg'
-      $default_ssh_package_adminfile           = undef
       $default_sshd_gssapikeyexchange          = 'yes'
       $default_sshd_pamauthenticationviakbdint = 'yes'
       $default_sshd_gssapicleanupcredentials   = undef
-      $default_ssh_acceptenv                   = false
+      $default_sshd_acceptenv                  = false
       case $::kernelrelease {
         '5.10','5.11': {
-          $default_service_name                = 'ssh'
+          $default_service_name = 'ssh'
         }
         '5.9' : {
-          $default_service_name                = 'sshd'
-      }
+          $default_service_name = 'sshd'
+        }
         default: {
           fail('ssh module supports Solaris kernel release 5.9, 5.10 and 5.11.')
         }
@@ -207,6 +212,10 @@ class ssh (
     $ssh_package_adminfile_real = $ssh_package_adminfile
   }
 
+  if $ssh_package_adminfile_real != undef {
+    validate_absolute_path($ssh_package_adminfile_real)
+  }
+
   if $sshd_config_use_dns == 'USE_DEFAULTS' {
     $sshd_config_use_dns_real = $default_sshd_config_use_dns
   } else {
@@ -223,6 +232,9 @@ class ssh (
     $ssh_config_forward_x11_trusted_real = $default_ssh_config_forward_x11_trusted
   } else {
     $ssh_config_forward_x11_trusted_real = $ssh_config_forward_x11_trusted
+  }
+  if $ssh_config_forward_x11_trusted_real != undef {
+    validate_re($ssh_config_forward_x11_trusted_real, '^(yes|no)$', "ssh::ssh_config_forward_x11_trusted may be either 'yes' or 'no' and is set to <${ssh_config_forward_x11_trusted_real}>.")
   }
 
   if $sshd_gssapikeyexchange == 'USE_DEFAULTS' {
@@ -243,33 +255,50 @@ class ssh (
     $sshd_gssapicleanupcredentials_real = $sshd_gssapicleanupcredentials
   }
 
-  if $ssh_acceptenv == 'USE_DEFAULTS' {
-    $ssh_acceptenv_real = $default_ssh_acceptenv
+  if $ssh_sendenv == 'USE_DEFAULTS' {
+    $ssh_sendenv_real = $default_ssh_sendenv
   } else {
-    case type($ssh_acceptenv) {
+    case type($ssh_sendenv) {
       'string': {
-        validate_re($ssh_acceptenv, '^(true|false)$', "ssh::ssh_acceptenv may be either 'true' or 'false' and is set to <${ssh_acceptenv}>.")
-    $ssh_acceptenv_real = str2bool($ssh_acceptenv)
+        validate_re($ssh_sendenv, '^(true|false)$', "ssh::ssh_sendenv may be either 'true' or 'false' and is set to <${ssh_sendenv}>.")
+        $ssh_sendenv_real = str2bool($ssh_sendenv)
       }
       'boolean': {
-        $ssh_acceptenv_real = $ssh_acceptenv
+        $ssh_sendenv_real = $ssh_sendenv
       }
       default: {
-        fail('ssh::ssh_acceptenv type must be true or false.')
+        fail('ssh::ssh_sendenv type must be true or false.')
+      }
+    }
+  }
+
+  if $sshd_acceptenv == 'USE_DEFAULTS' {
+    $sshd_acceptenv_real = $default_sshd_acceptenv
+  } else {
+    case type($sshd_acceptenv) {
+      'string': {
+        validate_re($sshd_acceptenv, '^(true|false)$', "ssh::sshd_acceptenv may be either 'true' or 'false' and is set to <${sshd_acceptenv}>.")
+        $sshd_acceptenv_real = str2bool($sshd_acceptenv)
+      }
+      'boolean': {
+        $sshd_acceptenv_real = $sshd_acceptenv
+      }
+      default: {
+        fail('ssh::sshd_acceptenv type must be true or false.')
       }
     }
   }
 
   # validate params
   if $ssh_config_hash_known_hosts_real != undef {
-  validate_re($ssh_config_hash_known_hosts_real, '^(yes|no)$', "ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts_real}>.")
+    validate_re($ssh_config_hash_known_hosts_real, '^(yes|no)$', "ssh::ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts_real}>.")
   }
   validate_re($sshd_config_port, '^\d+$', "ssh::sshd_config_port must be a valid number and is set to <${sshd_config_port}>.")
   validate_re($sshd_password_authentication, '^(yes|no)$', "ssh::sshd_password_authentication may be either 'yes' or 'no' and is set to <${sshd_password_authentication}>.")
   validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "ssh::sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to <${sshd_allow_tcp_forwarding}>.")
   validate_re($sshd_x11_forwarding, '^(yes|no)$', "ssh::sshd_x11_forwarding may be either 'yes' or 'no' and is set to <${sshd_x11_forwarding}>.")
   if $sshd_use_pam_real != undef {
-  validate_re($sshd_use_pam_real, '^(yes|no)$', "ssh::sshd_use_pam may be either 'yes' or 'no' and is set to <${sshd_use_pam_real}>.")
+    validate_re($sshd_use_pam_real, '^(yes|no)$', "ssh::sshd_use_pam may be either 'yes' or 'no' and is set to <${sshd_use_pam_real}>.")
   }
   if is_integer($sshd_client_alive_interval) == false { fail("ssh::sshd_client_alive_interval must be an integer and is set to <${sshd_client_alive_interval}>.") }
 
@@ -281,14 +310,17 @@ class ssh (
   }
 
   validate_re($sshd_gssapiauthentication, '^(yes|no)$', "ssh::sshd_gssapiauthentication may be either 'yes' or 'no' and is set to <${sshd_gssapiauthentication}>.")
+
   if $sshd_gssapikeyexchange_real != undef {
-  validate_re($sshd_gssapikeyexchange_real, '^(yes|no)$', "ssh::sshd_gssapikeyexchange may be either 'yes' or 'no' and is set to <${sshd_gssapikeyexchange_real}>.")
+    validate_re($sshd_gssapikeyexchange_real, '^(yes|no)$', "ssh::sshd_gssapikeyexchange may be either 'yes' or 'no' and is set to <${sshd_gssapikeyexchange_real}>.")
   }
+
   if $sshd_pamauthenticationviakbdint_real != undef {
-  validate_re($sshd_pamauthenticationviakbdint_real, '^(yes|no)$', "ssh::sshd_pamauthenticationviakbdint may be either 'yes' or 'no' and is set to <${sshd_pamauthenticationviakbdint_real}>.")
+    validate_re($sshd_pamauthenticationviakbdint_real, '^(yes|no)$', "ssh::sshd_pamauthenticationviakbdint may be either 'yes' or 'no' and is set to <${sshd_pamauthenticationviakbdint_real}>.")
   }
+
   if $sshd_gssapicleanupcredentials_real != undef {
-  validate_re($sshd_gssapicleanupcredentials_real, '^(yes|no)$', "ssh::sshd_gssapicleanupcredentials may be either 'yes' or 'no' and is set to <${sshd_gssapicleanupcredentials_real}>.")
+    validate_re($sshd_gssapicleanupcredentials_real, '^(yes|no)$', "ssh::sshd_gssapicleanupcredentials may be either 'yes' or 'no' and is set to <${sshd_gssapicleanupcredentials_real}>.")
   }
 
   case type($hiera_merge) {

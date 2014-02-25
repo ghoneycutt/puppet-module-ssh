@@ -65,11 +65,11 @@ PermitRootLogin <%= @permit_root_login %>
 PasswordAuthentication <%= @sshd_password_authentication %>
 <% if @sshd_pamauthenticationviakbdint_real != nil -%>
 # Use PAM via keyboard interactive method for authentication.
-# # Depending on the setup of pam.conf(4) this may allow tunneled clear text
-# # passwords even when PasswordAuthentication is set to no. This is dependent
-# # on what the individual modules request and is out of the control of sshd
-# # or the protocol.
-PAMAuthenticationViaKBDInt yes
+# Depending on the setup of pam.conf(4) this may allow tunneled clear text
+# passwords even when PasswordAuthentication is set to no. This is dependent
+# on what the individual modules request and is out of the control of sshd
+# or the protocol.
+PAMAuthenticationViaKBDInt <%= @sshd_pamauthenticationviakbdint_real %>
 <% end -%>
 #PermitEmptyPasswords no
 
@@ -107,7 +107,7 @@ GSSAPICleanupCredentials <%= @sshd_gssapicleanupcredentials_real %>
 UsePAM <%= @sshd_use_pam_real %>
 <% end -%>
 
-<% if @ssh_acceptenv_real == true -%>
+<% if @sshd_acceptenv_real == true -%>
 # Accept locale-related environment variables
 AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
 AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
