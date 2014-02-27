@@ -20,6 +20,11 @@ Protocol 2
 #AddressFamily any
 #ListenAddress 0.0.0.0
 #ListenAddress ::
+<% if @sshd_config_listenaddress %>
+<% @sshd_config_listenaddress.each do |ip| -%>
+ListenAddress <%= ip %>
+<% end -%>
+<% end %>
 
 # HostKey for protocol version 1
 #HostKey /etc/ssh/ssh_host_key
