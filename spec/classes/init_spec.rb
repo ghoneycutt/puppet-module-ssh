@@ -1665,4 +1665,57 @@ describe 'ssh' do
       end
     end
   end
+
+  describe 'with parameter service_hasstatus' do
+    ['true',true,'false',false].each do |value|
+      context "specified as #{value}" do
+        let(:params) { { :service_hasstatus => value } }
+        let(:facts) do
+          { :fqdn      => 'monkey.example.com',
+            :osfamily  => 'RedHat',
+            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+          }
+        end
+
+        it {
+          should contain_service('sshd_service').with({
+            'ensure'     => 'running',
+            'name'       => 'sshd',
+            'enable'     => 'true',
+            'hasrestart' => 'true',
+            'hasstatus'  => value,
+            'subscribe'  => 'File[sshd_config]',
+          })
+        }
+      end
+    end
+
+    context 'specified as an invalid string' do
+      let(:params) { { :service_hasstatus => 'invalid' } }
+      let(:facts) do
+        { :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it 'should fail' do
+        expect { should raise_error(Puppet::Error,/^ssh::service_hasstatus must be 'true' or 'false' and is set to <invalid>./) }
+      end
+    end
+
+    context 'specified as an invalid type' do
+      let(:params) { { :service_hasstatus => ['invalid','type'] } }
+      let(:facts) do
+        { :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it 'should fail' do
+        expect { should raise_error(Puppet::Error,/^ssh::service_hasstatus must be true or false./) }
+      end
+    end
+  end
 end

@@ -299,14 +299,14 @@ class ssh (
   } else {
     case type($service_hasstatus) {
       'string': {
-        validate_re($service_hasstatus, '^(true|false)$', "ssh::service_hasstatus may be either 'true' or 'false' and is set to <${service_hasstatus}>.")
+        validate_re($service_hasstatus, '^(true|false)$', "ssh::service_hasstatus must be 'true' or 'false' and is set to <${service_hasstatus}>.")
         $service_hasstatus_real = str2bool($service_hasstatus)
       }
       'boolean': {
         $service_hasstatus_real = $service_hasstatus
       }
       default: {
-        fail('ssh::service_hasstatus type must be true or false.')
+        fail('ssh::service_hasstatus must be true or false.')
       }
     }
   }
