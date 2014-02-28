@@ -346,9 +346,9 @@ Specify that the init script has a restart command. Valid values are 'true' and 
 
 service_hasstatus
 -----------------
-Declare whether the service's init script has a functional status command. Valid values are 'true' and 'false'
+Boolean to declare whether the service's init script has a functional status command.
 
-- *Default*: Based on OS
+- *Default*: 'USE_DEFAULTS'
 
 ssh_key_ensure
 --------------
