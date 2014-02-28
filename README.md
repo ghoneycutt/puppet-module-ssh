@@ -1,4 +1,4 @@
-# puppet-module-ssh #
+# puppet-module-ssh
 
 Manage ssh client and server.
 
@@ -6,7 +6,7 @@ The module uses exported resources to manage ssh keys and removes ssh keys that 
 
 ===
 
-# Compatability #
+# Compatability
 
 This module has been tested to work on the following systems with Puppet v3 and Ruby versions 1.8.7, 1.9.3 and 2.0.0.
 
@@ -15,10 +15,15 @@ This module has been tested to work on the following systems with Puppet v3 and 
  * EL 6
  * SLES 11
  * Ubuntu 12.04 LTS
+ * Solaris 9
+ * Solaris 10
+ * Solaris 11
 
 ===
 
-# Parameters #
+# Parameters
+A value of `'USE_DEFAULTS'` will use the defaults specified by the module.
+
 
 hiera_merge
 -----------
@@ -34,13 +39,13 @@ ssh_config_hash_known_hosts
 HashKnownHosts in ssh_config.
 Indicates that ssh should hash host names and addresses when they are added to ~/.ssh/known_hosts.
 These hashed names may be used normally by ssh and sshd, but they do not reveal identifying
-information should the file's contents be disclosed.  The default is 'no'.
+information should the file's contents be disclosed. The default is 'no' on Linux.
 
 Note that existing names and addresses in known hosts files will not be converted automatically,
 but may be manually hashed using ssh-keygen. Use of this option may break facilities such as
 tab-completion that rely on being able to read unhashed host names from ~/.ssh/known_hosts.
 
-- *Default*: 'no'
+- *Default*: 'USE_DEFAULTS'
 
 ssh_config_path
 ---------------
@@ -86,9 +91,15 @@ ServerAliveInterval option in ssh_config. Not set by default.
 
 ssh_config_sendenv_xmodifiers
 -----------------------
-Boolean to set 'SendEnv XMODIFIERS' in ssh_config.
+Boolean to set 'SendEnv XMODIFIERS' in ssh_config. This option is only valid on Linux.
 
 - *Default*: false
+
+ssh_sendenv
+-------------
+Boolean to enable SendEnv options for specifying environment variables. Default is set to true on Linux.
+
+- *Default*: 'USE_DEFAULTS'
 
 sshd_config_path
 ----------------
@@ -110,15 +121,15 @@ sshd_config's group.
 
 sshd_config_mode
 ---------------
-sshd_config's mode.
+sshd_config's mode. The default is '0600' on Linux and '0644' on Solaris.
 
-- *Default*: '0600'
+- *Default*: 'USE_DEFAULTS'
 
 sshd_config_port
 ---------------------------
 String to specify listen port for sshd. Port option in sshd_config.
 
-- *Default*: 22
+- *Default*: '22'
 
 sshd_config_syslog_facility
 ---------------------------
@@ -146,9 +157,9 @@ PrintMotd option in sshd_config.
 
 sshd_config_use_dns
 -------------------
-UseDNS option in sshd_config.
+UseDNS option in sshd_config. The default is 'yes' on Linux.
 
-- *Default*: 'yes'
+- *Default*: 'USE_DEFAULTS'
 
 sshd_config_banner
 ------------------
@@ -184,35 +195,32 @@ sshd_config_xauth_location
 --------------------------
 XAuthLocation option in sshd_config.
 
-- *Default*: '/usr/bin/xauth'
+- *Default*: 'USE_DEFAULTS'
 
 sshd_config_subsystem_sftp
 --------------------------
 Path to sftp file transfer subsystem in sshd_config.
 
-- *Default*: '/usr/libexec/openssh/sftp-server'
+- *Default*: 'USE_DEFAULTS'
 
 
 sshd_password_authentication
 -----------------------------
-PasswordAuthentication in sshd_config.
-Specifies whether password authentication is allowed.
+PasswordAuthentication in sshd_config. Specifies whether password authentication is allowed.
 
 - *Default*: 'yes'
 
 sshd_allow_tcp_forwarding
 -------------------------
-AllowTcpForwarding in sshd_config.
-Specifies whether TCP forwarding is permitted.
+AllowTcpForwarding in sshd_config. Specifies whether TCP forwarding is permitted.
 
 - *Default*: 'yes'
 
 sshd_x11_forwarding
 -------------------
-X11Forwarding in sshd_config.
-Specifies whether X11 forwarding is permitted.
+X11Forwarding in sshd_config. Specifies whether X11 forwarding is permitted.
 
-- *Default*: 'no'
+- *Default*: 'yes'
 
 sshd_use_pam
 ------------
@@ -220,8 +228,9 @@ UsePam in sshd_config.
 Enables the Pluggable Authentication Module interface. If set to 'yes' this will enable PAM
 authentication using ChallengeResponseAuthentication and PasswordAuthentication in addition
 to PAM account and session module processing for all authentication types.
+This module sets this option to 'yes' on Linux and undef on Solaris.
 
-- *Default*: 'no'
+- *Default*: 'USE_DEFAULTS'
 
 sshd_client_alive_interval
 --------------------------
@@ -251,6 +260,54 @@ Allow root login. Valid values are 'yes', 'without-password', 'forced-commands-o
 
 - *Default*: yes
 
+ssh_config_forward_x11_trusted
+------------------------------
+ForwardX11Trusted. Determine remote X11 client access to the original X11 display. The option is set to 'yes' on Linux. Valid values are 'yes', 'no', and undef.
+
+- *Default*: 'USE_DEFAULTS' (Not valid on Solaris.)
+
+ssh_package_source
+------------------
+Source to SSH packages.
+
+- *Default*: 'USE_DEFAULTS'
+
+ssh_package_adminfile
+---------------------
+Path to admin file for SSH packages.
+
+- *Default*: 'USE_DEFAULTS'
+
+sshd_gssapiauthentication
+-------------------------
+GSSAPIAuthentication: Enables/disables GSS-API user authentication. Valid values are 'yes' and 'no'.
+
+- *Default*: 'yes'
+
+sshd_gssapikeyexchange
+----------------------
+GSSAPIKeyExchange: Enables/disables GSS-API-authenticated key exchanges. Valid values are 'yes', 'no', and undef.
+
+- *Default*: 'USE_DEFAULTS'
+
+sshd_pamauthenticationviakbdint
+-------------------------------
+PAMAuthenticationViaKBDInt: Use PAM via keyboard interactive method for authentication. Valid values are 'yes', 'no', and undef.
+
+- *Default*: 'USE_DEFAULTS'
+
+sshd_gssapicleanupcredentials
+-----------------------------
+GSSAPICleanupCredentials: Specifies whether to automatically destroy the user's credentials on logout. Default is 'yes' on Linux. Valid values are 'yes', 'no', and undef.
+
+- *Default*: 'USE_DEFAULTS'
+
+sshd_acceptenv
+-------------
+Boolean to enable AcceptEnv options for specifying environment variables. Default is set to true on Linux.
+
+- *Default*: 'USE_DEFAULTS'
+
 purge_keys
 ----------
 Remove keys not managed by puppet.
@@ -259,7 +316,7 @@ Remove keys not managed by puppet.
 
 manage_firewall
 ---------------
-Open firewall for SSH service.
+Open firewall for SSH service. Not used on Solaris.
 
 - *Default*: false
 
@@ -289,9 +346,9 @@ Specify that the init script has a restart command. Valid values are 'true' and 
 
 service_hasstatus
 -----------------
-Declare whether the service's init script has a functional status command. Valid values are 'true' and 'false'
+Boolean to declare whether the service's init script has a functional status command.
 
-- *Default*: 'true'
+- *Default*: 'USE_DEFAULTS'
 
 ssh_key_ensure
 --------------
