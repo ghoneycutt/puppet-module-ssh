@@ -348,7 +348,7 @@ service_hasstatus
 -----------------
 Declare whether the service's init script has a functional status command. Valid values are 'true' and 'false'
 
-- *Default*: 'true'
+- *Default*: Based on OS
 
 ssh_key_ensure
 --------------

@@ -367,7 +367,7 @@ describe 'ssh' do
         'name'       => 'sshd',
         'enable'     => 'true',
         'hasrestart' => 'true',
-        'hasstatus'  => 'true',
+        'hasstatus'  => 'false',
         'subscribe'  => 'File[sshd_config]',
       })
     }
