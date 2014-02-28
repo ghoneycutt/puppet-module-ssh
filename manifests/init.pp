@@ -52,7 +52,7 @@ class ssh (
   $service_name                     = 'USE_DEFAULTS',
   $service_enable                   = 'true',
   $service_hasrestart               = 'true',
-  $service_hasstatus                = 'true',
+  $service_hasstatus                = 'USE_DEFAULTS',
   $ssh_key_ensure                   = 'present',
   $ssh_key_type                     = 'ssh-rsa',
   $keys                             = undef,
@@ -78,7 +78,8 @@ class ssh (
       $default_sshd_gssapikeyexchange          = undef
       $default_sshd_pamauthenticationviakbdint = undef
       $default_sshd_gssapicleanupcredentials   = 'yes'
-      $default_sshd_acceptenv                   = true
+      $default_sshd_acceptenv                  = true
+      $default_service_hasstatus               = true
     }
     'Suse': {
       $default_packages                        = 'openssh'
@@ -96,6 +97,7 @@ class ssh (
       $default_sshd_pamauthenticationviakbdint = undef
       $default_sshd_gssapicleanupcredentials   = 'yes'
       $default_sshd_acceptenv                  = true
+      $default_service_hasstatus               = true
       case $::architecture {
         'x86_64': {
           $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
@@ -126,6 +128,7 @@ class ssh (
       $default_sshd_pamauthenticationviakbdint = undef
       $default_sshd_gssapicleanupcredentials   = 'yes'
       $default_sshd_acceptenv                  = true
+      $default_service_hasstatus               = true
     }
     'Solaris': {
       $default_packages                        = ['SUNWsshcu',
@@ -149,10 +152,12 @@ class ssh (
       $default_sshd_acceptenv                  = false
       case $::kernelrelease {
         '5.10','5.11': {
-          $default_service_name = 'ssh'
+          $default_service_name      = 'ssh'
+          $default_service_hasstatus = true
         }
         '5.9' : {
-          $default_service_name = 'sshd'
+          $default_service_name      = 'sshd'
+          $default_service_hasstatus = false
         }
         default: {
           fail('ssh module supports Solaris kernel release 5.9, 5.10 and 5.11.')
@@ -285,6 +290,23 @@ class ssh (
       }
       default: {
         fail('ssh::sshd_acceptenv type must be true or false.')
+      }
+    }
+  }
+
+  if $service_hasstatus == 'USE_DEFAULTS' {
+    $service_hasstatus_real = $default_service_hasstatus
+  } else {
+    case type($service_hasstatus) {
+      'string': {
+        validate_re($service_hasstatus, '^(true|false)$', "ssh::service_hasstatus may be either 'true' or 'false' and is set to <${service_hasstatus}>.")
+        $service_hasstatus_real = str2bool($service_hasstatus)
+      }
+      'boolean': {
+        $service_hasstatus_real = $service_hasstatus
+      }
+      default: {
+        fail('ssh::service_hasstatus type must be true or false.')
       }
     }
   }
@@ -454,7 +476,7 @@ class ssh (
     name       => $service_name_real,
     enable     => $service_enable,
     hasrestart => $service_hasrestart,
-    hasstatus  => $service_hasstatus,
+    hasstatus  => $service_hasstatus_real,
     subscribe  => File['sshd_config'],
   }
 
