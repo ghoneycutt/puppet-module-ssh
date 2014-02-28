@@ -471,7 +471,6 @@ class ssh (
     ensure  => $ssh_key_ensure,
     type    => $ssh_key_type,
     key     => $key,
-    require => Package[$packages_real],
   }
 
   # import all nodes' ssh keys
