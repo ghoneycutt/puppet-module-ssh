@@ -70,6 +70,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
+    it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 3$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
@@ -448,6 +449,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
+    it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 3$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
@@ -542,6 +544,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
+    it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 3$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
@@ -636,6 +639,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
+    it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 3$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
@@ -748,6 +752,7 @@ describe 'ssh' do
         :sshd_x11_forwarding             => 'no',
         :sshd_use_pam                    => 'no',
         :sshd_client_alive_interval      => '242',
+        :sshd_client_alive_count_max     => '0',
       }
     end
 
@@ -779,6 +784,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11Forwarding no$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM no$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 242$/) }
+    it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 0$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
@@ -990,6 +996,25 @@ describe 'ssh' do
       expect {
         should contain_class('ssh')
       }.to raise_error(Puppet::Error,/^ssh::sshd_client_alive_interval must be an integer and is set to <invalid>\./)
+    end
+  end
+
+  context 'with sshd_client_alive_count_max set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :sshd_client_alive_count_max => 'invalid' }
+    end
+
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/^ssh::sshd_client_alive_count_max must be an integer and is set to <invalid>\./)
     end
   end
 

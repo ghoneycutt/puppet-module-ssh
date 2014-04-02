@@ -130,7 +130,7 @@ PrintMotd <%= @sshd_config_print_motd %>
 #Compression delayed
 #ClientAliveInterval 0
 ClientAliveInterval <%= @sshd_client_alive_interval %>
-#ClientAliveCountMax 3
+ClientAliveCountMax <%= @sshd_client_alive_count_max %>
 #ShowPatchLevel no
 <% if @sshd_config_use_dns_real != nil -%>
 #UseDNS yes
