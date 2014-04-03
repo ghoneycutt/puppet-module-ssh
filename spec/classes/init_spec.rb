@@ -108,7 +108,7 @@ describe 'ssh' do
 
     it 'should fail' do
       expect {
-        should include_class('ssh')
+        should contain_class('ssh')
       }.to raise_error(Puppet::Error,/^ssh module supports Solaris kernel release 5.9, 5.10 and 5.11./)
     end
   end
@@ -123,9 +123,9 @@ describe 'ssh' do
       }
     end
 
-    it { should include_class('ssh')}
+    it { should contain_class('ssh')}
 
-    it { should_not include_class('common')}
+    it { should_not contain_class('common')}
 
 
     ['SUNWsshcu','SUNWsshdr','SUNWsshdu','SUNWsshr','SUNWsshu'].each do |pkg|
@@ -213,9 +213,9 @@ describe 'ssh' do
       }
     end
 
-    it { should include_class('ssh')}
+    it { should contain_class('ssh')}
 
-    it { should_not include_class('common')}
+    it { should_not contain_class('common')}
 
     ['SUNWsshcu','SUNWsshdr','SUNWsshdu','SUNWsshr','SUNWsshu'].each do |pkg|
       it {
@@ -301,9 +301,9 @@ describe 'ssh' do
       }
     end
 
-    it { should include_class('ssh')}
+    it { should contain_class('ssh')}
 
-    it { should_not include_class('common')}
+    it { should_not contain_class('common')}
 
     ['SUNWsshcu','SUNWsshdr','SUNWsshdu','SUNWsshr','SUNWsshu'].each do |pkg|
       it {
