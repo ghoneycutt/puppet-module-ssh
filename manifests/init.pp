@@ -59,6 +59,8 @@ class ssh (
   $keys                             = undef,
   $manage_root_ssh_config           = 'false',
   $root_ssh_config_content          = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
+  $manage_sshkeys                   = 'true',
+  $sshkey_tag                      = undef,
 ) {
 
   case $::osfamily {
@@ -372,6 +374,18 @@ class ssh (
     }
   }
 
+  case type($manage_sshkeys) {
+    'string': {
+      $manage_sshkeys_real = str2bool($manage_sshkeys)
+    }
+    'boolean': {
+      $manage_sshkeys_real = $manage_sshkeys
+    }
+    default: {
+      fail('ssh::manage_sshkeys type must be true or false.')
+    }
+  }
+
   case $permit_root_login {
     'no', 'yes', 'without-password', 'forced-commands-only': {
       # noop
@@ -490,19 +504,26 @@ class ssh (
     }
   }
 
-  # export each node's ssh key
-  @@sshkey { $::fqdn :
-    ensure  => $ssh_key_ensure,
-    type    => $ssh_key_type,
-    key     => $key,
-  }
+  if $manage_sshkeys_real == true {
+    # export each node's ssh key
+    @@sshkey { $::fqdn :
+      ensure => $ssh_key_ensure,
+      type   => $ssh_key_type,
+      key    => $key,
+      tag    => $sshkey_tag,
+    }
 
-  # import all nodes' ssh keys
-  Sshkey <<||>>
+    # import all nodes' ssh keys
+    if $sshkey_tag != undef {
+      Sshkey <<| tag == $sshkey_tag |>>
+    } else {
+      Sshkey <<||>>
+    }
 
-  # remove ssh key's not managed by puppet
-  resources  { 'sshkey':
-    purge => $purge_keys,
+    # remove ssh key's not managed by puppet
+    resources  { 'sshkey':
+      purge => $purge_keys,
+    }
   }
 
   # manage users' ssh authorized keys if present
