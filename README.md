@@ -372,6 +372,12 @@ Export node SSH key. Valid values are 'present' and 'absent'.
 
 - *Default*: 'present'
 
+ssh_key_import
+--------------
+Import all exported node SSH keys. Valid values are 'true' and 'false'.
+
+- *Default*: 'true'
+
 ssh_key_type
 ------------
 Encryption type for SSH key. Valid values are 'rsa', 'dsa', 'ssh-dss' and 'ssh-rsa'

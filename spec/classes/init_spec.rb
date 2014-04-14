@@ -1743,4 +1743,57 @@ describe 'ssh' do
       end
     end
   end
+
+  describe 'with ssh_key_import parameter specified' do
+    context 'as a non-boolean or non-string' do
+    let(:params) { { :ssh_key_import => ['not_a_boolean','or_a_string'] } }
+
+      it 'should fail' do
+        expect { should raise_error(Puppet::Error) }
+      end
+    end
+
+    context 'as an invalid string' do
+      let(:params) { { :ssh_key_import => 'invalid_string' } }
+      let(:facts) do
+        { :osfamily          => 'RedHat',
+          :lsbmajdistrelease => '6',
+        }
+      end
+
+      it 'should fail' do
+        expect { should raise_error(Puppet::Error,/^ssh::ssh_key_import may be either 'true' or 'false' and is set to <invalid_string>./) }
+      end
+    end
+
+    ['true',true].each do |value|
+      context "as #{value}" do
+        let(:params) { { :ssh_key_import => value } }
+        let(:facts) do
+          { :osfamily          => 'RedHat',
+            :lsbmajdistrelease => '6',
+          }
+        end
+
+        it { should compile.with_all_deps }
+
+        it { should contain_class('ssh') }
+      end
+    end
+
+    ['false',false].each do |value|
+      context "as #{value}" do
+        let(:params) { { :ssh_key_import => value } }
+        let(:facts) do
+          { :osfamily          => 'RedHat',
+            :lsbmajdistrelease => '6',
+          }
+        end
+
+        it { should compile.with_all_deps }
+
+        it { should contain_class('ssh') }
+      end
+    end
+  end
 end
