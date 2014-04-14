@@ -1,5 +1,5 @@
 name    'ghoneycutt-ssh'
-version '3.6.1'
+version '3.8.0'
 source 'git://github.com/ghoneycutt/puppet-module-ssh.git'
 author 'ghoneycutt'
 license 'Apache License, Version 2.0'

@@ -24,7 +24,7 @@ Protocol 2
 # HostKey for protocol version 1
 #HostKey /etc/ssh/ssh_host_key
 # HostKeys for protocol version 2
-#HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_rsa_key
 #HostKey /etc/ssh/ssh_host_dsa_key
 
 # Lifetime and size of ephemeral version 1 server key
@@ -63,6 +63,14 @@ PermitRootLogin <%= @permit_root_login %>
 # To disable tunneled clear text passwords, change to no here!
 #PasswordAuthentication yes
 PasswordAuthentication <%= @sshd_password_authentication %>
+<% if @sshd_pamauthenticationviakbdint_real != nil -%>
+# Use PAM via keyboard interactive method for authentication.
+# Depending on the setup of pam.conf(4) this may allow tunneled clear text
+# passwords even when PasswordAuthentication is set to no. This is dependent
+# on what the individual modules request and is out of the control of sshd
+# or the protocol.
+PAMAuthenticationViaKBDInt <%= @sshd_pamauthenticationviakbdint_real %>
+<% end -%>
 #PermitEmptyPasswords no
 
 # Change to no to disable s/key passwords
@@ -77,10 +85,16 @@ ChallengeResponseAuthentication <%= @sshd_config_challenge_resp_auth %>
 
 # GSSAPI options
 #GSSAPIAuthentication no
-GSSAPIAuthentication yes
+GSSAPIAuthentication <%= @sshd_gssapiauthentication %>
+<% if @sshd_gssapikeyexchange_real != nil -%>
+GSSAPIKeyExchange <%= @sshd_gssapikeyexchange_real %>
+<% end -%>
+<% if @sshd_gssapicleanupcredentials_real != nil -%>
 #GSSAPICleanupCredentials yes
-GSSAPICleanupCredentials yes
+GSSAPICleanupCredentials <%= @sshd_gssapicleanupcredentials_real %>
+<% end -%>
 
+<% if @sshd_use_pam_real != nil -%>
 # Set this to 'yes' to enable PAM authentication, account processing,
 # and session processing. If this is enabled, PAM authentication will
 # be allowed through the ChallengeResponseAuthentication mechanism.
@@ -90,12 +104,15 @@ GSSAPICleanupCredentials yes
 # session checks to run without PAM authentication, then enable this but set
 # ChallengeResponseAuthentication=no
 #UsePAM no
-UsePAM <%= @sshd_use_pam %>
+UsePAM <%= @sshd_use_pam_real %>
+<% end -%>
 
+<% if @sshd_acceptenv_real == true -%>
 # Accept locale-related environment variables
 AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
 AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
 AcceptEnv LC_IDENTIFICATION LC_ALL
+<% end -%>
 #AllowTcpForwarding yes
 AllowTcpForwarding <%= @sshd_allow_tcp_forwarding %>
 #GatewayPorts no
@@ -113,10 +130,12 @@ PrintMotd <%= @sshd_config_print_motd %>
 #Compression delayed
 #ClientAliveInterval 0
 ClientAliveInterval <%= @sshd_client_alive_interval %>
-#ClientAliveCountMax 3
+ClientAliveCountMax <%= @sshd_client_alive_count_max %>
 #ShowPatchLevel no
+<% if @sshd_config_use_dns_real != nil -%>
 #UseDNS yes
-UseDNS <%= @sshd_config_use_dns %>
+UseDNS <%= @sshd_config_use_dns_real %>
+<% end -%>
 #PidFile /var/run/sshd.pid
 #MaxStartups 10
 #PermitTunnel no
@@ -127,7 +146,7 @@ UseDNS <%= @sshd_config_use_dns %>
 Banner <%= @sshd_config_banner %>
 
 #XAuthLocation /usr/bin/xauth
-XAuthLocation <%= @sshd_config_xauth_location %>
+XAuthLocation <%= @sshd_config_xauth_location_real %>
 
 # override default of no subsystems
 Subsystem sftp <%= @sshd_config_subsystem_sftp_real %>
