@@ -141,6 +141,12 @@ UseDNS option in sshd_config.
 
 - *Default*: 'yes'
 
+sshd_config_listenaddress
+------------------
+Configure sshd to listen on specific IPv4/IPv6 interfaces.
+
+- *Default*: 'undef'
+
 sshd_config_banner
 ------------------
 Banner option in sshd_config.

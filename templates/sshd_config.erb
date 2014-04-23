@@ -21,8 +21,8 @@ Protocol 2
 #ListenAddress 0.0.0.0
 #ListenAddress ::
 <% if @sshd_config_listenaddress %>
-<% @sshd_config_listenaddress.each do |ip| -%>
-ListenAddress <%= ip %>
+<% @sshd_config_listenaddress.each do |listenaddress| -%>
+ListenAddress <%= listenaddress %>
 <% end -%>
 <% end %>
 
