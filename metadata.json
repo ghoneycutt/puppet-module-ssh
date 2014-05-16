@@ -1,0 +1,107 @@
+{
+  "requirements": [
+    {
+      "name": "pe",
+      "version_requirement": "3.2.x"
+    },
+    {
+      "name": "puppet",
+      "version_requirement": "3.x"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "Solaris",
+      "operatingsystemrelease": [
+        "9",
+        "10",
+        "11"
+      ]
+    },
+    {
+      "operatingsystem": "SLES"
+    },
+    {
+      "operatingsystem": "SLED"
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "12.04"
+      ]
+    }
+  ],
+  "name": "ghoneycutt-ssh",
+  "version": "3.10.0",
+  "source": "git://github.com/ghoneycutt/puppet-module-ssh.git",
+  "author": "ghoneycutt",
+  "license": "Apache License, Version 2.0",
+  "summary": "Manages SSH",
+  "description": "Manage SSH",
+  "project_page": "https://github.com/ghoneycutt/puppet-module-ssh",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.2.0"
+    },
+    {
+      "name": "ghoneycutt/common",
+      "version_requirement": ">= 1.0.2"
+    },
+    {
+      "name": "puppetlabs/firewall"
+    }
+  ],
+  "types": [
+
+  ],
+  "checksums": {
+    "CHANGELOG": "15458e8eb413081b0a9cec5ef4d51ba8",
+    "Gemfile": "6992d521994d948eb6e48acd733a07bf",
+    "Gemfile.lock": "44926a4ba8c7b0f743f80b5428f68602",
+    "LICENSE": "567e6cc3941d464d60c74d1f4abd5f46",
+    "Modulefile": "ef6767f25726fe378913ea8f88dc097d",
+    "README.md": "2739cdd6115cb712fe4d55e478a0c296",
+    "Rakefile": "8ff6a0f7db638421d1742c5d365d0266",
+    "manifests/init.pp": "07418faad419147d9812da263ebc0752",
+    "spec/classes/init_spec.rb": "7ee09d72141365fbe0c7d58e01612d34",
+    "spec/spec_helper.rb": "3ea886dd135e120afa31e0aab12e85b0",
+    "templates/ssh_config.erb": "9aaeaeb5931fc7fc4b82a89098441387",
+    "templates/sshd_config.erb": "f7e701d2b44ca6737b838690d0d2ca77",
+    "tests/init.pp": "423466ae46899d6a0480aa9910b096d2"
+  }
+}
