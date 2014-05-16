@@ -49,6 +49,9 @@ PermitRootLogin <%= @permit_root_login %>
 #RSAAuthentication yes
 #PubkeyAuthentication yes
 #AuthorizedKeysFile .ssh/authorized_keys
+<% if @sshd_config_authkey_location -%>
+AuthorizedKeysFile <%= @sshd_config_authkey_location %>
+<% end -%>
 
 # For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
 #RhostsRSAAuthentication no

@@ -31,6 +31,7 @@ class ssh (
   $sshd_config_challenge_resp_auth  = 'yes',
   $sshd_config_print_motd           = 'yes',
   $sshd_config_use_dns              = 'USE_DEFAULTS',
+  $sshd_config_authkey_location     = undef,
   $sshd_config_banner               = 'none',
   $sshd_banner_content              = undef,
   $sshd_banner_owner                = 'root',
@@ -346,6 +347,10 @@ class ssh (
 
   if $sshd_gssapicleanupcredentials_real != undef {
     validate_re($sshd_gssapicleanupcredentials_real, '^(yes|no)$', "ssh::sshd_gssapicleanupcredentials may be either 'yes' or 'no' and is set to <${sshd_gssapicleanupcredentials_real}>.")
+  }
+
+  if $sshd_config_authkey_location != undef {
+    validate_string($sshd_config_authkey_location)
   }
 
   case type($hiera_merge) {
