@@ -161,6 +161,12 @@ UseDNS option in sshd_config. The default is 'yes' on Linux.
 
 - *Default*: 'USE_DEFAULTS'
 
+sshd_config_authkey_location
+----------------------------
+Specify location of authorized_keys file. Default is to not specify.
+
+- *Default*: undef
+
 sshd_config_banner
 ------------------
 Banner option in sshd_config.
