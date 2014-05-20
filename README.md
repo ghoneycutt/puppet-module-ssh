@@ -169,7 +169,7 @@ Specify location of authorized_keys file. Default is to not specify.
 
 sshd_config_strictmodes
 ----------------------------
-Specifies whether sshd should check file modes and ownership of the user's files and home directory before accepting login. Default is to not specify.
+Specifies whether sshd should check file modes and ownership of the user's files and home directory before accepting login. Valid values are yes and no.
 
 - *Default*: undef
 
