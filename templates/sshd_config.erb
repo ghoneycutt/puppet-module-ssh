@@ -44,6 +44,9 @@ LoginGraceTime <%= @sshd_config_login_grace_time %>
 #PermitRootLogin yes
 PermitRootLogin <%= @permit_root_login %>
 #StrictModes yes
+<% if @sshd_config_strictmodes -%>
+StrictModes <%= @sshd_config_strictmodes %>
+<% end -%>
 #MaxAuthTries 6
 
 #RSAAuthentication yes
