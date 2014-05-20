@@ -66,7 +66,7 @@
     }
   ],
   "name": "ghoneycutt-ssh",
-  "version": "3.10.0",
+  "version": "3.11.0",
   "source": "git://github.com/ghoneycutt/puppet-module-ssh.git",
   "author": "ghoneycutt",
   "license": "Apache License, Version 2.0",
@@ -83,7 +83,8 @@
       "version_requirement": ">= 1.0.2"
     },
     {
-      "name": "puppetlabs/firewall"
+      "name": "puppetlabs/firewall",
+      "version_requirement": ">= 0.2.1"
     }
   ],
   "types": [
@@ -94,14 +95,14 @@
     "Gemfile": "6992d521994d948eb6e48acd733a07bf",
     "Gemfile.lock": "44926a4ba8c7b0f743f80b5428f68602",
     "LICENSE": "567e6cc3941d464d60c74d1f4abd5f46",
-    "Modulefile": "ef6767f25726fe378913ea8f88dc097d",
-    "README.md": "2739cdd6115cb712fe4d55e478a0c296",
+    "Modulefile": "7bd54a30f18985b17b6c081b048fc46d",
+    "README.md": "66e9b1a4cbb986dd7539695eb2b199f7",
     "Rakefile": "8ff6a0f7db638421d1742c5d365d0266",
-    "manifests/init.pp": "07418faad419147d9812da263ebc0752",
-    "spec/classes/init_spec.rb": "7ee09d72141365fbe0c7d58e01612d34",
+    "manifests/init.pp": "747e85d8bbfc62f9e9919e26d8e614e1",
+    "spec/classes/init_spec.rb": "a9a24bc66c920b5724cff2baacb14720",
     "spec/spec_helper.rb": "3ea886dd135e120afa31e0aab12e85b0",
     "templates/ssh_config.erb": "9aaeaeb5931fc7fc4b82a89098441387",
-    "templates/sshd_config.erb": "f7e701d2b44ca6737b838690d0d2ca77",
+    "templates/sshd_config.erb": "48de672e1a2696b060cfb31b07da4ad4",
     "tests/init.pp": "423466ae46899d6a0480aa9910b096d2"
   }
 }
