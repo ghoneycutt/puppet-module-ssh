@@ -32,6 +32,7 @@ class ssh (
   $sshd_config_print_motd           = 'yes',
   $sshd_config_use_dns              = 'USE_DEFAULTS',
   $sshd_config_authkey_location     = undef,
+  $sshd_config_strictmodes          = undef,
   $sshd_config_banner               = 'none',
   $sshd_banner_content              = undef,
   $sshd_banner_owner                = 'root',
@@ -351,6 +352,10 @@ class ssh (
 
   if $sshd_config_authkey_location != undef {
     validate_string($sshd_config_authkey_location)
+  }
+
+  if $sshd_config_strictmodes != undef {
+    validate_re($sshd_config_strictmodes, '^(yes|no)$', "ssh::sshd_config_strictmodes may be either 'yes' or 'no' and is set to <${sshd_config_strictmodes}>.")
   }
 
   case type($hiera_merge) {
