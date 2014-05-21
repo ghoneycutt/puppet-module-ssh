@@ -242,7 +242,7 @@ class ssh (
     $sshd_use_pam_real = $sshd_use_pam
   }
 
-   if $sshd_config_serverkeybits == 'USE_DEFAULTS' {
+  if $sshd_config_serverkeybits == 'USE_DEFAULTS' {
     $sshd_config_serverkeybits_real = $default_sshd_config_serverkeybits
   } else {
     $sshd_config_serverkeybits_real = $sshd_config_serverkeybits
