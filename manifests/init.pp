@@ -33,6 +33,7 @@ class ssh (
   $sshd_config_use_dns              = 'USE_DEFAULTS',
   $sshd_config_authkey_location     = undef,
   $sshd_config_strictmodes          = undef,
+  $sshd_config_serverkeybits        = 'USE_DEFAULTS',
   $sshd_config_banner               = 'none',
   $sshd_banner_content              = undef,
   $sshd_banner_owner                = 'root',
@@ -84,6 +85,7 @@ class ssh (
       $default_sshd_gssapicleanupcredentials   = 'yes'
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
+      $default_sshd_config_serverkeybits       = '1024'
     }
     'Suse': {
       $default_packages                        = 'openssh'
@@ -102,6 +104,7 @@ class ssh (
       $default_sshd_gssapicleanupcredentials   = 'yes'
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
+      $default_sshd_config_serverkeybits       = '1024'
       case $::architecture {
         'x86_64': {
           $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
@@ -133,6 +136,7 @@ class ssh (
       $default_sshd_gssapicleanupcredentials   = 'yes'
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
+      $default_sshd_config_serverkeybits       = '1024'
     }
     'Solaris': {
       $default_packages                        = ['SUNWsshcu',
@@ -154,6 +158,7 @@ class ssh (
       $default_sshd_pamauthenticationviakbdint = 'yes'
       $default_sshd_gssapicleanupcredentials   = undef
       $default_sshd_acceptenv                  = false
+      $default_sshd_config_serverkeybits       = '768'
       case $::kernelrelease {
         '5.10','5.11': {
           $default_service_name      = 'ssh'
@@ -235,6 +240,12 @@ class ssh (
     $sshd_use_pam_real = $default_sshd_use_pam
   } else {
     $sshd_use_pam_real = $sshd_use_pam
+  }
+
+   if $sshd_config_serverkeybits == 'USE_DEFAULTS' {
+    $sshd_config_serverkeybits_real = $default_sshd_config_serverkeybits
+  } else {
+    $sshd_config_serverkeybits_real = $sshd_config_serverkeybits
   }
 
   if $ssh_config_forward_x11_trusted == 'USE_DEFAULTS' {
@@ -325,6 +336,9 @@ class ssh (
   validate_re($sshd_x11_forwarding, '^(yes|no)$', "ssh::sshd_x11_forwarding may be either 'yes' or 'no' and is set to <${sshd_x11_forwarding}>.")
   if $sshd_use_pam_real != undef {
     validate_re($sshd_use_pam_real, '^(yes|no)$', "ssh::sshd_use_pam may be either 'yes' or 'no' and is set to <${sshd_use_pam_real}>.")
+  }
+  if $sshd_config_serverkeybits_real != undef {
+    if is_integer($sshd_config_serverkeybits_real) == false { fail("ssh::sshd_config_serverkeybits must be an integer and is set to <${sshd_config_serverkeybits}>.") }
   }
   if is_integer($sshd_client_alive_interval) == false { fail("ssh::sshd_client_alive_interval must be an integer and is set to <${sshd_client_alive_interval}>.") }
   if is_integer($sshd_client_alive_count_max) == false { fail("ssh::sshd_client_alive_count_max must be an integer and is set to <${sshd_client_alive_count_max}>.") }
