@@ -175,7 +175,7 @@ Specifies whether sshd should check file modes and ownership of the user's files
 
 sshd_config_serverkeybits
 ----------------------------
-Defines the number of bits in the ephemeral protocol version 1 server key.  The minimum value is 512, and the default is 1024 except  for Solaris default value is 768. 
+Defines the number of bits in the ephemeral protocol version 1 server key.  The minimum value is 512, and the default is 1024 except for Solaris default value is 768. 
 
 - *Default*: '1024' except for Solaris '768'
 
