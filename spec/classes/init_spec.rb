@@ -1006,7 +1006,7 @@ describe 'ssh' do
       }.to raise_error(Puppet::Error,/^ssh::sshd_use_pam may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
-  
+
   context 'with sshd_config_serverkeybits set to invalid value on valid osfamily' do
     let :facts do
       {
@@ -1025,7 +1025,7 @@ describe 'ssh' do
       }.to raise_error(Puppet::Error,/^ssh::sshd_config_serverkeybits must be an integer and is set to <invalid>\./)
     end
   end
-  
+
   context 'with sshd_client_alive_interval set to invalid value on valid osfamily' do
     let :facts do
       {
@@ -1095,7 +1095,7 @@ describe 'ssh' do
       }.to raise_error(Puppet::Error,/is not a string/)
     end
   end
-  
+
   context 'with sshd_config_strictmodes set to invalid value on valid osfamily' do
     let :facts do
       {
@@ -1114,7 +1114,7 @@ describe 'ssh' do
       }.to raise_error(Puppet::Error,/^ssh::sshd_config_strictmodes may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
-  
+
   context 'with sshd_banner_content set and with default value on sshd_config_banner on valid osfamily' do
     let(:params) { { :sshd_banner_content => 'textinbanner' } }
     let :facts do
