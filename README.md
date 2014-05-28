@@ -101,6 +101,12 @@ Array of ciphers to be used with the Ciphers option in ssh_config.
 
 - *Default*: undef
 
+ssh_config_macs
+---------------
+Array of ciphers to be used with the MACs option in ssh_config.
+
+- *Default*: undef
+
 ssh_sendenv
 -------------
 Boolean to enable SendEnv options for specifying environment variables. Default is set to true on Linux.
@@ -285,6 +291,12 @@ after approximately 45 seconds.  This option applies to protocol version 2 only.
 sshd_config_ciphers
 -------------------
 Array of ciphers for the Ciphers setting in sshd_config.
+
+- *Default*: undef
+
+sshd_config_macs
+----------------
+Array of macs for the MACs setting in sshd_config.
 
 - *Default*: undef
 

@@ -21,6 +21,7 @@ class ssh (
   $ssh_config_server_alive_interval = undef,
   $ssh_config_sendenv_xmodifiers    = false,
   $ssh_config_ciphers               = undef,
+  $ssh_config_macs                  = undef,
   $ssh_sendenv                      = 'USE_DEFAULTS',
   $sshd_config_path                 = '/etc/ssh/sshd_config',
   $sshd_config_owner                = 'root',
@@ -37,6 +38,7 @@ class ssh (
   $sshd_config_serverkeybits        = 'USE_DEFAULTS',
   $sshd_config_banner               = 'none',
   $sshd_config_ciphers              = undef,
+  $sshd_config_macs                 = undef,
   $sshd_banner_content              = undef,
   $sshd_banner_owner                = 'root',
   $sshd_banner_group                = 'root',
@@ -335,6 +337,14 @@ class ssh (
 
   if $sshd_config_ciphers != undef {
     validate_array($sshd_config_ciphers)
+  }
+
+  if $ssh_config_macs != undef {
+    validate_array($ssh_config_macs)
+  }
+
+  if $sshd_config_macs != undef {
+    validate_array($sshd_config_macs)
   }
 
   if $ssh_config_hash_known_hosts_real != undef {
