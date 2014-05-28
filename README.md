@@ -95,6 +95,12 @@ Boolean to set 'SendEnv XMODIFIERS' in ssh_config. This option is only valid on 
 
 - *Default*: false
 
+ssh_config_ciphers
+------------------
+Array of ciphers to be used with the Ciphers option in ssh_config.
+
+- *Default*: undef
+
 ssh_sendenv
 -------------
 Boolean to enable SendEnv options for specifying environment variables. Default is set to true on Linux.
@@ -275,6 +281,12 @@ and ClientAliveCountMax is left at the default, unresponsive SSH clients will be
 after approximately 45 seconds.  This option applies to protocol version 2 only.
 
 - *Default*: '3'
+
+sshd_config_ciphers
+-------------------
+Array of ciphers for the Ciphers setting in sshd_config.
+
+- *Default*: undef
 
 keys
 ----
