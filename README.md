@@ -300,6 +300,12 @@ Array of macs for the MACs setting in sshd_config.
 
 - *Default*: undef
 
+sshd_config_denyusers
+---------------------
+Array of users for the DenyUsers setting in sshd_config.
+
+- *Default*: undef
+
 keys
 ----
 Hash of keys for user's ~/.ssh/authorized_keys

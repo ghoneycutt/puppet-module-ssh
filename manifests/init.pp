@@ -39,6 +39,7 @@ class ssh (
   $sshd_config_banner               = 'none',
   $sshd_config_ciphers              = undef,
   $sshd_config_macs                 = undef,
+  $sshd_config_denyusers            = undef,
   $sshd_banner_content              = undef,
   $sshd_banner_owner                = 'root',
   $sshd_banner_group                = 'root',
@@ -345,6 +346,10 @@ class ssh (
 
   if $sshd_config_macs != undef {
     validate_array($sshd_config_macs)
+  }
+
+  if $sshd_config_denyusers != undef {
+    validate_array($sshd_config_denyusers)
   }
 
   if $ssh_config_hash_known_hosts_real != undef {
