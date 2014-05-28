@@ -40,6 +40,7 @@ describe 'ssh' do
     it { should contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
     it { should contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted yes$/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
+    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
 
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
@@ -82,6 +83,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
     it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -164,6 +166,7 @@ describe 'ssh' do
     it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
+    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
 
     it {
       should contain_file('sshd_config').with({
@@ -194,6 +197,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
     it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -258,6 +262,7 @@ describe 'ssh' do
     it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
+    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
 
     it {
       should contain_file('sshd_config').with({
@@ -288,6 +293,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
     it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -351,6 +357,7 @@ describe 'ssh' do
     it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
+    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
 
     it {
       should contain_file('sshd_config').with({
@@ -381,6 +388,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
     it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -443,6 +451,7 @@ describe 'ssh' do
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
+    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
 
     it {
       should contain_file('sshd_config').with({
@@ -481,6 +490,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
+    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -543,6 +553,7 @@ describe 'ssh' do
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
+    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
 
     it {
       should contain_file('sshd_config').with({
@@ -581,6 +592,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -643,6 +655,7 @@ describe 'ssh' do
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
+    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
 
     it {
       should contain_file('sshd_config').with({
@@ -681,6 +694,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -743,6 +757,9 @@ describe 'ssh' do
                                                 'aes192-cbc',
                                                 'aes256-cbc',
         ],
+        :ssh_config_macs                  => [ 'hmac-md5-etm@openssh.com',
+                                                'hmac-sha1-etm@openssh.com',
+        ],
       }
     end
 
@@ -768,6 +785,7 @@ describe 'ssh' do
     it { should contain_file('ssh_config').with_content(/^  ServerAliveInterval 300$/) }
     it { should contain_file('ssh_config').with_content(/^  SendEnv XMODIFIERS$/) }
     it { should contain_file('ssh_config').with_content(/^\s*Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*MACs hmac-md5-etm@openssh.com,hmac-sha1-etm@openssh.com$/) }
   end
 
   context 'with params used in sshd_config set on valid osfamily' do
@@ -807,6 +825,9 @@ describe 'ssh' do
                                               'arcfour',
                                               'aes192-cbc',
                                               'aes256-cbc',
+        ],
+        :sshd_config_macs                => [ 'hmac-md5-etm@openssh.com',
+                                              'hmac-sha1-etm@openssh.com',
         ],
       }
     end
@@ -850,6 +871,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^AuthorizedKeysFile .ssh\/authorized_keys/) }
     it { should contain_file('sshd_config').with_content(/^StrictModes yes$/) }
     it { should contain_file('sshd_config').with_content(/^\s*Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc$/) }
+    it { should contain_file('sshd_config').with_content(/^\s*MACs hmac-md5-etm@openssh.com,hmac-sha1-etm@openssh.com$/) }
 
     it {
       should contain_file('sshd_banner').with({
@@ -925,6 +947,26 @@ describe 'ssh' do
     end
   end
 
+  [true,'invalid'].each do |macs|
+    context "with ssh_config_macs set to invalid value #{macs}" do
+      let(:params) { { :ssh_config_macs => macs } }
+
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
   context 'with ssh_config_hash_known_hosts set to invalid value on valid osfamily' do
     let :facts do
       {
@@ -947,6 +989,26 @@ describe 'ssh' do
   [true,'invalid'].each do |ciphers|
     context "with sshd_config_ciphers set to invalid value #{ciphers}" do
       let(:params) { { :sshd_config_ciphers => ciphers } }
+
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
+  [true,'invalid'].each do |macs|
+    context "with sshd_config_macs set to invalid value #{macs}" do
+      let(:params) { { :sshd_config_macs => macs } }
 
       let :facts do
         {

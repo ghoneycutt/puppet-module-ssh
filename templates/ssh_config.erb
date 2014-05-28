@@ -77,3 +77,6 @@ Host *
   SendEnv XMODIFIERS
 <% end -%>
 <% end -%>
+<% if @ssh_config_macs -%>
+  MACs <%= @ssh_config_macs.join(',') %>
+<% end -%>

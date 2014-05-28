@@ -162,3 +162,6 @@ Subsystem sftp <%= @sshd_config_subsystem_sftp_real %>
 <% if @sshd_config_ciphers -%>
 Ciphers <%= @sshd_config_ciphers.join(',') %>
 <% end -%>
+<% if @sshd_config_macs -%>
+MACs <%= @sshd_config_macs.join(',') %>
+<% end -%>
