@@ -20,6 +20,7 @@ class ssh (
   $ssh_config_forward_agent         = undef,
   $ssh_config_server_alive_interval = undef,
   $ssh_config_sendenv_xmodifiers    = false,
+  $ssh_config_ciphers               = undef,
   $ssh_sendenv                      = 'USE_DEFAULTS',
   $sshd_config_path                 = '/etc/ssh/sshd_config',
   $sshd_config_owner                = 'root',
@@ -35,6 +36,7 @@ class ssh (
   $sshd_config_strictmodes          = undef,
   $sshd_config_serverkeybits        = 'USE_DEFAULTS',
   $sshd_config_banner               = 'none',
+  $sshd_config_ciphers              = undef,
   $sshd_banner_content              = undef,
   $sshd_banner_owner                = 'root',
   $sshd_banner_group                = 'root',
@@ -327,6 +329,14 @@ class ssh (
   }
 
   # validate params
+  if $ssh_config_ciphers != undef {
+    validate_array($ssh_config_ciphers)
+  }
+
+  if $sshd_config_ciphers != undef {
+    validate_array($sshd_config_ciphers)
+  }
+
   if $ssh_config_hash_known_hosts_real != undef {
     validate_re($ssh_config_hash_known_hosts_real, '^(yes|no)$', "ssh::ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts_real}>.")
   }
