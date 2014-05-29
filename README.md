@@ -306,6 +306,24 @@ Array of users for the DenyUsers setting in sshd_config.
 
 - *Default*: undef
 
+sshd_config_denygroups
+---------------------
+Array of groups for the DenyGroups setting in sshd_config.
+
+- *Default*: undef
+
+sshd_config_allowgroups
+-----------------------
+Array of users for the AllowGroups setting in sshd_config.
+
+- *Default*: undef
+
+sshd_config_allowusers
+-----------------------
+Array of users for the AllowUsers setting in sshd_config.
+
+- *Default*: undef
+
 keys
 ----
 Hash of keys for user's ~/.ssh/authorized_keys
