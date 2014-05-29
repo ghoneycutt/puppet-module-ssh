@@ -85,6 +85,9 @@ describe 'ssh' do
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
     it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
+    it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -200,6 +203,9 @@ describe 'ssh' do
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
     it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
+    it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -297,6 +303,9 @@ describe 'ssh' do
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
     it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
+    it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -393,6 +402,9 @@ describe 'ssh' do
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
     it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
+    it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -496,6 +508,9 @@ describe 'ssh' do
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
     it { should contain_file('ssh_config').without_content(/^\s*DenyUsers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
+    it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -599,6 +614,9 @@ describe 'ssh' do
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
     it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
+    it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -702,6 +720,9 @@ describe 'ssh' do
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
     it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
+    it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
+    it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -839,6 +860,15 @@ describe 'ssh' do
         :sshd_config_denyusers           => [ 'root',
                                               'lusers',
         ],
+        :sshd_config_denygroups          => [ 'nossh',
+                                              'wheel',
+        ],
+        :sshd_config_allowusers          => [ 'foo',
+                                              'bar',
+        ],
+        :sshd_config_allowgroups         => [ 'ssh',
+                                              'security',
+        ],
       }
     end
 
@@ -883,6 +913,9 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^\s*Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc$/) }
     it { should contain_file('sshd_config').with_content(/^\s*MACs hmac-md5-etm@openssh.com,hmac-sha1-etm@openssh.com$/) }
     it { should contain_file('sshd_config').with_content(/^\s*DenyUsers root lusers$/) }
+    it { should contain_file('sshd_config').with_content(/^\s*DenyGroups nossh wheel$/) }
+    it { should contain_file('sshd_config').with_content(/^\s*AllowUsers foo bar$/) }
+    it { should contain_file('sshd_config').with_content(/^\s*AllowGroups ssh security$/) }
 
     it {
       should contain_file('sshd_banner').with({
@@ -1020,6 +1053,66 @@ describe 'ssh' do
   [true,'invalid'].each do |denyusers|
     context "with sshd_config_denyusers set to invalid value #{denyusers}" do
       let(:params) { { :sshd_config_denyusers => denyusers } }
+
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
+  [true,'invalid'].each do |denygroups|
+    context "with sshd_config_denygroups set to invalid value #{denygroups}" do
+      let(:params) { { :sshd_config_denygroups => denygroups } }
+
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
+  [true,'invalid'].each do |allowusers|
+    context "with sshd_config_allowusers set to invalid value #{allowusers}" do
+      let(:params) { { :sshd_config_allowusers => allowusers } }
+
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
+  [true,'invalid'].each do |allowgroups|
+    context "with sshd_config_allowgroups set to invalid value #{allowgroups}" do
+      let(:params) { { :sshd_config_allowgroups => allowgroups } }
 
       let :facts do
         {

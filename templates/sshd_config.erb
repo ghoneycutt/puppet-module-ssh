@@ -168,3 +168,12 @@ MACs <%= @sshd_config_macs.join(',') %>
 <% if @sshd_config_denyusers -%>
 DenyUsers <%= @sshd_config_denyusers.join(' ') %>
 <% end -%>
+<% if @sshd_config_denygroups -%>
+DenyGroups <%= @sshd_config_denygroups.join(' ') %>
+<% end -%>
+<% if @sshd_config_allowusers -%>
+AllowUsers <%= @sshd_config_allowusers.join(' ') %>
+<% end -%>
+<% if @sshd_config_allowgroups -%>
+AllowGroups <%= @sshd_config_allowgroups.join(' ') %>
+<% end -%>
