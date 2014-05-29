@@ -165,3 +165,6 @@ Ciphers <%= @sshd_config_ciphers.join(',') %>
 <% if @sshd_config_macs -%>
 MACs <%= @sshd_config_macs.join(',') %>
 <% end -%>
+<% if @sshd_config_denyusers -%>
+DenyUsers <%= @sshd_config_denyusers.join(' ') %>
+<% end -%>
