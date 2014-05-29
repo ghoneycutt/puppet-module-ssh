@@ -1,4 +1,12 @@
 {
+  "name": "ghoneycutt-ssh",
+  "version": "3.14.0",
+  "author": "ghoneycutt",
+  "summary": "Manages SSH",
+  "license": "Apache License, Version 2.0",
+  "source": "git://github.com/ghoneycutt/puppet-module-ssh.git",
+  "project_page": "https://github.com/ghoneycutt/puppet-module-ssh",
+  "issues_url": "https://github.com/ghoneycutt/puppet-module-ssh/issues",
   "requirements": [
     {
       "name": "pe",
@@ -65,30 +73,9 @@
       ]
     }
   ],
-  "name": "ghoneycutt-ssh",
-  "version": "3.13.0",
-  "source": "git://github.com/ghoneycutt/puppet-module-ssh.git",
-  "author": "ghoneycutt",
-  "license": "Apache License, Version 2.0",
-  "summary": "Manages SSH",
   "description": "Manage SSH",
-  "project_page": "https://github.com/ghoneycutt/puppet-module-ssh",
-  "dependencies": [
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 3.2.0"
-    },
-    {
-      "name": "ghoneycutt/common",
-      "version_requirement": ">= 1.0.2"
-    },
-    {
-      "name": "puppetlabs/firewall",
-      "version_requirement": ">= 0.2.1"
-    }
-  ],
   "types": [
-
+  
   ],
   "checksums": {
     "CHANGELOG": "15458e8eb413081b0a9cec5ef4d51ba8",
@@ -104,5 +91,22 @@
     "templates/ssh_config.erb": "4b811f9ebdebe44e66876957461f22d0",
     "templates/sshd_config.erb": "881549e01eb8510377ec5c5b80feed9f",
     "tests/init.pp": "423466ae46899d6a0480aa9910b096d2"
-  }
+  },
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.2.0"
+    },
+    {
+      "name": "ghoneycutt/common",
+      "version_requirement": ">= 1.0.2"
+    },
+    {
+      "name": "puppetlabs/firewall",
+      "version_requirement": ">= 0.2.1"
+    },
+    {"name":"puppetlabs/stdlib","version_requirement":">= 3.2.0"},
+    {"name":"ghoneycutt/common","version_requirement":">= 1.0.2"},
+    {"name":"puppetlabs/firewall","version_requirement":">= 0.2.1"}
+  ]
 }
