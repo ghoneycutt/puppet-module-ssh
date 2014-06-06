@@ -147,14 +147,7 @@ class ssh (
       $default_sshd_config_serverkeybits       = '1024'
     }
     'Solaris': {
-      $default_packages                        = ['SUNWsshcu',
-                                                  'SUNWsshdr',
-                                                  'SUNWsshdu',
-                                                  'SUNWsshr',
-                                                  'SUNWsshu']
       $default_ssh_config_hash_known_hosts     = undef
-      $default_ssh_package_source              = '/var/spool/pkg'
-      $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = false
       $default_ssh_config_forward_x11_trusted  = undef
       $default_sshd_config_subsystem_sftp      = '/usr/lib/ssh/sftp-server'
@@ -168,13 +161,36 @@ class ssh (
       $default_sshd_acceptenv                  = false
       $default_sshd_config_serverkeybits       = '768'
       case $::kernelrelease {
-        '5.10','5.11': {
-          $default_service_name      = 'ssh'
-          $default_service_hasstatus = true
+        '5.11': {
+          $default_packages              = ['network/ssh',
+                                            'network/ssh/ssh-key',
+                                            'service/network/ssh']
+          $default_service_name          = 'ssh'
+          $default_service_hasstatus     = true
+          $default_ssh_package_source    = undef
+          $default_ssh_package_adminfile = undef
+        }
+        '5.10': {
+          $default_packages              = ['SUNWsshcu',
+                                            'SUNWsshdr',
+                                            'SUNWsshdu',
+                                            'SUNWsshr',
+                                            'SUNWsshu']
+          $default_service_name          = 'ssh'
+          $default_service_hasstatus     = true
+          $default_ssh_package_source    = '/var/spool/pkg'
+          $default_ssh_package_adminfile = undef
         }
         '5.9' : {
-          $default_service_name      = 'sshd'
-          $default_service_hasstatus = false
+          $default_packages              = ['SUNWsshcu',
+                                            'SUNWsshdr',
+                                            'SUNWsshdu',
+                                            'SUNWsshr',
+                                            'SUNWsshu']
+          $default_service_name          = 'sshd'
+          $default_service_hasstatus     = false
+          $default_ssh_package_source    = '/var/spool/pkg'
+          $default_ssh_package_adminfile = undef
         }
         default: {
           fail('ssh module supports Solaris kernel release 5.9, 5.10 and 5.11.')

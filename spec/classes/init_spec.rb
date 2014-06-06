@@ -139,12 +139,10 @@ describe 'ssh' do
     it { should_not contain_class('common')}
 
 
-    ['SUNWsshcu','SUNWsshdr','SUNWsshdu','SUNWsshr','SUNWsshu'].each do |pkg|
+    ['network/ssh','network/ssh/ssh-key','service/network/ssh'].each do |pkg|
       it {
         should contain_package(pkg).with({
           'ensure'    => 'installed',
-          'source'    => '/var/spool/pkg',
-          'adminfile' => nil,
         })
       }
     end
