@@ -160,6 +160,7 @@ class ssh (
       $default_sshd_gssapicleanupcredentials   = undef
       $default_sshd_acceptenv                  = false
       $default_sshd_config_serverkeybits       = '768'
+      $default_ssh_package_adminfile           = undef
       case $::kernelrelease {
         '5.11': {
           $default_packages              = ['network/ssh',
@@ -168,7 +169,6 @@ class ssh (
           $default_service_name          = 'ssh'
           $default_service_hasstatus     = true
           $default_ssh_package_source    = undef
-          $default_ssh_package_adminfile = undef
         }
         '5.10': {
           $default_packages              = ['SUNWsshcu',
@@ -179,7 +179,6 @@ class ssh (
           $default_service_name          = 'ssh'
           $default_service_hasstatus     = true
           $default_ssh_package_source    = '/var/spool/pkg'
-          $default_ssh_package_adminfile = undef
         }
         '5.9' : {
           $default_packages              = ['SUNWsshcu',
@@ -190,7 +189,6 @@ class ssh (
           $default_service_name          = 'sshd'
           $default_service_hasstatus     = false
           $default_ssh_package_source    = '/var/spool/pkg'
-          $default_ssh_package_adminfile = undef
         }
         default: {
           fail('ssh module supports Solaris kernel release 5.9, 5.10 and 5.11.')
