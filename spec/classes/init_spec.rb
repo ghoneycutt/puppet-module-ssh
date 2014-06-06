@@ -154,7 +154,7 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
-        'require' => [ 'Package[SUNWsshcu]', 'Package[SUNWsshdr]', 'Package[SUNWsshdu]', 'Package[SUNWsshr]', 'Package[SUNWsshu]' ],
+        'require' => [ 'Package[network/ssh]', 'Package[network/ssh/ssh-key]', 'Package[service/network/ssh]' ],
       })
     }
 
