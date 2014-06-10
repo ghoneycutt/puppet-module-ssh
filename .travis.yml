@@ -11,6 +11,6 @@ rvm:
 - 1.9.3
 - 2.0.0
 language: ruby
-before_script: "gem install --no-ri --no-rdoc bundler"
+before_script: 'gem install --no-ri --no-rdoc bundler'
 script: 'bundle exec rake validate && bundle exec rake lint && SPEC_OPTS="--format documentation" bundle exec rake spec'
 gemfile: Gemfile
