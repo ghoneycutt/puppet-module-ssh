@@ -1,6 +1,6 @@
 {
   "name": "ghoneycutt-ssh",
-  "version": "3.15.0",
+  "version": "3.15.1",
   "author": "ghoneycutt",
   "summary": "Manages SSH",
   "license": "Apache License, Version 2.0",
@@ -93,30 +93,6 @@
     "tests/init.pp": "423466ae46899d6a0480aa9910b096d2"
   },
   "dependencies": [
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 3.2.0"
-    },
-    {
-      "name": "ghoneycutt/common",
-      "version_requirement": ">= 1.0.2"
-    },
-    {
-      "name": "puppetlabs/firewall",
-      "version_requirement": ">= 0.2.1"
-    },
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 3.2.0"
-    },
-    {
-      "name": "ghoneycutt/common",
-      "version_requirement": ">= 1.0.2"
-    },
-    {
-      "name": "puppetlabs/firewall",
-      "version_requirement": ">= 0.2.1"
-    },
     {"name":"puppetlabs/stdlib","version_requirement":">= 3.2.0"},
     {"name":"ghoneycutt/common","version_requirement":">= 1.0.2"},
     {"name":"puppetlabs/firewall","version_requirement":">= 0.2.1"}
