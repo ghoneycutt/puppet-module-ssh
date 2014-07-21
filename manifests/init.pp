@@ -365,22 +365,6 @@ class ssh (
     validate_array($sshd_config_macs)
   }
 
-  if $sshd_config_denyusers != undef {
-    validate_array($sshd_config_denyusers)
-  }
-
-  if $sshd_config_denygroups != undef {
-    validate_array($sshd_config_denygroups)
-  }
-
-  if $sshd_config_allowusers != undef {
-    validate_array($sshd_config_allowusers)
-  }
-
-  if $sshd_config_allowgroups != undef {
-    validate_array($sshd_config_allowgroups)
-  }
-
   if $ssh_config_hash_known_hosts_real != undef {
     validate_re($ssh_config_hash_known_hosts_real, '^(yes|no)$', "ssh::ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts_real}>.")
   }
@@ -494,6 +478,40 @@ class ssh (
     }
   }
 
+#enable hiera merging for allow groups and allow users
+  if $hiera_merge_real == true {
+    $real_sshd_config_denygroups = hiera_array('ssh::sshd_config_denygroups',  undef)
+    $real_sshd_config_denyusers = hiera_array('ssh::sshd_config_denyusers',  undef)
+    $real_sshd_config_allowgroups = hiera_array('ssh::sshd_config_allowgroups',  undef)
+    $real_sshd_config_allowusers = hiera_array('ssh::sshd_config_allowusers',  undef)
+    }
+  else{
+    $real_sshd_config_denygroups = $sshd_config_denygroups
+    $real_sshd_config_denyusers = $sshd_config_denyusers
+    $real_sshd_config_allowgroups = $sshd_config_allowgroups
+    $real_sshd_config_allowusers = $sshd_config_allowusers
+    }
+
+
+
+  if $real_sshd_config_denyusers != undef {
+    validate_array($real_sshd_config_denyusers)
+    }
+
+  if $real_sshd_config_denygroups != undef {
+    validate_array($real_sshd_config_denygroups)
+    }
+
+  if $real_sshd_config_allowusers != undef {
+    validate_array($real_sshd_config_allowusers)
+    }
+
+  if $real_sshd_config_allowgroups != undef {
+    validate_array($real_sshd_config_allowgroups)
+    }
+  
+  
+  
   package { $packages_real:
     ensure    => installed,
     source    => $ssh_package_source_real,
