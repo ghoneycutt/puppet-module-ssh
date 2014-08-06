@@ -26,6 +26,7 @@ class ssh (
   $sshd_config_path                 = '/etc/ssh/sshd_config',
   $sshd_config_owner                = 'root',
   $sshd_config_group                = 'root',
+  $sshd_config_loglevel             = 'INFO',
   $sshd_config_mode                 = 'USE_DEFAULTS',
   $sshd_config_port                 = '22',
   $sshd_config_syslog_facility      = 'AUTH',
@@ -493,6 +494,10 @@ class ssh (
       fail("ssh::purge_keys must be 'true' or 'false' and is <${purge_keys}>.")
     }
   }
+
+  #loglevel
+  $supported_loglevel_vals=['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE']
+  validate_re($sshd_config_loglevel, $supported_loglevel_vals)
 
   package { $packages_real:
     ensure    => installed,
