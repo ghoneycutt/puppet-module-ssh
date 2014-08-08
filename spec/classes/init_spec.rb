@@ -1607,117 +1607,172 @@ describe 'ssh' do
 
   context 'when the sshd_config_authorized_keys_command is set' do
     context 'with an invalid value' do
+      let (:facts) {{ :osfamily  => 'RedHat' }}
+      let (:params) {{'sshd_config_authorized_keys_command' => 'BOGON'}}
       it 'should fail' do
+        expect { subject }.to raise_error(Puppet::Error, /is not an absolute path./)
       end
     end#invalid value
 
     context 'with a valid value' do
+      let (:facts) {{ :osfamily  => 'RedHat' }}
+      let (:params) {{'sshd_config_authorized_keys_command' => '/tmp/foo.sh'}}
       it 'should set the AuthorizedKeysCommand configuration option in sshd_config' do
+        should contain_file('sshd_config').with_content(/^AuthorizedKeysCommand \/tmp\/foo.sh$/)
       end
       context 'and the ssh::authorized_keys_command_script is set' do
-
         context 'invalid value'do
+          let (:facts) {{ :osfamily  => 'RedHat' }}
+          let (:params) {{'sshd_config_authorized_keys_command' => '/tmp/foo.sh','authorized_keys_command_script' => true}}
           it 'should fail' do
+            expect { subject }.to raise_error(Puppet::Error, /is not a string/)
           end
         end#invalid ssh::authorized_keys_command_script
 
         context 'valid value' do
+          let (:facts) {{ :osfamily  => 'RedHat' }}
+          let (:params) {{'sshd_config_authorized_keys_command' => '/tmp/bogon.sh','authorized_keys_command_script' => 'ssh/sshd_config.erb'}}
           it 'should lay down the sshd_config_authorized_keys_command file from the specified template' do
+            should contain_file('/tmp/bogon.sh').with({:owner => 'root',:group => 'root', :mode => '0550'}).with_content(/# This file is being maintained by Puppet./)
           end
         end#valid ssh::authorized_keys_command_script
       end#ssh::authorized_keys_command_script set
 
       context 'and the ssh::authorized_keys_command_script is not set' do
-
+        let (:facts) {{ :osfamily  => 'RedHat' }}
+        let (:params) {{'sshd_config_authorized_keys_command' => '/tmp/bogon.sh'}}
         it 'should not lay down the sshd_config_authorized_keys_command file' do
+          should_not contain_file('/tmp/bogon.sh')
         end
       end#ssh::authorized_keys_command_script not set
 
+      context 'and the manage_authorized_keys_command_user is set with an invalid value' do
+        let (:facts) {{ :osfamily  => 'RedHat' }}
+        let (:params) {{'sshd_config_authorized_keys_command' => '/tmp/bogon.sh','manage_authorized_keys_command_user' => 'BOGON'}}
+        it 'should fail' do
+          expect { subject }.to raise_error(Puppet::Error, /"BOGON" is not a boolean.  It looks to be a String/)
+        end
+      end#manage_authorized_keys_command_user invalid value
+
       context 'and the manage_authorized_keys_command_user is true' do
-
         context 'and the sshd_config_authorized_keys_command_user param is not set' do
-
+          let (:facts) {{ :osfamily  => 'RedHat' }}
+          let (:params) {{'sshd_config_authorized_keys_command' => '/tmp/bogon.sh','manage_authorized_keys_command_user' => true}}
           it 'should fail' do
+            expect { subject }.to raise_error(Puppet::Error, /ssh::manage_authorized_keys_command_user is set to true, but ssh::sshd_config_authorized_keys_command_user is not set/)
           end
         end#sshd_config_authorized_keys_command_user not set
 
         context 'and the sshd_config_authorized_keys_command_user param is set' do
-
           context 'with an invalid value' do
+          let (:facts) {{ :osfamily  => 'RedHat' }}
+          let (:params) {{'sshd_config_authorized_keys_command' => '/tmp/bogon.sh','manage_authorized_keys_command_user' => true,'sshd_config_authorized_keys_command_user' => false}}
+            it 'should fail' do
+            expect { subject }.to raise_error(Puppet::Error, /not a string/)
+            end
           end#invalid sshd_config_authorized_keys_command_user
 
           context 'with a valid value' do
+            let (:facts) {{ :osfamily  => 'RedHat' }}
+            let (:params) {{'sshd_config_authorized_keys_command' => '/tmp/bogon.sh','manage_authorized_keys_command_user' => true,'sshd_config_authorized_keys_command_user' => 'gozer'}}
             it 'should set the AuthorizedKeysCommandUser configuration option in sshd_config' do
+              should contain_file('sshd_config').with_content(/^AuthorizedKeysCommandUser gozer$/)
+            end
+            it 'should create the user specified to the sshd_config_authorized_keys_command_user' do
+              should contain_user('gozer').with({'ensure' => 'present'})
+            end
+            context 'when the authorized_keys_command_script is set' do
+              let (:facts) {{ :osfamily  => 'RedHat' }}
+              let (:params) {{'sshd_config_authorized_keys_command' => '/tmp/bogon.sh','authorized_keys_command_script' => 'ssh/sshd_config.erb','manage_authorized_keys_command_user' => true,'sshd_config_authorized_keys_command_user' => 'gozer'}}
+              it 'should lay down the script with the proper ownership permissions' do
+                should contain_file('/tmp/bogon.sh').with({:owner => 'root',:group => 'gozer', :mode => '0550'}).with_content(/# This file is being maintained by Puppet./)
+              end
             end
           end#valid sshd_config_authorized_keys_command_user
-
         end#sshd_config_authorized_keys_command_user set
-
       end#manage_authorized_keys_command_user true
 
       context 'and the manage_authorized_keys_command_user is false' do
-
         context 'and the sshd_config_authorized_keys_command_user param is not set' do
-
+          let (:facts) {{ :osfamily  => 'RedHat' }}
+          let (:params) {{'sshd_config_authorized_keys_command' => '/tmp/bogon.sh','manage_authorized_keys_command_user' => false}}
           it 'should not set the AuthorizedKeysCommandUser configuration option in sshd_config' do
+            should contain_file('sshd_config').without_content(/^AuthorizedKeysCommandUser/)
           end
         end#sshd_config_authorized_keys_command_user not set
 
         context 'and the sshd_config_authorized_keys_command_user param is set' do
           context 'with an invalid value' do
+            let (:facts) {{ :osfamily  => 'RedHat' }}
+            let (:params) {{'sshd_config_authorized_keys_command' => '/tmp/bogon.sh','manage_authorized_keys_command_user' => false,'sshd_config_authorized_keys_command_user' => false}}
             it 'should not fail' do
-
+              should compile.with_all_deps
             end
           end#invalid sshd_config_authorized_keys_command_user
 
           context 'with a valid value' do
+            let (:facts) {{ :osfamily  => 'RedHat' }}
+            let (:params) {{'sshd_config_authorized_keys_command' => '/tmp/bogon.sh','manage_authorized_keys_command_user' => false,'sshd_config_authorized_keys_command_user' => 'gozer'}}
             it 'should not contain the user' do
+              should_not contain_user('gozer')
             end
             it 'should set the AuthorizedKeysCommandUser configuration option in sshd_config' do
+              should contain_file('sshd_config').with_content(/^AuthorizedKeysCommandUser gozer/)
             end
           end#valid sshd_config_authorized_keys_command_user
-
         end#sshd_config_authorized_keys_command_user set
-
       end#manage_authorized_keys_command_user false
-
     end#valid sshd_config_authorized_keys_command set
-
   end#sshd_config_authorized_keys_command set
 
   context 'when the sshd_config_authorized_keys_command is not set' do
+    let (:facts) {{ :osfamily  => 'RedHat' }}
     it 'should not set the AuthorizedKeysCommand configuration option in sshd_config' do
+      should contain_file('sshd_config').without_content(/^AuthorizedKeysCommand/)
     end
-
     it 'should not set the AuthorizedKeysCommandUser configuration option in sshd_config' do
+      should contain_file('sshd_config').without_content(/^AuthorizedKeysCommandUser/)
     end
-
     it 'should not contain the AuthorizedKeysCommand file resource' do
       #fortunately, since it's never specified, it won't be in the manifest, so... groovy.
-    end
-    it 'should not create the user specified to the AuthorizedKeysCommandUser configuration option in sshd_config' do
     end
 
     context 'and the manage_authorized_keys_command_user is true' do
       context 'and the sshd_config_authorized_keys_command_user param is not set' do
+      let (:facts) {{ :osfamily  => 'RedHat' }}
+      let (:params) {{'manage_authorized_keys_command_user' => true}}
         it 'not should fail'do
+          should compile.with_all_deps
         end
       end#sshd_config_authorized_keys_command_user not set
       context 'and the sshd_config_authorized_keys_command_user param is set' do
+        let (:facts) {{ :osfamily  => 'RedHat' }}
+        let (:params) {{'manage_authorized_keys_command_user' => true,'sshd_config_authorized_keys_command_user' => 'gozer'}}
         it 'should not create the user specified to the AuthorizedKeysCommandUser configuration option in sshd_config' do
+          should_not contain_user('gozer')
+        end
+        it 'should not set the AuthorizedKeysCommandUser configuration option in sshd_config' do
+          should contain_file('sshd_config').without_content(/^AuthorizedKeysCommandUser/)
         end
       end#sshd_config_authorized_keys_command_user set
     end#manage_authorized_keys_command_user true
     context 'and the manage_authorized_keys_command_user is false' do
       context 'and the sshd_config_authorized_keys_command_user param is set' do
+        let (:facts) {{ :osfamily  => 'RedHat' }}
+        let (:params) {{'manage_authorized_keys_command_user' => false,'sshd_config_authorized_keys_command_user' => 'gozer'}}
         it 'should not create the user specified to the AuthorizedKeysCommandUser configuration option in sshd_config' do
+          should_not contain_user('gozer')
         end
         it 'should not set the AuthorizedKeysCommandUser configuration option in sshd_config' do
+          should contain_file('sshd_config').without_content(/^AuthorizedKeysCommandUser/)
         end
       end#sshd_config_authorized_keys_command_user set
 
       context 'and the sshd_config_authorized_keys_command_user param is not set' do
+        let (:facts) {{ :osfamily  => 'RedHat' }}
+        let (:params) {{'manage_authorized_keys_command_user' => false}}
         it 'should not create the AuthorizedKeysCommandUser configuration option in sshd_config' do
+          should contain_file('sshd_config').without_content(/^AuthorizedKeysCommandUser/)
         end
       end
     end

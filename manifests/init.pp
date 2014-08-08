@@ -3,6 +3,7 @@
 # Manage ssh client and server
 #
 class ssh (
+  $authorized_keys_command_script           = undef,
   $hiera_merge                              = false,
   $keys                                     = undef,
   $manage_authorized_keys_command_user      = false,
@@ -552,6 +553,7 @@ class ssh (
       validate_string($authorized_keys_command_script)
     }
     if $sshd_config_authorized_keys_command_user {
+      validate_string($sshd_config_authorized_keys_command_user)
       #we want to make sure that the AKCommand file's group ownership matches
       #this user so it can run it.
       $_command_group = $sshd_config_authorized_keys_command_user
@@ -575,6 +577,7 @@ class ssh (
     }
 
     if $manage_authorized_keys_command_user {
+      validate_string($sshd_config_authorized_keys_command_user)
       user{$sshd_config_authorized_keys_command_user:
         comment => 'authorized keys command user',
         ensure  => 'present',
