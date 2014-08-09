@@ -366,22 +366,6 @@ class ssh (
     validate_array($sshd_config_macs)
   }
 
-  if $sshd_config_denyusers != undef {
-    validate_array($sshd_config_denyusers)
-  }
-
-  if $sshd_config_denygroups != undef {
-    validate_array($sshd_config_denygroups)
-  }
-
-  if $sshd_config_allowusers != undef {
-    validate_array($sshd_config_allowusers)
-  }
-
-  if $sshd_config_allowgroups != undef {
-    validate_array($sshd_config_allowgroups)
-  }
-
   if $ssh_config_hash_known_hosts_real != undef {
     validate_re($ssh_config_hash_known_hosts_real, '^(yes|no)$', "ssh::ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts_real}>.")
   }
@@ -498,6 +482,35 @@ class ssh (
   #loglevel
   $supported_loglevel_vals=['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE']
   validate_re($sshd_config_loglevel, $supported_loglevel_vals)
+
+  #enable hiera merging for allow groups and allow users
+  if $hiera_merge_real == true {
+    $sshd_config_denygroups_real  = hiera_array('ssh::sshd_config_denygroups',  undef)
+    $sshd_config_denyusers_real   = hiera_array('ssh::sshd_config_denyusers',  undef)
+    $sshd_config_allowgroups_real = hiera_array('ssh::sshd_config_allowgroups',  undef)
+    $sshd_config_allowusers_real  = hiera_array('ssh::sshd_config_allowusers',  undef)
+  } else {
+    $sshd_config_denygroups_real  = $sshd_config_denygroups
+    $sshd_config_denyusers_real   = $sshd_config_denyusers
+    $sshd_config_allowgroups_real = $sshd_config_allowgroups
+    $sshd_config_allowusers_real  = $sshd_config_allowusers
+  }
+
+  if $real_sshd_config_denyusers != undef {
+    validate_array($real_sshd_config_denyusers)
+  }
+
+  if $real_sshd_config_denygroups != undef {
+    validate_array($real_sshd_config_denygroups)
+  }
+
+  if $real_sshd_config_allowusers != undef {
+    validate_array($real_sshd_config_allowusers)
+  }
+
+  if $real_sshd_config_allowgroups != undef {
+    validate_array($real_sshd_config_allowgroups)
+  }
 
   package { $packages_real:
     ensure    => installed,
