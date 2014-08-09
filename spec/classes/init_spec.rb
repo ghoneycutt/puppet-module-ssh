@@ -59,6 +59,7 @@ describe 'ssh' do
 
     it { should contain_file('sshd_config').with_content(/^Port 22$/) }
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
+    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
@@ -182,6 +183,7 @@ describe 'ssh' do
     }
 
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
+    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
@@ -282,6 +284,7 @@ describe 'ssh' do
     }
 
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
+    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
@@ -381,6 +384,7 @@ describe 'ssh' do
     }
 
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
+    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
@@ -480,6 +484,7 @@ describe 'ssh' do
 
     it { should contain_file('sshd_config').with_content(/^Port 22$/) }
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
+    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
@@ -586,6 +591,7 @@ describe 'ssh' do
 
     it { should contain_file('sshd_config').with_content(/^Port 22$/) }
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
+    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
@@ -692,6 +698,7 @@ describe 'ssh' do
 
     it { should contain_file('sshd_config').with_content(/^Port 22$/) }
     it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
+    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
@@ -885,6 +892,7 @@ describe 'ssh' do
 
     it { should contain_file('sshd_config').with_content(/^Port 22222$/) }
     it { should contain_file('sshd_config').with_content(/^SyslogFacility DAEMON$/) }
+    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 60$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin no$/) }
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
@@ -926,6 +934,37 @@ describe 'ssh' do
         'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
       })
     }
+  end
+
+  describe 'sshd_loglevel param' do
+    context 'when set to an invalid value' do
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :root_home => '/root',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+      let (:params) {{'sshd_config_loglevel' => 'BOGON'}}
+      it 'should fail' do
+        expect { subject }.to raise_error(Puppet::Error, /"BOGON" does not match/)
+      end
+    end
+    ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE'].each do |supported_val|
+      context "when set to #{supported_val}" do
+        let :facts do
+          {
+            :fqdn      => 'monkey.example.com',
+            :osfamily  => 'RedHat',
+            :root_home => '/root',
+            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+          }
+        end
+        let (:params) {{ 'sshd_config_loglevel' => supported_val}}
+        it { should contain_file('sshd_config').with_content(/^LogLevel #{supported_val}$/) }
+      end
+    end
   end
 
   context 'with manage_root_ssh_config set to \'true\' on valid osfamily' do
@@ -1911,6 +1950,7 @@ describe 'ssh' do
       end
     end
   end
+
 
   describe 'with parameter ssh_sendenv specified' do
     ['true',true].each do |value|

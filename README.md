@@ -131,6 +131,14 @@ sshd_config's group.
 
 - *Default*: 'root'
 
+sshd_config_loglevel
+---------------------------
+LogLevel option in sshd_config. Acceptable values are QUIET, FATAL, ERROR, INFO, VERBOSE.
+
+*DEBUG, DEBUG1, DEBUG2, and DEBUG3* are permitted values for sshd, however [setting the logging level to DEBUG or higher violates the privacy of users](http://www.openbsd.org/cgi-bin/man.cgi/OpenBSD-current/man5/sshd_config.5?query=sshd_config) and should not be done unless manually debugging.
+
+- *Default*: 'INFO'
+
 sshd_config_mode
 ---------------
 sshd_config's mode. The default is '0600' on Linux and '0644' on Solaris.
@@ -187,7 +195,7 @@ Specifies whether sshd should check file modes and ownership of the user's files
 
 sshd_config_serverkeybits
 ----------------------------
-Defines the number of bits in the ephemeral protocol version 1 server key.  The minimum value is 512, and the default is 1024 except for Solaris default value is 768. 
+Defines the number of bits in the ephemeral protocol version 1 server key.  The minimum value is 512, and the default is 1024 except for Solaris default value is 768.
 
 - *Default*: '1024' except for Solaris which is '768'
 
