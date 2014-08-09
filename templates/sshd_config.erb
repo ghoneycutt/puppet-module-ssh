@@ -167,14 +167,14 @@ Ciphers <%= @sshd_config_ciphers.join(',') %>
 MACs <%= @sshd_config_macs.join(',') %>
 <% end -%>
 <% if @sshd_config_denyusers -%>
-DenyUsers <%= @real_sshd_config_denyusers.join(' ') %>
+DenyUsers <%= @sshd_config_denyusers_real.join(' ') %>
 <% end -%>
 <% if @sshd_config_denygroups -%>
-DenyGroups <%= @real_sshd_config_denygroups.join(' ') %>
+DenyGroups <%= @sshd_config_denygroups_real.join(' ') %>
 <% end -%>
 <% if @sshd_config_allowusers -%>
-AllowUsers <%= @real_sshd_config_allowusers.join(' ') %>
+AllowUsers <%= @sshd_config_allowusers_real.join(' ') %>
 <% end -%>
 <% if @sshd_config_allowgroups -%>
-AllowGroups <%= @real_sshd_config_allowgroups.join(' ') %>
+AllowGroups <%= @sshd_config_allowgroups_real.join(' ') %>
 <% end -%>
