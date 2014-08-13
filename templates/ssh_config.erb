@@ -80,7 +80,9 @@ Host *
 <% if @ssh_config_macs -%>
   MACs <%= @ssh_config_macs.join(',') %>
 <% end -%>
-<% if @ssh_config_appends != nil -%>
+<% if @ssh_config_appends and @ssh_config_appends != nil -%>
+#
+#The following lines are managed by ssh::ssh_config_appends
 <% [scope.lookupvar('ssh_config_appends')].flatten.each do |append_line| -%>
 <%= append_line %>
 <%end -%>

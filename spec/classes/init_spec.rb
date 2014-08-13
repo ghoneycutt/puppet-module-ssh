@@ -944,11 +944,18 @@ describe 'ssh' do
         expect { subject }.to raise_error(Puppet::Error, /not an Array/)
       end
     end
+    context 'when unpopulated' do
+      let (:facts) {{ :fqdn => 'monkey.example.com', :osfamily  => 'RedHat', :root_home => '/root', :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='}}
+      let (:params) {{ 'ssh_config_appends' => false}}
+      it 'should not modify ssh_config.' do
+        should contain_file('ssh_config').without_content(/#The following lines are managed by ssh::ssh_config_appends/)
+      end
+    end
     context 'when populated with a valid value' do
       let (:facts) {{ :fqdn => 'monkey.example.com', :osfamily  => 'RedHat', :root_home => '/root', :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='}}
       let (:params) {{ 'ssh_config_appends' => ['BOGON_ssh_one','BOGON_ssh_two']}}
       it 'should update ssh_config, appending each element as its own line.' do
-        should contain_file('ssh_config').with_content(/^BOGON_ssh_one$/).with_content(/^BOGON_ssh_two$/)
+        should contain_file('ssh_config').with_content(/#The following lines are managed by ssh::ssh_config_appends/).with_content(/^BOGON_ssh_one$/).with_content(/^BOGON_ssh_two$/)
       end
     end
   end
@@ -961,11 +968,18 @@ describe 'ssh' do
         expect { subject }.to raise_error(Puppet::Error, /not an Array/)
       end
     end
+    context 'when unpopulated' do
+      let (:facts) {{ :fqdn => 'monkey.example.com', :osfamily  => 'RedHat', :root_home => '/root', :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='}}
+      let (:params) {{ 'sshd_config_appends' => false}}
+      it 'should not modify sshd_config.' do
+        should contain_file('sshd_config').without_content(/#The following lines are managed by ssh::sshd_config_appends/)
+      end
+    end
     context 'when populated with a valid value' do
       let (:facts) {{ :fqdn => 'monkey.example.com', :osfamily  => 'RedHat', :root_home => '/root', :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='}}
       let (:params) {{ 'sshd_config_appends' => ['BOGON_sshd_one','BOGON_sshd_two']}}
       it 'should update sshd_config, appending each element as its own line.' do
-        should contain_file('sshd_config').with_content(/^BOGON_sshd_one$/).with_content(/^BOGON_sshd_two$/)
+        should contain_file('sshd_config').with_content(/#The following lines are managed by ssh::sshd_config_appends/).with_content(/^BOGON_sshd_one$/).with_content(/^BOGON_sshd_two$/)
       end
     end
   end

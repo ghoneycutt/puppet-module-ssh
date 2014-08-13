@@ -39,7 +39,7 @@ ssh_config_appends
 
 - Populate with an *array*
 
-When populated, element will be appended to the end of the `ssh_config` file.
+When populated, element will be appended to the end of the `ssh_config` file. A value of `undef` or `false` will disable this feature.
 
 - *Default*: undef
 
@@ -128,7 +128,7 @@ sshd_config_appends
 
 - Populate with an *array*
 
-When populated, element will be appended to the end of the `sshd_config` file.
+When populated, element will be appended to the end of the `sshd_config` file. A value of `undef` or `false` will disable this feature.
 
 - *Default*: undef
 
