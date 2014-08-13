@@ -80,3 +80,8 @@ Host *
 <% if @ssh_config_macs -%>
   MACs <%= @ssh_config_macs.join(',') %>
 <% end -%>
+<% if @ssh_config_appends != nil -%>
+<% [scope.lookupvar('ssh_config_appends')].flatten.each do |append_line| -%>
+<%= append_line %>
+<%end -%>
+<%end -%>

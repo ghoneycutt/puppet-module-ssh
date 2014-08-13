@@ -34,6 +34,15 @@ This will default to 'true' in future versions.
 
 - *Default*: false
 
+ssh_config_appends
+-----------------
+
+- Populate with an *array*
+
+When populated, element will be appended to the end of the `ssh_config` file.
+
+- *Default*: undef
+
 ssh_config_hash_known_hosts
 ---------------------------
 HashKnownHosts in ssh_config.
@@ -112,6 +121,17 @@ ssh_sendenv
 Boolean to enable SendEnv options for specifying environment variables. Default is set to true on Linux.
 
 - *Default*: 'USE_DEFAULTS'
+
+
+sshd_config_appends
+-----------------
+
+- Populate with an *array*
+
+When populated, element will be appended to the end of the `sshd_config` file.
+
+- *Default*: undef
+
 
 sshd_config_path
 ----------------
