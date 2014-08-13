@@ -178,3 +178,10 @@ AllowUsers <%= @sshd_config_allowusers_real.join(' ') %>
 <% if @sshd_config_allowgroups -%>
 AllowGroups <%= @sshd_config_allowgroups_real.join(' ') %>
 <% end -%>
+<% if @sshd_config_appends and @sshd_config_appends != nil -%>
+#
+#The following lines are managed by ssh::sshd_config_appends
+<% [scope.lookupvar('sshd_config_appends')].flatten.each do |append_line| -%>
+<%= append_line %>
+<%end -%>
+<%end -%>

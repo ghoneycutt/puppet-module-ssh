@@ -10,6 +10,7 @@ class ssh (
   $manage_firewall                  = false,
   $ssh_package_source               = 'USE_DEFAULTS',
   $ssh_package_adminfile            = 'USE_DEFAULTS',
+  $ssh_config_appends               = undef,
   $ssh_config_hash_known_hosts      = 'USE_DEFAULTS',
   $ssh_config_path                  = '/etc/ssh/ssh_config',
   $ssh_config_owner                 = 'root',
@@ -23,6 +24,7 @@ class ssh (
   $ssh_config_ciphers               = undef,
   $ssh_config_macs                  = undef,
   $ssh_sendenv                      = 'USE_DEFAULTS',
+  $sshd_config_appends              = undef,
   $sshd_config_path                 = '/etc/ssh/sshd_config',
   $sshd_config_owner                = 'root',
   $sshd_config_group                = 'root',
@@ -477,6 +479,16 @@ class ssh (
     default: {
       fail("ssh::purge_keys must be 'true' or 'false' and is <${purge_keys}>.")
     }
+  }
+
+  #ssh_config_appends
+  if $ssh_config_appends {
+    validate_array($ssh_config_appends)
+  }
+
+  #sshd_config_appends
+  if $sshd_config_appends {
+    validate_array($sshd_config_appends)
   }
 
   #loglevel
