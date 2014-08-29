@@ -187,6 +187,12 @@ Specify location of authorized_keys file. Default is to not specify.
 
 - *Default*: undef
 
+sshd_config_hostkey
+----------------------------
+Specify location of HostKey file. Default is specific to the sshd implementation, usually /etc/ssh/ssh_host_rsa_key and /etc/ssh/ssh_host_dsa_key
+
+- *Default*: undef
+
 sshd_config_strictmodes
 ----------------------------
 Specifies whether sshd should check file modes and ownership of the user's files and home directory before accepting login. Valid values are yes and no.

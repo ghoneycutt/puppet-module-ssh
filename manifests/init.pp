@@ -61,6 +61,7 @@ class ssh (
   $sshd_pamauthenticationviakbdint  = 'USE_DEFAULTS',
   $sshd_gssapicleanupcredentials    = 'USE_DEFAULTS',
   $sshd_acceptenv                   = 'USE_DEFAULTS',
+  $sshd_config_hostkey              = undef,
   $service_ensure                   = 'running',
   $service_name                     = 'USE_DEFAULTS',
   $service_enable                   = 'true',
@@ -330,6 +331,10 @@ class ssh (
         fail('ssh::sshd_acceptenv type must be true or false.')
       }
     }
+  }
+
+  if $sshd_config_hostkey != undef {
+    validate_string($sshd_config_hostkey)
   }
 
   if $service_hasstatus == 'USE_DEFAULTS' {
