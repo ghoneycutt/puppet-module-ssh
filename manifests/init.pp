@@ -61,6 +61,7 @@ class ssh (
   $sshd_pamauthenticationviakbdint  = 'USE_DEFAULTS',
   $sshd_gssapicleanupcredentials    = 'USE_DEFAULTS',
   $sshd_acceptenv                   = 'USE_DEFAULTS',
+  $sshd_config_hostkey              = 'USE_DEFAULTS',
   $service_ensure                   = 'running',
   $service_name                     = 'USE_DEFAULTS',
   $service_enable                   = 'true',
@@ -95,6 +96,7 @@ class ssh (
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
       $default_sshd_config_serverkeybits       = '1024'
+      $default_sshd_config_hostkey             = '/etc/ssh/ssh_host_rsa_key'
     }
     'Suse': {
       $default_packages                        = 'openssh'
@@ -114,6 +116,7 @@ class ssh (
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
       $default_sshd_config_serverkeybits       = '1024'
+      $default_sshd_config_hostkey             = '/etc/ssh/ssh_host_rsa_key'
       case $::architecture {
         'x86_64': {
           $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
@@ -146,6 +149,7 @@ class ssh (
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
       $default_sshd_config_serverkeybits       = '1024'
+      $default_sshd_config_hostkey             = '/etc/ssh/ssh_host_rsa_key'
     }
     'Solaris': {
       $default_ssh_config_hash_known_hosts     = undef
@@ -162,6 +166,7 @@ class ssh (
       $default_sshd_acceptenv                  = false
       $default_sshd_config_serverkeybits       = '768'
       $default_ssh_package_adminfile           = undef
+      $default_sshd_config_hostkey             = '/etc/ssh/ssh_host_rsa_key'
       case $::kernelrelease {
         '5.11': {
           $default_packages              = ['network/ssh',
@@ -330,6 +335,13 @@ class ssh (
         fail('ssh::sshd_acceptenv type must be true or false.')
       }
     }
+  }
+
+  if $sshd_config_hostkey == 'USE_DEFAULTS' {
+    $sshd_config_hostkey_real = $default_sshd_config_hostkey
+  } else {
+    validate_absolute_path($sshd_config_hostkey)
+    $sshd_config_hostkey_real = $sshd_config_hostkey
   }
 
   if $service_hasstatus == 'USE_DEFAULTS' {
