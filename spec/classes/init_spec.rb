@@ -77,7 +77,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 3$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
+    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*PAMAuthenticationViaKBDInt yes$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange no$/) }
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
@@ -193,7 +193,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/ssh\/sftp-server$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPICleanupCredentials yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
+    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
     it { should contain_file('sshd_config').with_content(/^PAMAuthenticationViaKBDInt yes$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIKeyExchange yes$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AcceptEnv L.*$/) }
@@ -294,7 +294,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/ssh\/sftp-server$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPICleanupCredentials yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
+    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
     it { should contain_file('sshd_config').with_content(/^PAMAuthenticationViaKBDInt yes$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIKeyExchange yes$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AcceptEnv L.*$/) }
@@ -394,7 +394,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/ssh\/sftp-server$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPICleanupCredentials yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
+    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
     it { should contain_file('sshd_config').with_content(/^PAMAuthenticationViaKBDInt yes$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIKeyExchange yes$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AcceptEnv L.*$/) }
@@ -502,7 +502,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 3$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
+    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*PAMAuthenticationViaKBDInt yes$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange yes$/) }
     it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
@@ -609,7 +609,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 3$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
+    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*PAMAuthenticationViaKBDInt yes$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange yes$/) }
     it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
@@ -716,7 +716,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 3$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
+    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*PAMAuthenticationViaKBDInt yes$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange yes$/) }
     it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
@@ -1404,7 +1404,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/is not a string/)
+      }.to raise_error(Puppet::Error,/is not an absolute path/)
     end
   end
 
