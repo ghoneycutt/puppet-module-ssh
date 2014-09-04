@@ -532,3 +532,28 @@ ssh::keys:
     ensure: absent
     user: root
 </pre>
+
+# Utilizing a custom authorized_keys_command
+The minimum configuration required to utilize a custom authorized_keys_command
+with this module is to set the `authorized_keys_command` parameter with the path
+the script resides.
+
+## Sample minimal configuration for an authorized_keys_command
+
+    ssh::authorized_keys_command: '/usr/local/sbin/keys.sh'
+
+If you wish puppet to manage the script, you must populate the
+`authorized_keys_command_script` parameter with the location of the template to
+use for the file. Otherwise, this module will assume the file is managed either
+by another module, or by some other process in your deployment paradigm. The
+[OpenBSD Manpage](http://www.openbsd.org/cgi-bin/man.cgi/OpenBSD-current/man5/sshd_config.5?query=sshd_config&sec=5&arch=i386) recommends utilizing a dedicated user for this
+purpose. This may be specified by populating the
+`sshd_config_authorized_keys_command_user` parameter. The specified user may
+additionally be managed by puppet via the `manage_authorized_keys_command_user`
+parameter. An example snippit of hieradata utilizing all of these features might
+look something like this:
+
+    ssh::authorized_keys_command_script:           'my_site_module/commandscript.erb'
+    ssh::authorized_keys_command:                  '/usr/local/sbin/keys.sh'
+    ssh::manage_authorized_keys_command_user:      true
+    ssh::sshd_config_authorized_keys_command_user: 'gozer'
