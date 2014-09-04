@@ -22,6 +22,7 @@ class ssh (
   $ssh_config_sendenv_xmodifiers    = false,
   $ssh_config_ciphers               = undef,
   $ssh_config_macs                  = undef,
+  $ssh_config_template              = 'ssh/ssh_config.erb',
   $ssh_sendenv                      = 'USE_DEFAULTS',
   $sshd_config_path                 = '/etc/ssh/sshd_config',
   $sshd_config_owner                = 'root',
@@ -30,6 +31,7 @@ class ssh (
   $sshd_config_mode                 = 'USE_DEFAULTS',
   $sshd_config_port                 = '22',
   $sshd_config_syslog_facility      = 'AUTH',
+  $sshd_config_template             = 'ssh/sshd_config.erb',
   $sshd_config_login_grace_time     = '120',
   $sshd_config_challenge_resp_auth  = 'yes',
   $sshd_config_print_motd           = 'yes',
@@ -479,6 +481,13 @@ class ssh (
     }
   }
 
+  #ssh_config template
+  validate_string($ssh_config_template)
+
+  #sshd_config template
+  validate_string($sshd_config_template)
+
+
   #loglevel
   $supported_loglevel_vals=['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE']
   validate_re($sshd_config_loglevel, $supported_loglevel_vals)
@@ -524,7 +533,7 @@ class ssh (
     owner   => $ssh_config_owner,
     group   => $ssh_config_group,
     mode    => $ssh_config_mode,
-    content => template('ssh/ssh_config.erb'),
+    content => template($ssh_config_template),
     require => Package[$packages_real],
   }
 
@@ -534,7 +543,7 @@ class ssh (
     mode    => $sshd_config_mode_real,
     owner   => $sshd_config_owner,
     group   => $sshd_config_group,
-    content => template('ssh/sshd_config.erb'),
+    content => template($sshd_config_template),
     require => Package[$packages_real],
   }
 

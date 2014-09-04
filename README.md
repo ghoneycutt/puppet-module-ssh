@@ -95,6 +95,12 @@ Boolean to set 'SendEnv XMODIFIERS' in ssh_config. This option is only valid on 
 
 - *Default*: false
 
+ssh_config_template
+--------------------
+*string* The template used to generate ssh_config.
+
+- *Default*: 'ssh/ssh_config.erb'
+
 ssh_config_ciphers
 ------------------
 Array of ciphers to be used with the Ciphers option in ssh_config.
@@ -156,6 +162,12 @@ sshd_config_syslog_facility
 SyslogFacility option in sshd_config.
 
 - *Default*: 'AUTH'
+
+sshd_config_template
+--------------------
+*string* The template used to generate sshd_config.
+
+- *Default*: 'ssh/sshd_config.erb'
 
 sshd_config_login_grace_time
 ----------------------------
