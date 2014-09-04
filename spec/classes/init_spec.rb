@@ -1605,6 +1605,126 @@ describe 'ssh' do
     }
   end
 
+  context 'when the sshd_config_authorized_keys_command is set' do
+    context 'with an invalid value' do
+      it 'should fail' do
+      end
+    end#invalid value
+
+    context 'with a valid value' do
+      it 'should set the AuthorizedKeysCommand configuration option in sshd_config' do
+      end
+      context 'and the ssh::authorized_keys_command_script is set' do
+
+        context 'invalid value'do
+          it 'should fail' do
+          end
+        end#invalid ssh::authorized_keys_command_script
+
+        context 'valid value' do
+          it 'should lay down the sshd_config_authorized_keys_command file from the specified template' do
+          end
+        end#valid ssh::authorized_keys_command_script
+      end#ssh::authorized_keys_command_script set
+
+      context 'and the ssh::authorized_keys_command_script is not set' do
+
+        it 'should not lay down the sshd_config_authorized_keys_command file' do
+        end
+      end#ssh::authorized_keys_command_script not set
+
+      context 'and the manage_authorized_keys_command_user is true' do
+
+        context 'and the sshd_config_authorized_keys_command_user param is not set' do
+
+          it 'should fail' do
+          end
+        end#sshd_config_authorized_keys_command_user not set
+
+        context 'and the sshd_config_authorized_keys_command_user param is set' do
+
+          context 'with an invalid value' do
+          end#invalid sshd_config_authorized_keys_command_user
+
+          context 'with a valid value' do
+            it 'should set the AuthorizedKeysCommandUser configuration option in sshd_config' do
+            end
+          end#valid sshd_config_authorized_keys_command_user
+
+        end#sshd_config_authorized_keys_command_user set
+
+      end#manage_authorized_keys_command_user true
+
+      context 'and the manage_authorized_keys_command_user is false' do
+
+        context 'and the sshd_config_authorized_keys_command_user param is not set' do
+
+          it 'should not set the AuthorizedKeysCommandUser configuration option in sshd_config' do
+          end
+        end#sshd_config_authorized_keys_command_user not set
+
+        context 'and the sshd_config_authorized_keys_command_user param is set' do
+          context 'with an invalid value' do
+            it 'should not fail' do
+
+            end
+          end#invalid sshd_config_authorized_keys_command_user
+
+          context 'with a valid value' do
+            it 'should not contain the user' do
+            end
+            it 'should set the AuthorizedKeysCommandUser configuration option in sshd_config' do
+            end
+          end#valid sshd_config_authorized_keys_command_user
+
+        end#sshd_config_authorized_keys_command_user set
+
+      end#manage_authorized_keys_command_user false
+
+    end#valid sshd_config_authorized_keys_command set
+
+  end#sshd_config_authorized_keys_command set
+
+  context 'when the sshd_config_authorized_keys_command is not set' do
+    it 'should not set the AuthorizedKeysCommand configuration option in sshd_config' do
+    end
+
+    it 'should not set the AuthorizedKeysCommandUser configuration option in sshd_config' do
+    end
+
+    it 'should not contain the AuthorizedKeysCommand file resource' do
+      #fortunately, since it's never specified, it won't be in the manifest, so... groovy.
+    end
+    it 'should not create the user specified to the AuthorizedKeysCommandUser configuration option in sshd_config' do
+    end
+
+    context 'and the manage_authorized_keys_command_user is true' do
+      context 'and the sshd_config_authorized_keys_command_user param is not set' do
+        it 'not should fail'do
+        end
+      end#sshd_config_authorized_keys_command_user not set
+      context 'and the sshd_config_authorized_keys_command_user param is set' do
+        it 'should not create the user specified to the AuthorizedKeysCommandUser configuration option in sshd_config' do
+        end
+      end#sshd_config_authorized_keys_command_user set
+    end#manage_authorized_keys_command_user true
+    context 'and the manage_authorized_keys_command_user is false' do
+      context 'and the sshd_config_authorized_keys_command_user param is set' do
+        it 'should not create the user specified to the AuthorizedKeysCommandUser configuration option in sshd_config' do
+        end
+        it 'should not set the AuthorizedKeysCommandUser configuration option in sshd_config' do
+        end
+      end#sshd_config_authorized_keys_command_user set
+
+      context 'and the sshd_config_authorized_keys_command_user param is not set' do
+        it 'should not create the AuthorizedKeysCommandUser configuration option in sshd_config' do
+        end
+      end
+    end
+  end#sshd_config_authorized_keys_command NOT set
+
+
+
   context 'with keys specified as not of type hash' do
     let(:params) { { :keys => [ 'not', 'a', 'hash' ] } }
     let(:facts) { { :osfamily  => 'RedHat' } }

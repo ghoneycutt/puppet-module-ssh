@@ -3,77 +3,80 @@
 # Manage ssh client and server
 #
 class ssh (
-  $hiera_merge                      = false,
-  $packages                         = 'USE_DEFAULTS',
-  $permit_root_login                = 'yes',
-  $purge_keys                       = 'true',
-  $manage_firewall                  = false,
-  $ssh_package_source               = 'USE_DEFAULTS',
-  $ssh_package_adminfile            = 'USE_DEFAULTS',
-  $ssh_config_hash_known_hosts      = 'USE_DEFAULTS',
-  $ssh_config_path                  = '/etc/ssh/ssh_config',
-  $ssh_config_owner                 = 'root',
-  $ssh_config_group                 = 'root',
-  $ssh_config_mode                  = '0644',
-  $ssh_config_forward_x11           = undef,
-  $ssh_config_forward_x11_trusted   = 'USE_DEFAULTS',
-  $ssh_config_forward_agent         = undef,
-  $ssh_config_server_alive_interval = undef,
-  $ssh_config_sendenv_xmodifiers    = false,
-  $ssh_config_ciphers               = undef,
-  $ssh_config_macs                  = undef,
-  $ssh_config_template              = 'ssh/ssh_config.erb',
-  $ssh_sendenv                      = 'USE_DEFAULTS',
-  $sshd_config_path                 = '/etc/ssh/sshd_config',
-  $sshd_config_owner                = 'root',
-  $sshd_config_group                = 'root',
-  $sshd_config_loglevel             = 'INFO',
-  $sshd_config_mode                 = 'USE_DEFAULTS',
-  $sshd_config_port                 = '22',
-  $sshd_config_syslog_facility      = 'AUTH',
-  $sshd_config_template             = 'ssh/sshd_config.erb',
-  $sshd_config_login_grace_time     = '120',
-  $sshd_config_challenge_resp_auth  = 'yes',
-  $sshd_config_print_motd           = 'yes',
-  $sshd_config_use_dns              = 'USE_DEFAULTS',
-  $sshd_config_authkey_location     = undef,
-  $sshd_config_strictmodes          = undef,
-  $sshd_config_serverkeybits        = 'USE_DEFAULTS',
-  $sshd_config_banner               = 'none',
-  $sshd_config_ciphers              = undef,
-  $sshd_config_macs                 = undef,
-  $sshd_config_denyusers            = undef,
-  $sshd_config_denygroups           = undef,
-  $sshd_config_allowusers           = undef,
-  $sshd_config_allowgroups          = undef,
-  $sshd_banner_content              = undef,
-  $sshd_banner_owner                = 'root',
-  $sshd_banner_group                = 'root',
-  $sshd_banner_mode                 = '0644',
-  $sshd_config_xauth_location       = 'USE_DEFAULTS',
-  $sshd_config_subsystem_sftp       = 'USE_DEFAULTS',
-  $sshd_password_authentication     = 'yes',
-  $sshd_allow_tcp_forwarding        = 'yes',
-  $sshd_x11_forwarding              = 'yes',
-  $sshd_use_pam                     = 'USE_DEFAULTS',
-  $sshd_client_alive_count_max      = '3',
-  $sshd_client_alive_interval       = '0',
-  $sshd_gssapiauthentication        = 'yes',
-  $sshd_gssapikeyexchange           = 'USE_DEFAULTS',
-  $sshd_pamauthenticationviakbdint  = 'USE_DEFAULTS',
-  $sshd_gssapicleanupcredentials    = 'USE_DEFAULTS',
-  $sshd_acceptenv                   = 'USE_DEFAULTS',
-  $service_ensure                   = 'running',
-  $service_name                     = 'USE_DEFAULTS',
-  $service_enable                   = 'true',
-  $service_hasrestart               = 'true',
-  $service_hasstatus                = 'USE_DEFAULTS',
-  $ssh_key_ensure                   = 'present',
-  $ssh_key_import                   = 'true',
-  $ssh_key_type                     = 'ssh-rsa',
-  $keys                             = undef,
-  $manage_root_ssh_config           = 'false',
-  $root_ssh_config_content          = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
+  $hiera_merge                              = false,
+  $keys                                     = undef,
+  $manage_authorized_keys_command_user      = false,
+  $manage_firewall                          = false,
+  $manage_root_ssh_config                   = 'false',
+  $packages                                 = 'USE_DEFAULTS',
+  $permit_root_login                        = 'yes',
+  $purge_keys                               = 'true',
+  $root_ssh_config_content                  = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
+  $service_enable                           = 'true',
+  $service_ensure                           = 'running',
+  $service_hasrestart                       = 'true',
+  $service_hasstatus                        = 'USE_DEFAULTS',
+  $service_name                             = 'USE_DEFAULTS',
+  $ssh_config_ciphers                       = undef,
+  $ssh_config_forward_agent                 = undef,
+  $ssh_config_forward_x11                   = undef,
+  $ssh_config_forward_x11_trusted           = 'USE_DEFAULTS',
+  $ssh_config_group                         = 'root',
+  $ssh_config_hash_known_hosts              = 'USE_DEFAULTS',
+  $ssh_config_macs                          = undef,
+  $ssh_config_mode                          = '0644',
+  $ssh_config_owner                         = 'root',
+  $ssh_config_path                          = '/etc/ssh/ssh_config',
+  $ssh_config_sendenv_xmodifiers            = false,
+  $ssh_config_server_alive_interval         = undef,
+  $ssh_config_template                      = 'ssh/ssh_config.erb',
+  $ssh_key_ensure                           = 'present',
+  $ssh_key_import                           = 'true',
+  $ssh_key_type                             = 'ssh-rsa',
+  $ssh_package_adminfile                    = 'USE_DEFAULTS',
+  $ssh_package_source                       = 'USE_DEFAULTS',
+  $ssh_sendenv                              = 'USE_DEFAULTS',
+  $sshd_acceptenv                           = 'USE_DEFAULTS',
+  $sshd_allow_tcp_forwarding                = 'yes',
+  $sshd_banner_content                      = undef,
+  $sshd_banner_group                        = 'root',
+  $sshd_banner_mode                         = '0644',
+  $sshd_banner_owner                        = 'root',
+  $sshd_client_alive_count_max              = '3',
+  $sshd_client_alive_interval               = '0',
+  $sshd_config_allowgroups                  = undef,
+  $sshd_config_allowusers                   = undef,
+  $sshd_config_authkey_location             = undef,
+  $sshd_config_authorized_keys_command      = undef,
+  $sshd_config_authorized_keys_command_user = undef,
+  $sshd_config_banner                       = 'none',
+  $sshd_config_challenge_resp_auth          = 'yes',
+  $sshd_config_ciphers                      = undef,
+  $sshd_config_denygroups                   = undef,
+  $sshd_config_denyusers                    = undef,
+  $sshd_config_group                        = 'root',
+  $sshd_config_login_grace_time             = '120',
+  $sshd_config_loglevel                     = 'INFO',
+  $sshd_config_macs                         = undef,
+  $sshd_config_mode                         = 'USE_DEFAULTS',
+  $sshd_config_owner                        = 'root',
+  $sshd_config_path                         = '/etc/ssh/sshd_config',
+  $sshd_config_port                         = '22',
+  $sshd_config_print_motd                   = 'yes',
+  $sshd_config_serverkeybits                = 'USE_DEFAULTS',
+  $sshd_config_strictmodes                  = undef,
+  $sshd_config_subsystem_sftp               = 'USE_DEFAULTS',
+  $sshd_config_syslog_facility              = 'AUTH',
+  $sshd_config_template                     = 'ssh/sshd_config.erb',
+  $sshd_config_use_dns                      = 'USE_DEFAULTS',
+  $sshd_config_xauth_location               = 'USE_DEFAULTS',
+  $sshd_gssapiauthentication                = 'yes',
+  $sshd_gssapicleanupcredentials            = 'USE_DEFAULTS',
+  $sshd_gssapikeyexchange                   = 'USE_DEFAULTS',
+  $sshd_pamauthenticationviakbdint          = 'USE_DEFAULTS',
+  $sshd_password_authentication             = 'yes',
+  $sshd_use_pam                             = 'USE_DEFAULTS',
+  $sshd_x11_forwarding                      = 'yes',
 ) {
 
   case $::osfamily {
@@ -368,6 +371,22 @@ class ssh (
     validate_array($sshd_config_macs)
   }
 
+  if $sshd_config_denyusers != undef {
+    validate_array($sshd_config_denyusers)
+  }
+
+  if $sshd_config_denygroups != undef {
+    validate_array($sshd_config_denygroups)
+  }
+
+  if $sshd_config_allowusers != undef {
+    validate_array($sshd_config_allowusers)
+  }
+
+  if $sshd_config_allowgroups != undef {
+    validate_array($sshd_config_allowgroups)
+  }
+
   if $ssh_config_hash_known_hosts_real != undef {
     validate_re($ssh_config_hash_known_hosts_real, '^(yes|no)$', "ssh::ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts_real}>.")
   }
@@ -520,6 +539,49 @@ class ssh (
   if $real_sshd_config_allowgroups != undef {
     validate_array($real_sshd_config_allowgroups)
   }
+
+
+  #authorized_keys_command logic
+  if $sshd_config_authorized_keys_command {
+    #validate our input
+    validate_absolute_path($sshd_config_authorized_keys_command)
+    validate_bool($manage_authorized_keys_command_user)
+
+    if $authorized_keys_command_script {
+      #we want to manage the command script from a template
+      validate_string($authorized_keys_command_script)
+    }
+    if $sshd_config_authorized_keys_command_user {
+      #we want to make sure that the AKCommand file's group ownership matches
+      #this user so it can run it.
+      $_command_group = $sshd_config_authorized_keys_command_user
+    } else {
+      $_command_group = 'root'
+    }
+    if ($manage_authorized_keys_command_user and ($sshd_config_authorized_keys_command_user == undef)) {
+      #we can't manage a nonexistent user.
+      fail("ssh::manage_authorized_keys_command_user is set to true, but ssh::sshd_config_authorized_keys_command_user is not set.")
+    }
+    #end of sanity checking. We appear sane. (ish)
+
+    if $authorized_keys_command_script {
+      #we want to lay down the scriptfile from a template
+      file{$sshd_config_authorized_keys_command:
+        owner   => 'root',
+        group   => $_command_group,
+        mode    => '0550',
+        content => template($authorized_keys_command_script)
+      }
+    }
+
+    if $manage_authorized_keys_command_user {
+      user{$sshd_config_authorized_keys_command_user:
+        comment => 'authorized keys command user',
+        ensure  => 'present',
+      }
+    }
+
+  }#end of authorized_keys_command logic
 
   package { $packages_real:
     ensure    => installed,

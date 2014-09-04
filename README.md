@@ -119,6 +119,25 @@ Boolean to enable SendEnv options for specifying environment variables. Default 
 
 - *Default*: 'USE_DEFAULTS'
 
+sshd_config_authorized_keys_command
+----------------
+*Absolute path* If set, will set this to the value of the AuthorizedKeysCommand setting. This specifies a program to be used to look up the user’s public keys. See [the OpenSSH sshd_config manpage](http://www.openbsd.org/cgi-bin/man.cgi/OpenBSD-current/man5/sshd_config.5?query=sshd_config&sec=5&arch=i386) for details. When this parameter is set, this module will also perform actions based on the values of the `ssh::sshd_config_authorized_keys_command_user`,`ssh::manage_authorized_keys_command_user`, and `ssh::authorized_keys_command_script` parameters.
+
+sshd_config_authorized_keys_command_user
+----------------
+*string* If `ssh::sshd_config_authorized_keys_command` is set this will set the AuthorizedKeysCommandUser option in `sshd_config` to the username specified here.  See [the OpenSSH sshd_config manpage](http://www.openbsd.org/cgi-bin/man.cgi/OpenBSD-current/man5/sshd_config.5?query=sshd_config&sec=5&arch=i386) for details.
+
+manage_authorized_keys_command_user
+----------------
+*bool* If `ssh::sshd_config_authorized_keys_command` is set, this will determine if this module should create the username provided to the `ssh::sshd_config_authorized_keys_command_user` parameter.
+
+
+authorized_keys_command_script
+----------------
+*template path* If `ssh::sshd_config_authorized_keys_command` is set, this will set the template that's used to deploy the script which lives in the location specified to `ssh::sshd_config_authorized_keys_command`. If this is not set, it is assumed that this script is being deployed by something outside of this module.
+
+
+
 sshd_config_path
 ----------------
 Path to sshd_config.
