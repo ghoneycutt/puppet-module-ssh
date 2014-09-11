@@ -65,6 +65,7 @@ class ssh (
   $sshd_gssapicleanupcredentials    = 'USE_DEFAULTS',
   $sshd_acceptenv                   = 'USE_DEFAULTS',
   $sshd_config_hostkey              = 'USE_DEFAULTS',
+  $sshd_listen                      = undef,
   $service_ensure                   = 'running',
   $service_name                     = 'USE_DEFAULTS',
   $service_enable                   = 'true',
@@ -346,6 +347,10 @@ class ssh (
     validate_array($sshd_config_hostkey)
     validate_absolute_path(join($sshd_config_hostkey))
     $sshd_config_hostkey_real = $sshd_config_hostkey
+  }
+
+  if $sshd_listen {
+    validate_array($sshd_listen)
   }
 
   if $service_hasstatus == 'USE_DEFAULTS' {

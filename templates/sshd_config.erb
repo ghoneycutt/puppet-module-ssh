@@ -18,8 +18,11 @@ Port <%= @sshd_config_port %>
 #Protocol 2,1
 Protocol 2
 #AddressFamily any
-#ListenAddress 0.0.0.0
-#ListenAddress ::
+<% if @sshd_listen -%>
+<% @sshd_listen.each do |val| -%>
+ListenAddress <%= val %>
+<% end -%>
+<% end -%>
 
 # HostKey for protocol version 1
 #HostKey /etc/ssh/ssh_host_key
