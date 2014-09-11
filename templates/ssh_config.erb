@@ -51,6 +51,9 @@
 <% if @ssh_config_hash_known_hosts_real != nil -%>
    HashKnownHosts <%= @ssh_config_hash_known_hosts_real %>
 <% end -%>
+<% if @ssh_config_global_known_hosts_file -%>
+   GlobalKnownHostsFile <%= @ssh_config_global_known_hosts_file %>
+<% end -%>
 Host *
   GSSAPIAuthentication yes
 <% if @ssh_gssapidelegatecredentials != nil -%>
