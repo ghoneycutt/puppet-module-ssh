@@ -24,6 +24,7 @@ class ssh (
   $ssh_config_macs                  = undef,
   $ssh_config_template              = 'ssh/ssh_config.erb',
   $ssh_sendenv                      = 'USE_DEFAULTS',
+  $ssh_gssapidelegatecredentials    = 'USE_DEFAULTS',
   $sshd_config_path                 = '/etc/ssh/sshd_config',
   $sshd_config_owner                = 'root',
   $sshd_config_group                = 'root',
@@ -86,6 +87,7 @@ class ssh (
       $default_ssh_package_source              = undef
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
+      $default_ssh_gssapidelegatecredentials   = undef
       $default_sshd_config_subsystem_sftp      = '/usr/libexec/openssh/sftp-server'
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
@@ -105,6 +107,7 @@ class ssh (
       $default_ssh_package_source              = undef
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
+      $default_ssh_gssapidelegatecredentials   = undef
       $default_ssh_config_forward_x11_trusted  = 'yes'
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
@@ -137,6 +140,7 @@ class ssh (
       $default_ssh_package_source              = undef
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
+      $default_ssh_gssapidelegatecredentials   = undef
       $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
@@ -166,32 +170,35 @@ class ssh (
       $default_ssh_package_adminfile           = undef
       case $::kernelrelease {
         '5.11': {
-          $default_packages              = ['network/ssh',
-                                            'network/ssh/ssh-key',
-                                            'service/network/ssh']
-          $default_service_name          = 'ssh'
-          $default_service_hasstatus     = true
-          $default_ssh_package_source    = undef
+          $default_packages                      = ['network/ssh',
+                                                    'network/ssh/ssh-key',
+                                                    'service/network/ssh']
+          $default_service_name                  = 'ssh'
+          $default_service_hasstatus             = true
+          $default_ssh_package_source            = undef
+          $default_ssh_gssapidelegatecredentials = 'yes'
         }
         '5.10': {
-          $default_packages              = ['SUNWsshcu',
-                                            'SUNWsshdr',
-                                            'SUNWsshdu',
-                                            'SUNWsshr',
-                                            'SUNWsshu']
-          $default_service_name          = 'ssh'
-          $default_service_hasstatus     = true
-          $default_ssh_package_source    = '/var/spool/pkg'
+          $default_packages                      = ['SUNWsshcu',
+                                                    'SUNWsshdr',
+                                                    'SUNWsshdu',
+                                                    'SUNWsshr',
+                                                    'SUNWsshu']
+          $default_service_name                  = 'ssh'
+          $default_service_hasstatus             = true
+          $default_ssh_package_source            = '/var/spool/pkg'
+          $default_ssh_gssapidelegatecredentials = undef
         }
         '5.9' : {
-          $default_packages              = ['SUNWsshcu',
-                                            'SUNWsshdr',
-                                            'SUNWsshdu',
-                                            'SUNWsshr',
-                                            'SUNWsshu']
-          $default_service_name          = 'sshd'
-          $default_service_hasstatus     = false
-          $default_ssh_package_source    = '/var/spool/pkg'
+          $default_packages                      = ['SUNWsshcu',
+                                                    'SUNWsshdr',
+                                                    'SUNWsshdu',
+                                                    'SUNWsshr',
+                                                    'SUNWsshu']
+          $default_service_name                  = 'sshd'
+          $default_service_hasstatus             = false
+          $default_ssh_package_source            = '/var/spool/pkg'
+          $default_ssh_gssapidelegatecredentials = undef
         }
         default: {
           fail('ssh module supports Solaris kernel release 5.9, 5.10 and 5.11.')
@@ -317,6 +324,13 @@ class ssh (
     }
   }
 
+  if $ssh_gssapidelegatecredentials == 'USE_DEFAULTS' {
+    $ssh_gssapidelegatecredentials_real = $default_ssh_gssapidelegateredentials
+  } else {
+    $ssh_gssapidelegatecredentials_real = $ssh_gssapidelegatecredentials
+  }
+
+
   if $sshd_acceptenv == 'USE_DEFAULTS' {
     $sshd_acceptenv_real = $default_sshd_acceptenv
   } else {
@@ -391,7 +405,13 @@ class ssh (
     fail('ssh::sshd_config_banner must be set to be able to use sshd_banner_content.')
   }
 
-  validate_re($sshd_gssapiauthentication, '^(yes|no)$', "ssh::sshd_gssapiauthentication may be either 'yes' or 'no' and is set to <${sshd_gssapiauthentication}>.")
+  if $ssh_gssapidelegatecredentials_real != undef {
+    validate_re($ssh_gssapidelegatecredentials_real, '^(yes|no)$', "ssh::ssh_gssapidelegatecredentials may be either 'yes' or 'no' and is set to <${ssh_gssapidelegatecredentials_real}>.")
+  }
+
+  if $sshd_gssapiauthentication != undef {
+    validate_re($sshd_gssapiauthentication, '^(yes|no)$', "ssh::sshd_gssapiauthentication may be either 'yes' or 'no' and is set to <${sshd_gssapiauthentication}>.")
+  }
 
   if $sshd_gssapikeyexchange_real != undef {
     validate_re($sshd_gssapikeyexchange_real, '^(yes|no)$', "ssh::sshd_gssapikeyexchange may be either 'yes' or 'no' and is set to <${sshd_gssapikeyexchange_real}>.")
