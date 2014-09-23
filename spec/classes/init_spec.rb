@@ -1851,6 +1851,39 @@ describe 'ssh' do
     end
   end
 
+  describe 'with parameter ssh_gssapidelegatecredentials' do
+    ['yes','no'].each do |value|
+      context "specified as #{value}" do
+        let(:params) { { :ssh_gssapidelegatecredentials => value } }
+        let(:facts) do
+          { :fqdn          => 'monkey.example.com',
+            :osfamily      => 'Solaris',
+            :kernelrelease => '5.11',
+            :sshrsakey     => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+          }
+        end
+
+        it { should contain_file('ssh_config').with_content(/^GSSAPIDelegateCredentials #{value}$/) }
+      end
+    end
+
+    ['YES',true].each do |value|
+      context "specified an invalid value #{value}" do
+        let(:params) { { :ssh_gssapidelegatecredentials => value } }
+        let(:facts) do
+          { :fqdn      => 'monkey.example.com',
+            :osfamily  => 'RedHat',
+            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+          }
+        end
+
+        it 'should fail' do
+          expect { should raise_error(Puppet::Error,/^ssh::sshd_gssapidelegatecredentials may be either 'yes' or 'no' and is set to <#{value}>./) }
+        end
+      end
+    end
+  end
+
   describe 'with parameter sshd_gssapiauthentication' do
     ['yes','no'].each do |value|
       context "specified as #{value}" do
