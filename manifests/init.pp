@@ -24,6 +24,7 @@ class ssh (
   $ssh_config_macs                  = undef,
   $ssh_config_template              = 'ssh/ssh_config.erb',
   $ssh_sendenv                      = 'USE_DEFAULTS',
+  $ssh_gssapidelegatecredentials    = undef,
   $sshd_config_path                 = '/etc/ssh/sshd_config',
   $sshd_config_owner                = 'root',
   $sshd_config_group                = 'root',
@@ -317,6 +318,8 @@ class ssh (
     }
   }
 
+  validate_re($ssh_gssapidelegatecredentials, '^(yes|no)$', "ssh::ssh_gssapidelegatecredentials may be either 'yes' or 'no' and is set to <${ssh_gssapidelegatecredentials}>.")
+
   if $sshd_acceptenv == 'USE_DEFAULTS' {
     $sshd_acceptenv_real = $default_sshd_acceptenv
   } else {
@@ -391,7 +394,9 @@ class ssh (
     fail('ssh::sshd_config_banner must be set to be able to use sshd_banner_content.')
   }
 
-  validate_re($sshd_gssapiauthentication, '^(yes|no)$', "ssh::sshd_gssapiauthentication may be either 'yes' or 'no' and is set to <${sshd_gssapiauthentication}>.")
+  if $sshd_gssapiauthentication != undef {
+    validate_re($sshd_gssapiauthentication, '^(yes|no)$', "ssh::sshd_gssapiauthentication may be either 'yes' or 'no' and is set to <${sshd_gssapiauthentication}>.")
+  }
 
   if $sshd_gssapikeyexchange_real != undef {
     validate_re($sshd_gssapikeyexchange_real, '^(yes|no)$', "ssh::sshd_gssapikeyexchange may be either 'yes' or 'no' and is set to <${sshd_gssapikeyexchange_real}>.")
