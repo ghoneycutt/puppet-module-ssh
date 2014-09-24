@@ -119,6 +119,14 @@ Boolean to enable SendEnv options for specifying environment variables. Default 
 
 - *Default*: 'USE_DEFAULTS'
 
+ssh_gssapidelegatecredentials
+-----------------------------
+*string* For GSSAPIDelegateCredentials setting in ssh_config. Valid values are
+'yes' and 'no' or to leave undef which will ensure the setting is not present
+in ssh_config.
+
+- *Default*: undef
+
 sshd_config_path
 ----------------
 Path to sshd_config.
