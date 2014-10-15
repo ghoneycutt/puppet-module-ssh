@@ -1,6 +1,6 @@
 {
   "name": "ghoneycutt-ssh",
-  "version": "3.19.1",
+  "version": "3.20.0",
   "author": "ghoneycutt",
   "summary": "Manages SSH",
   "license": "Apache License, Version 2.0",
@@ -28,28 +28,32 @@
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "5",
-        "6"
+        "6",
+        "7"
       ]
     },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
         "5",
-        "6"
+        "6",
+        "7"
       ]
     },
     {
       "operatingsystem": "OracleLinux",
       "operatingsystemrelease": [
         "5",
-        "6"
+        "6",
+        "7"
       ]
     },
     {
       "operatingsystem": "Scientific",
       "operatingsystemrelease": [
         "5",
-        "6"
+        "6",
+        "7"
       ]
     },
     {
