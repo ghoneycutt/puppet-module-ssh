@@ -2,110 +2,115 @@ require 'spec_helper'
 describe 'ssh' do
 
   context 'with default params on osfamily RedHat' do
-    let(:facts) do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+    ['5','6','7'].each do |release|
+      context "release #{release}" do
+        let(:facts) do
+          { :fqdn              => 'monkey.example.com',
+            :lsbmajdistrelease => :release,
+            :osfamily          => 'RedHat',
+            :sshrsakey         => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==',
+          }
+        end
+
+        it { should compile.with_all_deps }
+
+        it { should contain_class('ssh')}
+
+        it { should_not contain_class('common')}
+
+        ['openssh-server','openssh-clients'].each do |pkg|
+          it {
+            should contain_package(pkg).with({
+              'ensure' => 'installed',
+            })
+          }
+        end
+
+        it {
+          should contain_file('ssh_config').with({
+            'ensure'  => 'file',
+            'path'    => '/etc/ssh/ssh_config',
+            'owner'   => 'root',
+            'group'   => 'root',
+            'mode'    => '0644',
+            'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
+          })
+        }
+
+        it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
+        it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
+        it { should contain_file('ssh_config').with_content(/^\s*HashKnownHosts no$/) }
+        it { should contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
+        it { should contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted yes$/) }
+        it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
+        it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
+
+        it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
+        it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
+        it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
+
+        it {
+          should contain_file('sshd_config').with({
+            'ensure'  => 'file',
+            'path'    => '/etc/ssh/sshd_config',
+            'owner'   => 'root',
+            'group'   => 'root',
+            'mode'    => '0600',
+            'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
+          })
+        }
+
+        it { should contain_file('sshd_config').with_content(/^Port 22$/) }
+        it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
+        it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
+        it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
+        it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
+        it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
+        it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
+        it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
+        it { should contain_file('sshd_config').with_content(/^Banner none$/) }
+        it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
+        it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/libexec\/openssh\/sftp-server$/) }
+        it { should contain_file('sshd_config').with_content(/^PasswordAuthentication yes$/) }
+        it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding yes$/) }
+        it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
+        it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
+        it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
+        it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
+        it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 3$/) }
+        it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
+        it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
+        it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
+        it { should_not contain_file('sshd_config').with_content(/^\s*PAMAuthenticationViaKBDInt yes$/) }
+        it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange no$/) }
+        it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
+        it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
+        it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
+        it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
+        it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
+        it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
+        it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
+        it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
+        it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
+
+        it {
+          should contain_service('sshd_service').with({
+            'ensure'     => 'running',
+            'name'       => 'sshd',
+            'enable'     => 'true',
+            'hasrestart' => 'true',
+            'hasstatus'  => 'true',
+            'subscribe'  => 'File[sshd_config]',
+          })
+        }
+
+        it {
+          should contain_resources('sshkey').with({
+            'purge' => 'true',
+          })
+        }
+      end
     end
-
-    it { should compile.with_all_deps }
-
-    it { should contain_class('ssh')}
-
-    it { should_not contain_class('common')}
-
-    ['openssh-server','openssh-clients'].each do |pkg|
-      it {
-        should contain_package(pkg).with({
-          'ensure' => 'installed',
-        })
-      }
-    end
-
-    it {
-      should contain_file('ssh_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/ssh_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0644',
-        'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
-      })
-    }
-
-    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
-    it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*HashKnownHosts no$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted yes$/) }
-    it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
-
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
-
-    it {
-      should contain_file('sshd_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/sshd_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0600',
-        'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
-      })
-    }
-
-    it { should contain_file('sshd_config').with_content(/^Port 22$/) }
-    it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
-    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
-    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
-    it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
-    it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
-    it { should contain_file('sshd_config').with_content(/^Banner none$/) }
-    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
-    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/libexec\/openssh\/sftp-server$/) }
-    it { should contain_file('sshd_config').with_content(/^PasswordAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding yes$/) }
-    it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
-    it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
-    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
-    it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 3$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
-    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*PAMAuthenticationViaKBDInt yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange no$/) }
-    it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
-    it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
-    it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
-    it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
-    it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
-
-    it {
-      should contain_service('sshd_service').with({
-        'ensure'     => 'running',
-        'name'       => 'sshd',
-        'enable'     => 'true',
-        'hasrestart' => 'true',
-        'hasstatus'  => 'true',
-        'subscribe'  => 'File[sshd_config]',
-      })
-    }
-
-    it {
-      should contain_resources('sshkey').with({
-        'purge' => 'true',
-      })
-    }
   end
 
   context 'with default params on osfamily Solaris kernelrelease 5.8' do
