@@ -631,9 +631,9 @@ class ssh (
 
   # export each node's ssh key
   @@sshkey { $::fqdn :
-    ensure  => $ssh_key_ensure,
-    type    => $ssh_key_type,
-    key     => $key,
+    ensure => $ssh_key_ensure,
+    type   => $ssh_key_type,
+    key    => $key,
   }
 
   if $ssh_key_import_real == true {
