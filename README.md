@@ -208,6 +208,12 @@ Specify location of authorized_keys file. Default is to not specify.
 
 - *Default*: undef
 
+sshd_config_hostkey
+----------------------------
+Specify an array of server side HostKey files to use. Default is to use only /etc/ssh/ssh_host_rsa_key
+
+- *Default*: /etc/ssh/ssh_host_rsa_key
+
 sshd_config_strictmodes
 ----------------------------
 Specifies whether sshd should check file modes and ownership of the user's files and home directory before accepting login. Valid values are yes and no.
