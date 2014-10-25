@@ -81,6 +81,7 @@ describe 'ssh' do
         it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
         it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
         it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
+        it { should contain_file('sshd_config').without_content(/^ListenAddress/) }
         it { should_not contain_file('sshd_config').with_content(/^\s*PAMAuthenticationViaKBDInt yes$/) }
         it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange no$/) }
         it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
@@ -882,6 +883,9 @@ describe 'ssh' do
         :sshd_config_allowgroups         => [ 'ssh',
                                               'security',
         ],
+        :sshd_listen                     => [ '192.168.1.1',
+                                              '2001:db8::dead:f00d',
+        ],
       }
     end
 
@@ -931,6 +935,8 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^\s*DenyGroups nossh wheel$/) }
     it { should contain_file('sshd_config').with_content(/^\s*AllowUsers foo bar$/) }
     it { should contain_file('sshd_config').with_content(/^\s*AllowGroups ssh security$/) }
+    it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1$/) }
+    it { should contain_file('sshd_config').with_content(/^ListenAddress 2001:db8::dead:f00d$/) }
 
     it {
       should contain_file('sshd_banner').with({
