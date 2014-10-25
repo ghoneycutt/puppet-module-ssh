@@ -18,10 +18,12 @@ Port <%= @sshd_config_port %>
 #Protocol 2,1
 Protocol 2
 #AddressFamily any
-<% if @sshd_listen -%>
-<% @sshd_listen.each do |val| -%>
+<% if @sshd_listen_address.class == Array -%>
+<% @sshd_listen_address.each do |val| -%>
 ListenAddress <%= val %>
 <% end -%>
+<% elsif @sshd_listen_address.class == String -%>
+ListenAddress <%= @sshd_listen_address %>
 <% end -%>
 
 # HostKey for protocol version 1

@@ -81,7 +81,7 @@ describe 'ssh' do
         it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
         it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
         it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
-        it { should contain_file('sshd_config').without_content(/^ListenAddress/) }
+        it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
         it { should_not contain_file('sshd_config').with_content(/^\s*PAMAuthenticationViaKBDInt yes$/) }
         it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange no$/) }
         it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
@@ -212,6 +212,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
     it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
     it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
+    it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -313,6 +314,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
     it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
     it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
+    it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -413,6 +415,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
     it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
     it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
+    it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -520,6 +523,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
     it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
     it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
+    it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -627,6 +631,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
     it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
     it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
+    it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -734,6 +739,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
     it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
     it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
+    it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -883,7 +889,7 @@ describe 'ssh' do
         :sshd_config_allowgroups         => [ 'ssh',
                                               'security',
         ],
-        :sshd_listen                     => [ '192.168.1.1',
+        :sshd_listen_address             => [ '192.168.1.1',
                                               '2001:db8::dead:f00d',
         ],
       }
@@ -935,8 +941,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^\s*DenyGroups nossh wheel$/) }
     it { should contain_file('sshd_config').with_content(/^\s*AllowUsers foo bar$/) }
     it { should contain_file('sshd_config').with_content(/^\s*AllowGroups ssh security$/) }
-    it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1$/) }
-    it { should contain_file('sshd_config').with_content(/^ListenAddress 2001:db8::dead:f00d$/) }
+    it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1\nListenAddress 2001:db8::dead:f00d$/) }
 
     it {
       should contain_file('sshd_banner').with({
@@ -949,6 +954,66 @@ describe 'ssh' do
         'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
       })
     }
+  end
+
+  describe 'sshd_listen_address param' do
+    context 'when set to an array' do
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :root_home => '/root',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+      let (:params) {{'sshd_listen_address' => ['192.168.1.1','2001:db8::dead:f00d'] }}
+
+      it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1\nListenAddress 2001:db8::dead:f00d$/) }
+    end
+
+    context 'when set to a string' do
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :root_home => '/root',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+      let (:params) {{'sshd_listen_address' => ['192.168.1.1'] }}
+
+      it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1$/) }
+    end
+
+    context 'when not set' do
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :root_home => '/root',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it { should_not contain_file('sshd_config').with_content(/^\s*ListenAddress/) }
+    end
+
+
+    context 'when set to an invalid type (not string or array)' do
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :root_home => '/root',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+      let (:params) {{'sshd_listen_address' => true }}
+
+      it 'should fail' do
+        expect { subject }.to raise_error(Puppet::Error)
+      end
+    end
   end
 
   describe 'sshd_loglevel param' do
