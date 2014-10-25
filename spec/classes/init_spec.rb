@@ -493,7 +493,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
+    it { should contain_file('sshd_config').with_content(/^PrintMotd no$/) }
     it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
     it { should contain_file('sshd_config').with_content(/^Banner none$/) }
     it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
