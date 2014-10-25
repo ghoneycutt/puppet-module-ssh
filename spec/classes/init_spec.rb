@@ -512,6 +512,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
+    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*PAMAuthenticationViaKBDInt yes$/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange yes$/) }
     it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }

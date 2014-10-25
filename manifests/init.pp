@@ -153,7 +153,17 @@ class ssh (
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
       $default_sshd_config_serverkeybits       = '1024'
-      $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
+      if
+        ($::operatingsytem == 'Debian' and $::lsbmajdistrelease < 7)
+        or
+        ($::operatingsytem == 'Ubuntu' and $::lsbmajdistrelease < 12)
+      {
+          $default_sshd_config_hostkey         = [ '/etc/ssh/ssh_host_rsa_key', '/etc/ssh/ssh_host_dsa_key' ]
+      }
+      else {
+          # current default
+          $default_sshd_config_hostkey         = [ '/etc/ssh/ssh_host_rsa_key', '/etc/ssh/ssh_host_dsa_key', '/etc/ssh/ssh_host_ecdsa_key' ]
+      }
     }
     'Solaris': {
       $default_ssh_config_hash_known_hosts     = undef
