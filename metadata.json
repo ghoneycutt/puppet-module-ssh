@@ -1,6 +1,6 @@
 {
   "name": "ghoneycutt-ssh",
-  "version": "3.21.0",
+  "version": "3.22.0",
   "author": "ghoneycutt",
   "summary": "Manages SSH",
   "license": "Apache License, Version 2.0",
@@ -81,21 +81,6 @@
   "types": [
   
   ],
-  "checksums": {
-    "CHANGELOG": "15458e8eb413081b0a9cec5ef4d51ba8",
-    "Gemfile": "6992d521994d948eb6e48acd733a07bf",
-    "Gemfile.lock": "44926a4ba8c7b0f743f80b5428f68602",
-    "LICENSE": "567e6cc3941d464d60c74d1f4abd5f46",
-    "Modulefile": "4ed3bc9b0cf23322b9833a8703923ecf",
-    "README.md": "5142cf1dea17b3807de22c2c4c6d6310",
-    "Rakefile": "8ff6a0f7db638421d1742c5d365d0266",
-    "manifests/init.pp": "8882c6076300739497333d5fd6cd7b53",
-    "spec/classes/init_spec.rb": "1417340881748aad86e4a6c272e0d304",
-    "spec/spec_helper.rb": "3ea886dd135e120afa31e0aab12e85b0",
-    "templates/ssh_config.erb": "4b811f9ebdebe44e66876957461f22d0",
-    "templates/sshd_config.erb": "881549e01eb8510377ec5c5b80feed9f",
-    "tests/init.pp": "423466ae46899d6a0480aa9910b096d2"
-  },
   "dependencies": [
     {"name":"puppetlabs/stdlib","version_requirement":">= 3.2.0"},
     {"name":"ghoneycutt/common","version_requirement":">= 1.0.2"},
