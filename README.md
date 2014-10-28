@@ -160,6 +160,12 @@ sshd_config's mode. The default is '0600' on Linux and '0644' on Solaris.
 
 - *Default*: 'USE_DEFAULTS'
 
+sshd_listen_address
+-------------------
+String or Array to specify address(es) for which sshd will bind. Corresponds to ListenAddress in sshd_config.
+
+- *Default*: undef
+
 sshd_config_port
 ---------------------------
 String to specify listen port for sshd. Port option in sshd_config.
