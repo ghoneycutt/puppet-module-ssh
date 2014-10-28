@@ -44,6 +44,7 @@ describe 'ssh' do
         it { should contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted yes$/) }
         it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
         it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
+        it { should contain_file('ssh_config').with_content(/^\s*GlobalKnownHostsFile \/etc\/ssh\/ssh_known_hosts$/) }
 
         it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
         it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
@@ -789,22 +790,23 @@ describe 'ssh' do
     end
     let :params do
       {
-        :ssh_config_hash_known_hosts      => 'yes',
-        :ssh_config_forward_agent         => 'yes',
-        :ssh_config_forward_x11           => 'yes',
-        :ssh_config_server_alive_interval => '300',
-        :ssh_config_sendenv_xmodifiers    => true,
-        :ssh_config_ciphers               => [ 'aes128-cbc',
-                                                '3des-cbc',
-                                                'blowfish-cbc',
-                                                'cast128-cbc',
-                                                'arcfour',
-                                                'aes192-cbc',
-                                                'aes256-cbc',
+        :ssh_config_hash_known_hosts        => 'yes',
+        :ssh_config_forward_agent           => 'yes',
+        :ssh_config_forward_x11             => 'yes',
+        :ssh_config_server_alive_interval   => '300',
+        :ssh_config_sendenv_xmodifiers      => true,
+        :ssh_config_ciphers                 => [ 'aes128-cbc',
+                                                 '3des-cbc',
+                                                 'blowfish-cbc',
+                                                 'cast128-cbc',
+                                                 'arcfour',
+                                                 'aes192-cbc',
+                                                 'aes256-cbc',
         ],
-        :ssh_config_macs                  => [ 'hmac-md5-etm@openssh.com',
-                                                'hmac-sha1-etm@openssh.com',
+        :ssh_config_macs                    => [ 'hmac-md5-etm@openssh.com',
+                                                 'hmac-sha1-etm@openssh.com',
         ],
+        :ssh_config_global_known_hosts_file => '/etc/ssh/ssh_known_hosts2',
       }
     end
 
@@ -831,6 +833,7 @@ describe 'ssh' do
     it { should contain_file('ssh_config').with_content(/^  SendEnv XMODIFIERS$/) }
     it { should contain_file('ssh_config').with_content(/^\s*Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc$/) }
     it { should contain_file('ssh_config').with_content(/^\s*MACs hmac-md5-etm@openssh.com,hmac-sha1-etm@openssh.com$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*GlobalKnownHostsFile \/etc\/ssh\/ssh_known_hosts2$/) }
   end
 
   context 'with params used in sshd_config set on valid osfamily' do
@@ -2364,6 +2367,17 @@ describe 'ssh' do
         it { should compile.with_all_deps }
 
         it { should contain_class('ssh') }
+
+        it {
+          should contain_file('ssh_known_hosts').with({
+            'ensure'  => 'file',
+            'path'    => '/etc/ssh/ssh_known_hosts',
+            'owner'   => 'root',
+            'group'   => 'root',
+            'mode'    => '0644',
+          })
+    }
+
       end
     end
 
