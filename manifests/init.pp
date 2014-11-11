@@ -47,6 +47,8 @@ class ssh (
   $sshd_config_denygroups           = undef,
   $sshd_config_allowusers           = undef,
   $sshd_config_allowgroups          = undef,
+  $sshd_config_maxstartups          = undef,
+  $sshd_config_maxsessions          = undef,
   $sshd_banner_content              = undef,
   $sshd_banner_owner                = 'root',
   $sshd_banner_group                = 'root',
@@ -432,6 +434,17 @@ class ssh (
 
   if $sshd_config_authkey_location != undef {
     validate_string($sshd_config_authkey_location)
+  }
+
+  if $sshd_config_maxstartups != undef {
+    validate_string($sshd_config_maxstartups)
+  }
+
+  if $sshd_config_maxsessions != undef {
+    $is_int_sshd_config_maxsessions = is_integer($sshd_config_maxsessions)
+    if $is_int_sshd_config_maxsessions == false {
+      fail("sshd_config_maxsessions must be an integer. Detected value is ${sshd_config_maxsessions}.")
+    }
   }
 
   if $sshd_config_strictmodes != undef {
