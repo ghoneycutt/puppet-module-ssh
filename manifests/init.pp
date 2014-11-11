@@ -436,6 +436,17 @@ class ssh (
     validate_string($sshd_config_authkey_location)
   }
 
+  if $sshd_config_maxstartups != undef {
+    validate_string($sshd_config_maxstartups)
+  }
+
+  if $sshd_config_maxsessions != undef {
+    $is_int_sshd_config_maxsessions = is_integer($sshd_config_maxsessions)
+    if $is_int_sshd_config_maxsessions == false {
+      fail("sshd_config_maxsessions must be an integer. Detected value is ${sshd_config_maxsessions}.")
+    }
+  }
+
   if $sshd_config_strictmodes != undef {
     validate_re($sshd_config_strictmodes, '^(yes|no)$', "ssh::sshd_config_strictmodes may be either 'yes' or 'no' and is set to <${sshd_config_strictmodes}>.")
   }
