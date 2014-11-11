@@ -86,6 +86,8 @@ describe 'ssh' do
         it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange no$/) }
         it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
         it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
+        it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
+        it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
         it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
         it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
         it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
@@ -205,6 +207,8 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^\s*AcceptEnv L.*$/) }
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
+    it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
+    it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
@@ -307,6 +311,8 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^\s*AcceptEnv L.*$/) }
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
+    it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
+    it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
@@ -408,6 +414,8 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^\s*AcceptEnv L.*$/) }
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
+    it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
+    it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
@@ -517,6 +525,8 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
+    it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
+    it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
     it { should contain_file('ssh_config').without_content(/^\s*DenyUsers/) }
@@ -625,6 +635,8 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
+    it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
+    it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
     it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
@@ -733,6 +745,8 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
+    it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
+    it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
     it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
@@ -935,6 +949,8 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key/) }
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_dsa_key/) }
     it { should contain_file('sshd_config').with_content(/^StrictModes yes$/) }
+    it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
+    it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should contain_file('sshd_config').with_content(/^\s*Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc$/) }
     it { should contain_file('sshd_config').with_content(/^\s*MACs hmac-md5-etm@openssh.com,hmac-sha1-etm@openssh.com$/) }
     it { should contain_file('sshd_config').with_content(/^\s*DenyUsers root lusers$/) }

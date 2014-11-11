@@ -47,6 +47,8 @@ class ssh (
   $sshd_config_denygroups           = undef,
   $sshd_config_allowusers           = undef,
   $sshd_config_allowgroups          = undef,
+  $sshd_config_maxstartups          = undef,
+  $sshd_config_maxsessions          = undef,
   $sshd_banner_content              = undef,
   $sshd_banner_owner                = 'root',
   $sshd_banner_group                = 'root',
