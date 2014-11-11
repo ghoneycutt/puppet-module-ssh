@@ -365,6 +365,18 @@ Array of users for the AllowUsers setting in sshd_config.
 
 - *Default*: undef
 
+sshd_config_maxstartups
+-----------------------
+Specifies the maximum number of concurrent unauthenticated connections to the SSH daemon. 
+
+- *Default*: undef
+
+sshd_config_maxsessions
+-----------------------
+Specifies the maximum number of open sessions permitted per network connection.
+
+- *Default*: undef
+
 keys
 ----
 Hash of keys for user's ~/.ssh/authorized_keys
