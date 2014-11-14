@@ -1,6 +1,6 @@
 {
   "name": "ghoneycutt-ssh",
-  "version": "3.23.0",
+  "version": "3.23.1",
   "author": "ghoneycutt",
   "summary": "Manages SSH",
   "license": "Apache License, Version 2.0",
