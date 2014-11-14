@@ -8,7 +8,7 @@ The module uses exported resources to manage ssh keys and removes ssh keys that 
 
 # Compatability
 
-This module has been tested to work on the following systems with Puppet v3 and Ruby versions 1.8.7, 1.9.3 and 2.0.0.
+This module has been tested to work on the following systems with Puppet v3 and Ruby versions 1.8.7, 1.9.3, 2.0.0 and 2.1.0.
 
  * Debian 7
  * EL 5
@@ -362,6 +362,18 @@ Array of users for the AllowGroups setting in sshd_config.
 sshd_config_allowusers
 -----------------------
 Array of users for the AllowUsers setting in sshd_config.
+
+- *Default*: undef
+
+sshd_config_maxstartups
+-----------------------
+Specifies the maximum number of concurrent unauthenticated connections to the SSH daemon. 
+
+- *Default*: undef
+
+sshd_config_maxsessions
+-----------------------
+Specifies the maximum number of open sessions permitted per network connection.
 
 - *Default*: undef
 
