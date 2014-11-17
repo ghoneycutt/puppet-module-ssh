@@ -516,7 +516,10 @@ class ssh (
   }
 
   validate_absolute_path($ssh_config_global_known_hosts_file)
-
+  validate_string($ssh_config_global_known_hosts_owner)
+  validate_string($ssh_config_global_known_hosts_group)
+  validate_re($ssh_config_global_known_hosts_mode, '^[0-7]{4}$',
+    "ssh::ssh_config_global_known_hosts_mode must be a valid 4 digit mode in octal notation. Detected value is <${ssh_config_global_known_hosts_mode}>.")
 
   case $purge_keys {
     'true','false': {
@@ -532,7 +535,6 @@ class ssh (
 
   #sshd_config template
   validate_string($sshd_config_template)
-
 
   #loglevel
   $supported_loglevel_vals=['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE']
@@ -662,16 +664,16 @@ class ssh (
     key    => $key,
   }
 
-  if $ssh_key_import_real == true {
-    file { 'ssh_known_hosts':
-      ensure => file,
-      path   => $ssh_config_global_known_hosts_file,
-      owner  => $ssh_config_global_known_hosts_owner,
-      group  => $ssh_config_global_known_hosts_group,
-      mode   => $ssh_config_global_known_hosts_mode,
-    }
+  file { 'ssh_known_hosts':
+    ensure => file,
+    path   => $ssh_config_global_known_hosts_file,
+    owner  => $ssh_config_global_known_hosts_owner,
+    group  => $ssh_config_global_known_hosts_group,
+    mode   => $ssh_config_global_known_hosts_mode,
+  }
 
-    # import all nodes' ssh keys
+  # import all nodes' ssh keys
+  if $ssh_key_import_real == true {
     Sshkey <<||>> {
       target => $ssh_config_global_known_hosts_file,
     }

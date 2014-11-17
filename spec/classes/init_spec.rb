@@ -27,6 +27,16 @@ describe 'ssh' do
         end
 
         it {
+          should contain_file('ssh_known_hosts').with({
+            'ensure' => 'file',
+            'path'   => '/etc/ssh/ssh_known_hosts',
+            'owner'  => 'root',
+            'group'  => 'root',
+            'mode'   => '0644',
+          })
+        }
+
+        it {
           should contain_file('ssh_config').with({
             'ensure'  => 'file',
             'path'    => '/etc/ssh/ssh_config',
@@ -158,6 +168,16 @@ describe 'ssh' do
     end
 
     it {
+      should contain_file('ssh_known_hosts').with({
+        'ensure' => 'file',
+        'path'   => '/etc/ssh/ssh_known_hosts',
+        'owner'  => 'root',
+        'group'  => 'root',
+        'mode'   => '0644',
+      })
+    }
+
+    it {
       should contain_file('ssh_config').with({
         'ensure'  => 'file',
         'path'    => '/etc/ssh/ssh_config',
@@ -260,6 +280,16 @@ describe 'ssh' do
         })
       }
     end
+
+    it {
+      should contain_file('ssh_known_hosts').with({
+        'ensure' => 'file',
+        'path'   => '/etc/ssh/ssh_known_hosts',
+        'owner'  => 'root',
+        'group'  => 'root',
+        'mode'   => '0644',
+      })
+    }
 
     it {
       should contain_file('ssh_config').with({
@@ -365,6 +395,16 @@ describe 'ssh' do
     end
 
     it {
+      should contain_file('ssh_known_hosts').with({
+        'ensure' => 'file',
+        'path'   => '/etc/ssh/ssh_known_hosts',
+        'owner'  => 'root',
+        'group'  => 'root',
+        'mode'   => '0644',
+      })
+    }
+
+    it {
       should contain_file('ssh_config').with({
         'ensure'  => 'file',
         'path'    => '/etc/ssh/ssh_config',
@@ -465,6 +505,16 @@ describe 'ssh' do
         })
       }
     end
+
+    it {
+      should contain_file('ssh_known_hosts').with({
+        'ensure' => 'file',
+        'path'   => '/etc/ssh/ssh_known_hosts',
+        'owner'  => 'root',
+        'group'  => 'root',
+        'mode'   => '0644',
+      })
+    }
 
     it {
       should contain_file('ssh_config').with({
@@ -577,6 +627,16 @@ describe 'ssh' do
     }
 
     it {
+      should contain_file('ssh_known_hosts').with({
+        'ensure' => 'file',
+        'path'   => '/etc/ssh/ssh_known_hosts',
+        'owner'  => 'root',
+        'group'  => 'root',
+        'mode'   => '0644',
+      })
+    }
+
+    it {
       should contain_file('ssh_config').with({
         'ensure'  => 'file',
         'path'    => '/etc/ssh/ssh_config',
@@ -683,6 +743,16 @@ describe 'ssh' do
     it {
       should contain_package('openssh').with({
         'ensure' => 'installed',
+      })
+    }
+
+    it {
+      should contain_file('ssh_known_hosts').with({
+        'ensure' => 'file',
+        'path'   => '/etc/ssh/ssh_known_hosts',
+        'owner'  => 'root',
+        'group'  => 'root',
+        'mode'   => '0644',
       })
     }
 
@@ -2418,6 +2488,194 @@ describe 'ssh' do
 
       it 'should fail' do
         expect { should raise_error(Puppet::Error,/^ssh::service_hasstatus must be true or false./) }
+      end
+    end
+  end
+
+  describe 'with parameter ssh_config_global_known_hosts_file' do
+    context 'specified as a valid path' do
+      let(:params) { { :ssh_config_global_known_hosts_file => '/valid/path' } }
+      let(:facts) do
+        { :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it {
+        should contain_file('ssh_known_hosts').with({
+          'ensure' => 'file',
+          'path'   => '/valid/path',
+          'owner'  => 'root',
+          'group'  => 'root',
+          'mode'   => '0644',
+        })
+      }
+
+      it { should contain_file('ssh_config').with_content(/^\s*GlobalKnownHostsFile \/valid\/path$/) }
+    end
+
+    context 'specified as an invalid path' do
+      let(:params) { { :ssh_config_global_known_hosts_file => 'invalid/path' } }
+      let(:facts) do
+        { :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/^\"invalid\/path\" is not an absolute path./)
+      end
+    end
+
+    context 'specified as an invalid type' do
+      let(:params) { { :ssh_config_global_known_hosts_file => ['invalid','type'] } }
+      let(:facts) do
+        { :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/^\[\"invalid\", \"type\"\] is not an absolute path./)
+      end
+    end
+  end
+
+  describe 'with parameter ssh_config_global_known_hosts_owner' do
+    context 'specified as a valid string' do
+      let(:params) { { :ssh_config_global_known_hosts_owner => 'gh' } }
+      let(:facts) do
+        { :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it {
+        should contain_file('ssh_known_hosts').with({
+          'ensure' => 'file',
+          'path'   => '/etc/ssh/ssh_known_hosts',
+          'owner'  => 'gh',
+          'group'  => 'root',
+          'mode'   => '0644',
+        })
+      }
+    end
+
+    context 'specified as an invalid type [non-string]' do
+      let(:params) { { :ssh_config_global_known_hosts_owner => ['invalid','type'] } }
+      let(:facts) do
+        { :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/^\[\"invalid\", \"type\"\] is not a string.  It looks to be a Array/)
+      end
+    end
+  end
+
+  describe 'with parameter ssh_config_global_known_hosts_group' do
+    context 'specified as a valid string' do
+      let(:params) { { :ssh_config_global_known_hosts_group => 'gh' } }
+      let(:facts) do
+        { :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it {
+        should contain_file('ssh_known_hosts').with({
+          'ensure' => 'file',
+          'path'   => '/etc/ssh/ssh_known_hosts',
+          'owner'  => 'root',
+          'group'  => 'gh',
+          'mode'   => '0644',
+        })
+      }
+    end
+
+    context 'specified as an invalid type [non-string]' do
+      let(:params) { { :ssh_config_global_known_hosts_group => ['invalid','type'] } }
+      let(:facts) do
+        { :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/^\[\"invalid\", \"type\"\] is not a string.  It looks to be a Array/)
+      end
+    end
+  end
+
+  describe 'with parameter ssh_config_global_known_hosts_mode' do
+    context 'specified as a valid mode' do
+      let(:params) { { :ssh_config_global_known_hosts_mode => '0666' } }
+      let(:facts) do
+        { :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it {
+        should contain_file('ssh_known_hosts').with({
+          'ensure' => 'file',
+          'path'   => '/etc/ssh/ssh_known_hosts',
+          'owner'  => 'root',
+          'group'  => 'root',
+          'mode'   => '0666',
+        })
+      }
+    end
+
+    ['666','0842','06666'].each do |value|
+      context "specified as invalid mode - #{value}" do
+        let(:params) { { :ssh_config_global_known_hosts_mode => value } }
+        let(:facts) do
+          { :fqdn      => 'monkey.example.com',
+            :osfamily  => 'RedHat',
+            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+          }
+        end
+
+        it do
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/^ssh::ssh_config_global_known_hosts_mode must be a valid 4 digit mode in octal notation. Detected value is <#{value}>./)
+        end
+      end
+    end
+
+    context 'specified as an invalid type [non-string]' do
+      let(:params) { { :ssh_config_global_known_hosts_mode => ['invalid','type'] } }
+      let(:facts) do
+        { :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+
+      it do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/^ssh::ssh_config_global_known_hosts_mode must be a valid 4 digit mode in octal notation. Detected value is <invalidtype>./)
       end
     end
   end
