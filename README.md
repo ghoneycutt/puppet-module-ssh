@@ -503,6 +503,30 @@ Encryption type for SSH key. Valid values are 'rsa', 'dsa', 'ssh-dss' and 'ssh-r
 
 - *Default*: 'ssh-rsa'
 
+ssh_config_global_known_hosts_file
+----------------------------------
+File of the global known_hosts file
+
+- *Default*: '/etc/ssh/ssh_known_hosts'
+
+ssh_config_global_known_hosts_owner
+----------------------------------
+Owner of the global known_hosts file
+
+- *Default*: 'root'
+
+ssh_config_global_known_hosts_group
+----------------------------------
+Group of the global known_hosts file
+
+- *Default*: 'root'
+
+ssh_config_global_known_hosts_mode
+----------------------------------
+File mode of the global known_hosts file
+
+- *Default*: '0644'
+
 manage_root_ssh_config
 ----------------------
 Manage SSH config of root. Valid values are 'true' and 'false'.
