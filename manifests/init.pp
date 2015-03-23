@@ -316,34 +316,26 @@ class ssh (
   if $ssh_sendenv == 'USE_DEFAULTS' {
     $ssh_sendenv_real = $default_ssh_sendenv
   } else {
-    case type($ssh_sendenv) {
-      'string': {
+    if is_string($ssh_sendenv) {
         validate_re($ssh_sendenv, '^(true|false)$', "ssh::ssh_sendenv may be either 'true' or 'false' and is set to <${ssh_sendenv}>.")
         $ssh_sendenv_real = str2bool($ssh_sendenv)
-      }
-      'boolean': {
+    } elsif is_bool($ssh_sendenv) {
         $ssh_sendenv_real = $ssh_sendenv
-      }
-      default: {
+    } else {
         fail('ssh::ssh_sendenv type must be true or false.')
-      }
     }
   }
 
   if $sshd_acceptenv == 'USE_DEFAULTS' {
     $sshd_acceptenv_real = $default_sshd_acceptenv
   } else {
-    case type($sshd_acceptenv) {
-      'string': {
+    if is_string($sshd_acceptenv) {
         validate_re($sshd_acceptenv, '^(true|false)$', "ssh::sshd_acceptenv may be either 'true' or 'false' and is set to <${sshd_acceptenv}>.")
         $sshd_acceptenv_real = str2bool($sshd_acceptenv)
-      }
-      'boolean': {
+    } elsif is_bool($sshd_acceptenv) {
         $sshd_acceptenv_real = $sshd_acceptenv
-      }
-      default: {
+    } else {
         fail('ssh::sshd_acceptenv type must be true or false.')
-      }
     }
   }
 
@@ -355,24 +347,20 @@ class ssh (
     $sshd_config_hostkey_real = $sshd_config_hostkey
   }
 
-  if $sshd_listen_address {
+  if $sshd_listen_address != undef {
     validate_array($sshd_listen_address)
   }
 
   if $service_hasstatus == 'USE_DEFAULTS' {
     $service_hasstatus_real = $default_service_hasstatus
   } else {
-    case type($service_hasstatus) {
-      'string': {
+    if is_string($service_hasstatus) {
         validate_re($service_hasstatus, '^(true|false)$', "ssh::service_hasstatus must be 'true' or 'false' and is set to <${service_hasstatus}>.")
         $service_hasstatus_real = str2bool($service_hasstatus)
-      }
-      'boolean': {
+    } elsif is_bool($service_hasstatus) {
         $service_hasstatus_real = $service_hasstatus
-      }
-      default: {
+    } else {
         fail('ssh::service_hasstatus must be true or false.')
-      }
     }
   }
 
@@ -456,42 +444,31 @@ class ssh (
     validate_re($sshd_config_strictmodes, '^(yes|no)$', "ssh::sshd_config_strictmodes may be either 'yes' or 'no' and is set to <${sshd_config_strictmodes}>.")
   }
 
-  case type($hiera_merge) {
-    'string': {
-      validate_re($hiera_merge, '^(true|false)$', "ssh::hiera_merge may be either 'true' or 'false' and is set to <${hiera_merge}>.")
-      $hiera_merge_real = str2bool($hiera_merge)
-    }
-    'boolean': {
-      $hiera_merge_real = $hiera_merge
-    }
-    default: {
-      fail('ssh::hiera_merge type must be true or false.')
-    }
+  if is_string($hiera_merge) {
+    validate_re($hiera_merge, '^(true|false)$', "ssh::hiera_merge may be either 'true' or 'false' and is set to <${hiera_merge}>.")
+    $hiera_merge_real = str2bool($hiera_merge)
+  } elsif is_bool($hiera_merge) {
+    $hiera_merge_real = $hiera_merge
+  } else {
+    fail('ssh::hiera_merge type must be true or false.')
   }
 
-  case type($ssh_key_import) {
-    'string': {
-      validate_re($ssh_key_import, '^(true|false)$', "ssh::ssh_key_import may be either 'true' or 'false' and is set to <${ssh_key_import}>.")
-      $ssh_key_import_real = str2bool($ssh_key_import)
-    }
-    'boolean': {
-      $ssh_key_import_real = $ssh_key_import
-    }
-    default: {
-      fail('ssh::ssh_key_import type must be true or false.')
-    }
+  if is_string($ssh_key_import) {
+    validate_re($ssh_key_import, '^(true|false)$', "ssh::ssh_key_import may be either 'true' or 'false' and is set to <${ssh_key_import}>.")
+    $ssh_key_import_real = str2bool($ssh_key_import)
+  } elsif is_bool($ssh_key_import) {
+    $ssh_key_import_real = $ssh_key_import
+  } else {
+    fail('ssh::ssh_key_import type must be true or false.')
   }
 
-  case type($ssh_config_sendenv_xmodifiers) {
-    'string': {
-      $ssh_config_sendenv_xmodifiers_real = str2bool($ssh_config_sendenv_xmodifiers)
-    }
-    'boolean': {
-      $ssh_config_sendenv_xmodifiers_real = $ssh_config_sendenv_xmodifiers
-    }
-    default: {
-      fail('ssh::ssh_config_sendenv_xmodifiers type must be true or false.')
-    }
+  if is_string($ssh_config_sendenv_xmodifiers) {
+    validate_re($ssh_key_import, '^(true|false)$', "ssh::ssh_key_import may be either 'true' or 'false' and is set to <${ssh_key_import}>.")
+    $ssh_config_sendenv_xmodifiers_real = str2bool($ssh_config_sendenv_xmodifiers)
+  } elsif is_bool($ssh_config_sendenv_xmodifiers) {
+    $ssh_config_sendenv_xmodifiers_real = $ssh_config_sendenv_xmodifiers
+  } else {
+    fail('ssh::ssh_config_sendenv_xmodifiers type must be true or false.')
   }
 
   case $permit_root_login {

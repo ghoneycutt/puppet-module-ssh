@@ -1100,7 +1100,9 @@ describe 'ssh' do
       let (:params) {{'sshd_listen_address' => true }}
 
       it 'should fail' do
-        expect { subject }.to raise_error(Puppet::Error)
+        expect {
+	  should contain_class('ssh')
+	}.to raise_error(Puppet::Error)
       end
     end
   end
@@ -1117,7 +1119,9 @@ describe 'ssh' do
       end
       let (:params) {{'sshd_config_loglevel' => 'BOGON'}}
       it 'should fail' do
-        expect { subject }.to raise_error(Puppet::Error, /"BOGON" does not match/)
+        expect {
+	  should contain_class('ssh')
+	}.to raise_error(Puppet::Error, /"BOGON" does not match/)
       end
     end
     ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE'].each do |supported_val|
@@ -1149,7 +1153,9 @@ describe 'ssh' do
       end
       let (:params) {{'ssh_config_template' => false}}
       it 'should fail' do
-        expect { subject }.to raise_error(Puppet::Error, /is not a string/)
+        expect {
+	  should contain_class('ssh')    
+	}.to raise_error(Puppet::Error, /is not a string/)
       end
     end
     context 'and that value is valid' do
@@ -1180,7 +1186,9 @@ describe 'ssh' do
       end
       let (:params) {{'sshd_config_template' => false}}
       it 'should fail' do
-        expect { subject }.to raise_error(Puppet::Error, /is not a string/)
+        expect {
+	    should contain_class('ssh')
+	}.to raise_error(Puppet::Error, /is not a string/)
       end
     end
     context 'and that value is valid' do
