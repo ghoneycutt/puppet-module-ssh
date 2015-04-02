@@ -166,7 +166,14 @@ MaxSessions <%= sshd_config_maxsessions %>
 <% end -%>
 
 #PermitTunnel no
+<% if @sshd_config_chrootdirectory -%>
+ChrootDirectory <%= @sshd_config_chrootdirectory %>
+<% else -%>
 #ChrootDirectory none
+<% end -%>
+<% if @sshd_config_forcecommand -%>
+ForceCommand <%= @sshd_config_forcecommand %>
+<% end -%>
 
 # no default banner path
 #Banner none
@@ -195,4 +202,13 @@ AllowUsers <%= @sshd_config_allowusers_real.join(' ') %>
 <% end -%>
 <% if @sshd_config_allowgroups -%>
 AllowGroups <%= @sshd_config_allowgroups_real.join(' ') %>
+<% end -%>
+
+<% if @sshd_config_match -%>
+<%   @sshd_config_match.sort.each do |key, hash| -%>
+Match <%= key %>
+<%     hash.sort.each do |values| -%>
+  <%= values %>
+<%     end -%>
+<%   end -%>
 <% end -%>
