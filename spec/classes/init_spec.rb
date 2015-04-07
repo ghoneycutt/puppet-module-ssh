@@ -1120,14 +1120,14 @@ describe 'ssh' do
       end
     end
 
-    [true,3,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+    [true,['array'],a = { 'ha' => 'sh' }].each do |value|
       context "set to invalid #{value} (as #{value.class})" do
         let (:params) {{'sshd_config_forcecommand' => value }}
 
         it 'should fail' do
           expect {
             should
-          }.to raise_error(Puppet::Error, /ssh::sshd_config_forcecommand must be a string. Detected value is #{value}/)
+          }.to raise_error(Puppet::Error, /is not a string/)
         end
       end
     end

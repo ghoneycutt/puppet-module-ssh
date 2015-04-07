@@ -460,9 +460,7 @@ class ssh (
   }
 
   if $sshd_config_forcecommand != undef {
-    if is_string($sshd_config_forcecommand) == false {
-      fail("ssh::sshd_config_forcecommand must be a string. Detected value is ${sshd_config_forcecommand}.")
-    }
+    validate_string($sshd_config_forcecommand)
   }
 
   if $sshd_config_match != undef {
