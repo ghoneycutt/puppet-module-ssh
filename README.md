@@ -377,6 +377,35 @@ Specifies the maximum number of open sessions permitted per network connection.
 
 - *Default*: undef
 
+sshd_config_chrootdirectory
+---------------------------
+String with absolute path for the ChrootDirectory directive for the SSH daemon.
+
+- *Default*: undef
+
+sshd_config_forcecommand
+---------------------------
+String with command for the ForceCommand directive for the SSH daemon.
+
+- *Default*: undef
+
+sshd_config_match
+-----------------
+Hash for matches with nested arrays for options for the Match directive for the SSH daemon.
+Match directive is supported on SSH >= 5.x.
+
+- *Default*: undef
+
+- *Hiera example*:
+<pre>
+ssh::sshd_config_match:
+  'User JohnDoe':
+    - 'AllowTcpForwarding yes'
+  'Address 2.4.2.0':
+    - 'X11Forwarding yes'
+    - 'PasswordAuthentication no'
+</pre>
+
 keys
 ----
 Hash of keys for user's ~/.ssh/authorized_keys

@@ -49,6 +49,9 @@ class ssh (
   $sshd_config_allowgroups             = undef,
   $sshd_config_maxstartups             = undef,
   $sshd_config_maxsessions             = undef,
+  $sshd_config_chrootdirectory         = undef,
+  $sshd_config_forcecommand            = undef,
+  $sshd_config_match                   = undef,
   $sshd_banner_content                 = undef,
   $sshd_banner_owner                   = 'root',
   $sshd_banner_group                   = 'root',
@@ -450,6 +453,18 @@ class ssh (
     if $is_int_sshd_config_maxsessions == false {
       fail("sshd_config_maxsessions must be an integer. Detected value is ${sshd_config_maxsessions}.")
     }
+  }
+
+  if $sshd_config_chrootdirectory != undef {
+    validate_absolute_path($sshd_config_chrootdirectory)
+  }
+
+  if $sshd_config_forcecommand != undef {
+    validate_string($sshd_config_forcecommand)
+  }
+
+  if $sshd_config_match != undef {
+    validate_hash($sshd_config_match)
   }
 
   if $sshd_config_strictmodes != undef {

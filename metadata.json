@@ -3,7 +3,7 @@
   "version": "3.24.0",
   "author": "ghoneycutt",
   "summary": "Manages SSH",
-  "license": "Apache License, Version 2.0",
+  "license": "Apache-2.0",
   "source": "git://github.com/ghoneycutt/puppet-module-ssh.git",
   "project_page": "https://github.com/ghoneycutt/puppet-module-ssh",
   "issues_url": "https://github.com/ghoneycutt/puppet-module-ssh/issues",
@@ -78,12 +78,9 @@
     }
   ],
   "description": "Manage SSH",
-  "types": [
-  
-  ],
   "dependencies": [
-    {"name":"puppetlabs/stdlib","version_requirement":">= 3.2.0"},
-    {"name":"ghoneycutt/common","version_requirement":">= 1.0.2"},
-    {"name":"puppetlabs/firewall","version_requirement":">= 0.2.1"}
+    {"name":"puppetlabs/stdlib","version_requirement":">= 3.2.0 < 5.0.0"},
+    {"name":"ghoneycutt/common","version_requirement":">= 1.0.2 < 2.0.0"},
+    {"name":"puppetlabs/firewall","version_requirement":">= 0.2.1 < 2.0.0"}
   ]
 }
