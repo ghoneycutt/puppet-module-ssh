@@ -203,8 +203,8 @@ AllowUsers <%= @sshd_config_allowusers_real.join(' ') %>
 <% if @sshd_config_allowgroups -%>
 AllowGroups <%= @sshd_config_allowgroups_real.join(' ') %>
 <% end -%>
-
 <% if @sshd_config_match -%>
+
 <%   @sshd_config_match.sort.each do |key, hash| -%>
 Match <%= key %>
 <%     hash.sort.each do |values| -%>
