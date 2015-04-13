@@ -99,6 +99,7 @@ describe 'ssh' do
         it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
         it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
         it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
+        it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
         it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
         it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
         it { should contain_file('sshd_config').without_content(/^Match/) }
@@ -233,6 +234,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
+    it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
     it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
     it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
     it { should contain_file('sshd_config').without_content(/^Match/) }
@@ -350,6 +352,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
+    it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
     it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
     it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
     it { should contain_file('sshd_config').without_content(/^Match/) }
@@ -466,6 +469,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
+    it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
     it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
     it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
     it { should contain_file('sshd_config').without_content(/^Match/) }
@@ -590,6 +594,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
+    it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
     it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
     it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
     it { should contain_file('sshd_config').without_content(/^Match/) }
@@ -713,6 +718,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
+    it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
     it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
     it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
     it { should contain_file('sshd_config').without_content(/^Match/) }
@@ -836,6 +842,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
+    it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
     it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
     it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
     it { should contain_file('sshd_config').without_content(/^Match/) }
@@ -951,57 +958,59 @@ describe 'ssh' do
     end
     let :params do
       {
-        :sshd_config_port                => '22222',
-        :sshd_config_syslog_facility     => 'DAEMON',
-        :sshd_config_login_grace_time    => '60',
-        :permit_root_login               => 'no',
-        :sshd_config_chrootdirectory     => '/chrootdir',
-        :sshd_config_forcecommand        => '/force/command --with-parameter 242',
-        :sshd_config_match               => { 'User JohnDoe' => [ 'AllowTcpForwarding yes', ], },
-        :sshd_config_challenge_resp_auth => 'no',
-        :sshd_config_print_motd          => 'no',
-        :sshd_config_use_dns             => 'no',
-        :sshd_config_banner              => '/etc/sshd_banner',
-        :sshd_banner_content             => 'textinbanner',
-        :sshd_config_xauth_location      => '/opt/ssh/bin/xauth',
-        :sshd_config_subsystem_sftp      => '/opt/ssh/bin/sftp',
-        :sshd_password_authentication    => 'no',
-        :sshd_allow_tcp_forwarding       => 'no',
-        :sshd_x11_forwarding             => 'no',
-        :sshd_use_pam                    => 'no',
-        :sshd_client_alive_interval      => '242',
-        :sshd_config_serverkeybits       => '1024',
-        :sshd_client_alive_count_max     => '0',
-        :sshd_config_authkey_location    => '.ssh/authorized_keys',
-        :sshd_config_hostkey             => [ '/etc/ssh/ssh_host_rsa_key',
-                                              '/etc/ssh/ssh_host_dsa_key',
+        :sshd_config_port                  => '22222',
+        :sshd_config_syslog_facility       => 'DAEMON',
+        :sshd_config_login_grace_time      => '60',
+        :permit_root_login                 => 'no',
+        :sshd_config_chrootdirectory       => '/chrootdir',
+        :sshd_config_forcecommand          => '/force/command --with-parameter 242',
+        :sshd_config_match                 => { 'User JohnDoe' => [ 'AllowTcpForwarding yes', ], },
+        :sshd_config_challenge_resp_auth   => 'no',
+        :sshd_config_print_motd            => 'no',
+        :sshd_config_use_dns               => 'no',
+        :sshd_config_banner                => '/etc/sshd_banner',
+        :sshd_authorized_keys_command      => '/path/to/command',
+        :sshd_authorized_keys_command_user => 'asdf',
+        :sshd_banner_content               => 'textinbanner',
+        :sshd_config_xauth_location        => '/opt/ssh/bin/xauth',
+        :sshd_config_subsystem_sftp        => '/opt/ssh/bin/sftp',
+        :sshd_password_authentication      => 'no',
+        :sshd_allow_tcp_forwarding         => 'no',
+        :sshd_x11_forwarding               => 'no',
+        :sshd_use_pam                      => 'no',
+        :sshd_client_alive_interval        => '242',
+        :sshd_config_serverkeybits         => '1024',
+        :sshd_client_alive_count_max       => '0',
+        :sshd_config_authkey_location      => '.ssh/authorized_keys',
+        :sshd_config_hostkey               => [ '/etc/ssh/ssh_host_rsa_key',
+                                                '/etc/ssh/ssh_host_dsa_key',
         ],
-        :sshd_config_strictmodes         => 'yes',
-        :sshd_config_ciphers             => [ 'aes128-cbc',
-                                              '3des-cbc',
-                                              'blowfish-cbc',
-                                              'cast128-cbc',
-                                              'arcfour',
-                                              'aes192-cbc',
-                                              'aes256-cbc',
+        :sshd_config_strictmodes           => 'yes',
+        :sshd_config_ciphers               => [ 'aes128-cbc',
+                                                '3des-cbc',
+                                                'blowfish-cbc',
+                                                'cast128-cbc',
+                                                'arcfour',
+                                                'aes192-cbc',
+                                                'aes256-cbc',
         ],
-        :sshd_config_macs                => [ 'hmac-md5-etm@openssh.com',
-                                              'hmac-sha1-etm@openssh.com',
+        :sshd_config_macs                  => [ 'hmac-md5-etm@openssh.com',
+                                                'hmac-sha1-etm@openssh.com',
         ],
-        :sshd_config_denyusers           => [ 'root',
-                                              'lusers',
+        :sshd_config_denyusers             => [ 'root',
+                                                'lusers',
         ],
-        :sshd_config_denygroups          => [ 'nossh',
-                                              'wheel',
+        :sshd_config_denygroups            => [ 'nossh',
+                                                'wheel',
         ],
-        :sshd_config_allowusers          => [ 'foo',
-                                              'bar',
+        :sshd_config_allowusers            => [ 'foo',
+                                                'bar',
         ],
-        :sshd_config_allowgroups         => [ 'ssh',
-                                              'security',
+        :sshd_config_allowgroups           => [ 'ssh',
+                                                'security',
         ],
-        :sshd_listen_address             => [ '192.168.1.1',
-                                              '2001:db8::dead:f00d',
+        :sshd_listen_address               => [ '192.168.1.1',
+                                                '2001:db8::dead:f00d',
         ],
       }
     end
@@ -1048,6 +1057,8 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^StrictModes yes$/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
+    it { should contain_file('sshd_config').with_content(/^AuthorizedKeysCommand \/path\/to\/command$/) }
+    it { should contain_file('sshd_config').with_content(/^AuthorizedKeysCommandUser asdf$/) }
     it { should contain_file('sshd_config').with_content(/^ChrootDirectory \/chrootdir$/) }
     it { should contain_file('sshd_config').with_content(/^ForceCommand \/force\/command --with-parameter 242$/) }
     it { should contain_file('sshd_config').with_content(/^Match User JohnDoe\n  AllowTcpForwarding yes\Z/) }
@@ -1797,6 +1808,38 @@ describe 'ssh' do
       expect {
         should contain_class('ssh')
       }.to raise_error(Puppet::Error,/^ssh::sshd_config_strictmodes may be either \'yes\' or \'no\' and is set to <invalid>\./)
+    end
+  end
+
+  context 'with sshd_authorized_keys_command specified with an invalid path' do
+    let(:params) { { :sshd_authorized_keys_command => 'invalid/path' } }
+    let :facts do
+      { :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/^"invalid\/path" is not an absolute path/)
+    end
+  end
+
+  context 'with sshd_authorized_keys_command_user specified with an invalid type (non-string)' do
+    let(:params) { { :sshd_authorized_keys_command_user => ['invalid','type'] } }
+    let :facts do
+      { :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/^\["invalid", "type"\] is not a string/)
     end
   end
 
