@@ -287,6 +287,18 @@ AllowTcpForwarding in sshd_config. Specifies whether TCP forwarding is permitted
 
 - *Default*: 'yes'
 
+sshd_authorized_keys_command
+----------------------------
+Fully qualified path to command for AuthorizedKeysCommand in sshd_config.
+
+- *Default*: undef
+
+sshd_authorized_keys_command_user
+---------------------------------
+String of user for AuthorizedKeysCommandUser in sshd_config.
+
+- *Default*: undef
+
 sshd_x11_forwarding
 -------------------
 X11Forwarding in sshd_config. Specifies whether X11 forwarding is permitted.
@@ -367,7 +379,7 @@ Array of users for the AllowUsers setting in sshd_config.
 
 sshd_config_maxstartups
 -----------------------
-Specifies the maximum number of concurrent unauthenticated connections to the SSH daemon. 
+Specifies the maximum number of concurrent unauthenticated connections to the SSH daemon.
 
 - *Default*: undef
 
