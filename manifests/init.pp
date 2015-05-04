@@ -24,6 +24,7 @@ class ssh (
   $ssh_config_macs                     = undef,
   $ssh_config_template                 = 'ssh/ssh_config.erb',
   $ssh_sendenv                         = 'USE_DEFAULTS',
+  $ssh_gssapiauthentication            = 'yes',
   $ssh_gssapidelegatecredentials       = undef,
   $sshd_config_path                    = '/etc/ssh/sshd_config',
   $sshd_config_owner                   = 'root',
@@ -419,6 +420,10 @@ class ssh (
   }
   if $sshd_banner_content != undef and $sshd_config_banner == 'none' {
     fail('ssh::sshd_config_banner must be set to be able to use sshd_banner_content.')
+  }
+
+  if $ssh_gssapiauthentication != undef {
+    validate_re($ssh_gssapiauthentication, '^(yes|no)$', "ssh::ssh_gssapiauthentication may be either 'yes' or 'no' and is set to <${ssh_gssapiauthentication}>.")
   }
 
   if $ssh_gssapidelegatecredentials != undef {
