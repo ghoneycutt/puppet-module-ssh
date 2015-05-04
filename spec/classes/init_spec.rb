@@ -665,7 +665,7 @@ describe 'ssh' do
         'path'    => '/etc/ssh/sshd_config',
         'owner'   => 'root',
         'group'   => 'root',
-        'mode'    => '0600',
+        'mode'    => '0640',
         'require' => 'Package[openssh]',
       })
     }
@@ -785,7 +785,7 @@ describe 'ssh' do
         'path'    => '/etc/ssh/sshd_config',
         'owner'   => 'root',
         'group'   => 'root',
-        'mode'    => '0600',
+        'mode'    => '0640',
         'require' => 'Package[openssh]',
       })
     }

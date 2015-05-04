@@ -116,7 +116,7 @@ class ssh (
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
       $default_ssh_config_forward_x11_trusted  = 'yes'
-      $default_sshd_config_mode                = '0600'
+      $default_sshd_config_mode                = '0640'
       $default_sshd_config_use_dns             = 'yes'
       $default_sshd_config_xauth_location      = '/usr/bin/xauth'
       $default_sshd_use_pam                    = 'yes'
