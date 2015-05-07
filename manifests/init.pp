@@ -422,9 +422,7 @@ class ssh (
     fail('ssh::sshd_config_banner must be set to be able to use sshd_banner_content.')
   }
 
-  if $ssh_gssapiauthentication != undef {
-    validate_re($ssh_gssapiauthentication, '^(yes|no)$', "ssh::ssh_gssapiauthentication may be either 'yes' or 'no' and is set to <${ssh_gssapiauthentication}>.")
-  }
+  validate_re($ssh_gssapiauthentication, '^(yes|no)$', "ssh::ssh_gssapiauthentication may be either 'yes' or 'no' and is set to <${ssh_gssapiauthentication}>.")
 
   if $ssh_gssapidelegatecredentials != undef {
     validate_re($ssh_gssapidelegatecredentials, '^(yes|no)$', "ssh::ssh_gssapidelegatecredentials may be either 'yes' or 'no' and is set to <${ssh_gssapidelegatecredentials}>.")

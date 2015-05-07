@@ -2288,7 +2288,7 @@ describe 'ssh' do
         it do
           expect {
             should contain_class('ssh')
-          }.to raise_error(Puppet::Error,/^ssh::ssh_gssapiauthentication may be either 'yes' or 'no' and is set to <#{value.to_s}>./)
+          }.to raise_error(Puppet::Error,/^ssh::ssh_gssapiauthentication may be either 'yes' or 'no' and is set to <#{value.to_s}>\./)
         end
       end
     end
