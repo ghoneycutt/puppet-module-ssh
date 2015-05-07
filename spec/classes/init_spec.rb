@@ -2295,33 +2295,32 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_gssapiauthentication' do
+    let(:facts) do
+      { :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+
     ['yes','no'].each do |value|
-      context "specified as #{value}" do
+      context "specified as valid #{value} (as #{value.class})" do
         let(:params) { { :sshd_gssapiauthentication => value } }
-        let(:facts) do
-          { :fqdn          => 'monkey.example.com',
-            :osfamily      => 'Solaris',
-            :kernelrelease => '5.11',
-            :sshrsakey     => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
-        end
 
         it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication #{value}$/) }
       end
     end
 
-    ['YES',true].each do |value|
-      context "specified an invalid value #{value}" do
+    ['YES',true,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "specified as invalid value #{value} (as #{value.class})" do
         let(:params) { { :sshd_gssapiauthentication => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
+        if value.is_a?(Array)
+          value = value.join
         end
 
-        it 'should fail' do
-          expect { should raise_error(Puppet::Error,/^ssh::sshd_gssapiauthentication may be either 'yes' or 'no' and is set to <#{value}>./) }
+        it do
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/^ssh::sshd_gssapiauthentication may be either 'yes' or 'no' and is set to <#{value}>\./)
         end
       end
     end
