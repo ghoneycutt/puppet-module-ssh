@@ -55,7 +55,8 @@
    GlobalKnownHostsFile <%= @ssh_config_global_known_hosts_file %>
 <% end -%>
 Host *
-  GSSAPIAuthentication yes
+#  GSSAPIAuthentication yes
+  GSSAPIAuthentication <%= @ssh_gssapiauthentication %>
 <% if @ssh_gssapidelegatecredentials != nil -%>
 GSSAPIDelegateCredentials <%= @ssh_gssapidelegatecredentials %>
 <% end -%>

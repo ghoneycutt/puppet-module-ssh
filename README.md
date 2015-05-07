@@ -120,6 +120,12 @@ Boolean to enable SendEnv options for specifying environment variables. Default 
 
 - *Default*: 'USE_DEFAULTS'
 
+ssh_gssapiauthentication
+-------------------------
+GSSAPIAuthentication: Enables/disables GSS-API user authentication in ssh_config. Valid values are 'yes' and 'no'.
+
+- *Default*: 'yes'
+
 ssh_gssapidelegatecredentials
 -----------------------------
 *string* For GSSAPIDelegateCredentials setting in ssh_config. Valid values are
