@@ -2791,7 +2791,7 @@ describe 'ssh' do
     end
 
     context 'specified as an invalid type' do
-      let(:params) { { :ssh_config_global_known_hosts_file => ['invalid','type'] } }
+      let(:params) { { :ssh_config_global_known_hosts_file => { 'invalid' => 'type'} } }
       let(:facts) do
         { :fqdn      => 'monkey.example.com',
           :osfamily  => 'RedHat',
@@ -2802,7 +2802,7 @@ describe 'ssh' do
       it do
         expect {
           should contain_class('ssh')
-        }.to raise_error(Puppet::Error,/^\[\"invalid\", \"type\"\] is not an absolute path./)
+        }.to raise_error(Puppet::Error,/is not an absolute path/)
       end
     end
   end
