@@ -16,7 +16,7 @@ env:
     - PUPPET_GEM_VERSION="~> 3.5.1"
     - PUPPET_GEM_VERSION="~> 3.6.0"
     - PUPPET_GEM_VERSION="~> 3.7.0"
-    - PUPPET_GEM_VERSION="~> 3.7.0" PARSER='future'
+    - PUPPET_GEM_VERSION="~> 3.7.0" FUTURE_PARSER="yes"
     - PUPPET_GEM_VERSION="~> 4.0.0"
 
 

@@ -1,7 +1,14 @@
 require 'puppetlabs_spec_helper/module_spec_helper'
 
-if ENV['PARSER'] == 'future'
-  RSpec.configure do |c|
-    c.parser = 'future'
+RSpec.configure do |config|
+  config.before :each do
+    # Ensure that we don't accidentally cache facts and environment between
+    # test cases.  This requires each example group to explicitly load the
+    # facts being exercised with something like
+    # Facter.collection.loader.load(:ipaddress)
+    Facter.clear
+    Facter.clear_messages
+
+    Puppet[:parser] = 'future' if ENV['FUTURE_PARSER'] == 'yes'
   end
 end
