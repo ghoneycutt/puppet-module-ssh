@@ -322,7 +322,7 @@ class ssh (
   if $ssh_sendenv == 'USE_DEFAULTS' {
     $ssh_sendenv_real = $default_ssh_sendenv
   } else {
-    case type($ssh_sendenv) {
+    case type3x($ssh_sendenv) {
       'string': {
         validate_re($ssh_sendenv, '^(true|false)$', "ssh::ssh_sendenv may be either 'true' or 'false' and is set to <${ssh_sendenv}>.")
         $ssh_sendenv_real = str2bool($ssh_sendenv)
@@ -339,7 +339,7 @@ class ssh (
   if $sshd_acceptenv == 'USE_DEFAULTS' {
     $sshd_acceptenv_real = $default_sshd_acceptenv
   } else {
-    case type($sshd_acceptenv) {
+    case type3x($sshd_acceptenv) {
       'string': {
         validate_re($sshd_acceptenv, '^(true|false)$', "ssh::sshd_acceptenv may be either 'true' or 'false' and is set to <${sshd_acceptenv}>.")
         $sshd_acceptenv_real = str2bool($sshd_acceptenv)
@@ -368,7 +368,7 @@ class ssh (
   if $service_hasstatus == 'USE_DEFAULTS' {
     $service_hasstatus_real = $default_service_hasstatus
   } else {
-    case type($service_hasstatus) {
+    case type3x($service_hasstatus) {
       'string': {
         validate_re($service_hasstatus, '^(true|false)$', "ssh::service_hasstatus must be 'true' or 'false' and is set to <${service_hasstatus}>.")
         $service_hasstatus_real = str2bool($service_hasstatus)
@@ -482,7 +482,7 @@ class ssh (
     validate_re($sshd_config_strictmodes, '^(yes|no)$', "ssh::sshd_config_strictmodes may be either 'yes' or 'no' and is set to <${sshd_config_strictmodes}>.")
   }
 
-  case type($hiera_merge) {
+  case type3x($hiera_merge) {
     'string': {
       validate_re($hiera_merge, '^(true|false)$', "ssh::hiera_merge may be either 'true' or 'false' and is set to <${hiera_merge}>.")
       $hiera_merge_real = str2bool($hiera_merge)
@@ -495,7 +495,7 @@ class ssh (
     }
   }
 
-  case type($ssh_key_import) {
+  case type3x($ssh_key_import) {
     'string': {
       validate_re($ssh_key_import, '^(true|false)$', "ssh::ssh_key_import may be either 'true' or 'false' and is set to <${ssh_key_import}>.")
       $ssh_key_import_real = str2bool($ssh_key_import)
@@ -508,7 +508,7 @@ class ssh (
     }
   }
 
-  case type($ssh_config_sendenv_xmodifiers) {
+  case type3x($ssh_config_sendenv_xmodifiers) {
     'string': {
       $ssh_config_sendenv_xmodifiers_real = str2bool($ssh_config_sendenv_xmodifiers)
     }
