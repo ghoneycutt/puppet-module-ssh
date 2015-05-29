@@ -74,6 +74,7 @@ class ssh (
   $sshd_acceptenv                      = 'USE_DEFAULTS',
   $sshd_config_hostkey                 = 'USE_DEFAULTS',
   $sshd_listen_address                 = undef,
+  $sshd_hostbasedauthentication        = 'no',
   $service_ensure                      = 'running',
   $service_name                        = 'USE_DEFAULTS',
   $service_enable                      = true,
@@ -481,6 +482,8 @@ class ssh (
   if $sshd_config_strictmodes != undef {
     validate_re($sshd_config_strictmodes, '^(yes|no)$', "ssh::sshd_config_strictmodes may be either 'yes' or 'no' and is set to <${sshd_config_strictmodes}>.")
   }
+
+  validate_re($sshd_hostbasedauthentication, '^(yes|no)$', "ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to <${sshd_hostbasedauthentication}>.")
 
   case type($hiera_merge) {
     'string': {

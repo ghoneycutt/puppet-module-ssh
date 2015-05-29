@@ -101,6 +101,7 @@ describe 'ssh' do
         it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
         it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
         it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
+        it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
         it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
         it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
         it { should contain_file('sshd_config').without_content(/^Match/) }
@@ -237,6 +238,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
+    it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
     it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
     it { should contain_file('sshd_config').without_content(/^Match/) }
@@ -356,6 +358,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
+    it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
     it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
     it { should contain_file('sshd_config').without_content(/^Match/) }
@@ -473,6 +476,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
+    it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
     it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
     it { should contain_file('sshd_config').without_content(/^Match/) }
@@ -599,6 +603,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
+    it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
     it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
     it { should contain_file('sshd_config').without_content(/^Match/) }
@@ -724,6 +729,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
+    it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
     it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
     it { should contain_file('sshd_config').without_content(/^Match/) }
@@ -849,6 +855,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
+    it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
     it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
     it { should contain_file('sshd_config').without_content(/^Match/) }
@@ -1066,6 +1073,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should contain_file('sshd_config').with_content(/^AuthorizedKeysCommand \/path\/to\/command$/) }
     it { should contain_file('sshd_config').with_content(/^AuthorizedKeysCommandUser asdf$/) }
+    it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^ChrootDirectory \/chrootdir$/) }
     it { should contain_file('sshd_config').with_content(/^ForceCommand \/force\/command --with-parameter 242$/) }
     it { should contain_file('sshd_config').with_content(/^Match User JohnDoe\n  AllowTcpForwarding yes\Z/) }
@@ -2974,6 +2982,38 @@ describe 'ssh' do
         it { should compile.with_all_deps }
 
         it { should contain_class('ssh') }
+      end
+    end
+  end
+
+  describe 'with parameter sshd_hostbasedauthentication' do
+    let(:facts) do
+      { :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+
+    ['yes','no'].each do |value|
+      context "specified as valid #{value} (as #{value.class})" do
+        let(:params) { { :sshd_hostbasedauthentication => value } }
+
+        it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication #{value}$/) }
+      end
+    end
+
+    ['YES',true,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "specified as invalid value #{value} (as #{value.class})" do
+        let(:params) { { :sshd_hostbasedauthentication => value } }
+        if value.is_a?(Array)
+          value = value.join
+        end
+
+        it do
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to <#{value}>\./)
+        end
       end
     end
   end
