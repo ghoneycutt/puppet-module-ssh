@@ -1342,45 +1342,73 @@ describe 'ssh' do
     end
   end
 
-  context 'with manage_root_ssh_config set to \'true\' on valid osfamily' do
-    let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :root_home => '/root',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+  ['true',true].each do |value|
+    context "with manage_root_ssh_config set to #{value} on valid osfamily" do
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :root_home => '/root',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+      let :params do
+        { :manage_root_ssh_config => value }
+      end
+
+      it { should compile.with_all_deps }
+
+      it { should contain_class('ssh')}
+
+      it { should contain_class('common')}
+
+      it {
+        should contain_file('root_ssh_dir').with({
+          'ensure'  => 'directory',
+          'path'    => '/root/.ssh',
+          'owner'   => 'root',
+          'group'   => 'root',
+          'mode'    => '0700',
+          'require' => 'Common::Mkdir_p[/root/.ssh]',
+        })
+      }
+
+      it {
+        should contain_file('root_ssh_config').with({
+          'ensure' => 'file',
+          'path'   => '/root/.ssh/config',
+          'owner'  => 'root',
+          'group'  => 'root',
+          'mode'   => '0600',
+        })
       }
     end
-    let :params do
-      { :manage_root_ssh_config => 'true' }
+  end
+
+  ['false',false].each do |value|
+    context "with manage_root_ssh_config set to #{value} on valid osfamily" do
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :root_home => '/root',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+      let :params do
+        { :manage_root_ssh_config => value }
+      end
+
+      it { should compile.with_all_deps }
+
+      it { should contain_class('ssh')}
+
+      it { should_not contain_class('common')}
+
+      it { should_not contain_file('root_ssh_dir') }
+
+      it { should_not contain_file('root_ssh_config') }
     end
-
-    it { should compile.with_all_deps }
-
-    it { should contain_class('ssh')}
-
-    it { should contain_class('common')}
-
-    it {
-      should contain_file('root_ssh_dir').with({
-        'ensure'  => 'directory',
-        'path'    => '/root/.ssh',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0700',
-        'require' => 'Common::Mkdir_p[/root/.ssh]',
-      })
-    }
-
-    it {
-      should contain_file('root_ssh_config').with({
-        'ensure' => 'file',
-        'path'   => '/root/.ssh/config',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0600',
-      })
-    }
   end
 
   [true,'invalid'].each do |ciphers|
@@ -1477,7 +1505,7 @@ describe 'ssh' do
       it 'should fail' do
         expect {
           should contain_class('ssh')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/is not an Array/)
       end
     end
   end
@@ -1497,7 +1525,7 @@ describe 'ssh' do
       it 'should fail' do
         expect {
           should contain_class('ssh')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/is not an Array/)
       end
     end
   end
@@ -1517,7 +1545,7 @@ describe 'ssh' do
       it 'should fail' do
         expect {
           should contain_class('ssh')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/is not an Array/)
       end
     end
   end
@@ -1537,7 +1565,7 @@ describe 'ssh' do
       it 'should fail' do
         expect {
           should contain_class('ssh')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/is not an Array/)
       end
     end
   end
@@ -1597,7 +1625,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh::manage_root_ssh_config is <invalid> and must be \'true\' or \'false\'\./)
+      }.to raise_error(Puppet::Error,/Unknown type of boolean/)
     end
   end
 
@@ -2930,8 +2958,7 @@ describe 'ssh' do
             'group'   => 'root',
             'mode'    => '0644',
           })
-    }
-
+        }
       end
     end
 
