@@ -6,7 +6,7 @@ class ssh (
   $hiera_merge                         = false,
   $packages                            = 'USE_DEFAULTS',
   $permit_root_login                   = 'yes',
-  $purge_keys                          = 'true',
+  $purge_keys                          = true,
   $manage_firewall                     = false,
   $ssh_package_source                  = 'USE_DEFAULTS',
   $ssh_package_adminfile               = 'USE_DEFAULTS',
@@ -76,18 +76,18 @@ class ssh (
   $sshd_listen_address                 = undef,
   $service_ensure                      = 'running',
   $service_name                        = 'USE_DEFAULTS',
-  $service_enable                      = 'true',
-  $service_hasrestart                  = 'true',
+  $service_enable                      = true,
+  $service_hasrestart                  = true,
   $service_hasstatus                   = 'USE_DEFAULTS',
   $ssh_key_ensure                      = 'present',
-  $ssh_key_import                      = 'true',
+  $ssh_key_import                      = true,
   $ssh_key_type                        = 'ssh-rsa',
   $ssh_config_global_known_hosts_file  = '/etc/ssh/ssh_known_hosts',
   $ssh_config_global_known_hosts_owner = 'root',
   $ssh_config_global_known_hosts_group = 'root',
   $ssh_config_global_known_hosts_mode  = '0644',
   $keys                                = undef,
-  $manage_root_ssh_config              = 'false',
+  $manage_root_ssh_config              = false,
   $root_ssh_config_content             = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
 ) {
 
@@ -495,18 +495,12 @@ class ssh (
     }
   }
 
-  case type($ssh_key_import) {
-    'string': {
-      validate_re($ssh_key_import, '^(true|false)$', "ssh::ssh_key_import may be either 'true' or 'false' and is set to <${ssh_key_import}>.")
-      $ssh_key_import_real = str2bool($ssh_key_import)
-    }
-    'boolean': {
-      $ssh_key_import_real = $ssh_key_import
-    }
-    default: {
-      fail('ssh::ssh_key_import type must be true or false.')
-    }
+  if type($ssh_key_import) == 'string' {
+    $ssh_key_import_real = str2bool($ssh_key_import)
+  } else {
+    $ssh_key_import_real = $ssh_key_import
   }
+  validate_bool($ssh_key_import_real)
 
   case type($ssh_config_sendenv_xmodifiers) {
     'string': {
@@ -547,14 +541,33 @@ class ssh (
   validate_re($ssh_config_global_known_hosts_mode, '^[0-7]{4}$',
     "ssh::ssh_config_global_known_hosts_mode must be a valid 4 digit mode in octal notation. Detected value is <${ssh_config_global_known_hosts_mode}>.")
 
-  case $purge_keys {
-    'true','false': {
-      # noop
-    }
-    default: {
-      fail("ssh::purge_keys must be 'true' or 'false' and is <${purge_keys}>.")
-    }
+  if type($purge_keys) == 'string' {
+    $purge_keys_real = str2bool($purge_keys)
+  } else {
+    $purge_keys_real = $purge_keys
   }
+  validate_bool($purge_keys_real)
+
+  if type($service_enable) == 'string' {
+    $service_enable_real = str2bool($service_enable)
+  } else {
+    $service_enable_real = $service_enable
+  }
+  validate_bool($service_enable_real)
+
+  if type($service_hasrestart) == 'string' {
+    $service_hasrestart_real = str2bool($service_hasrestart)
+  } else {
+    $service_hasrestart_real = $service_hasrestart
+  }
+  validate_bool($service_hasrestart_real)
+
+  if type($manage_root_ssh_config) == 'string' {
+    $manage_root_ssh_config_real = str2bool($manage_root_ssh_config)
+  } else {
+    $manage_root_ssh_config_real = $manage_root_ssh_config
+  }
+  validate_bool($manage_root_ssh_config_real)
 
   #ssh_config template
   validate_string($ssh_config_template)
@@ -579,20 +592,20 @@ class ssh (
     $sshd_config_allowusers_real  = $sshd_config_allowusers
   }
 
-  if $real_sshd_config_denyusers != undef {
-    validate_array($real_sshd_config_denyusers)
+  if $sshd_config_denyusers_real != undef {
+    validate_array($sshd_config_denyusers_real)
   }
 
-  if $real_sshd_config_denygroups != undef {
-    validate_array($real_sshd_config_denygroups)
+  if $sshd_config_denygroups_real != undef {
+    validate_array($sshd_config_denygroups_real)
   }
 
-  if $real_sshd_config_allowusers != undef {
-    validate_array($real_sshd_config_allowusers)
+  if $sshd_config_allowusers_real != undef {
+    validate_array($sshd_config_allowusers_real)
   }
 
-  if $real_sshd_config_allowgroups != undef {
-    validate_array($real_sshd_config_allowgroups)
+  if $sshd_config_allowgroups_real != undef {
+    validate_array($sshd_config_allowgroups_real)
   }
 
   package { $packages_real:
@@ -633,44 +646,36 @@ class ssh (
     }
   }
 
-  case $manage_root_ssh_config {
-    'true': {
+  if $manage_root_ssh_config_real == true {
 
-      include common
+    include common
 
-      common::mkdir_p { "${::root_home}/.ssh": }
+    common::mkdir_p { "${::root_home}/.ssh": }
 
-      file { 'root_ssh_dir':
-        ensure  => directory,
-        path    => "${::root_home}/.ssh",
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0700',
-        require => Common::Mkdir_p["${::root_home}/.ssh"],
-      }
-
-      file { 'root_ssh_config':
-        ensure  => file,
-        path    => "${::root_home}/.ssh/config",
-        content => $root_ssh_config_content,
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0600',
-      }
+    file { 'root_ssh_dir':
+      ensure  => directory,
+      path    => "${::root_home}/.ssh",
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0700',
+      require => Common::Mkdir_p["${::root_home}/.ssh"],
     }
-    'false': {
-      # noop
-    }
-    default: {
-      fail("ssh::manage_root_ssh_config is <${manage_root_ssh_config}> and must be \'true\' or \'false\'.")
+
+    file { 'root_ssh_config':
+      ensure  => file,
+      path    => "${::root_home}/.ssh/config",
+      content => $root_ssh_config_content,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0600',
     }
   }
 
   service { 'sshd_service' :
     ensure     => $service_ensure,
     name       => $service_name_real,
-    enable     => $service_enable,
-    hasrestart => $service_hasrestart,
+    enable     => $service_enable_real,
+    hasrestart => $service_hasrestart_real,
     hasstatus  => $service_hasstatus_real,
     subscribe  => File['sshd_config'],
   }
@@ -707,7 +712,7 @@ class ssh (
 
   # remove ssh key's not managed by puppet
   resources  { 'sshkey':
-    purge => $purge_keys,
+    purge => $purge_keys_real,
   }
 
   # manage users' ssh authorized keys if present
