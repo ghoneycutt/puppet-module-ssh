@@ -496,6 +496,18 @@ HostbasedAuthentication: Enables/disables Hostbased authentication. Valid values
 
 - *Default*: 'no'
 
+sshd_ignoreuserknownhosts
+-------------------------
+String for IgnoreUserKnownHosts option in sshd_config. Valid values are 'yes' and 'no. Specifies whether sshd(8) should ignore the user's ~/.ssh/known_hosts during RhostsRSAAuthentication or HostbasedAuthentication.
+
+- *Default*: 'no'
+
+sshd_ignorerhosts
+-------------------------
+String for IgnoreRhosts option in sshd_config. Valid values are 'yes' and 'no. Specifies that .rhosts and .shosts files will not be used in RhostsRSAAuthentication or HostbasedAuthentication though /etc/hosts.equiv and /etc/ssh/shosts.equiv are still used.
+
+- *Default*: 'yes'
+
 purge_keys
 ----------
 Remove keys not managed by puppet.

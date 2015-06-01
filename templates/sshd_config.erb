@@ -81,8 +81,10 @@ HostbasedAuthentication <%= @sshd_hostbasedauthentication %>
 # Change to yes if you don't trust ~/.ssh/known_hosts for
 # RhostsRSAAuthentication and HostbasedAuthentication
 #IgnoreUserKnownHosts no
+IgnoreUserKnownHosts <%= @sshd_ignoreuserknownhosts %>
 # Don't read the user's ~/.rhosts and ~/.shosts files
 #IgnoreRhosts yes
+IgnoreRhosts <%= @sshd_ignorerhosts %>
 
 # To disable tunneled clear text passwords, change to no here!
 #PasswordAuthentication yes

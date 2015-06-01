@@ -75,6 +75,8 @@ class ssh (
   $sshd_config_hostkey                 = 'USE_DEFAULTS',
   $sshd_listen_address                 = undef,
   $sshd_hostbasedauthentication        = 'no',
+  $sshd_ignoreuserknownhosts           = 'no',
+  $sshd_ignorerhosts                   = 'yes',
   $service_ensure                      = 'running',
   $service_name                        = 'USE_DEFAULTS',
   $service_enable                      = true,
@@ -484,6 +486,10 @@ class ssh (
   }
 
   validate_re($sshd_hostbasedauthentication, '^(yes|no)$', "ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to <${sshd_hostbasedauthentication}>.")
+
+  validate_re($sshd_ignoreuserknownhosts, '^(yes|no)$', "ssh::sshd_ignoreuserknownhosts may be either 'yes' or 'no' and is set to <${sshd_ignoreuserknownhosts}>.")
+
+  validate_re($sshd_ignorerhosts, '^(yes|no)$', "ssh::sshd_ignorerhosts may be either 'yes' or 'no' and is set to <${sshd_ignorerhosts}>.")
 
   case type($hiera_merge) {
     'string': {
