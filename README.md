@@ -490,6 +490,12 @@ Boolean to enable AcceptEnv options for specifying environment variables. Defaul
 
 - *Default*: 'USE_DEFAULTS'
 
+sshd_hostbasedauthentication
+-------------------------
+HostbasedAuthentication: Enables/disables Hostbased authentication. Valid values are 'yes' and 'no'.
+
+- *Default*: 'no'
+
 purge_keys
 ----------
 Remove keys not managed by puppet.
