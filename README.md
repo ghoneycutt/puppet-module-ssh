@@ -280,7 +280,6 @@ Path to sftp file transfer subsystem in sshd_config.
 
 - *Default*: 'USE_DEFAULTS'
 
-
 sshd_password_authentication
 -----------------------------
 PasswordAuthentication in sshd_config. Specifies whether password authentication is allowed.
@@ -492,19 +491,19 @@ Boolean to enable AcceptEnv options for specifying environment variables. Defaul
 
 sshd_hostbasedauthentication
 -------------------------
-HostbasedAuthentication: Enables/disables Hostbased authentication. Valid values are 'yes' and 'no'.
+String for HostbasedAuthentication option in sshd_config. Valid values are 'yes' and 'no'. Specifies whether rhosts or /etc/hosts.equiv authentication together with successful public key client host authentication is allowed (host-based authentication). This option is similar to RhostsRSAAuthentication and applies to protocol version 2 only.
 
 - *Default*: 'no'
 
 sshd_ignoreuserknownhosts
 -------------------------
-String for IgnoreUserKnownHosts option in sshd_config. Valid values are 'yes' and 'no. Specifies whether sshd(8) should ignore the user's ~/.ssh/known_hosts during RhostsRSAAuthentication or HostbasedAuthentication.
+String for IgnoreUserKnownHosts option in sshd_config. Valid values are 'yes' and 'no'. Specifies whether sshd(8) should ignore the user's ~/.ssh/known_hosts during RhostsRSAAuthentication or HostbasedAuthentication.
 
 - *Default*: 'no'
 
 sshd_ignorerhosts
 -------------------------
-String for IgnoreRhosts option in sshd_config. Valid values are 'yes' and 'no. Specifies that .rhosts and .shosts files will not be used in RhostsRSAAuthentication or HostbasedAuthentication though /etc/hosts.equiv and /etc/ssh/shosts.equiv are still used.
+String for IgnoreRhosts option in sshd_config. Valid values are 'yes' and 'no'. Specifies that .rhosts and .shosts files will not be used in RhostsRSAAuthentication or HostbasedAuthentication though /etc/hosts.equiv and /etc/ssh/shosts.equiv are still used.
 
 - *Default*: 'yes'
 
