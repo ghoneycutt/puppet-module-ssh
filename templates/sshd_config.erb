@@ -164,12 +164,12 @@ UseDNS <%= @sshd_config_use_dns_real %>
 <% end -%>
 #PidFile /var/run/sshd.pid
 <% if @sshd_config_maxstartups -%>
-MaxStartups <%= sshd_config_maxstartups %>
+MaxStartups <%= @sshd_config_maxstartups %>
 <% else -%>
 #MaxStartups 10:30:100
 <% end -%>
 <% if @sshd_config_maxsessions -%>
-MaxSessions <%= sshd_config_maxsessions %>
+MaxSessions <%= @sshd_config_maxsessions %>
 <% else -%>
 #MaxSessions 10
 <% end -%>
@@ -200,16 +200,16 @@ Ciphers <%= @sshd_config_ciphers.join(',') %>
 <% if @sshd_config_macs -%>
 MACs <%= @sshd_config_macs.join(',') %>
 <% end -%>
-<% if @sshd_config_denyusers -%>
+<% if @sshd_config_denyusers_real -%>
 DenyUsers <%= @sshd_config_denyusers_real.join(' ') %>
 <% end -%>
-<% if @sshd_config_denygroups -%>
+<% if @sshd_config_denygroups_real -%>
 DenyGroups <%= @sshd_config_denygroups_real.join(' ') %>
 <% end -%>
-<% if @sshd_config_allowusers -%>
+<% if @sshd_config_allowusers_real -%>
 AllowUsers <%= @sshd_config_allowusers_real.join(' ') %>
 <% end -%>
-<% if @sshd_config_allowgroups -%>
+<% if @sshd_config_allowgroups_real -%>
 AllowGroups <%= @sshd_config_allowgroups_real.join(' ') %>
 <% end -%>
 <% if @sshd_config_match -%>

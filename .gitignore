@@ -26,6 +26,6 @@ doc/
 
 # Puppet
 coverage/
+spec/fixtures/manifests/*
 spec/fixtures/modules/*
 Gemfile.lock
-spec/fixtures/

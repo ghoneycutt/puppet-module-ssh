@@ -261,10 +261,18 @@ class ssh (
     $sshd_config_xauth_location_real = $sshd_config_xauth_location
   }
 
+  if $sshd_config_xauth_location_real != undef {
+    validate_absolute_path($sshd_config_xauth_location_real)
+  }
+
   if $ssh_package_source == 'USE_DEFAULTS' {
     $ssh_package_source_real = $default_ssh_package_source
   } else {
     $ssh_package_source_real = $ssh_package_source
+  }
+
+  if $ssh_package_source_real != undef {
+    validate_absolute_path($ssh_package_source_real)
   }
 
   if $ssh_package_adminfile == 'USE_DEFAULTS' {
