@@ -258,10 +258,18 @@ class ssh (
     $sshd_config_xauth_location_real = $sshd_config_xauth_location
   }
 
+  if $sshd_config_xauth_location_real != undef {
+    validate_absolute_path($sshd_config_xauth_location_real)
+  }
+
   if $ssh_package_source == 'USE_DEFAULTS' {
     $ssh_package_source_real = $default_ssh_package_source
   } else {
     $ssh_package_source_real = $ssh_package_source
+  }
+
+  if $ssh_package_source_real != undef {
+    validate_absolute_path($ssh_package_source_real)
   }
 
   if $ssh_package_adminfile == 'USE_DEFAULTS' {
@@ -579,20 +587,20 @@ class ssh (
     $sshd_config_allowusers_real  = $sshd_config_allowusers
   }
 
-  if $real_sshd_config_denyusers != undef {
-    validate_array($real_sshd_config_denyusers)
+  if $sshd_config_denyusers_real != undef {
+    validate_array($sshd_config_denyusers_real)
   }
 
-  if $real_sshd_config_denygroups != undef {
-    validate_array($real_sshd_config_denygroups)
+  if $sshd_config_denygroups_real != undef {
+    validate_array($sshd_config_denygroups_real)
   }
 
-  if $real_sshd_config_allowusers != undef {
-    validate_array($real_sshd_config_allowusers)
+  if $sshd_config_allowusers_real != undef {
+    validate_array($sshd_config_allowusers_real)
   }
 
-  if $real_sshd_config_allowgroups != undef {
-    validate_array($real_sshd_config_allowgroups)
+  if $sshd_config_allowgroups_real != undef {
+    validate_array($sshd_config_allowgroups_real)
   }
 
   package { $packages_real:

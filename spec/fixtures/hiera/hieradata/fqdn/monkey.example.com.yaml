@@ -1,0 +1,5 @@
+---
+ssh::sshd_config_allowgroups:
+ssh::sshd_config_allowusers:
+ssh::sshd_config_denygroups:
+ssh::sshd_config_denyusers:
