@@ -145,7 +145,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh module supports Solaris kernel release 5.9, 5.10 and 5.11./)
+      }.to raise_error(Puppet::Error,/ssh module supports Solaris kernel release 5\.9, 5\.10 and 5\.11\./)
     end
   end
 
@@ -894,7 +894,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh supports osfamilies RedHat, Suse, Debian and Solaris. Detected osfamily is <C64>\./)
+      }.to raise_error(Puppet::Error,/ssh supports osfamilies RedHat, Suse, Debian and Solaris\. Detected osfamily is <C64>\./)
     end
   end
 
@@ -1113,7 +1113,7 @@ describe 'ssh' do
 
         it 'should fail' do
           expect {
-            should
+            should contain_class('ssh')
           }.to raise_error(Puppet::Error, /is not an absolute path/)
         end
       end
@@ -1144,7 +1144,7 @@ describe 'ssh' do
 
         it 'should fail' do
           expect {
-            should
+            should contain_class('ssh')
           }.to raise_error(Puppet::Error, /is not a string/)
         end
       end
@@ -1180,7 +1180,7 @@ describe 'ssh' do
         let (:params) {{'sshd_config_match' => value }}
         it 'should fail' do
           expect {
-            should
+            should contain_class('ssh')
           }.to raise_error(Puppet::Error, /is not a Hash/)
         end
       end
@@ -1243,7 +1243,9 @@ describe 'ssh' do
       let (:params) {{'sshd_listen_address' => true }}
 
       it 'should fail' do
-        expect { subject }.to raise_error(Puppet::Error)
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
       end
     end
   end
@@ -1260,7 +1262,9 @@ describe 'ssh' do
       end
       let (:params) {{'sshd_config_loglevel' => 'BOGON'}}
       it 'should fail' do
-        expect { subject }.to raise_error(Puppet::Error, /"BOGON" does not match/)
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error, /"BOGON" does not match/)
       end
     end
     ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE'].each do |supported_val|
@@ -1292,7 +1296,9 @@ describe 'ssh' do
       end
       let (:params) {{'ssh_config_template' => false}}
       it 'should fail' do
-        expect { subject }.to raise_error(Puppet::Error, /is not a string/)
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error, /is not a string/)
       end
     end
     context 'and that value is valid' do
@@ -1323,7 +1329,9 @@ describe 'ssh' do
       end
       let (:params) {{'sshd_config_template' => false}}
       it 'should fail' do
-        expect { subject }.to raise_error(Puppet::Error, /is not a string/)
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error, /is not a string/)
       end
     end
     context 'and that value is valid' do
@@ -1438,7 +1446,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh::ssh_config_hash_known_hosts may be either \'yes\' or \'no\' and is set to <invalid>./)
+      }.to raise_error(Puppet::Error,/ssh::ssh_config_hash_known_hosts may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 
@@ -1577,7 +1585,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh::sshd_config_port must be a valid number and is set to <22invalid>\./)
+      }.to raise_error(Puppet::Error,/ssh::sshd_config_port must be a valid number and is set to <22invalid>\./)
     end
   end
 
@@ -1597,7 +1605,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh::manage_root_ssh_config is <invalid> and must be \'true\' or \'false\'\./)
+      }.to raise_error(Puppet::Error,/ssh::manage_root_ssh_config is <invalid> and must be \'true\' or \'false\'\./)
     end
   end
 
@@ -1616,7 +1624,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh::sshd_password_authentication may be either \'yes\' or \'no\' and is set to <invalid>\./)
+      }.to raise_error(Puppet::Error,/ssh::sshd_password_authentication may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 
@@ -1635,7 +1643,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh::sshd_allow_tcp_forwarding may be either \'yes\' or \'no\' and is set to <invalid>\./)
+      }.to raise_error(Puppet::Error,/ssh::sshd_allow_tcp_forwarding may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 
@@ -1654,7 +1662,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh::sshd_x11_forwarding may be either \'yes\' or \'no\' and is set to <invalid>\./)
+      }.to raise_error(Puppet::Error,/ssh::sshd_x11_forwarding may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 
@@ -1673,7 +1681,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh::sshd_use_pam may be either \'yes\' or \'no\' and is set to <invalid>\./)
+      }.to raise_error(Puppet::Error,/ssh::sshd_use_pam may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 
@@ -1692,7 +1700,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh::sshd_config_serverkeybits must be an integer and is set to <invalid>\./)
+      }.to raise_error(Puppet::Error,/ssh::sshd_config_serverkeybits must be an integer and is set to <invalid>\./)
     end
   end
 
@@ -1711,7 +1719,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh::sshd_client_alive_interval must be an integer and is set to <invalid>\./)
+      }.to raise_error(Puppet::Error,/ssh::sshd_client_alive_interval must be an integer and is set to <invalid>\./)
     end
   end
 
@@ -1730,7 +1738,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh::sshd_client_alive_count_max must be an integer and is set to <invalid>\./)
+      }.to raise_error(Puppet::Error,/ssh::sshd_client_alive_count_max must be an integer and is set to <invalid>\./)
     end
   end
 
@@ -1814,7 +1822,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh::sshd_config_strictmodes may be either \'yes\' or \'no\' and is set to <invalid>\./)
+      }.to raise_error(Puppet::Error,/ssh::sshd_config_strictmodes may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 
@@ -1830,7 +1838,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^"invalid\/path" is not an absolute path/)
+      }.to raise_error(Puppet::Error,/"invalid\/path" is not an absolute path/)
     end
   end
 
@@ -1846,7 +1854,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^\["invalid", "type"\] is not a string/)
+      }.to raise_error(Puppet::Error,/\["invalid", "type"\] is not a string/)
     end
   end
 
@@ -1862,7 +1870,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh::sshd_config_banner must be set to be able to use sshd_banner_content\./)
+      }.to raise_error(Puppet::Error,/ssh::sshd_config_banner must be set to be able to use sshd_banner_content\./)
     end
   end
 
@@ -1879,7 +1887,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/^ssh::ssh_config_sendenv_xmodifiers type must be true or false\./)
+      }.to raise_error(Puppet::Error,/ssh::ssh_config_sendenv_xmodifiers type must be true or false\./)
     end
   end
 
@@ -1998,12 +2006,15 @@ describe 'ssh' do
       let(:params) { { :hiera_merge => ['not_a_boolean','or_a_string'] } }
       let(:facts) do
         { :osfamily          => 'RedHat',
+          :fqdn              => 'hieramerge.example.com',
           :lsbmajdistrelease => '6',
         }
       end
 
       it 'should fail' do
-        expect { should raise_error(Puppet::Error) }
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
       end
     end
 
@@ -2016,7 +2027,9 @@ describe 'ssh' do
       end
 
       it 'should fail' do
-        expect { should raise_error(Puppet::Error,/^ssh::hiera_merge may be either 'true' or 'false' and is set to <invalid_string>./) }
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::hiera_merge may be either 'true' or 'false' and is set to <invalid_string>./)
       end
     end
 
@@ -2025,6 +2038,7 @@ describe 'ssh' do
         let(:params) { { :hiera_merge => value } }
         let(:facts) do
           { :osfamily          => 'RedHat',
+            :fqdn              => 'hieramerge.example.com',
             :lsbmajdistrelease => '6',
           }
         end
@@ -2032,6 +2046,12 @@ describe 'ssh' do
         it { should compile.with_all_deps }
 
         it { should contain_class('ssh') }
+
+        it { should contain_file('sshd_config').with_content(/^\s*DenyUsers denyuser_from_fqdn denyuser_from_common/) }
+        it { should contain_file('sshd_config').with_content(/^\s*DenyGroups denygroup_from_fqdn denygroup_from_common/) }
+        it { should contain_file('sshd_config').with_content(/^\s*AllowUsers allowuser_from_fqdn allowuser_from_common/) }
+        it { should contain_file('sshd_config').with_content(/^\s*AllowGroups allowgroup_from_fqdn allowgroup_from_common/) }
+
       end
     end
 
@@ -2084,7 +2104,9 @@ describe 'ssh' do
       end
 
       it 'should fail' do
-        expect { should raise_error(Puppet::Error,/^is not an absolute path/) }
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/is not an absolute path/)
       end
     end
   end
@@ -2112,7 +2134,9 @@ describe 'ssh' do
       end
 
       it 'should fail' do
-        expect { should raise_error(Puppet::Error,/^is not an absolute path/) }
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/is not an absolute path/)
       end
     end
 
@@ -2126,7 +2150,9 @@ describe 'ssh' do
       end
 
       it 'should fail' do
-        expect { should raise_error(Puppet::Error) }
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
       end
     end
   end
@@ -2164,7 +2190,9 @@ describe 'ssh' do
       end
 
       it 'should fail' do
-        expect { should raise_error(Puppet::Error,/^is not an absolute path/) }
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/is not an absolute path/)
       end
     end
 
@@ -2179,7 +2207,9 @@ describe 'ssh' do
       end
 
       it 'should fail' do
-        expect { should raise_error(Puppet::Error) }
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
       end
     end
   end
@@ -2222,7 +2252,9 @@ describe 'ssh' do
         end
 
         it 'should fail' do
-          expect { should raise_error(Puppet::Error,/^ssh::ssh_config_forward_x11_trusted may be either 'yes' or 'no' and is set to <#{value}>./) }
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::ssh_config_forward_x11_trusted may be either 'yes' or 'no' and is set to <#{value}>\./)
         end
       end
     end
@@ -2255,7 +2287,9 @@ describe 'ssh' do
         end
 
         it 'should fail' do
-          expect { should raise_error(Puppet::Error,/^ssh::sshd_gssapidelegatecredentials may be either 'yes' or 'no' and is set to <#{value}>./) }
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::ssh_gssapidelegatecredentials may be either 'yes' or 'no' and is set to <#{value}>\./)
         end
       end
     end
@@ -2283,12 +2317,14 @@ describe 'ssh' do
 
         if value.is_a?(Array)
           value = value.join
+        elsif value.is_a?(Hash)
+          value = '{ha => sh}'
         end
 
-        it do
+        it 'should fail' do
           expect {
             should contain_class('ssh')
-          }.to raise_error(Puppet::Error,/^ssh::ssh_gssapiauthentication may be either 'yes' or 'no' and is set to <#{value.to_s}>\./)
+          }.to raise_error(Puppet::Error,/ssh::ssh_gssapiauthentication may be either 'yes' or 'no' and is set to <#{Regexp.escape(value.to_s)}>\./)
         end
       end
     end
@@ -2313,14 +2349,17 @@ describe 'ssh' do
     ['YES',true,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
       context "specified as invalid value #{value} (as #{value.class})" do
         let(:params) { { :sshd_gssapiauthentication => value } }
+
         if value.is_a?(Array)
           value = value.join
+        elsif value.is_a?(Hash)
+          value = '{ha => sh}'
         end
 
-        it do
+        it 'should fail' do
           expect {
             should contain_class('ssh')
-          }.to raise_error(Puppet::Error,/^ssh::sshd_gssapiauthentication may be either 'yes' or 'no' and is set to <#{value}>\./)
+          }.to raise_error(Puppet::Error,/ssh::sshd_gssapiauthentication may be either 'yes' or 'no' and is set to <#{Regexp.escape(value.to_s)}>\./)
         end
       end
     end
@@ -2363,7 +2402,9 @@ describe 'ssh' do
         end
 
         it 'should fail' do
-          expect { should raise_error(Puppet::Error,/^ssh::sshd_gssapikeyexchange may be either 'yes' or 'no' and is set to <#{value}>./) }
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::sshd_gssapikeyexchange may be either 'yes' or 'no' and is set to <#{value}>\./)
         end
       end
     end
@@ -2406,7 +2447,9 @@ describe 'ssh' do
         end
 
         it 'should fail' do
-          expect { should raise_error(Puppet::Error,/^ssh::sshd_pamauthenticationviakbdint may be either 'yes' or 'no' and is set to <#{value}>./) }
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::sshd_pamauthenticationviakbdint may be either 'yes' or 'no' and is set to <#{value}>\./)
         end
       end
     end
@@ -2450,7 +2493,9 @@ describe 'ssh' do
         end
 
         it 'should fail' do
-          expect { should raise_error(Puppet::Error,/^ssh::sshd_gssapicleanupcredentials may be either 'yes' or 'no' and is set to <#{value}>./) }
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::sshd_gssapicleanupcredentials may be either 'yes' or 'no' and is set to <#{value}>\./)
         end
       end
     end
@@ -2496,7 +2541,9 @@ describe 'ssh' do
       end
 
       it 'should fail' do
-        expect { should raise_error(Puppet::Error,/^ssh::ssh_sendenv may be either 'true' or 'false' and is set to <invalid>./) }
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::ssh_sendenv may be either 'true' or 'false' and is set to <invalid>\./)
       end
     end
 
@@ -2510,7 +2557,9 @@ describe 'ssh' do
       end
 
       it 'should fail' do
-        expect { should raise_error(Puppet::Error,/^ssh::ssh_sendenv type must be true or false./) }
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::ssh_sendenv type must be true or false\./)
       end
     end
   end
@@ -2543,7 +2592,7 @@ describe 'ssh' do
         it 'should fail' do
           expect {
             should contain_class('ssh')
-          }.to raise_error(Puppet::Error,/^ssh::sshd_config_maxstartups may be either an integer or three integers separated with colons, such as 10:30:100. Detected value is <#{value}>./)
+          }.to raise_error(Puppet::Error,/ssh::sshd_config_maxstartups may be either an integer or three integers separated with colons, such as 10:30:100\. Detected value is <#{value}>\./)
         end
       end
     end
@@ -2557,7 +2606,9 @@ describe 'ssh' do
         }
       end
       it 'should fail' do
-        expect { should contain_class('ssh') }.to raise_error(Puppet::Error)
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
       end
     end
   end
@@ -2583,7 +2634,9 @@ describe 'ssh' do
         }
       end
       it 'should fail' do
-        expect { should contain_class('ssh') }.to raise_error(Puppet::Error)
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
       end
     end
   end
@@ -2627,7 +2680,9 @@ describe 'ssh' do
       end
 
       it 'should fail' do
-        expect { should raise_error(Puppet::Error,/^ssh::sshd_acceptenv may be either 'true' or 'false' and is set to <invalid>./) }
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_acceptenv may be either 'true' or 'false' and is set to <invalid>\./)
       end
     end
 
@@ -2641,7 +2696,9 @@ describe 'ssh' do
       end
 
       it 'should fail' do
-        expect { should raise_error(Puppet::Error,/^ssh::sshd_acceptenv type must be true or false./) }
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_acceptenv type must be true or false\./)
       end
     end
   end
@@ -2680,7 +2737,9 @@ describe 'ssh' do
       end
 
       it 'should fail' do
-        expect { should raise_error(Puppet::Error,/^ssh::service_hasstatus must be 'true' or 'false' and is set to <invalid>./) }
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::service_hasstatus must be 'true' or 'false' and is set to <invalid>\./)
       end
     end
 
@@ -2694,7 +2753,9 @@ describe 'ssh' do
       end
 
       it 'should fail' do
-        expect { should raise_error(Puppet::Error,/^ssh::service_hasstatus must be true or false./) }
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::service_hasstatus must be true or false\./)
       end
     end
   end
@@ -2731,10 +2792,10 @@ describe 'ssh' do
         }
       end
 
-      it do
+      it 'should fail' do
         expect {
           should contain_class('ssh')
-        }.to raise_error(Puppet::Error,/^\"invalid\/path\" is not an absolute path./)
+        }.to raise_error(Puppet::Error,/\"invalid\/path\" is not an absolute path\./)
       end
     end
 
@@ -2747,7 +2808,7 @@ describe 'ssh' do
         }
       end
 
-      it do
+      it 'should fail' do
         expect {
           should contain_class('ssh')
         }.to raise_error(Puppet::Error,/is not an absolute path/)
@@ -2785,10 +2846,10 @@ describe 'ssh' do
         }
       end
 
-      it do
+      it 'should fail' do
         expect {
           should contain_class('ssh')
-        }.to raise_error(Puppet::Error,/^\[\"invalid\", \"type\"\] is not a string.  It looks to be a Array/)
+        }.to raise_error(Puppet::Error,/\[\"invalid\", \"type\"\] is not a string\.  It looks to be a Array/)
       end
     end
   end
@@ -2823,10 +2884,10 @@ describe 'ssh' do
         }
       end
 
-      it do
+      it 'should fail' do
         expect {
           should contain_class('ssh')
-        }.to raise_error(Puppet::Error,/^\[\"invalid\", \"type\"\] is not a string.  It looks to be a Array/)
+        }.to raise_error(Puppet::Error,/\[\"invalid\", \"type\"\] is not a string\.  It looks to be a Array/)
       end
     end
   end
@@ -2862,10 +2923,10 @@ describe 'ssh' do
           }
         end
 
-        it do
+        it 'should fail' do
           expect {
             should contain_class('ssh')
-          }.to raise_error(Puppet::Error,/^ssh::ssh_config_global_known_hosts_mode must be a valid 4 digit mode in octal notation. Detected value is <#{value}>./)
+          }.to raise_error(Puppet::Error,/ssh::ssh_config_global_known_hosts_mode must be a valid 4 digit mode in octal notation\. Detected value is <#{value}>\./)
         end
       end
     end
@@ -2879,10 +2940,10 @@ describe 'ssh' do
         }
       end
 
-      it do
+      it 'should fail' do
         expect {
           should contain_class('ssh')
-        }.to raise_error(Puppet::Error,/^ssh::ssh_config_global_known_hosts_mode must be a valid 4 digit mode in octal notation. Detected value is <invalidtype>./)
+        }.to raise_error(Puppet::Error,/ssh::ssh_config_global_known_hosts_mode must be a valid 4 digit mode in octal notation\. Detected value is <[\[]?invalid.*type[\]]?/)
       end
     end
   end
@@ -2892,7 +2953,9 @@ describe 'ssh' do
     let(:params) { { :ssh_key_import => ['not_a_boolean','or_a_string'] } }
 
       it 'should fail' do
-        expect { should raise_error(Puppet::Error) }
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
       end
     end
 
@@ -2905,7 +2968,9 @@ describe 'ssh' do
       end
 
       it 'should fail' do
-        expect { should raise_error(Puppet::Error,/^ssh::ssh_key_import may be either 'true' or 'false' and is set to <invalid_string>./) }
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::ssh_key_import may be either 'true' or 'false' and is set to <invalid_string>\./)
       end
     end
 
