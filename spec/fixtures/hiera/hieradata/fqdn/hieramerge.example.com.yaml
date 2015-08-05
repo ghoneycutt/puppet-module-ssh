@@ -1,0 +1,9 @@
+---
+ssh::sshd_config_allowgroups:
+  - allowgroup_from_fqdn
+ssh::sshd_config_allowusers:
+  - allowuser_from_fqdn
+ssh::sshd_config_denygroups:
+  - denygroup_from_fqdn
+ssh::sshd_config_denyusers:
+  - denyuser_from_fqdn
