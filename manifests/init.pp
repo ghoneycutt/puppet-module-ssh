@@ -565,28 +565,28 @@ class ssh (
   validate_re($ssh_config_global_known_hosts_mode, '^[0-7]{4}$',
     "ssh::ssh_config_global_known_hosts_mode must be a valid 4 digit mode in octal notation. Detected value is <${ssh_config_global_known_hosts_mode}>.")
 
-  if type($purge_keys) == 'string' {
+  if type3x($purge_keys) == 'string' {
     $purge_keys_real = str2bool($purge_keys)
   } else {
     $purge_keys_real = $purge_keys
   }
   validate_bool($purge_keys_real)
 
-  if type($service_enable) == 'string' {
+  if type3x($service_enable) == 'string' {
     $service_enable_real = str2bool($service_enable)
   } else {
     $service_enable_real = $service_enable
   }
   validate_bool($service_enable_real)
 
-  if type($service_hasrestart) == 'string' {
+  if type3x($service_hasrestart) == 'string' {
     $service_hasrestart_real = str2bool($service_hasrestart)
   } else {
     $service_hasrestart_real = $service_hasrestart
   }
   validate_bool($service_hasrestart_real)
 
-  if type($manage_root_ssh_config) == 'string' {
+  if type3x($manage_root_ssh_config) == 'string' {
     $manage_root_ssh_config_real = str2bool($manage_root_ssh_config)
   } else {
     $manage_root_ssh_config_real = $manage_root_ssh_config
