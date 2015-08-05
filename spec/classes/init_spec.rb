@@ -3093,7 +3093,7 @@ describe 'ssh' do
         it do
           expect {
             should contain_class('ssh')
-          }.to raise_error(Puppet::Error,/ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to <#{value}>\./)
+          }.to raise_error(Puppet::Error,/ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to/)
         end
       end
     end
@@ -3125,7 +3125,7 @@ describe 'ssh' do
         it do
           expect {
             should contain_class('ssh')
-          }.to raise_error(Puppet::Error,/ssh::sshd_ignoreuserknownhosts may be either 'yes' or 'no' and is set to <#{value}>\./)
+          }.to raise_error(Puppet::Error,/ssh::sshd_ignoreuserknownhosts may be either 'yes' or 'no' and is set to/)
         end
       end
     end
@@ -3157,7 +3157,7 @@ describe 'ssh' do
         it do
           expect {
             should contain_class('ssh')
-          }.to raise_error(Puppet::Error,/ssh::sshd_ignorerhosts may be either 'yes' or 'no' and is set to <#{value}>\./)
+          }.to raise_error(Puppet::Error,/ssh::sshd_ignorerhosts may be either 'yes' or 'no' and is set to/)
         end
       end
     end
