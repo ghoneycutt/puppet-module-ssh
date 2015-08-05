@@ -1657,7 +1657,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/ssh::manage_root_ssh_config is <invalid> and must be \'true\' or \'false\'\./)
+      }.to raise_error(Puppet::Error,/Unknown type of boolean/)
     end
   end
 
