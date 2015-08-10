@@ -5,4 +5,4 @@
   :datadir: 'spec/fixtures/hiera/hieradata'
 :hierarchy:
   - fqdn/%{fqdn}
-  - common
+  - specific/%{specific}
