@@ -92,6 +92,8 @@ class ssh (
   $keys                                = undef,
   $manage_root_ssh_config              = false,
   $root_ssh_config_content             = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
+  $validate_sshd_config                = false,
+  $sshd_bin_path                       = '/usr/sbin/sshd',
 ) {
 
   case $::osfamily {
@@ -632,6 +634,15 @@ class ssh (
     validate_array($sshd_config_allowgroups_real)
   }
 
+  if type3x($validate_sshd_config) == 'string' {
+    $validate_sshd_config_real = str2bool($validate_sshd_config)
+  } else {
+    $validate_sshd_config_real = $validate_sshd_config
+  }
+  validate_bool($manage_root_ssh_config_real)
+  
+  validate_absolute_path($sshd_bin_path)
+  
   package { $packages_real:
     ensure    => installed,
     source    => $ssh_package_source_real,
@@ -749,5 +760,16 @@ class ssh (
     }
     validate_hash($keys_real)
     create_resources('ssh_authorized_key', $keys_real)
+  }
+  # Validate SSHD Config Puppet 3.5 and newer uses validate_cmd of file type, puppet version before 3.5 use stdlib validate_cmd
+  # which uses the sshd binary on the master!
+  if $validate_sshd_config_real == true {
+    if versioncmp($::puppetversion, '3.5') >= 0 {
+      File['sshd_config'] {
+        validate_cmd => "${sshd_bin_path} -t -f %",
+      }
+    } else {
+      validate_cmd(template($sshd_config_template), "${sshd_bin_path} -t -f", "sshd located in ${sshd_bin_path} failed to validate the generated sshd_config")
+    }
   }
 }
