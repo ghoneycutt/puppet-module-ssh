@@ -605,6 +605,20 @@ Content of root's ~/.ssh/config.
 
 - *Default*: "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
 
+validate_sshd_config
+-----------------------
+Use Puppets >= 3.5 file type validate_cmd or stdlibs validate_cmd to test sshd_config for correctness.
+Note that the test on Puppet < 3.5 uses stdlibs validate_cmd function, which tests sshd_config during
+catalog compile time on the master. Valid values are 'true' and 'false'.
+
+- *Default*: 'false'
+
+sshd_bin_path
+-----------------------
+Path to sshd binary to use for configuration syntax checking (see validate_sshd_config).
+Must be a valid absolute path.
+
+- *Default*: '/usr/sbin/sshd'
 
 ===
 # Manage user's ssh_authorized_keys
