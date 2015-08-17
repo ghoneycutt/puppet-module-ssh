@@ -2086,7 +2086,7 @@ describe 'ssh' do
     end
 
     ['true',true].each do |value|
-      context "as #{value}" do
+      context "as #{value} with hiera data getting collected" do
         let(:params) { { :hiera_merge => value } }
         let(:facts) do
           { :osfamily          => 'RedHat',
@@ -2099,12 +2099,54 @@ describe 'ssh' do
 
         it { should contain_class('ssh') }
 
-        it { should contain_file('sshd_config').with_content(/^\s*DenyUsers denyuser_from_fqdn denyuser_from_common/) }
-        it { should contain_file('sshd_config').with_content(/^\s*DenyGroups denygroup_from_fqdn denygroup_from_common/) }
-        it { should contain_file('sshd_config').with_content(/^\s*AllowUsers allowuser_from_fqdn allowuser_from_common/) }
-        it { should contain_file('sshd_config').with_content(/^\s*AllowGroups allowgroup_from_fqdn allowgroup_from_common/) }
+        it { should contain_file('sshd_config').with_content(/^\s*DenyUsers denyuser_from_fqdn/) }
+        it { should contain_file('sshd_config').with_content(/^\s*DenyGroups denygroup_from_fqdn/) }
+        it { should contain_file('sshd_config').with_content(/^\s*AllowUsers allowuser_from_fqdn/) }
+        it { should contain_file('sshd_config').with_content(/^\s*AllowGroups allowgroup_from_fqdn/) }
 
       end
+    end
+
+    context "as true with with hiera data getting merged through levels" do
+      let(:params) { { :hiera_merge => true } }
+      let(:facts) do
+        { :osfamily          => 'RedHat',
+          :fqdn              => 'hieramerge.example.com',
+          :lsbmajdistrelease => '6',
+          :specific          => 'test_hiera_merge',
+        }
+      end
+
+      it { should compile.with_all_deps }
+
+      it { should contain_class('ssh') }
+
+      it { should contain_file('sshd_config').with_content(/^\s*DenyUsers denyuser_from_fqdn denyuser_from_fact/) }
+      it { should contain_file('sshd_config').with_content(/^\s*DenyGroups denygroup_from_fqdn denygroup_from_fact/) }
+      it { should contain_file('sshd_config').with_content(/^\s*AllowUsers allowuser_from_fqdn allowuser_from_fact/) }
+      it { should contain_file('sshd_config').with_content(/^\s*AllowGroups allowgroup_from_fqdn allowgroup_from_fact/) }
+
+    end
+
+    context "as true with no hiera data provided" do
+      let(:params) { { :hiera_merge => true } }
+      let(:facts) do
+        { :osfamily          => 'Suse',
+          :fqdn              => 'notinhiera.example.com',
+          :lsbmajdistrelease => '11',
+          :architecture      => 'x86_64',
+        }
+      end
+
+      it { should compile.with_all_deps }
+
+      it { should contain_class('ssh') }
+
+      it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
+      it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
+      it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
+      it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
+
     end
 
     ['false',false].each do |value|
