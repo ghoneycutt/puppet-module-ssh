@@ -1002,6 +1002,7 @@ describe 'ssh' do
         :sshd_banner_content               => 'textinbanner',
         :sshd_config_xauth_location        => '/opt/ssh/bin/xauth',
         :sshd_config_subsystem_sftp        => '/opt/ssh/bin/sftp',
+        :sshd_kerberos_authentication      => 'no',
         :sshd_password_authentication      => 'no',
         :sshd_allow_tcp_forwarding         => 'no',
         :sshd_x11_forwarding               => 'no',
@@ -1068,6 +1069,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^XAuthLocation \/opt\/ssh\/bin\/xauth$/) }
     it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/opt\/ssh\/bin\/sftp$/) }
     it { should contain_file('sshd_config').with_content(/^PasswordAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^KerberosAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding no$/) }
     it { should contain_file('sshd_config').with_content(/^X11Forwarding no$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM no$/) }
@@ -1658,6 +1660,25 @@ describe 'ssh' do
       expect {
         should contain_class('ssh')
       }.to raise_error(Puppet::Error,/Unknown type of boolean/)
+    end
+  end
+
+  context 'with sshd_kerberos_authentication set to invalid value on valid osfamily' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :sshd_kerberos_authentication => 'invalid' }
+    end
+
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/ssh::sshd_kerberos_authentication may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 

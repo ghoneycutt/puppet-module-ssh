@@ -104,7 +104,10 @@ PAMAuthenticationViaKBDInt <%= @sshd_pamauthenticationviakbdint_real %>
 ChallengeResponseAuthentication <%= @sshd_config_challenge_resp_auth %>
 
 # Kerberos options
+<% if @sshd_kerberos_authentication != nil -%>
 #KerberosAuthentication no
+KerberosAuthentication <%= @sshd_kerberos_authentication %>
+<% end -%>
 #KerberosOrLocalPasswd yes
 #KerberosTicketCleanup yes
 #KerberosGetAFSToken no
