@@ -1309,13 +1309,9 @@ describe 'ssh' do
     end
   end
 
-  describe 'with KerberosAuthentication' do
+  describe 'with sshd_kerberos_authentication' do
     ['yes','no'].each do |value|
       context "set to #{value}" do
-        set param to value
-        it { should contain_file('sshd_config').with_content(/^KerberosAuthentication #{value}$/) }
-      end
-      context 'with KerberosAuthentication set to invalid value on valid osfamily' do
         let :facts do
           {
             :fqdn      => 'monkey.example.com',
@@ -1323,15 +1319,28 @@ describe 'ssh' do
             :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
           }
         end
-        let :params do
-          { :sshd_kerberos_authentication => 'invalid' }
-        end
+        let (:params) {{ 'sshd_kerberos_authentication' => value }}
 
-        it 'should fail' do
-          expect {
-            should contain_class('ssh')
-          }.to raise_error(Puppet::Error,/ssh::sshd_kerberos_authentication may be either \'yes\' or \'no\' and is set to <invalid>\./)
-        end
+        it { should contain_file('sshd_config').with_content(/^KerberosAuthentication #{value}$/) }
+      end
+    end
+
+    context 'set to invalid value on valid osfamily' do
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+      let :params do
+        { :sshd_kerberos_authentication => 'invalid' }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_kerberos_authentication may be either \'yes\' or \'no\' and is set to <invalid>\./)
       end
     end
   end
