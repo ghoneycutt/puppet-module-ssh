@@ -61,6 +61,7 @@ class ssh (
   $sshd_banner_mode                    = '0644',
   $sshd_config_xauth_location          = 'USE_DEFAULTS',
   $sshd_config_subsystem_sftp          = 'USE_DEFAULTS',
+  $sshd_kerberos_authentication        = undef,
   $sshd_password_authentication        = 'yes',
   $sshd_allow_tcp_forwarding           = 'yes',
   $sshd_x11_forwarding                 = 'yes',
@@ -414,6 +415,9 @@ class ssh (
     validate_re($ssh_config_hash_known_hosts_real, '^(yes|no)$', "ssh::ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts_real}>.")
   }
   validate_re($sshd_config_port, '^\d+$', "ssh::sshd_config_port must be a valid number and is set to <${sshd_config_port}>.")
+  if $sshd_kerberos_authentication != undef {
+    validate_re($sshd_kerberos_authentication, '^(yes|no)$', "ssh::sshd_kerberos_authentication may be either 'yes' or 'no' and is set to <${sshd_kerberos_authentication}>.")
+  }
   validate_re($sshd_password_authentication, '^(yes|no)$', "ssh::sshd_password_authentication may be either 'yes' or 'no' and is set to <${sshd_password_authentication}>.")
   validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "ssh::sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to <${sshd_allow_tcp_forwarding}>.")
   validate_re($sshd_x11_forwarding, '^(yes|no)$', "ssh::sshd_x11_forwarding may be either 'yes' or 'no' and is set to <${sshd_x11_forwarding}>.")
