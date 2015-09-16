@@ -416,7 +416,6 @@ Match directive is supported on SSH >= 5.x.
 - *Default*: undef
 
 - *Hiera example*:
-<pre>
 ```yaml
 ssh::sshd_config_match:
   'User JohnDoe':
@@ -425,7 +424,6 @@ ssh::sshd_config_match:
     - 'X11Forwarding yes'
     - 'PasswordAuthentication no'
 ```
-</pre>
 
 keys
 ----
