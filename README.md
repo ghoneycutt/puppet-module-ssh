@@ -417,12 +417,14 @@ Match directive is supported on SSH >= 5.x.
 
 - *Hiera example*:
 <pre>
+```yaml
 ssh::sshd_config_match:
   'User JohnDoe':
     - 'AllowTcpForwarding yes'
   'Address 2.4.2.0':
     - 'X11Forwarding yes'
     - 'PasswordAuthentication no'
+```
 </pre>
 
 keys
