@@ -3241,4 +3241,31 @@ describe 'ssh' do
       end
     end
   end
+
+  describe 'with parameter sshd_addressfamily' do
+    let(:facts) do
+      { :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+
+    ['any','inet','inet6'].each do |value|
+      context "set to a valid entry of #{value}" do
+        let(:params) { { :sshd_addressfamily => value } }
+        it { should contain_file('sshd_config').with_content(/^AddressFamily #{value}$/) }
+      end
+    end
+
+    ['foo','bar',123].each do |value|
+      context "specified as invalid value #{value}" do
+        let(:params) { { :sshd_addressfamily => value } }
+        it do
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::sshd_addressfamily can be undef, 'any', 'inet' or 'inet6' and is set to/)
+        end
+      end
+    end
+  end
 end

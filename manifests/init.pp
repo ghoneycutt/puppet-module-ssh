@@ -78,6 +78,7 @@ class ssh (
   $sshd_hostbasedauthentication        = 'no',
   $sshd_ignoreuserknownhosts           = 'no',
   $sshd_ignorerhosts                   = 'yes',
+  $sshd_addressfamily                  = 'any',
   $service_ensure                      = 'running',
   $service_name                        = 'USE_DEFAULTS',
   $service_enable                      = true,
@@ -753,5 +754,10 @@ class ssh (
     }
     validate_hash($keys_real)
     create_resources('ssh_authorized_key', $keys_real)
+  }
+
+  if $sshd_addressfamily != undef {
+    validate_re($sshd_addressfamily, '^(any|inet|inet6)$',
+      "ssh::sshd_addressfamily can be undef, 'any', 'inet' or 'inet6' and is set to ${sshd_addressfamily}.")
   }
 }
