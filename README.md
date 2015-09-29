@@ -148,6 +148,12 @@ in ssh_config.
 
 - *Default*: undef
 
+sshd_addressfamily
+----------------
+Specifies the value of the AddressFamily setting in sshd_config. Valid values are 'any', 'inet' (IPv4 only), 'inet6' (IPv6 only) and undef. A value of undef will ensure that AddressFamily is not in the configuration.
+
+- *Default*: 'any'
+
 sshd_config_path
 ----------------
 Path to sshd_config.
