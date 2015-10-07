@@ -17,6 +17,7 @@ only), 1.9.3, 2.0.0 and 2.1.0.
  * EL 6
  * EL 7
  * SLES 11
+ * SLES 12
  * Ubuntu 12.04 LTS
  * Solaris 9
  * Solaris 10
