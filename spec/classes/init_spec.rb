@@ -3371,4 +3371,47 @@ describe 'ssh' do
       end
     end
   end
+
+  describe 'with parameter manage_service' do
+    let(:facts) do
+      { :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+
+    ['YES','badvalue',2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "specified as invalid value #{value} (as #{value.class})" do
+        let(:params) { { :manage_service => value } }
+        it do
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/(is not a boolean|Unknown type of boolean)/)
+        end
+      end
+    end
+
+    ['true', true].each do |value|
+      context "specified as valid true value #{value} (as #{value.class})" do
+        let(:params) { { :manage_service => value } }
+        it do
+          expect {
+            should contain_service('sshd_service')
+          }
+        end
+      end
+    end
+
+    ['false', false].each do |value|
+      context "specified as valid false value #{value} (as #{value.class})" do
+        let(:params) { { :manage_service => value } }
+        it do
+          expect {
+            should_not contain_service('sshd_service')
+          }
+        end
+      end
+    end
+  end
+
 end

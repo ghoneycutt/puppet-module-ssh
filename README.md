@@ -606,6 +606,11 @@ Content of root's ~/.ssh/config.
 
 - *Default*: "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
 
+manage_service
+--------------
+Manage the sshd service through this module or not.  Valid values are 'true' and 'false'.
+
+- *Default*: 'true'
 
 ===
 # Manage user's ssh_authorized_keys

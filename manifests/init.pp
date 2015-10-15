@@ -78,6 +78,7 @@ class ssh (
   $sshd_hostbasedauthentication        = 'no',
   $sshd_ignoreuserknownhosts           = 'no',
   $sshd_ignorerhosts                   = 'yes',
+  $manage_service                      = true,
   $service_ensure                      = 'running',
   $service_name                        = 'USE_DEFAULTS',
   $service_enable                      = true,
@@ -580,6 +581,13 @@ class ssh (
   }
   validate_bool($purge_keys_real)
 
+  if type3x($manage_service) == 'string' {
+    $manage_service_real = str2bool($manage_service)
+  } else {
+    $manage_service_real = $manage_service
+  }
+  validate_bool($manage_service_real)
+
   if type3x($service_enable) == 'string' {
     $service_enable_real = str2bool($service_enable)
   } else {
@@ -703,13 +711,15 @@ class ssh (
     }
   }
 
-  service { 'sshd_service' :
-    ensure     => $service_ensure,
-    name       => $service_name_real,
-    enable     => $service_enable_real,
-    hasrestart => $service_hasrestart_real,
-    hasstatus  => $service_hasstatus_real,
-    subscribe  => File['sshd_config'],
+  if $manage_service_real {
+    service { 'sshd_service' :
+      ensure     => $service_ensure,
+      name       => $service_name_real,
+      enable     => $service_enable_real,
+      hasrestart => $service_hasrestart_real,
+      hasstatus  => $service_hasstatus_real,
+      subscribe  => File['sshd_config'],
+    }
   }
 
   if $manage_firewall == true {
