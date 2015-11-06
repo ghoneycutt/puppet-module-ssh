@@ -140,7 +140,7 @@ class ssh (
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
       case $::architecture {
         'x86_64': {
-          if ($::operatingsystem == 'SLES') and ($::operatingsystemrelease =~ /^12\./) {
+          if ($::operatingsystem =~ /(SLES|SLED)/) and ($::operatingsystemrelease =~ /^12\./) {
             $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
           } else {
             $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
