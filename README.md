@@ -2,11 +2,22 @@
 
 Manage ssh client and server.
 
-The module uses exported resources to manage ssh keys and removes ssh keys that are not managed by puppet. This behavior is managed by the parameters ssh_key_ensure and purge_keys.
+The module uses exported resources to manage ssh keys and removes ssh keys that
+are not managed by puppet. This behavior is managed by the parameters
+ssh_key_ensure and purge_keys.
+
+This module may be used with a simple `include ::ssh`
 
 ===
 
-# Compatability
+### Table of Contents
+1. [Compatibility](#compatibility)
+1. [Parameters](#parameters)
+1. [Examples](#sample-usage)
+
+===
+
+# Compatibility
 
 This module has been tested to work on the following systems with Puppet
 versions v3, v3 with future parser and v4 with  Ruby versions 1.8.7 (Puppet v3
