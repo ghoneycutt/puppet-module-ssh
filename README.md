@@ -428,14 +428,15 @@ Match directive is supported on SSH >= 5.x.
 - *Default*: undef
 
 - *Hiera example*:
-<pre>
+
+``` yaml
 ssh::sshd_config_match:
   'User JohnDoe':
     - 'AllowTcpForwarding yes'
   'Address 2.4.2.0':
     - 'X11Forwarding yes'
     - 'PasswordAuthentication no'
-</pre>
+```
 
 keys
 ----
@@ -630,7 +631,7 @@ This works by passing the ssh::keys hash to the ssh_authorized_keys type with cr
 ## Sample usage:
 Push authorized key "root_for_userX" and remove key "root_for_userY" through Hiera.
 
-<pre>
+``` yaml
 ssh::keys:
   root_for_userX:
     ensure: present
@@ -646,4 +647,4 @@ ssh::keys:
   root_for_userY:
     ensure: absent
     user: root
-</pre>
+```
