@@ -74,6 +74,7 @@ class ssh (
   $sshd_gssapicleanupcredentials       = 'USE_DEFAULTS',
   $sshd_acceptenv                      = 'USE_DEFAULTS',
   $sshd_config_hostkey                 = 'USE_DEFAULTS',
+  $sshd_config_address_family          = 'USE_DEFAULTS',
   $sshd_listen_address                 = undef,
   $sshd_hostbasedauthentication        = 'no',
   $sshd_ignoreuserknownhosts           = 'no',
@@ -95,6 +96,8 @@ class ssh (
   $manage_root_ssh_config              = false,
   $root_ssh_config_content             = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
 ) {
+
+  $default_sshd_config_address_family  = 'any'
 
   case $::osfamily {
     'RedHat': {
@@ -316,6 +319,15 @@ class ssh (
   }
   if $ssh_config_forward_x11_trusted_real != undef {
     validate_re($ssh_config_forward_x11_trusted_real, '^(yes|no)$', "ssh::ssh_config_forward_x11_trusted may be either 'yes' or 'no' and is set to <${ssh_config_forward_x11_trusted_real}>.")
+  }
+
+  if $sshd_config_address_family == 'USE_DEFAULTS' {
+    $sshd_config_address_family_real = $default_sshd_config_address_family
+  } else {
+    $sshd_config_address_family_real = $sshd_config_address_family
+  }
+  if $sshd_config_address_family_real != undef {
+    validate_re($sshd_config_address_family_real, '^(any|inet|inet6)$', "ssh::sshd_config_address_family may be “any”, “inet” (use IPv4 only), or “inet6” (use IPv6 only) and is set to <${sshd_config_address_family_real}>.")
   }
 
   if $sshd_gssapikeyexchange == 'USE_DEFAULTS' {
