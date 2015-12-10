@@ -175,6 +175,12 @@ String or Array to specify address(es) for which sshd will bind. Corresponds to 
 
 - *Default*: undef
 
+sshd_config_address_family
+-------------------
+String or Array to specify which address family should be used by sshd(8).  Valid arguments are “any”, “inet” (use IPv4 only), or “inet6” (use IPv6 only).
+
+- *Default*: any
+
 sshd_config_port
 ---------------------------
 String to specify listen port for sshd. Port option in sshd_config.
