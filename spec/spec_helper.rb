@@ -9,7 +9,5 @@ RSpec.configure do |config|
     # Facter.collection.loader.load(:ipaddress)
     Facter.clear
     Facter.clear_messages
-
-    Puppet[:parser] = 'future' if ENV['FUTURE_PARSER'] == 'yes'
   end
 end
