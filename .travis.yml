@@ -17,11 +17,13 @@ env:
     - PUPPET_GEM_VERSION="~> 3.6.0"
     - PUPPET_GEM_VERSION="~> 3.7.0"
     - PUPPET_GEM_VERSION="~> 3.8.0"
-    - PUPPET_GEM_VERSION="~> 3" PARSER="future"
+    - PUPPET_GEM_VERSION="~> 3" FUTURE_PARSER="yes"
     - PUPPET_GEM_VERSION="~> 4.0.0"
     - PUPPET_GEM_VERSION="~> 4.1.0"
     - PUPPET_GEM_VERSION="~> 4.2.0"
+    - PUPPET_GEM_VERSION="~> 4.3.0"
     - PUPPET_GEM_VERSION="~> 4"
+    - PUPPET_GEM_VERSION="~> 4" STRICT_VARIABLES="yes"
 
 sudo: false
 
@@ -47,7 +49,11 @@ matrix:
     - rvm: 1.8.7
       env: PUPPET_GEM_VERSION="~> 4.2.0"
     - rvm: 1.8.7
+      env: PUPPET_GEM_VERSION="~> 4.3.0"
+    - rvm: 1.8.7
       env: PUPPET_GEM_VERSION="~> 4"
+    - rvm: 1.8.7
+      env: PUPPET_GEM_VERSION="~> 4" STRICT_VARIABLES="yes"
 
 notifications:
   email: false
