@@ -61,7 +61,11 @@ PermitRootLogin <%= @permit_root_login %>
 <% if @sshd_config_strictmodes -%>
 StrictModes <%= @sshd_config_strictmodes %>
 <% end -%>
+
 #MaxAuthTries 6
+<% if @sshd_config_maxauthtries %>
+MaxAuthTries <%= @sshd_config_maxauthtries %>
+<% end -%>
 
 #RSAAuthentication yes
 #PubkeyAuthentication yes

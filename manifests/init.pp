@@ -49,6 +49,7 @@ class ssh (
   $sshd_config_allowusers              = [],
   $sshd_config_denygroups              = [],
   $sshd_config_denyusers               = [],
+  $sshd_config_maxauthtries            = 6,
   $sshd_config_maxstartups             = undef,
   $sshd_config_maxsessions             = undef,
   $sshd_config_chrootdirectory         = undef,
