@@ -49,7 +49,7 @@ class ssh (
   $sshd_config_allowusers              = [],
   $sshd_config_denygroups              = [],
   $sshd_config_denyusers               = [],
-  $sshd_config_maxauthtries            = 6,
+  $sshd_config_maxauthtries            = '6',
   $sshd_config_maxstartups             = undef,
   $sshd_config_maxsessions             = undef,
   $sshd_config_chrootdirectory         = undef,
@@ -516,6 +516,10 @@ class ssh (
 
   if $sshd_config_strictmodes != undef {
     validate_re($sshd_config_strictmodes, '^(yes|no)$', "ssh::sshd_config_strictmodes may be either 'yes' or 'no' and is set to <${sshd_config_strictmodes}>.")
+  }
+
+  if is_integer($sshd_config_maxauthtries) == false {
+    fail("ssh::sshd_config_maxauthtries must be a valid number and is set to <${sshd_config_maxauthtries}>.")
   }
 
   validate_re($sshd_hostbasedauthentication, '^(yes|no)$', "ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to <${sshd_hostbasedauthentication}>.")
