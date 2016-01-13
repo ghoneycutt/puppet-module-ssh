@@ -101,6 +101,7 @@ describe 'ssh' do
         it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
         it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
         it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
+        it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
         it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
         it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
         it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
@@ -240,6 +241,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
+    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
     it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
@@ -362,6 +364,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
+    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
     it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
@@ -482,6 +485,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
+    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
     it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
@@ -611,6 +615,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
+    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
     it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
@@ -739,6 +744,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
+    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
     it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
@@ -882,6 +888,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
     it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
     it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
+    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
 
     it {
       should contain_service('sshd_service').with({
@@ -997,6 +1004,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
+    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
     it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }

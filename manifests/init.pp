@@ -54,6 +54,7 @@ class ssh (
   $sshd_config_forcecommand            = undef,
   $sshd_config_match                   = undef,
   $sshd_authorized_keys_command        = undef,
+  $sshd_kex_algorithms                 = undef,
   $sshd_authorized_keys_command_user   = undef,
   $sshd_banner_content                 = undef,
   $sshd_banner_owner                   = 'root',
@@ -415,6 +416,10 @@ class ssh (
 
   if $sshd_config_macs != undef {
     validate_array($sshd_config_macs)
+  }
+
+  if $sshd_kex_algorithms != undef {
+    validate_array($sshd_kex_algorithms)
   }
 
   if $ssh_config_hash_known_hosts_real != undef {
