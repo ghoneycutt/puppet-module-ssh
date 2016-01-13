@@ -201,6 +201,8 @@ XAuthLocation <%= @sshd_config_xauth_location_real %>
 Subsystem sftp <%= @sshd_config_subsystem_sftp_real %>
 
 <% if @sshd_kex_algorithms -%>
+# Recommended to limit these to avoid logjam vulnerability
+# See https://stribika.github.io/2015/01/04/secure-secure-shell.html
 KexAlgorithms <%= @sshd_kex_algorithms.join(',') %>
 <% end -%>
 <% if @sshd_config_ciphers -%>
