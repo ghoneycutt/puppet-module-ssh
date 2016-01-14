@@ -22,6 +22,7 @@ class ssh (
   $ssh_config_sendenv_xmodifiers       = false,
   $ssh_config_ciphers                  = undef,
   $ssh_config_macs                     = undef,
+  $ssh_config_use_roaming              = 'no',
   $ssh_config_template                 = 'ssh/ssh_config.erb',
   $ssh_sendenv                         = 'USE_DEFAULTS',
   $ssh_gssapiauthentication            = 'yes',
