@@ -72,8 +72,8 @@ GSSAPIDelegateCredentials <%= @ssh_gssapidelegatecredentials %>
 <% if @ssh_config_forward_x11 != nil -%>
   ForwardX11 <%= @ssh_config_forward_x11 %>
 <% end -%>
-<% if @ssh_config_use_roaming != nil -%>
-  UseRoaming <%= @ssh_config_use_roaming %>
+<% if (@ssh_config_use_roaming_real == 'yes') or (@ssh_config_use_roaming_real == 'no') -%>
+  UseRoaming <%= @ssh_config_use_roaming_real %>
 <% end -%>
 <% if @ssh_config_server_alive_interval != nil -%>
   ServerAliveInterval <%= @ssh_config_server_alive_interval %>

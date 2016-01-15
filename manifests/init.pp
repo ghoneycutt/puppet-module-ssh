@@ -22,7 +22,7 @@ class ssh (
   $ssh_config_sendenv_xmodifiers       = false,
   $ssh_config_ciphers                  = undef,
   $ssh_config_macs                     = undef,
-  $ssh_config_use_roaming              = 'no',
+  $ssh_config_use_roaming              = 'USE_DEFAULTS',
   $ssh_config_template                 = 'ssh/ssh_config.erb',
   $ssh_sendenv                         = 'USE_DEFAULTS',
   $ssh_gssapiauthentication            = 'yes',
@@ -108,6 +108,7 @@ class ssh (
       $default_ssh_package_source              = undef
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
+      $default_ssh_config_use_roaming          = 'no'
       $default_sshd_config_subsystem_sftp      = '/usr/libexec/openssh/sftp-server'
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
@@ -128,6 +129,7 @@ class ssh (
       $default_ssh_package_source              = undef
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
+      $default_ssh_config_use_roaming          = 'no'
       $default_ssh_config_forward_x11_trusted  = 'yes'
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
@@ -165,6 +167,7 @@ class ssh (
       $default_ssh_package_source              = undef
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
+      $default_ssh_config_use_roaming          = 'no'
       $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
@@ -182,6 +185,7 @@ class ssh (
       $default_ssh_config_hash_known_hosts     = undef
       $default_ssh_sendenv                     = false
       $default_ssh_config_forward_x11_trusted  = undef
+      $default_ssh_config_use_roaming          = 'unset'
       $default_sshd_config_subsystem_sftp      = '/usr/lib/ssh/sftp-server'
       $default_sshd_config_mode                = '0644'
       $default_sshd_config_use_dns             = undef
@@ -338,6 +342,12 @@ class ssh (
     $sshd_gssapicleanupcredentials_real = $sshd_gssapicleanupcredentials
   }
 
+  if $ssh_config_use_roaming == 'USE_DEFAULTS' {
+    $ssh_config_use_roaming_real = $default_ssh_config_use_roaming
+  } else {
+    $ssh_config_use_roaming_real = $ssh_config_use_roaming
+  }
+
   if $ssh_sendenv == 'USE_DEFAULTS' {
     $ssh_sendenv_real = $default_ssh_sendenv
   } else {
@@ -433,6 +443,9 @@ class ssh (
   }
   if $sshd_config_serverkeybits_real != undef {
     if is_integer($sshd_config_serverkeybits_real) == false { fail("ssh::sshd_config_serverkeybits must be an integer and is set to <${sshd_config_serverkeybits}>.") }
+  }
+  if $ssh_config_use_roaming_real != undef {
+    validate_re($ssh_config_use_roaming_real, '^(yes|no|unset)$', "ssh::ssh_config_use_roaming may be either 'yes', 'no' or 'unset' and is set to <${$ssh_config_use_roaming}>.")
   }
   if is_integer($sshd_client_alive_interval) == false { fail("ssh::sshd_client_alive_interval must be an integer and is set to <${sshd_client_alive_interval}>.") }
   if is_integer($sshd_client_alive_count_max) == false { fail("ssh::sshd_client_alive_count_max must be an integer and is set to <${sshd_client_alive_count_max}>.") }
