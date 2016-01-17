@@ -340,6 +340,16 @@ This module sets this option to 'yes' on Linux and undef on Solaris.
 
 - *Default*: 'USE_DEFAULTS'
 
+ssh_config_use_roaming
+----------------------
+String to enable or disable UseRoaming in client configuration ssh_config.
+Valid values are 'yes', 'no' and 'unset'. Using 'unset' will not use (print)
+this configuration parameter at all. Default is set to 'no' on Linux and
+'unset' on Solaris. If you have OpenSSH >= version 5.4, this should be set to
+'no' to mitigate CVE-2016-0777 and CVE-2016-0778.
+
+- *Default*: 'USE_DEFAULTS'
+
 sshd_client_alive_interval
 --------------------------
 ClientAliveInterval in sshd_config.
