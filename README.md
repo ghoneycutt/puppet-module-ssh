@@ -586,6 +586,18 @@ Export node SSH key. Valid values are 'present' and 'absent'.
 
 - *Default*: 'present'
 
+ssh_key_export
+--------------
+Controls whether node SSH host key should be exported. Valid values are 'true and 'false'.
+
+- *Default*: 'true'
+
+ssh_key_host_aliases
+--------------
+Specifies any alias(es) for the node's exported host key. Passed directly to the sshkey exported resource. Valid values are a string or array of strings.
+
+- *Default*: undef
+
 ssh_key_import
 --------------
 Import all exported node SSH keys. Valid values are 'true' and 'false'.
@@ -594,7 +606,7 @@ Import all exported node SSH keys. Valid values are 'true' and 'false'.
 
 ssh_key_type
 ------------
-Encryption type for SSH key. Valid values are 'rsa', 'dsa', 'ssh-dss' and 'ssh-rsa'
+Encryption type for SSH key. Valid values are 'rsa', 'dsa', 'ssh-dss', 'ssh-rsa', 'ssh-ed25519', 'ed25519', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', and 'ecdsa-sha2-nistp521'
 
 - *Default*: 'ssh-rsa'
 

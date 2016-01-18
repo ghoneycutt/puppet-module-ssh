@@ -87,6 +87,8 @@ class ssh (
   $service_hasrestart                  = true,
   $service_hasstatus                   = 'USE_DEFAULTS',
   $ssh_key_ensure                      = 'present',
+  $ssh_key_export                      = true,
+  $ssh_key_host_aliases                = undef,
   $ssh_key_import                      = true,
   $ssh_key_type                        = 'ssh-rsa',
   $ssh_config_global_known_hosts_file  = '/etc/ssh/ssh_known_hosts',
@@ -536,6 +538,20 @@ class ssh (
     }
   }
 
+  case type3x($ssh_key_export) {
+    'string': {
+      validate_re($ssh_key_export, '^(true|false)$', "ssh::ssh_key_export may be either 'true' or 'false' and is set to <${ssh_key_export}>.")
+      $ssh_key_export_real = str2bool($ssh_key_export)
+    }
+    'boolean': {
+      $ssh_key_export_real = $ssh_key_export
+    }
+    default: {
+      fail('ssh::ssh_key_export type must be true or false.')
+    }
+  }
+  validate_bool($ssh_key_export_real)
+
   case type3x($ssh_key_import) {
     'string': {
       validate_re($ssh_key_import, '^(true|false)$', "ssh::ssh_key_import may be either 'true' or 'false' and is set to <${ssh_key_import}>.")
@@ -578,8 +594,14 @@ class ssh (
     'ssh-dsa','dsa': {
       $key = $::sshdsakey
     }
+    'ssh-ed25519', 'ed25519': {
+      $key = $::sshed25519key 
+    }
+    'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521': {
+      $key = $::sshecdsakey
+    }
     default: {
-      fail("ssh::ssh_key_type must be 'ssh-rsa', 'rsa', 'ssh-dsa', or 'dsa' and is <${ssh_key_type}>.")
+      fail("ssh::ssh_key_type must be 'ssh-rsa', 'rsa', 'ssh-dsa', 'dsa', 'ssh-ed25519', 'ed25519', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', or 'ecdsa-sha2-nistp521' and is <${ssh_key_type}>.")
     }
   }
 
@@ -746,10 +768,13 @@ class ssh (
   }
 
   # export each node's ssh key
-  @@sshkey { $::fqdn :
-    ensure => $ssh_key_ensure,
-    type   => $ssh_key_type,
-    key    => $key,
+  if $ssh_key_export_real == true {
+    @@sshkey { $::fqdn :
+      ensure       => $ssh_key_ensure,
+      host_aliases => $ssh_key_host_aliases,
+      type         => $ssh_key_type,
+      key          => $key,
+    }
   }
 
   file { 'ssh_known_hosts':
