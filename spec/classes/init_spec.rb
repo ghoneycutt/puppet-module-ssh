@@ -59,6 +59,7 @@ describe 'ssh' do
 
         it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
         it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
+        it { should contain_file('ssh_config').with_content(/^\s*UseRoaming no$/) }
         it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
 
         it {
@@ -205,6 +206,7 @@ describe 'ssh' do
 
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
+    it { should contain_file('ssh_config').without_content(/^\s*UseRoaming/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
@@ -328,6 +330,7 @@ describe 'ssh' do
 
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
+    it { should contain_file('ssh_config').without_content(/^\s*UseRoaming/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
@@ -449,6 +452,7 @@ describe 'ssh' do
 
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
+    it { should contain_file('ssh_config').without_content(/^\s*UseRoaming/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
@@ -571,6 +575,7 @@ describe 'ssh' do
 
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*UseRoaming no$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
@@ -700,6 +705,7 @@ describe 'ssh' do
 
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*UseRoaming no$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
@@ -831,6 +837,7 @@ describe 'ssh' do
 
     it { should contain_file('ssh_config').without_content(/^\s*ForwardAgent$/) }
     it { should contain_file('ssh_config').without_content(/^\s*ForwardX11$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*UseRoaming no$/) }
     it { should contain_file('ssh_config').without_content(/^\s*ServerAliveInterval$/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
@@ -960,6 +967,7 @@ describe 'ssh' do
 
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*UseRoaming no$/) }
     it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
     it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
     it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
@@ -1070,6 +1078,7 @@ describe 'ssh' do
         :ssh_config_hash_known_hosts        => 'yes',
         :ssh_config_forward_agent           => 'yes',
         :ssh_config_forward_x11             => 'yes',
+        :ssh_config_use_roaming             => 'yes',
         :ssh_config_server_alive_interval   => '300',
         :ssh_config_sendenv_xmodifiers      => true,
         :ssh_config_ciphers                 => [ 'aes128-cbc',
@@ -1107,6 +1116,7 @@ describe 'ssh' do
     it { should contain_file('ssh_config').with_content(/^  ForwardAgent yes$/) }
     it { should contain_file('ssh_config').with_content(/^  ForwardX11 yes$/) }
     it { should contain_file('ssh_config').with_content(/^\s*GSSAPIAuthentication yes$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*UseRoaming yes$/) }
     it { should contain_file('ssh_config').with_content(/^  ServerAliveInterval 300$/) }
     it { should contain_file('ssh_config').with_content(/^  SendEnv XMODIFIERS$/) }
     it { should contain_file('ssh_config').with_content(/^\s*Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc$/) }
@@ -3448,4 +3458,63 @@ describe 'ssh' do
       end
     end
   end
+
+  describe 'with parameter ssh_config_use_roaming' do
+    let(:facts) { { :osfamily  => 'RedHat' } }
+
+    ['yes','no','unset'].each do |value|
+      context "set to valid value #{value}" do
+        let(:params) { { :ssh_config_use_roaming => value } }
+        if value == 'unset'
+          it { should contain_file('ssh_config').without_content(/^\s*UseRoaming/) }
+        else
+          it { should contain_file('ssh_config').with_content(/^\s*UseRoaming #{value}$/) }
+        end
+      end
+    end
+  end
+
+  describe 'variable type and content validations' do
+    # set needed custom facts and variables
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+      }
+    end
+    let(:mandatory_params) do
+      {
+        #:param => 'value',
+      }
+    end
+
+    validations = {
+      'regex (yes|no|unset)' => {
+        :name    => %w(ssh_config_use_roaming),
+        :valid   => ['yes', 'no', 'unset'],
+        :invalid => ['string', %w(array), { 'ha' => 'sh' }, 3, 2.42, true, false, nil],
+        :message => 'may be either \'yes\', \'no\' or \'unset\'',
+      },
+    }
+
+    validations.sort.each do |type, var|
+      var[:name].each do |var_name|
+        var[:params] = {} if var[:params].nil?
+        var[:valid].each do |valid|
+          context "when #{var_name} (#{type}) is set to valid #{valid} (as #{valid.class})" do
+            let(:params) { [mandatory_params, var[:params], { :"#{var_name}" => valid, }].reduce(:merge) }
+            it { should compile }
+          end
+        end
+
+        var[:invalid].each do |invalid|
+          context "when #{var_name} (#{type}) is set to invalid #{invalid} (as #{invalid.class})" do
+            let(:params) { [mandatory_params, var[:params], { :"#{var_name}" => invalid, }].reduce(:merge) }
+            it 'should fail' do
+              expect { should contain_class(subject) }.to raise_error(Puppet::Error, /#{var[:message]}/)
+            end
+          end
+        end
+      end # var[:name].each
+    end # validations.sort.each
+  end # describe 'variable type and content validations'
 end
