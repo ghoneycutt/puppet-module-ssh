@@ -595,7 +595,7 @@ class ssh (
       $key = $::sshdsakey
     }
     'ssh-ed25519', 'ed25519': {
-      $key = $::sshed25519key 
+      $key = $::sshed25519key
     }
     'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521': {
       $key = $::sshecdsakey
