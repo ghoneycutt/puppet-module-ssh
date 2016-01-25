@@ -37,7 +37,7 @@ class ssh (
   $sshd_config_template                = 'ssh/sshd_config.erb',
   $sshd_config_login_grace_time        = '120',
   $sshd_config_challenge_resp_auth     = 'yes',
-  $sshd_config_print_motd              = 'yes',
+  $sshd_config_print_motd              = 'USE_DEFAULTS',
   $sshd_config_use_dns                 = 'USE_DEFAULTS',
   $sshd_config_authkey_location        = undef,
   $sshd_config_strictmodes             = undef,
@@ -121,6 +121,7 @@ class ssh (
       $default_service_hasstatus               = true
       $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
+      $default_sshd_config_print_motd          = 'yes'
     }
     'Suse': {
       $default_packages                        = 'openssh'
@@ -142,6 +143,7 @@ class ssh (
       $default_service_hasstatus               = true
       $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
+      $default_sshd_config_print_motd          = 'yes'
       case $::architecture {
         'x86_64': {
           if ($::operatingsystem == 'SLES') and ($::operatingsystemrelease =~ /^12\./) {
@@ -180,6 +182,7 @@ class ssh (
       $default_service_hasstatus               = true
       $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
+      $default_sshd_config_print_motd          = 'no'
     }
     'Solaris': {
       $default_ssh_config_hash_known_hosts     = undef
@@ -198,6 +201,7 @@ class ssh (
       $default_sshd_config_serverkeybits       = '768'
       $default_ssh_package_adminfile           = undef
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
+      $default_sshd_config_print_motd          = 'yes'
       case $::kernelrelease {
         '5.11': {
           $default_packages                      = ['network/ssh',
@@ -393,6 +397,13 @@ class ssh (
   if $sshd_listen_address {
     validate_array($sshd_listen_address)
   }
+
+  if $sshd_config_print_motd == 'USE_DEFAULTS' {
+    $sshd_config_print_motd_real = $default_sshd_config_print_motd
+  } else {
+    $sshd_config_print_motd_real = $sshd_config_print_motd
+  }
+  validate_re($sshd_config_print_motd_real, '^(yes|no)$', "ssh::sshd_config_print_motd may be either 'yes' or 'no' and is set to <${sshd_config_print_motd_real}>.")
 
   if $service_hasstatus == 'USE_DEFAULTS' {
     $service_hasstatus_real = $default_service_hasstatus
