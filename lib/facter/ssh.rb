@@ -10,7 +10,7 @@ Facter.add('ssh_version_numeric') do
   setcode do
     ssh_version = Facter.value(:ssh_version)
     if ssh_version
-      ssh_version.match(/\d+\.\d+/)[0]
+      ssh_version.match(/(\d+\.\d+\.\d+|\d+\.\d+)/)[0]
     end
   end
 end
