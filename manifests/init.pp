@@ -108,7 +108,16 @@ class ssh (
       $default_ssh_package_source              = undef
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
-      $default_ssh_config_use_roaming          = 'no'
+
+      # RHEL5 doesn't support the UseRoaming parameter so don't include it.
+      case $::lsbmajdistrelease {
+        5: { 
+          $default_ssh_config_use_roaming      = 'unset'
+        }
+        default: { 
+          $default_ssh_config_use_roaming      = 'no'
+        }
+      }
       $default_sshd_config_subsystem_sftp      = '/usr/libexec/openssh/sftp-server'
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
