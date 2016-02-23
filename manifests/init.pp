@@ -233,7 +233,7 @@ class ssh (
     }
   }
 
-  if $::ssh_version =~ /^OpenSSH/  {
+  if "${::ssh_version}" =~ /^OpenSSH/  { # lint:ignore:only_variable_string
     $ssh_version_array = split($::ssh_version_numeric, '\.')
     $ssh_version_maj_int = 0 + $ssh_version_array[0]
     $ssh_version_min_int = 0 + $ssh_version_array[1]
