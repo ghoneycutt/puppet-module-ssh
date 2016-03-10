@@ -198,6 +198,12 @@ String to specify listen port for sshd. Port option in sshd_config.
 
 - *Default*: '22'
 
+sshd_config_ports
+---------------------------
+Array to specify optional, additional listen ports for sshd.  Should not include value specified above in sshd_config_port.
+
+- *Default*: undef
+
 sshd_config_syslog_facility
 ---------------------------
 SyslogFacility option in sshd_config.

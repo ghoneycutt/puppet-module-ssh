@@ -15,6 +15,11 @@
 
 #Port 22
 Port <%= @sshd_config_port %>
+<% if @sshd_config_ports.class == Array -%>
+<% @sshd_config_ports.each do |port| -%>
+Port <%= port %>
+<% end -%>
+<% end -%>
 #Protocol 2,1
 Protocol 2
 #AddressFamily any

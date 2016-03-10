@@ -1127,6 +1127,7 @@ describe 'ssh' do
     let :params do
       {
         :sshd_config_port                  => '22222',
+        :sshd_config_ports                 => [ '22223' ],
         :sshd_config_syslog_facility       => 'DAEMON',
         :sshd_config_login_grace_time      => '60',
         :permit_root_login                 => 'no',
@@ -1198,6 +1199,7 @@ describe 'ssh' do
     }
 
     it { should contain_file('sshd_config').with_content(/^Port 22222$/) }
+    it { should contain_file('sshd_config').with_content(/^Port 22223$/) }
     it { should contain_file('sshd_config').with_content(/^SyslogFacility DAEMON$/) }
     it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
     it { should contain_file('sshd_config').with_content(/^LoginGraceTime 60$/) }
@@ -1815,6 +1817,54 @@ describe 'ssh' do
       expect {
         should contain_class('ssh')
       }.to raise_error(Puppet::Error,/ssh::sshd_config_port must be a valid number and is set to <22invalid>\./)
+    end
+  end
+
+  describe 'sshd_config_ports param' do
+    context 'when set to an array' do
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :root_home => '/root',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+      let (:params) {{'sshd_config_ports' => ['22222','22223'] }}
+
+      it { should contain_file('sshd_config').with_content(/^Port 22222\nPort 22223$/) }
+    end
+
+    context 'when set to a string' do
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :root_home => '/root',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+      let (:params) {{'sshd_config_ports' => ['2222'] }}
+
+      it { should contain_file('sshd_config').with_content(/^Port 2222$/) }
+    end
+
+    context 'when set to an invalid type (not an array)' do
+      let :facts do
+        {
+          :fqdn      => 'monkey.example.com',
+          :osfamily  => 'RedHat',
+          :root_home => '/root',
+          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+        }
+      end
+      let (:params) {{'sshd_config_ports' => true }}
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
+      end
     end
   end
 
