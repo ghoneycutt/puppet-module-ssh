@@ -252,6 +252,12 @@ Specifies whether sshd should check file modes and ownership of the user's files
 
 - *Default*: undef
 
+sshd_config_maxauthtries
+----------------------------
+Specifies the maximum number of authentication attempts permitted per connection. Once the number of failures reaches half this value, additional failures are logged. The default is 6.
+
+- *Default*: '6'
+
 sshd_config_serverkeybits
 ----------------------------
 Defines the number of bits in the ephemeral protocol version 1 server key.  The minimum value is 512, and the default is 1024 except for Solaris default value is 768.

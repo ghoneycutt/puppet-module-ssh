@@ -99,6 +99,7 @@ describe 'ssh' do
         it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange no$/) }
         it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
         it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
+        it { should contain_file('sshd_config').with_content(/^MaxAuthTries 6/) }
         it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
         it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
         it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
@@ -239,6 +240,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^\s*AcceptEnv L.*$/) }
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
+    it { should contain_file('sshd_config').with_content(/^MaxAuthTries 6/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
@@ -362,6 +364,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^\s*AcceptEnv L.*$/) }
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
+    it { should contain_file('sshd_config').with_content(/^MaxAuthTries 6/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
@@ -483,6 +486,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^\s*AcceptEnv L.*$/) }
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
+    it { should contain_file('sshd_config').with_content(/^MaxAuthTries 6/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
@@ -613,6 +617,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
+    it { should contain_file('sshd_config').with_content(/^MaxAuthTries 6/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
@@ -742,6 +747,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
+    it { should contain_file('sshd_config').with_content(/^MaxAuthTries 6/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
@@ -873,6 +879,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
     it { should contain_file('sshd_config').without_content(/^AuthorizedKeysFile/) }
     it { should contain_file('sshd_config').without_content(/^StrictModes/) }
+    it { should contain_file('sshd_config').with_content(/^MaxAuthTries 6/) }
     it { should contain_file('sshd_config').without_content(/^MaxStartups/) }
     it { should contain_file('sshd_config').without_content(/^MaxSessions/) }
     it { should contain_file('sshd_config').without_content(/^\s*AuthorizedKeysCommand/) }
@@ -1002,6 +1009,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
     it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
     it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
+    it { should contain_file('sshd_config').with_content(/^MaxAuthTries 6/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
@@ -1155,6 +1163,7 @@ describe 'ssh' do
                                                 '/etc/ssh/ssh_host_dsa_key',
         ],
         :sshd_config_strictmodes           => 'yes',
+        :sshd_config_maxauthtries          => '6',
         :sshd_config_ciphers               => [ 'aes128-cbc',
                                                 '3des-cbc',
                                                 'blowfish-cbc',
@@ -1225,6 +1234,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key/) }
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_dsa_key/) }
     it { should contain_file('sshd_config').with_content(/^StrictModes yes$/) }
+    it { should contain_file('sshd_config').with_content(/^MaxAuthTries 6/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should contain_file('sshd_config').with_content(/^AuthorizedKeysCommand \/path\/to\/command$/) }
@@ -2052,6 +2062,25 @@ describe 'ssh' do
       expect {
         should contain_class('ssh')
       }.to raise_error(Puppet::Error,/ssh::sshd_config_strictmodes may be either \'yes\' or \'no\' and is set to <invalid>\./)
+    end
+  end
+
+  context 'with sshd_config_maxauthtries not being a valid number' do
+    let :facts do
+      {
+        :fqdn      => 'monkey.example.com',
+        :osfamily  => 'RedHat',
+        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+      }
+    end
+    let :params do
+      { :sshd_config_maxauthtries => '6invalid' }
+    end
+
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/ssh::sshd_config_maxauthtries must be a valid number and is set to <6invalid>\./)
     end
   end
 
