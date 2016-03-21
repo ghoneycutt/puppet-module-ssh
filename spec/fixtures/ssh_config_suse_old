@@ -54,7 +54,6 @@ Host *
 # to the original X11 display. As virtually no X11 client supports the untrusted
 # mode correctly we set this to yes.
   ForwardX11Trusted yes
-  UseRoaming no
 # Send locale-related environment variables
   SendEnv LANG LANGUAGE LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
   SendEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
