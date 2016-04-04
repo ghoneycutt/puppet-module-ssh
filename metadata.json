@@ -67,6 +67,7 @@
     {
       "operatingsystem": "SLES",
       "operatingsystemrelease": [
+        "10",
         "11",
         "12"
       ]
@@ -74,6 +75,7 @@
     {
       "operatingsystem": "SLED",
       "operatingsystemrelease": [
+        "10",
         "11",
         "12"
       ]
@@ -81,7 +83,8 @@
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "12.04"
+        "12.04",
+        "14.04"
       ]
     }
   ],
