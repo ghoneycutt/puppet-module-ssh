@@ -950,21 +950,40 @@ describe 'ssh' do
     end
   end
 
-  context 'with sshd_config_port not being a valid number' do
+  describe 'sshd_config_port param' do
     let :facts do
       default_facts.merge(
         {
         }
       )
     end
-    let :params do
-      { :sshd_config_port => '22invalid' }
+
+    context 'when set to an array' do
+      let (:params) {{'sshd_config_port' => ['22222', '22223'] }}
+
+      it { should contain_file('sshd_config').with_content(/^Port 22222\nPort 22223$/) }
     end
 
-    it 'should fail' do
-      expect {
-        should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/ssh::sshd_config_port must be a valid number and is set to <22invalid>\./)
+    context 'when set to a string' do
+      let (:params) {{'sshd_config_port' => '22222' }}
+
+      it { should contain_file('sshd_config').with_content(/^Port 22222$/) }
+    end
+
+    context 'when set to an integer' do
+      let (:params) {{'sshd_config_port' => 22222 }}
+
+      it { should contain_file('sshd_config').with_content(/^Port 22222$/) }
+    end
+
+    context 'when not set to a valid number' do
+      let (:params) {{'sshd_config_port' => '22invalid' }}
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_port must be a valid number and is set to <22invalid>\./)
+      end
     end
   end
 

@@ -442,7 +442,22 @@ class ssh (
   if $ssh_config_hash_known_hosts_real != undef {
     validate_re($ssh_config_hash_known_hosts_real, '^(yes|no)$', "ssh::ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts_real}>.")
   }
-  validate_re($sshd_config_port, '^\d+$', "ssh::sshd_config_port must be a valid number and is set to <${sshd_config_port}>.")
+  case type3x($sshd_config_port) {
+    'string': {
+      validate_re($sshd_config_port, '^\d+$', "ssh::sshd_config_port must be a valid number and is set to <${sshd_config_port}>.")
+      $sshd_config_port_array = [ str2num($sshd_config_port) ]
+    }
+    'array': {
+      $sshd_config_port_array = $sshd_config_port
+    }
+    'integer': {
+      $sshd_config_port_array = [ $sshd_config_port ]
+    }
+    default: {
+      fail('ssh:sshd_config_port must be a string, an integer or an array. ')
+    }
+  }
+  validate_numeric($sshd_config_port_array, 65535, 1)
   if $sshd_kerberos_authentication != undef {
     validate_re($sshd_kerberos_authentication, '^(yes|no)$', "ssh::sshd_kerberos_authentication may be either 'yes' or 'no' and is set to <${sshd_kerberos_authentication}>.")
   }
