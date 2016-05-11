@@ -80,6 +80,7 @@ class ssh (
   $sshd_ignoreuserknownhosts           = 'no',
   $sshd_ignorerhosts                   = 'yes',
   $manage_service                      = true,
+  $manage_selinux                      = false,
   $sshd_addressfamily                  = 'any',
   $service_ensure                      = 'running',
   $service_name                        = 'USE_DEFAULTS',
@@ -614,6 +615,13 @@ class ssh (
   }
   validate_bool($manage_service_real)
 
+  if type3x($manage_selinux) == 'string' {
+    $manage_selinux_real = str2bool($manage_selinux)
+  } else {
+    $manage_selinux_real = $manage_selinux
+  }
+  validate_bool($manage_selinux_real)
+
   if type3x($service_enable) == 'string' {
     $service_enable_real = str2bool($service_enable)
   } else {
@@ -734,6 +742,14 @@ class ssh (
       owner   => 'root',
       group   => 'root',
       mode    => '0600',
+    }
+  }
+
+  if $::selinux and $manage_selinux_real and $sshd_config_port != '22' {
+    exec { "add_ssh_port_t_${sshd_config_port}_tcp":
+      command => "semanage port -a -t ssh_port_t -p tcp ${sshd_config_port}",
+      unless  => "semanage port -l|grep \"^ssh_port_t.*tcp.*${sshd_config_port}\"|grep -w ${sshd_config_port}",
+      path    => '/bin:/sbin:/usr/bin:/usr/sbin',
     }
   }
 
