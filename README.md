@@ -204,6 +204,12 @@ LogLevel option in sshd_config. Acceptable values are QUIET, FATAL, ERROR, INFO,
 
 - *Default*: 'INFO'
 
+sshd_config_maxauthtries
+---------------
+MaxAuthTries option in sshd_config.  Specifies the maximum number of authentication attempts permitted per connection.  Once the number of failures reaches half this value, additional failures are logged.
+
+- *Default*: '6'
+
 sshd_config_mode
 ---------------
 sshd_config's mode. The default is '0600' on Linux and '0644' on Solaris.
