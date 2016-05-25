@@ -455,6 +455,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key/) }
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_dsa_key/) }
     it { should contain_file('sshd_config').with_content(/^StrictModes yes$/) }
+    it { should_not contain_file('sshd_config').with_content(/^MaxAuthTries/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
     it { should contain_file('sshd_config').with_content(/^AuthorizedKeysCommand \/path\/to\/command$/) }
@@ -1928,6 +1929,27 @@ describe 'ssh' do
     end
   end
 
+  describe 'with paramter sshd_config_maxauthtries specified'  do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+    context 'as a valid integer' do
+     let(:params) { { :sshd_config_maxauthtries => 6}}
+     it { should contain_file('sshd_config').with_content(^MaxAuthTries 6$/)}
+    end
+    context 'as an invalid type' do
+      let(:params) {{ sshd_config_maxauthtries => 'BOGUS'}}
+      it 'shoudl fail' do
+        expect{
+          should contain_clas('ssh')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+ end
+ 
   describe 'with parameter sshd_config_maxstartups specified' do
     let :facts do
       default_facts.merge(
