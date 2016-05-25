@@ -49,6 +49,7 @@ class ssh (
   $sshd_config_allowusers              = [],
   $sshd_config_denygroups              = [],
   $sshd_config_denyusers               = [],
+  $sshd_config_maxauthtries            = '6',
   $sshd_config_maxstartups             = undef,
   $sshd_config_maxsessions             = undef,
   $sshd_config_chrootdirectory         = undef,
@@ -490,6 +491,12 @@ class ssh (
 
   if $sshd_config_authkey_location != undef {
     validate_string($sshd_config_authkey_location)
+  }
+
+  if $sshd_config_maxauthtries != undef {
+    if is_integer($sshd_config_maxauthtries) == false {
+      fail("ssh::sshd_config_maxauthtries must be a valid number and is set to <${sshd_config_maxauthtries}>.")
+    }
   }
 
   if $sshd_config_maxstartups != undef {
