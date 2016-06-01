@@ -1942,9 +1942,9 @@ describe 'ssh' do
     end
     context 'as an invalid type' do
       let(:params) {{ sshd_config_maxauthtries => 'BOGUS'}}
-      it 'shoudl fail' do
+      it 'should fail' do
         expect{
-          should contain_clas('ssh')
+          should contain_class('ssh')
         }.to raise_error(Puppet::Error)
       end
     end
