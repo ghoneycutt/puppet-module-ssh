@@ -33,6 +33,9 @@
 #   AddressFamily any
 #   ConnectTimeout 0
 #   StrictHostKeyChecking ask
+<% if @ssh_strict_host_key_checking -%>
+   StrictHostKeyChecking <%= @ssh_strict_host_key_checking %>
+<% end -%>
 #   IdentityFile ~/.ssh/identity
    IdentityFile ~/.ssh/id_rsa
    IdentityFile ~/.ssh/id_dsa
@@ -89,4 +92,8 @@ GSSAPIDelegateCredentials <%= @ssh_gssapidelegatecredentials %>
 <% end -%>
 <% if @ssh_config_macs -%>
   MACs <%= @ssh_config_macs.join(',') %>
+<% end -%>
+#  EnableSSHKeysign no
+<% if @ssh_enable_ssh_keysign -%>
+   EnableSSHKeysign yes
 <% end -%>
