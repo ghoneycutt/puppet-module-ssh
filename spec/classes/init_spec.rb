@@ -1938,7 +1938,7 @@ describe 'ssh' do
     end
     context 'as a valid integer' do
      let(:params) { { :sshd_config_maxauthtries => 6}}
-     it { should contain_file('sshd_config').with_content(^MaxAuthTries 6$/)}
+     it { should contain_file('sshd_config').with_content(/^MaxAuthTries 6$/)}
     end
     context 'as an invalid type' do
       let(:params) {{ sshd_config_maxauthtries => 'BOGUS'}}
