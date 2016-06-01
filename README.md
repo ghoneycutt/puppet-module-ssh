@@ -2,11 +2,22 @@
 
 Manage ssh client and server.
 
-The module uses exported resources to manage ssh keys and removes ssh keys that are not managed by puppet. This behavior is managed by the parameters ssh_key_ensure and purge_keys.
+The module uses exported resources to manage ssh keys and removes ssh keys that
+are not managed by puppet. This behavior is managed by the parameters
+ssh_key_ensure and purge_keys.
+
+This module may be used with a simple `include ::ssh`
 
 ===
 
-# Compatability
+### Table of Contents
+1. [Compatibility](#compatibility)
+1. [Parameters](#parameters)
+1. [Examples](#sample-usage)
+
+===
+
+# Compatibility
 
 This module has been tested to work on the following systems with Puppet
 versions v3, v3 with future parser and v4 with  Ruby versions 1.8.7 (Puppet v3
@@ -16,8 +27,11 @@ only), 1.9.3, 2.0.0 and 2.1.0.
  * EL 5
  * EL 6
  * EL 7
+ * SLES 10
  * SLES 11
+ * SLES 12
  * Ubuntu 12.04 LTS
+ * Ubuntu 14.04 LTS
  * Solaris 9
  * Solaris 10
  * Solaris 11
@@ -135,6 +149,12 @@ ssh_gssapidelegatecredentials
 in ssh_config.
 
 - *Default*: undef
+
+sshd_addressfamily
+----------------
+Specifies the value of the AddressFamily setting in sshd_config. Valid values are 'any', 'inet' (IPv4 only), 'inet6' (IPv6 only) and undef. A value of undef will ensure that AddressFamily is not in the configuration.
+
+- *Default*: 'any'
 
 sshd_config_path
 ----------------
@@ -322,6 +342,16 @@ This module sets this option to 'yes' on Linux and undef on Solaris.
 
 - *Default*: 'USE_DEFAULTS'
 
+ssh_config_use_roaming
+----------------------
+String to enable or disable UseRoaming in client configuration ssh_config.
+Valid values are 'yes', 'no' and 'unset'. Using 'unset' will not use (print)
+this configuration parameter at all. Default is set to 'no' on Linux and
+'unset' on Solaris. If you have OpenSSH >= version 5.4, this should be set to
+'no' to mitigate CVE-2016-0777 and CVE-2016-0778.
+
+- *Default*: 'USE_DEFAULTS'
+
 sshd_client_alive_interval
 --------------------------
 ClientAliveInterval in sshd_config.
@@ -416,14 +446,15 @@ Match directive is supported on SSH >= 5.x.
 - *Default*: undef
 
 - *Hiera example*:
-<pre>
+
+``` yaml
 ssh::sshd_config_match:
   'User JohnDoe':
     - 'AllowTcpForwarding yes'
   'Address 2.4.2.0':
     - 'X11Forwarding yes'
     - 'PasswordAuthentication no'
-</pre>
+```
 
 keys
 ----
@@ -605,6 +636,11 @@ Content of root's ~/.ssh/config.
 
 - *Default*: "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
 
+manage_service
+--------------
+Manage the sshd service through this module or not.  Valid values are 'true' and 'false'.
+
+- *Default*: 'true'
 
 ===
 # Manage user's ssh_authorized_keys
@@ -613,7 +649,7 @@ This works by passing the ssh::keys hash to the ssh_authorized_keys type with cr
 ## Sample usage:
 Push authorized key "root_for_userX" and remove key "root_for_userY" through Hiera.
 
-<pre>
+``` yaml
 ssh::keys:
   root_for_userX:
     ensure: present
@@ -629,4 +665,4 @@ ssh::keys:
   root_for_userY:
     ensure: absent
     user: root
-</pre>
+```

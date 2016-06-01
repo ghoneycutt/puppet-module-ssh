@@ -40,53 +40,21 @@
    Protocol 2
 #   Cipher 3des
 #   Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc
-<% if @ssh_config_ciphers -%>
-    Ciphers <%= @ssh_config_ciphers.join(',') %>
-<% end -%>
 #   EscapeChar ~
 #   Tunnel no
 #   TunnelDevice any:any
 #   PermitLocalCommand no
 #   HashKnownHosts no
-<% if @ssh_config_hash_known_hosts_real != nil -%>
-   HashKnownHosts <%= @ssh_config_hash_known_hosts_real %>
-<% end -%>
-<% if @ssh_config_global_known_hosts_file -%>
-   GlobalKnownHostsFile <%= @ssh_config_global_known_hosts_file %>
-<% end -%>
+   HashKnownHosts no
+   GlobalKnownHostsFile /etc/ssh/ssh_known_hosts
 Host *
 #  GSSAPIAuthentication yes
-  GSSAPIAuthentication <%= @ssh_gssapiauthentication %>
-<% if @ssh_gssapidelegatecredentials != nil -%>
-GSSAPIDelegateCredentials <%= @ssh_gssapidelegatecredentials %>
-<% end -%>
+  GSSAPIAuthentication yes
 # If this option is set to yes then remote X11 clients will have full access
 # to the original X11 display. As virtually no X11 client supports the untrusted
 # mode correctly we set this to yes.
-<% if @ssh_config_forward_x11_trusted_real != nil -%>
-  ForwardX11Trusted <%= @ssh_config_forward_x11_trusted_real %>
-<% end -%>
-<% if @ssh_config_forward_agent != nil -%>
-  ForwardAgent <%= @ssh_config_forward_agent %>
-<% end -%>
-<% if @ssh_config_forward_x11 != nil -%>
-  ForwardX11 <%= @ssh_config_forward_x11 %>
-<% end -%>
-<% if (@ssh_config_use_roaming_real == 'yes') or (@ssh_config_use_roaming_real == 'no') -%>
-  UseRoaming <%= @ssh_config_use_roaming_real %>
-<% end -%>
-<% if @ssh_config_server_alive_interval != nil -%>
-  ServerAliveInterval <%= @ssh_config_server_alive_interval %>
-<% end -%>
-<% if @ssh_sendenv_real == true -%>
+  ForwardX11Trusted yes
 # Send locale-related environment variables
   SendEnv LANG LANGUAGE LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
   SendEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
   SendEnv LC_IDENTIFICATION LC_ALL
-<% if @ssh_config_sendenv_xmodifiers_real == true -%>
-  SendEnv XMODIFIERS
-<% end -%>
-<% end -%>
-<% if @ssh_config_macs -%>
-  MACs <%= @ssh_config_macs.join(',') %>
-<% end -%>

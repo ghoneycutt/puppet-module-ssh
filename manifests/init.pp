@@ -22,6 +22,7 @@ class ssh (
   $ssh_config_sendenv_xmodifiers       = false,
   $ssh_config_ciphers                  = undef,
   $ssh_config_macs                     = undef,
+  $ssh_config_use_roaming              = 'USE_DEFAULTS',
   $ssh_config_template                 = 'ssh/ssh_config.erb',
   $ssh_sendenv                         = 'USE_DEFAULTS',
   $ssh_gssapiauthentication            = 'yes',
@@ -78,6 +79,8 @@ class ssh (
   $sshd_hostbasedauthentication        = 'no',
   $sshd_ignoreuserknownhosts           = 'no',
   $sshd_ignorerhosts                   = 'yes',
+  $manage_service                      = true,
+  $sshd_addressfamily                  = 'any',
   $service_ensure                      = 'running',
   $service_name                        = 'USE_DEFAULTS',
   $service_enable                      = true,
@@ -139,7 +142,11 @@ class ssh (
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
       case $::architecture {
         'x86_64': {
-          $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
+          if ($::operatingsystem == 'SLES') and ($::operatingsystemrelease =~ /^12\./) {
+            $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
+          } else {
+            $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
+          }
         }
         'i386' : {
           $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
@@ -224,6 +231,21 @@ class ssh (
     default: {
       fail("ssh supports osfamilies RedHat, Suse, Debian and Solaris. Detected osfamily is <${::osfamily}>.")
     }
+  }
+
+  if "${::ssh_version}" =~ /^OpenSSH/  { # lint:ignore:only_variable_string
+    $ssh_version_array = split($::ssh_version_numeric, '\.')
+    $ssh_version_maj_int = 0 + $ssh_version_array[0]
+    $ssh_version_min_int = 0 + $ssh_version_array[1]
+    if $ssh_version_maj_int > 5 {
+      $default_ssh_config_use_roaming = 'no'
+    } elsif $ssh_version_maj_int == 5 and $ssh_version_min_int >= 4 {
+      $default_ssh_config_use_roaming = 'no'
+    } else {
+      $default_ssh_config_use_roaming = 'unset'
+    }
+  } else {
+      $default_ssh_config_use_roaming = 'unset'
   }
 
   if $packages == 'USE_DEFAULTS' {
@@ -331,6 +353,12 @@ class ssh (
     $sshd_gssapicleanupcredentials_real = $sshd_gssapicleanupcredentials
   }
 
+  if $ssh_config_use_roaming == 'USE_DEFAULTS' {
+    $ssh_config_use_roaming_real = $default_ssh_config_use_roaming
+  } else {
+    $ssh_config_use_roaming_real = $ssh_config_use_roaming
+  }
+
   if $ssh_sendenv == 'USE_DEFAULTS' {
     $ssh_sendenv_real = $default_ssh_sendenv
   } else {
@@ -426,6 +454,9 @@ class ssh (
   }
   if $sshd_config_serverkeybits_real != undef {
     if is_integer($sshd_config_serverkeybits_real) == false { fail("ssh::sshd_config_serverkeybits must be an integer and is set to <${sshd_config_serverkeybits}>.") }
+  }
+  if $ssh_config_use_roaming_real != undef {
+    validate_re($ssh_config_use_roaming_real, '^(yes|no|unset)$', "ssh::ssh_config_use_roaming may be either 'yes', 'no' or 'unset' and is set to <${$ssh_config_use_roaming}>.")
   }
   if is_integer($sshd_client_alive_interval) == false { fail("ssh::sshd_client_alive_interval must be an integer and is set to <${sshd_client_alive_interval}>.") }
   if is_integer($sshd_client_alive_count_max) == false { fail("ssh::sshd_client_alive_count_max must be an integer and is set to <${sshd_client_alive_count_max}>.") }
@@ -576,6 +607,13 @@ class ssh (
   }
   validate_bool($purge_keys_real)
 
+  if type3x($manage_service) == 'string' {
+    $manage_service_real = str2bool($manage_service)
+  } else {
+    $manage_service_real = $manage_service
+  }
+  validate_bool($manage_service_real)
+
   if type3x($service_enable) == 'string' {
     $service_enable_real = str2bool($service_enable)
   } else {
@@ -676,7 +714,7 @@ class ssh (
 
   if $manage_root_ssh_config_real == true {
 
-    include common
+    include ::common
 
     common::mkdir_p { "${::root_home}/.ssh": }
 
@@ -699,13 +737,15 @@ class ssh (
     }
   }
 
-  service { 'sshd_service' :
-    ensure     => $service_ensure,
-    name       => $service_name_real,
-    enable     => $service_enable_real,
-    hasrestart => $service_hasrestart_real,
-    hasstatus  => $service_hasstatus_real,
-    subscribe  => File['sshd_config'],
+  if $manage_service_real {
+    service { 'sshd_service' :
+      ensure     => $service_ensure,
+      name       => $service_name_real,
+      enable     => $service_enable_real,
+      hasrestart => $service_hasrestart_real,
+      hasstatus  => $service_hasstatus_real,
+      subscribe  => File['sshd_config'],
+    }
   }
 
   if $manage_firewall == true {
@@ -753,5 +793,10 @@ class ssh (
     }
     validate_hash($keys_real)
     create_resources('ssh_authorized_key', $keys_real)
+  }
+
+  if $sshd_addressfamily != undef {
+    validate_re($sshd_addressfamily, '^(any|inet|inet6)$',
+      "ssh::sshd_addressfamily can be undef, 'any', 'inet' or 'inet6' and is set to ${sshd_addressfamily}.")
   }
 }

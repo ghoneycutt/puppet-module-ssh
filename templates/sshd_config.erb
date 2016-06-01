@@ -18,6 +18,9 @@ Port <%= @sshd_config_port %>
 #Protocol 2,1
 Protocol 2
 #AddressFamily any
+<% if @sshd_addressfamily != nil -%>
+AddressFamily <%= @sshd_addressfamily %>
+<% end -%>
 <% if @sshd_listen_address.class == Array -%>
 <% @sshd_listen_address.each do |val| -%>
 ListenAddress <%= val %>
