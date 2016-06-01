@@ -1945,7 +1945,7 @@ describe 'ssh' do
       it 'should fail' do
         expect{
           should contain_class('ssh')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_maxauthtries must be a valid number and is set to <BOGUS>\./)
       end
     end
  end
