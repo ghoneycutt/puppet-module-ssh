@@ -150,6 +150,13 @@ in ssh_config.
 
 - *Default*: undef
 
+ssh_hostbasedauthentication
+-------------------------
+String for HostbasedAuthentication option in ssh_config. Valid values are 'yes' and 'no'.
+
+- *Default*: 'no'
+
+
 ssh_strict_host_key_checking
 -----------------------------
 *string* For StrictHostKeyChecking setting in ssh_config. Valid values are

@@ -20,6 +20,7 @@ class ssh (
   $ssh_config_forward_agent            = undef,
   $ssh_config_server_alive_interval    = undef,
   $ssh_config_sendenv_xmodifiers       = false,
+  $ssh_hostbasedauthentication        = 'no',
   $ssh_strict_host_key_checking        = undef,
   $ssh_config_ciphers                  = undef,
   $ssh_config_macs                     = undef,
