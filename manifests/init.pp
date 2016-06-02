@@ -109,7 +109,6 @@ class ssh (
       $default_ssh_package_source              = undef
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
-      $default_ssh_config_use_roaming          = 'no'
       $default_sshd_config_subsystem_sftp      = '/usr/libexec/openssh/sftp-server'
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
@@ -130,7 +129,6 @@ class ssh (
       $default_ssh_package_source              = undef
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
-      $default_ssh_config_use_roaming          = 'no'
       $default_ssh_config_forward_x11_trusted  = 'yes'
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
@@ -168,7 +166,6 @@ class ssh (
       $default_ssh_package_source              = undef
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
-      $default_ssh_config_use_roaming          = 'no'
       $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
@@ -186,7 +183,6 @@ class ssh (
       $default_ssh_config_hash_known_hosts     = undef
       $default_ssh_sendenv                     = false
       $default_ssh_config_forward_x11_trusted  = undef
-      $default_ssh_config_use_roaming          = 'unset'
       $default_sshd_config_subsystem_sftp      = '/usr/lib/ssh/sftp-server'
       $default_sshd_config_mode                = '0644'
       $default_sshd_config_use_dns             = undef
@@ -236,6 +232,21 @@ class ssh (
     default: {
       fail("ssh supports osfamilies RedHat, Suse, Debian and Solaris. Detected osfamily is <${::osfamily}>.")
     }
+  }
+
+  if "${::ssh_version}" =~ /^OpenSSH/  { # lint:ignore:only_variable_string
+    $ssh_version_array = split($::ssh_version_numeric, '\.')
+    $ssh_version_maj_int = 0 + $ssh_version_array[0]
+    $ssh_version_min_int = 0 + $ssh_version_array[1]
+    if $ssh_version_maj_int > 5 {
+      $default_ssh_config_use_roaming = 'no'
+    } elsif $ssh_version_maj_int == 5 and $ssh_version_min_int >= 4 {
+      $default_ssh_config_use_roaming = 'no'
+    } else {
+      $default_ssh_config_use_roaming = 'unset'
+    }
+  } else {
+      $default_ssh_config_use_roaming = 'unset'
   }
 
   if $packages == 'USE_DEFAULTS' {

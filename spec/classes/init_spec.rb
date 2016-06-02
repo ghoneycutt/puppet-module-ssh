@@ -1,1048 +1,272 @@
 require 'spec_helper'
+
 describe 'ssh' do
 
-  context 'with default params on osfamily RedHat' do
-    ['5','6','7'].each do |release|
-      context "release #{release}" do
-        let(:facts) do
-          { :fqdn              => 'monkey.example.com',
-            :lsbmajdistrelease => release,
-            :osfamily          => 'RedHat',
-            :sshrsakey         => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==',
+  default_facts = {
+    :fqdn                   => 'monkey.example.com',
+    :osfamily               => 'RedHat',
+    :ssh_version            => 'OpenSSH_6.6p1',
+    :ssh_version_numeric    => '6.6',
+    :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+  }
+
+  default_solaris_facts = {
+    :fqdn                   => 'monkey.example.com',
+    :osfamily               => 'Solaris',
+    :ssh_version            => 'Sun_SSH_2.2',
+    :ssh_version_numeric    => '2.2',
+    :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+  }
+
+  osfamily_matrix = {
+    'Debian-7' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'Debian',
+      :operatingsystemrelease => '7',
+      :ssh_version            => 'OpenSSH_6.0p1',
+      :ssh_version_numeric    => '6.0',
+      :ssh_packages           => ['openssh-server', 'openssh-client'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'ssh',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_debian',
+      :ssh_config_fixture     => 'ssh_config_debian',
+    },
+    'RedHat-5' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'RedHat',
+      :operatingsystemrelease => '5.11',
+      :ssh_version            => 'OpenSSH_4.3p2',
+      :ssh_version_numeric    => '4.3',
+      :ssh_packages           => ['openssh-server', 'openssh-clients'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'sshd',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_rhel',
+      :ssh_config_fixture     => 'ssh_config_rhel_old',
+    },
+    'RedHat-6' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'RedHat',
+      :operatingsystemrelease => '6.7',
+      :ssh_version            => 'OpenSSH_5.3p1',
+      :ssh_version_numeric    => '5.3',
+      :ssh_packages           => ['openssh-server', 'openssh-clients'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'sshd',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_rhel',
+      :ssh_config_fixture     => 'ssh_config_rhel_old',
+    },
+    'RedHat-7' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'RedHat',
+      :operatingsystemrelease => '7.2',
+      :ssh_version            => 'OpenSSH_6.6p1',
+      :ssh_version_numeric    => '6.6',
+      :ssh_packages           => ['openssh-server', 'openssh-clients'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'sshd',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_rhel',
+      :ssh_config_fixture     => 'ssh_config_rhel',
+    },
+    'Suse-10-x86_64' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'Suse',
+      :operatingsystemrelease => '10.4',
+      :ssh_version            => 'OpenSSH_5.1p1',
+      :ssh_version_numeric    => '5.1',
+      :ssh_packages           => ['openssh'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'sshd',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_suse_x86_64',
+      :ssh_config_fixture     => 'ssh_config_suse_old',
+    },
+    'Suse-10-i386' => {
+      :architecture           => 'i386',
+      :osfamily               => 'Suse',
+      :operatingsystemrelease => '10.4',
+      :ssh_version            => 'OpenSSH_5.1p1',
+      :ssh_version_numeric    => '5.1',
+      :ssh_packages           => ['openssh'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'sshd',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_suse_i386',
+      :ssh_config_fixture     => 'ssh_config_suse_old',
+    },
+    'Suse-11-x86_64' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'Suse',
+      :operatingsystemrelease => '11.4',
+      :ssh_version            => 'OpenSSH_6.6.1p1',
+      :ssh_version_numeric    => '6.6',
+      :ssh_packages           => ['openssh'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'sshd',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_suse_x86_64',
+      :ssh_config_fixture     => 'ssh_config_suse',
+    },
+    'Suse-11-i386' => {
+      :architecture           => 'i386',
+      :osfamily               => 'Suse',
+      :operatingsystemrelease => '11.4',
+      :ssh_version            => 'OpenSSH_6.6.1p1',
+      :ssh_version_numeric    => '6.6',
+      :ssh_packages           => ['openssh'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'sshd',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_suse_i386',
+      :ssh_config_fixture     => 'ssh_config_suse',
+    },
+    'Suse-12-x86_64' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'Suse',
+      :operatingsystemrelease => '12.0',
+      :ssh_version            => 'OpenSSH_6.6.1p1',
+      :ssh_version_numeric    => '6.6',
+      :ssh_packages           => ['openssh'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'sshd',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_suse_x86_64',
+      :ssh_config_fixture     => 'ssh_config_suse',
+    },
+    'Solaris-5.11' => {
+      :architecture           => 'i86pc',
+      :osfamily               => 'Solaris',
+      :kernelrelease          => '5.11',
+      :ssh_version            => 'Sun_SSH_2.2',
+      :ssh_version_numeric    => '2.2',
+      :ssh_packages           => ['network/ssh', 'network/ssh/ssh-key', 'service/network/ssh'],
+      :sshd_config_mode       => '0644',
+      :sshd_service_name      => 'ssh',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_solaris',
+      :ssh_config_fixture     => 'ssh_config_solaris',
+    },
+    'Solaris-5.10' => {
+      :architecture           => 'i86pc',
+      :osfamily               => 'Solaris',
+      :kernelrelease          => '5.10',
+      :ssh_version            => 'Sun_SSH_2.2',
+      :ssh_version_numeric    => '2.2',
+      :ssh_packages           => ['SUNWsshcu', 'SUNWsshdr', 'SUNWsshdu', 'SUNWsshr', 'SUNWsshu'],
+      :sshd_config_mode       => '0644',
+      :sshd_service_name      => 'ssh',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_solaris',
+      :ssh_config_fixture     => 'ssh_config_solaris',
+    },
+    'Solaris-5.9' => {
+      :architecture           => 'i86pc',
+      :osfamily               => 'Solaris',
+      :kernelrelease          => '5.9',
+      :ssh_version            => 'Sun_SSH_2.2',
+      :ssh_version_numeric    => '2.2',
+      :ssh_packages           => ['SUNWsshcu', 'SUNWsshdr', 'SUNWsshdu', 'SUNWsshr', 'SUNWsshu'],
+      :sshd_config_mode       => '0644',
+      :sshd_service_name      => 'sshd',
+      :sshd_service_hasstatus => false,
+      :sshd_config_fixture    => 'sshd_config_solaris',
+      :ssh_config_fixture     => 'ssh_config_solaris',
+    },
+  }
+
+  osfamily_matrix.each do |os, facts|
+    context "with default params on osfamily #{os}" do
+      let(:facts) do
+        facts.merge(
+          {
+            :fqdn       => 'monkey.example.com',
+            :sshrsakey  => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==',
           }
-        end
+        )
+      end
 
-        it { should compile.with_all_deps }
+      it { should compile.with_all_deps }
 
-        it { should contain_class('ssh')}
+      it { should contain_class('ssh')}
 
-        it { should_not contain_class('common')}
+      it { should_not contain_class('common')}
 
-        ['openssh-server','openssh-clients'].each do |pkg|
-          it {
-            should contain_package(pkg).with({
-              'ensure' => 'installed',
-            })
-          }
-        end
-
+      facts[:ssh_packages].each do |pkg|
         it {
-          should contain_file('ssh_known_hosts').with({
-            'ensure' => 'file',
-            'path'   => '/etc/ssh/ssh_known_hosts',
-            'owner'  => 'root',
-            'group'  => 'root',
-            'mode'   => '0644',
-          })
-        }
-
-        it {
-          should contain_file('ssh_config').with({
-            'ensure'  => 'file',
-            'path'    => '/etc/ssh/ssh_config',
-            'owner'   => 'root',
-            'group'   => 'root',
-            'mode'    => '0644',
-            'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
-          })
-        }
-
-        it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
-        it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
-        it { should contain_file('ssh_config').with_content(/^\s*HashKnownHosts no$/) }
-        it { should contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
-        it { should contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted yes$/) }
-        it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
-        it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
-        it { should contain_file('ssh_config').with_content(/^\s*GlobalKnownHostsFile \/etc\/ssh\/ssh_known_hosts$/) }
-        it { should contain_file('ssh_config').with_content(/^\s*GSSAPIAuthentication yes$/) }
-
-        it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
-        it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
-        it { should contain_file('ssh_config').with_content(/^\s*UseRoaming no$/) }
-        it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
-
-        it {
-          should contain_file('sshd_config').with({
-            'ensure'  => 'file',
-            'path'    => '/etc/ssh/sshd_config',
-            'owner'   => 'root',
-            'group'   => 'root',
-            'mode'    => '0600',
-            'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
-          })
-        }
-
-        it { should contain_file('sshd_config').with_content(/^Port 22$/) }
-        it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
-        it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
-        it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
-        it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-        it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
-        it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
-        it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
-        it { should contain_file('sshd_config').with_content(/^Banner none$/) }
-        it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
-        it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/libexec\/openssh\/sftp-server$/) }
-        it { should contain_file('sshd_config').with_content(/^PasswordAuthentication yes$/) }
-        it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding yes$/) }
-        it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
-        it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
-        it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
-        it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
-        it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 3$/) }
-        it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
-        it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
-        it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
-        it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
-        it { should_not contain_file('sshd_config').with_content(/^\s*PAMAuthenticationViaKBDInt yes$/) }
-        it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange no$/) }
-        it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
-        it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
-        it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
-        it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
-        it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
-        it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
-        it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
-        it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
-        it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
-        it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
-        it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
-        it { should contain_file('sshd_config').without_content(/^Match/) }
-        it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
-        it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
-        it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
-        it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
-        it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
-        it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
-        it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
-
-        it {
-          should contain_service('sshd_service').with({
-            'ensure'     => 'running',
-            'name'       => 'sshd',
-            'enable'     => 'true',
-            'hasrestart' => 'true',
-            'hasstatus'  => 'true',
-            'subscribe'  => 'File[sshd_config]',
-          })
-        }
-
-        it {
-          should contain_resources('sshkey').with({
-            'purge' => 'true',
+          should contain_package(pkg).with({
+            'ensure' => 'installed',
           })
         }
       end
-    end
-  end
 
-  context 'with default params on osfamily Solaris kernelrelease 5.8' do
-    let :facts do
-      {
-        :fqdn          => 'monkey.example.com',
-        :osfamily      => 'Solaris',
-        :kernelrelease => '5.8',
-        :sshrsakey     => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
-    end
-
-    it 'should fail' do
-      expect {
-        should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/ssh module supports Solaris kernel release 5\.9, 5\.10 and 5\.11\./)
-    end
-  end
-
-  context 'with default params on osfamily Solaris kernelrelease 5.11' do
-    let :facts do
-      {
-        :fqdn          => 'monkey.example.com',
-        :osfamily      => 'Solaris',
-        :kernelrelease => '5.11',
-        :sshrsakey     => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
-    end
-
-    it { should contain_class('ssh')}
-
-    it { should_not contain_class('common')}
-
-
-    ['network/ssh','network/ssh/ssh-key','service/network/ssh'].each do |pkg|
       it {
-        should contain_package(pkg).with({
-          'ensure'    => 'installed',
+        should contain_file('ssh_known_hosts').with({
+          'ensure' => 'file',
+          'path'   => '/etc/ssh/ssh_known_hosts',
+          'owner'  => 'root',
+          'group'  => 'root',
+          'mode'   => '0644',
+        })
+      }
+
+      it {
+        should contain_file('ssh_config').with({
+          'ensure'  => 'file',
+          'path'    => '/etc/ssh/ssh_config',
+          'owner'   => 'root',
+          'group'   => 'root',
+          'mode'    => '0644',
+        })
+      }
+
+      ssh_config_fixture = File.read(fixtures(facts[:ssh_config_fixture]))
+      it { should contain_file('ssh_config').with_content(ssh_config_fixture) }
+
+      facts[:ssh_packages].each do |pkg|
+        it {
+          should contain_file('ssh_config').that_requires("Package[#{pkg}]")
+        }
+      end
+
+      it {
+        should contain_file('sshd_config').with({
+          'ensure'  => 'file',
+          'path'    => '/etc/ssh/sshd_config',
+          'owner'   => 'root',
+          'group'   => 'root',
+          'mode'    => facts[:sshd_config_mode],
+        })
+      }
+
+      facts[:ssh_packages].each do |pkg|
+        it {
+          should contain_file('sshd_config').that_requires("Package[#{pkg}]")
+        }
+      end
+
+      sshd_config_fixture = File.read(fixtures(facts[:sshd_config_fixture]))
+      it { should contain_file('sshd_config').with_content(sshd_config_fixture) }
+
+      it {
+        should contain_service('sshd_service').with({
+          'ensure'     => 'running',
+          'name'       => facts[:sshd_service_name],
+          'enable'     => 'true',
+          'hasrestart' => 'true',
+          'hasstatus'  => facts[:sshd_service_hasstatus],
+          'subscribe'  => 'File[sshd_config]',
+        })
+      }
+
+      it {
+        should contain_resources('sshkey').with({
+          'purge' => 'true',
         })
       }
     end
-
-    it {
-      should contain_file('ssh_known_hosts').with({
-        'ensure' => 'file',
-        'path'   => '/etc/ssh/ssh_known_hosts',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-      })
-    }
-
-    it {
-      should contain_file('ssh_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/ssh_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0644',
-        'require' => [ 'Package[network/ssh]', 'Package[network/ssh/ssh-key]', 'Package[service/network/ssh]' ],
-      })
-    }
-
-    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
-    it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*GSSAPIAuthentication yes$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*HashKnownHosts no$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted/) }
-
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
-    it { should contain_file('ssh_config').without_content(/^\s*UseRoaming/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
-    it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
-
-    it {
-      should contain_file('sshd_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/sshd_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0644',
-        'require' => [ 'Package[network/ssh]', 'Package[network/ssh/ssh-key]', 'Package[service/network/ssh]' ],
-      })
-    }
-
-    it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
-    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
-    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
-    it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
-    it { should contain_file('sshd_config').with_content(/^Banner none$/) }
-    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/openwin\/bin\/xauth$/) }
-    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/ssh\/sftp-server$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPICleanupCredentials yes$/) }
-    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
-    it { should contain_file('sshd_config').with_content(/^PAMAuthenticationViaKBDInt yes$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPIKeyExchange yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*AcceptEnv L.*$/) }
-    it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
-    it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
-    it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
-    it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
-    it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
-    it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
-    it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
-    it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
-    it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
-    it { should contain_file('sshd_config').without_content(/^Match/) }
-    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
-    it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
-    it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
-    it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
-
-    it {
-      should contain_service('sshd_service').with({
-        'ensure'     => 'running',
-        'name'       => 'ssh',
-        'enable'     => 'true',
-        'hasrestart' => 'true',
-        'hasstatus'  => 'true',
-        'subscribe'  => 'File[sshd_config]',
-      })
-    }
-
-    it {
-      should contain_resources('sshkey').with({
-        'purge' => 'true',
-      })
-    }
-  end
-
-  context 'with default params on osfamily Solaris kernelrelease 5.10' do
-    let :facts do
-      {
-        :fqdn          => 'monkey.example.com',
-        :osfamily      => 'Solaris',
-        :kernelrelease => '5.10',
-        :sshrsakey     => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
-    end
-
-    it { should contain_class('ssh')}
-
-    it { should_not contain_class('common')}
-
-    ['SUNWsshcu','SUNWsshdr','SUNWsshdu','SUNWsshr','SUNWsshu'].each do |pkg|
-      it {
-        should contain_package(pkg).with({
-          'ensure'    => 'installed',
-          'source'    => '/var/spool/pkg',
-          'adminfile' => nil,
-        })
-      }
-    end
-
-    it {
-      should contain_file('ssh_known_hosts').with({
-        'ensure' => 'file',
-        'path'   => '/etc/ssh/ssh_known_hosts',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-      })
-    }
-
-    it {
-      should contain_file('ssh_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/ssh_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0644',
-        'require' => [ 'Package[SUNWsshcu]', 'Package[SUNWsshdr]', 'Package[SUNWsshdu]', 'Package[SUNWsshr]', 'Package[SUNWsshu]' ],
-      })
-    }
-
-    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
-    it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*GSSAPIAuthentication yes$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*HashKnownHosts no$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted/) }
-
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
-    it { should contain_file('ssh_config').without_content(/^\s*UseRoaming/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
-    it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
-
-    it {
-      should contain_file('sshd_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/sshd_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0644',
-        'require' => [ 'Package[SUNWsshcu]', 'Package[SUNWsshdr]', 'Package[SUNWsshdu]', 'Package[SUNWsshr]', 'Package[SUNWsshu]' ],
-      })
-    }
-
-    it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
-    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
-    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
-    it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
-    it { should contain_file('sshd_config').with_content(/^Banner none$/) }
-    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/openwin\/bin\/xauth$/) }
-    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/ssh\/sftp-server$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPICleanupCredentials yes$/) }
-    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
-    it { should contain_file('sshd_config').with_content(/^PAMAuthenticationViaKBDInt yes$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPIKeyExchange yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*AcceptEnv L.*$/) }
-    it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
-    it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
-    it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
-    it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
-    it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
-    it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
-    it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
-    it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
-    it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
-    it { should contain_file('sshd_config').without_content(/^Match/) }
-    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
-    it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
-    it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
-    it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
-
-    it {
-      should contain_service('sshd_service').with({
-        'ensure'     => 'running',
-        'name'       => 'ssh',
-        'enable'     => 'true',
-        'hasrestart' => 'true',
-        'hasstatus'  => 'true',
-        'subscribe'  => 'File[sshd_config]',
-      })
-    }
-
-    it {
-      should contain_resources('sshkey').with({
-        'purge' => 'true',
-      })
-    }
-  end
-
-  context 'with default params on osfamily Solaris kernelrelease 5.9' do
-    let :facts do
-      { :fqdn          => 'monkey.example.com',
-        :osfamily      => 'Solaris',
-        :kernelrelease => '5.9',
-        :sshrsakey     => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
-    end
-
-    it { should contain_class('ssh')}
-
-    it { should_not contain_class('common')}
-
-    ['SUNWsshcu','SUNWsshdr','SUNWsshdu','SUNWsshr','SUNWsshu'].each do |pkg|
-      it {
-        should contain_package(pkg).with({
-          'ensure'    => 'installed',
-          'source'    => '/var/spool/pkg',
-          'adminfile' => nil,
-        })
-      }
-    end
-
-    it {
-      should contain_file('ssh_known_hosts').with({
-        'ensure' => 'file',
-        'path'   => '/etc/ssh/ssh_known_hosts',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-      })
-    }
-
-    it {
-      should contain_file('ssh_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/ssh_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0644',
-        'require' => [ 'Package[SUNWsshcu]', 'Package[SUNWsshdr]', 'Package[SUNWsshdu]', 'Package[SUNWsshr]', 'Package[SUNWsshu]' ],
-      })
-    }
-
-    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
-    it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*HashKnownHosts no$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted/) }
-
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
-    it { should contain_file('ssh_config').without_content(/^\s*UseRoaming/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
-    it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
-
-    it {
-      should contain_file('sshd_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/sshd_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0644',
-        'require' => [ 'Package[SUNWsshcu]', 'Package[SUNWsshdr]', 'Package[SUNWsshdu]', 'Package[SUNWsshr]', 'Package[SUNWsshu]' ],
-      })
-    }
-
-    it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
-    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
-    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
-    it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
-    it { should contain_file('sshd_config').with_content(/^Banner none$/) }
-    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/openwin\/bin\/xauth$/) }
-    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/ssh\/sftp-server$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPICleanupCredentials yes$/) }
-    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
-    it { should contain_file('sshd_config').with_content(/^PAMAuthenticationViaKBDInt yes$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPIKeyExchange yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*AcceptEnv L.*$/) }
-    it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
-    it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
-    it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
-    it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
-    it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
-    it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
-    it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
-    it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
-    it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
-    it { should contain_file('sshd_config').without_content(/^Match/) }
-    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 768$/) }
-    it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
-    it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
-    it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
-
-    it {
-      should contain_service('sshd_service').with({
-        'ensure'     => 'running',
-        'name'       => 'sshd',
-        'enable'     => 'true',
-        'hasrestart' => 'true',
-        'hasstatus'  => 'false',
-        'subscribe'  => 'File[sshd_config]',
-      })
-    }
-
-    it {
-      should contain_resources('sshkey').with({
-        'purge' => 'true',
-      })
-    }
-  end
-
-  context 'with default params on osfamily Debian' do
-    let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'Debian',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
-    end
-    it { should compile.with_all_deps }
-
-    it { should contain_class('ssh')}
-
-    it { should_not contain_class('common')}
-
-    ['openssh-server','openssh-client'].each do |pkg|
-      it {
-        should contain_package(pkg).with({
-          'ensure' => 'installed',
-        })
-      }
-    end
-
-    it {
-      should contain_file('ssh_known_hosts').with({
-        'ensure' => 'file',
-        'path'   => '/etc/ssh/ssh_known_hosts',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-      })
-    }
-
-    it {
-      should contain_file('ssh_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/ssh_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0644',
-        'require' => ['Package[openssh-server]', 'Package[openssh-client]'],
-      })
-    }
-
-    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
-    it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*HashKnownHosts no$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted yes$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*GSSAPIAuthentication yes$/) }
-
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*UseRoaming no$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
-    it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
-
-    it {
-      should contain_file('sshd_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/sshd_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0600',
-        'require' => ['Package[openssh-server]', 'Package[openssh-client]'],
-      })
-    }
-
-    it { should contain_file('sshd_config').with_content(/^Port 22$/) }
-    it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
-    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
-    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
-    it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
-    it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
-    it { should contain_file('sshd_config').with_content(/^Banner none$/) }
-    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
-    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/openssh\/sftp-server$/) }
-    it { should contain_file('sshd_config').with_content(/^PasswordAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding yes$/) }
-    it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
-    it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
-    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
-    it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 3$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
-    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*PAMAuthenticationViaKBDInt yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange yes$/) }
-    it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
-    it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
-    it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
-    it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
-    it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
-    it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
-    it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
-    it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
-    it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
-    it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
-    it { should contain_file('sshd_config').without_content(/^Match/) }
-    it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
-    it { should contain_file('ssh_config').without_content(/^\s*DenyUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
-    it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
-
-    it {
-      should contain_service('sshd_service').with({
-        'ensure'     => 'running',
-        'name'       => 'ssh',
-        'enable'     => 'true',
-        'hasrestart' => 'true',
-        'hasstatus'  => 'true',
-        'subscribe'  => 'File[sshd_config]',
-      })
-    }
-
-    it {
-      should contain_resources('sshkey').with({
-        'purge' => 'true',
-      })
-    }
-  end
-
-  context 'with default params on osfamily Suse architecture x86_64' do
-    let :facts do
-      {
-        :fqdn         => 'monkey.example.com',
-        :osfamily     => 'Suse',
-        :architecture => 'x86_64',
-        :sshrsakey    => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
-    end
-
-    it { should compile.with_all_deps }
-
-    it { should contain_class('ssh')}
-
-    it { should_not contain_class('common')}
-
-    it {
-      should contain_package('openssh').with({
-        'ensure' => 'installed',
-      })
-    }
-
-    it {
-      should contain_file('ssh_known_hosts').with({
-        'ensure' => 'file',
-        'path'   => '/etc/ssh/ssh_known_hosts',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-      })
-    }
-
-    it {
-      should contain_file('ssh_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/ssh_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0644',
-        'require' => 'Package[openssh]',
-      })
-    }
-
-    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
-    it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*HashKnownHosts no$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted yes$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*GSSAPIAuthentication yes$/) }
-
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*UseRoaming no$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
-    it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
-
-    it {
-      should contain_file('sshd_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/sshd_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0600',
-        'require' => 'Package[openssh]',
-      })
-    }
-
-    it { should contain_file('sshd_config').with_content(/^Port 22$/) }
-    it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
-    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
-    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
-    it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
-    it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
-    it { should contain_file('sshd_config').with_content(/^Banner none$/) }
-    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
-    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib64\/ssh\/sftp-server$/) }
-    it { should contain_file('sshd_config').with_content(/^PasswordAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding yes$/) }
-    it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
-    it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
-    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
-    it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 3$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
-    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*PAMAuthenticationViaKBDInt yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange yes$/) }
-    it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
-    it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
-    it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
-    it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
-    it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
-    it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
-    it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
-    it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
-    it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
-    it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
-    it { should contain_file('sshd_config').without_content(/^Match/) }
-    it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
-    it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
-    it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
-
-    it {
-      should contain_service('sshd_service').with({
-        'ensure'     => 'running',
-        'name'       => 'sshd',
-        'enable'     => 'true',
-        'hasrestart' => 'true',
-        'hasstatus'  => 'true',
-        'subscribe'  => 'File[sshd_config]',
-      })
-    }
-
-    it {
-      should contain_resources('sshkey').with({
-        'purge' => 'true',
-      })
-    }
-  end
-
-  context 'with default params on osfamily Suse/SLES architecture x86_64 operatingsystemrelease 12' do
-    let :facts do
-      {
-        :fqdn                   => 'monkey.example.com',
-        :osfamily               => 'Suse',
-        :operatingsystem        => 'SLES',
-        :operatingsystemrelease => '12.1',
-        :architecture           => 'x86_64',
-        :sshrsakey              => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
-    end
-
-    it { should compile.with_all_deps }
-
-    it { should contain_class('ssh')}
-
-    it { should_not contain_class('common')}
-
-    it {
-      should contain_package('openssh').with({
-        'ensure' => 'installed',
-      })
-    }
-
-    it {
-      should contain_file('ssh_known_hosts').with({
-        'ensure' => 'file',
-        'path'   => '/etc/ssh/ssh_known_hosts',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-      })
-    }
-
-    it {
-      should contain_file('ssh_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/ssh_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0644',
-        'require' => 'Package[openssh]',
-      })
-    }
-
-    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
-    it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*HashKnownHosts no$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted yes$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*GSSAPIAuthentication yes$/) }
-
-    it { should contain_file('ssh_config').without_content(/^\s*ForwardAgent$/) }
-    it { should contain_file('ssh_config').without_content(/^\s*ForwardX11$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*UseRoaming no$/) }
-    it { should contain_file('ssh_config').without_content(/^\s*ServerAliveInterval$/) }
-    it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
-
-    it {
-      should contain_file('sshd_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/sshd_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0600',
-        'require' => 'Package[openssh]',
-      })
-    }
-
-    it { should contain_file('sshd_config').with_content(/^Port 22$/) }
-    it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
-    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
-    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
-    it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
-    it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
-    it { should contain_file('sshd_config').with_content(/^Banner none$/) }
-    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
-    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/ssh\/sftp-server$/) }
-    it { should contain_file('sshd_config').with_content(/^PasswordAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding yes$/) }
-    it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
-    it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
-    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
-    it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 3$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
-    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
-    it { should contain_file('sshd_config').without_content(/^\s*PAMAuthenticationViaKBDInt yes$/) }
-    it { should contain_file('sshd_config').without_content(/^\s*GSSAPIKeyExchange yes$/) }
-    it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
-    it { should contain_file('sshd_config').without_content(/^AuthorizedKeysFile/) }
-    it { should contain_file('sshd_config').without_content(/^StrictModes/) }
-    it { should contain_file('sshd_config').without_content(/^MaxStartups/) }
-    it { should contain_file('sshd_config').without_content(/^MaxSessions/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AuthorizedKeysCommand/) }
-    it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
-    it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
-    it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
-    it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
-    it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
-    it { should contain_file('sshd_config').without_content(/^Match/) }
-    it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
-    it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
-    it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
-
-    it {
-      should contain_service('sshd_service').with({
-        'ensure'     => 'running',
-        'name'       => 'sshd',
-        'enable'     => 'true',
-        'hasrestart' => 'true',
-        'hasstatus'  => 'true',
-        'subscribe'  => 'File[sshd_config]',
-      })
-    }
-
-    it {
-      should contain_resources('sshkey').with({
-        'purge' => 'true',
-      })
-    }
-  end
-
-  context 'with default params on osfamily Suse architecture i386' do
-    let :facts do
-      {
-        :fqdn         => 'monkey.example.com',
-        :osfamily     => 'Suse',
-        :architecture => 'i386',
-        :sshrsakey    => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
-    end
-
-    it { should compile.with_all_deps }
-
-    it { should contain_class('ssh')}
-
-    it { should_not contain_class('common')}
-
-    it {
-      should contain_package('openssh').with({
-        'ensure' => 'installed',
-      })
-    }
-
-    it {
-      should contain_file('ssh_known_hosts').with({
-        'ensure' => 'file',
-        'path'   => '/etc/ssh/ssh_known_hosts',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0644',
-      })
-    }
-
-    it {
-      should contain_file('ssh_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/ssh_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0644',
-        'require' => 'Package[openssh]',
-      })
-    }
-
-    it { should contain_file('ssh_config').with_content(/^# This file is being maintained by Puppet.\n# DO NOT EDIT\n\n# \$OpenBSD: ssh_config,v 1.21 2005\/12\/06 22:38:27 reyk Exp \$/) }
-    it { should contain_file('ssh_config').with_content(/^   Protocol 2$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*HashKnownHosts no$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*SendEnv L.*$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted yes$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*GSSAPIAuthentication yes$/) }
-
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardAgent$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*UseRoaming no$/) }
-    it { should_not contain_file('ssh_config').with_content(/^\s*ServerAliveInterval$/) }
-    it { should contain_file('ssh_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('ssh_config').without_content(/^\s*MACs/) }
-
-    it {
-      should contain_file('sshd_config').with({
-        'ensure'  => 'file',
-        'path'    => '/etc/ssh/sshd_config',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0600',
-        'require' => 'Package[openssh]',
-      })
-    }
-
-    it { should contain_file('sshd_config').with_content(/^Port 22$/) }
-    it { should contain_file('sshd_config').with_content(/^SyslogFacility AUTH$/) }
-    it { should contain_file('sshd_config').with_content(/^LogLevel INFO$/) }
-    it { should contain_file('sshd_config').with_content(/^LoginGraceTime 120$/) }
-    it { should contain_file('sshd_config').with_content(/^PermitRootLogin yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^PrintMotd yes$/) }
-    it { should contain_file('sshd_config').with_content(/^UseDNS yes$/) }
-    it { should contain_file('sshd_config').with_content(/^Banner none$/) }
-    it { should contain_file('sshd_config').with_content(/^XAuthLocation \/usr\/bin\/xauth$/) }
-    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/usr\/lib\/ssh\/sftp-server$/) }
-    it { should contain_file('sshd_config').with_content(/^PasswordAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding yes$/) }
-    it { should contain_file('sshd_config').with_content(/^X11Forwarding yes$/) }
-    it { should contain_file('sshd_config').with_content(/^UsePAM yes$/) }
-    it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 0$/) }
-    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
-    it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 3$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
-    it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
-    it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key$/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*PAMAuthenticationViaKBDInt yes$/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange yes$/) }
-    it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
-    it { should_not contain_file('sshd_config').with_content(/^AuthorizedKeysFile/) }
-    it { should_not contain_file('sshd_config').with_content(/^StrictModes/) }
-    it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
-    it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*AuthorizedKeysCommand/) }
-    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
-    it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
-    it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
-    it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
-    it { should contain_file('sshd_config').with_content(/^#ChrootDirectory none/) }
-    it { should contain_file('sshd_config').without_content(/^ForceCommand/) }
-    it { should contain_file('sshd_config').without_content(/^Match/) }
-    it { should contain_file('sshd_config').without_content(/^\s*Ciphers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*MACs/) }
-    it { should contain_file('sshd_config').without_content(/^\s*DenyUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*DenyGroups/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowUsers/) }
-    it { should contain_file('sshd_config').without_content(/^\s*AllowGroups/) }
-    it { should contain_file('sshd_config').without_content(/^\s*ListenAddress/) }
-
-    it {
-      should contain_service('sshd_service').with({
-        'ensure'     => 'running',
-        'name'       => 'sshd',
-        'enable'     => 'true',
-        'hasrestart' => 'true',
-        'hasstatus'  => 'true',
-        'subscribe'  => 'File[sshd_config]',
-      })
-    }
-
-    it {
-      should contain_resources('sshkey').with({
-        'purge' => 'true',
-      })
-    }
   end
 
   context 'with default params on invalid osfamily' do
@@ -1067,11 +291,10 @@ describe 'ssh' do
 
   context 'with optional params used in ssh_config set on valid osfamily' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
     let :params do
       {
@@ -1126,11 +349,10 @@ describe 'ssh' do
 
   context 'with params used in sshd_config set on valid osfamily' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
     let :params do
       {
@@ -1230,6 +452,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange yes$/) }
     it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
     it { should contain_file('sshd_config').with_content(/^AuthorizedKeysFile .ssh\/authorized_keys/) }
+    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key/) }
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_dsa_key/) }
     it { should contain_file('sshd_config').with_content(/^StrictModes yes$/) }
@@ -1266,12 +489,11 @@ describe 'ssh' do
 
   describe 'sshd_config_chrootdirectory param' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :root_home => '/root',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+          :root_home => '/root',
+        }
+      )
     end
     ['/chrootdir/subdir','/baby/one/more/test',].each do |value|
       context "set to valid #{value} (as #{value.class})" do
@@ -1297,12 +519,11 @@ describe 'ssh' do
 
   describe 'sshd_config_forcecommand param' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :root_home => '/root',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+          :root_home => '/root',
+        }
+      )
     end
     ['/bin/command','/bin/command -parameters','/bin/command --parameters','/bin/command /parameters'].each do |value|
       context "set to valid #{value} (as #{value.class})" do
@@ -1329,12 +550,11 @@ describe 'ssh' do
   describe 'sshd_config_match param' do
   # match and rules get alphabetically sorted by template, matches should be the last options in sshd_config (regex verify with= \Z)
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :root_home => '/root',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+          :root_home => '/root',
+        }
+      )
     end
 
     context 'set to valid hash containing nested arrays' do
@@ -1363,57 +583,32 @@ describe 'ssh' do
   end
 
   describe 'sshd_listen_address param' do
-    context 'when set to an array' do
-      let :facts do
+    let :facts do
+      default_facts.merge(
         {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
           :root_home => '/root',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
         }
-      end
+      )
+    end
+
+    context 'when set to an array' do
       let (:params) {{'sshd_listen_address' => ['192.168.1.1','2001:db8::dead:f00d'] }}
 
       it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1\nListenAddress 2001:db8::dead:f00d$/) }
     end
 
     context 'when set to a string' do
-      let :facts do
-        {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :root_home => '/root',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
       let (:params) {{'sshd_listen_address' => ['192.168.1.1'] }}
 
       it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1$/) }
     end
 
     context 'when not set' do
-      let :facts do
-        {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :root_home => '/root',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
-
       it { should_not contain_file('sshd_config').with_content(/^\s*ListenAddress/) }
     end
 
 
     context 'when set to an invalid type (not string or array)' do
-      let :facts do
-        {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :root_home => '/root',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
       let (:params) {{'sshd_listen_address' => true }}
 
       it 'should fail' do
@@ -1425,15 +620,14 @@ describe 'ssh' do
   end
 
   describe 'sshd_loglevel param' do
-    context 'when set to an invalid value' do
-      let :facts do
+    let :facts do
+      default_facts.merge(
         {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
           :root_home => '/root',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
         }
-      end
+      )
+    end
+    context 'when set to an invalid value' do
       let (:params) {{'sshd_config_loglevel' => 'BOGON'}}
       it 'should fail' do
         expect {
@@ -1443,14 +637,6 @@ describe 'ssh' do
     end
     ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE'].each do |supported_val|
       context "when set to #{supported_val}" do
-        let :facts do
-          {
-            :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :root_home => '/root',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
-        end
         let (:params) {{ 'sshd_config_loglevel' => supported_val}}
         it { should contain_file('sshd_config').with_content(/^LogLevel #{supported_val}$/) }
       end
@@ -1458,15 +644,15 @@ describe 'ssh' do
   end
 
   describe 'with sshd_kerberos_authentication' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
     ['yes','no'].each do |value|
       context "set to #{value}" do
-        let :facts do
-          {
-            :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
-        end
         let (:params) {{ 'sshd_kerberos_authentication' => value }}
 
         it { should contain_file('sshd_config').with_content(/^KerberosAuthentication #{value}$/) }
@@ -1474,13 +660,6 @@ describe 'ssh' do
     end
 
     context 'set to invalid value on valid osfamily' do
-      let :facts do
-        {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
       let :params do
         { :sshd_kerberos_authentication => 'invalid' }
       end
@@ -1494,15 +673,15 @@ describe 'ssh' do
   end
 
   context 'when ssh_config_template has a nonstandard value' do
-    context 'and that value is not valid' do
-      let :facts do
+    let :facts do
+      default_facts.merge(
         {
-          :fqdn => 'monkey.example.com',
-          :osfamily  => 'RedHat',
           :root_home => '/root',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
         }
-      end
+      )
+    end
+
+    context 'and that value is not valid' do
       let (:params) {{'ssh_config_template' => false}}
       it 'should fail' do
         expect {
@@ -1511,14 +690,6 @@ describe 'ssh' do
       end
     end
     context 'and that value is valid' do
-      let :facts do
-        {
-          :fqdn => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :root_home => '/root',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
       let (:params) {{'ssh_config_template' => 'ssh/sshd_config.erb'}}
       it 'should lay down the ssh_config file from the specified template' do
         should contain_file('ssh_config').with_content(/OpenBSD: sshd_config/)
@@ -1527,15 +698,15 @@ describe 'ssh' do
   end
 
   context 'when sshd_config_template has a nonstandard value' do
-    context 'and that value is not valid' do
-      let :facts do
+    let :facts do
+      default_facts.merge(
         {
-          :fqdn => 'monkey.example.com',
-          :osfamily  => 'RedHat',
           :root_home => '/root',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
         }
-      end
+      )
+    end
+
+    context 'and that value is not valid' do
       let (:params) {{'sshd_config_template' => false}}
       it 'should fail' do
         expect {
@@ -1544,14 +715,6 @@ describe 'ssh' do
       end
     end
     context 'and that value is valid' do
-      let :facts do
-        {
-          :fqdn => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :root_home => '/root',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
       let (:params) {{'sshd_config_template' => 'ssh/ssh_config.erb'}}
       it 'should lay down the sshd_config file from the specified template' do
         should contain_file('sshd_config').with_content(/OpenBSD: ssh_config/)
@@ -1562,12 +725,11 @@ describe 'ssh' do
   ['true',true].each do |value|
     context "with manage_root_ssh_config set to #{value} on valid osfamily" do
       let :facts do
-        {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :root_home => '/root',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
+        default_facts.merge(
+          {
+            :root_home => '/root',
+          }
+        )
       end
       let :params do
         { :manage_root_ssh_config => value }
@@ -1605,12 +767,11 @@ describe 'ssh' do
   ['false',false].each do |value|
     context "with manage_root_ssh_config set to #{value} on valid osfamily" do
       let :facts do
-        {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :root_home => '/root',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
+        default_facts.merge(
+          {
+            :root_home => '/root',
+          }
+        )
       end
       let :params do
         { :manage_root_ssh_config => value }
@@ -1630,15 +791,13 @@ describe 'ssh' do
 
   [true,'invalid'].each do |ciphers|
     context "with ssh_config_ciphers set to invalid value #{ciphers}" do
-      let(:params) { { :ssh_config_ciphers => ciphers } }
-
       let :facts do
-        {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
+        default_facts.merge(
+          {
+          }
+        )
       end
+      let(:params) { { :ssh_config_ciphers => ciphers } }
 
       it 'should fail' do
         expect {
@@ -1650,15 +809,13 @@ describe 'ssh' do
 
   [true,'invalid'].each do |macs|
     context "with ssh_config_macs set to invalid value #{macs}" do
-      let(:params) { { :ssh_config_macs => macs } }
-
       let :facts do
-        {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
+        default_facts.merge(
+          {
+          }
+        )
       end
+      let(:params) { { :ssh_config_macs => macs } }
 
       it 'should fail' do
         expect {
@@ -1670,11 +827,10 @@ describe 'ssh' do
 
   context 'with ssh_config_hash_known_hosts set to invalid value on valid osfamily' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
     let :params do
       { :ssh_config_hash_known_hosts => 'invalid' }
@@ -1689,15 +845,13 @@ describe 'ssh' do
 
   [true,'invalid'].each do |ciphers|
     context "with sshd_config_ciphers set to invalid value #{ciphers}" do
-      let(:params) { { :sshd_config_ciphers => ciphers } }
-
       let :facts do
-        {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
+        default_facts.merge(
+          {
+          }
+        )
       end
+      let(:params) { { :sshd_config_ciphers => ciphers } }
 
       it 'should fail' do
         expect {
@@ -1709,15 +863,13 @@ describe 'ssh' do
 
   [true,'invalid'].each do |denyusers|
     context "with sshd_config_denyusers set to invalid value #{denyusers}" do
-      let(:params) { { :sshd_config_denyusers => denyusers } }
-
       let :facts do
-        {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
+        default_facts.merge(
+          {
+          }
+        )
       end
+      let(:params) { { :sshd_config_denyusers => denyusers } }
 
       it 'should fail' do
         expect {
@@ -1729,15 +881,13 @@ describe 'ssh' do
 
   [true,'invalid'].each do |denygroups|
     context "with sshd_config_denygroups set to invalid value #{denygroups}" do
-      let(:params) { { :sshd_config_denygroups => denygroups } }
-
       let :facts do
-        {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
+        default_facts.merge(
+          {
+          }
+        )
       end
+      let(:params) { { :sshd_config_denygroups => denygroups } }
 
       it 'should fail' do
         expect {
@@ -1749,15 +899,13 @@ describe 'ssh' do
 
   [true,'invalid'].each do |allowusers|
     context "with sshd_config_allowusers set to invalid value #{allowusers}" do
-      let(:params) { { :sshd_config_allowusers => allowusers } }
-
       let :facts do
-        {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
+        default_facts.merge(
+          {
+          }
+        )
       end
+      let(:params) { { :sshd_config_allowusers => allowusers } }
 
       it 'should fail' do
         expect {
@@ -1769,15 +917,13 @@ describe 'ssh' do
 
   [true,'invalid'].each do |allowgroups|
     context "with sshd_config_allowgroups set to invalid value #{allowgroups}" do
-      let(:params) { { :sshd_config_allowgroups => allowgroups } }
-
       let :facts do
-        {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
+        default_facts.merge(
+          {
+          }
+        )
       end
+      let(:params) { { :sshd_config_allowgroups => allowgroups } }
 
       it 'should fail' do
         expect {
@@ -1789,15 +935,13 @@ describe 'ssh' do
 
   [true,'invalid'].each do |macs|
     context "with sshd_config_macs set to invalid value #{macs}" do
-      let(:params) { { :sshd_config_macs => macs } }
-
       let :facts do
-        {
-          :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
+        default_facts.merge(
+          {
+          }
+        )
       end
+      let(:params) { { :sshd_config_macs => macs } }
 
       it 'should fail' do
         expect {
@@ -1809,11 +953,10 @@ describe 'ssh' do
 
   context 'with sshd_config_port not being a valid number' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
     let :params do
       { :sshd_config_port => '22invalid' }
@@ -1828,12 +971,11 @@ describe 'ssh' do
 
   context 'with manage_root_ssh_config set to invalid value on valid osfamily' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :root_home => '/root',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+          :root_home => '/root',
+        }
+      )
     end
     let :params do
       { :manage_root_ssh_config => 'invalid' }
@@ -1848,11 +990,10 @@ describe 'ssh' do
 
   context 'with sshd_password_authentication set to invalid value on valid osfamily' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
     let :params do
       { :sshd_password_authentication => 'invalid' }
@@ -1867,11 +1008,10 @@ describe 'ssh' do
 
   context 'with sshd_allow_tcp_forwarding set to invalid value on valid osfamily' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
     let :params do
       { :sshd_allow_tcp_forwarding => 'invalid' }
@@ -1886,11 +1026,10 @@ describe 'ssh' do
 
   context 'with sshd_x11_forwarding set to invalid value on valid osfamily' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
     let :params do
       { :sshd_x11_forwarding => 'invalid' }
@@ -1905,11 +1044,10 @@ describe 'ssh' do
 
   context 'with sshd_use_pam set to invalid value on valid osfamily' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
     let :params do
       { :sshd_use_pam => 'invalid' }
@@ -1924,11 +1062,10 @@ describe 'ssh' do
 
   context 'with sshd_config_serverkeybits set to invalid value on valid osfamily' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
     let :params do
       { :sshd_config_serverkeybits => 'invalid' }
@@ -1943,11 +1080,10 @@ describe 'ssh' do
 
   context 'with sshd_client_alive_interval set to invalid value on valid osfamily' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
     let :params do
       { :sshd_client_alive_interval => 'invalid' }
@@ -1962,11 +1098,10 @@ describe 'ssh' do
 
   context 'with sshd_client_alive_count_max set to invalid value on valid osfamily' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
     let :params do
       { :sshd_client_alive_count_max => 'invalid' }
@@ -1980,13 +1115,13 @@ describe 'ssh' do
   end
 
   context 'with sshd_config_banner set to invalid value on valid osfamily' do
-    let(:params) { { :sshd_config_banner => 'invalid/path' } }
-    let(:facts) do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
     end
+    let(:params) { { :sshd_config_banner => 'invalid/path' } }
 
     it 'should fail' do
       expect {
@@ -1996,13 +1131,13 @@ describe 'ssh' do
   end
 
   context 'with sshd_config_authkey_location set to invalid value on valid osfamily' do
-    let(:params) { { :sshd_config_authkey_location => false } }
-    let(:facts) do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
     end
+    let(:params) { { :sshd_config_authkey_location => false } }
 
     it 'should fail' do
       expect {
@@ -2012,13 +1147,13 @@ describe 'ssh' do
   end
 
   context 'with sshd_config_hostkey set to invalid value on valid osfamily' do
-    let(:params) { { :sshd_config_hostkey => false } }
-    let(:facts) do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
     end
+    let(:params) { { :sshd_config_hostkey => false } }
 
     it 'should fail' do
       expect {
@@ -2028,13 +1163,13 @@ describe 'ssh' do
   end
 
   context 'with sshd_config_hostkey set to invalid path on valid osfamily' do
-    let(:params) { { :sshd_config_hostkey => ['not_a_path'] } }
-    let(:facts) do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
     end
+    let(:params) { { :sshd_config_hostkey => ['not_a_path'] } }
 
     it 'should fail' do
       expect {
@@ -2046,11 +1181,10 @@ describe 'ssh' do
 
   context 'with sshd_config_strictmodes set to invalid value on valid osfamily' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
     let :params do
       { :sshd_config_strictmodes => 'invalid' }
@@ -2064,13 +1198,13 @@ describe 'ssh' do
   end
 
   context 'with sshd_authorized_keys_command specified with an invalid path' do
-    let(:params) { { :sshd_authorized_keys_command => 'invalid/path' } }
     let :facts do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
+    let(:params) { { :sshd_authorized_keys_command => 'invalid/path' } }
 
     it 'should fail' do
       expect {
@@ -2080,13 +1214,13 @@ describe 'ssh' do
   end
 
   context 'with sshd_authorized_keys_command_user specified with an invalid type (non-string)' do
-    let(:params) { { :sshd_authorized_keys_command_user => ['invalid','type'] } }
     let :facts do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
+    let(:params) { { :sshd_authorized_keys_command_user => ['invalid','type'] } }
 
     it 'should fail' do
       expect {
@@ -2096,13 +1230,13 @@ describe 'ssh' do
   end
 
   context 'with sshd_banner_content set and with default value on sshd_config_banner on valid osfamily' do
-    let(:params) { { :sshd_banner_content => 'textinbanner' } }
     let :facts do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
+    let(:params) { { :sshd_banner_content => 'textinbanner' } }
 
     it 'should fail' do
       expect {
@@ -2113,13 +1247,13 @@ describe 'ssh' do
 
 
   context 'with ssh_config_sendenv_xmodifiers set to invalid type, array' do
-    let(:params) { { :ssh_config_sendenv_xmodifiers => ['invalid','type'] } }
     let :facts do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
+    let(:params) { { :ssh_config_sendenv_xmodifiers => ['invalid','type'] } }
 
     it 'should fail' do
       expect {
@@ -2130,11 +1264,10 @@ describe 'ssh' do
 
   context 'with ssh_config_sendenv_xmodifiers set to stringified \'true\'' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
     let :params do
       {
@@ -2149,11 +1282,10 @@ describe 'ssh' do
 
   context 'with manage_firewall set to true on valid osfamily' do
     let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+      default_facts.merge(
+        {
+        }
+      )
     end
     let :params do
       { :manage_firewall => true }
@@ -2176,7 +1308,10 @@ describe 'ssh' do
 
   context 'with keys defined on valid osfamily' do
     let :facts do
-      { :osfamily  => 'RedHat' }
+      default_facts.merge(
+        {
+        }
+      )
     end
     let(:params) { { :keys => {
       'root_for_userX' => {
@@ -2228,8 +1363,13 @@ describe 'ssh' do
   end
 
   context 'with keys specified as not of type hash' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
     let(:params) { { :keys => [ 'not', 'a', 'hash' ] } }
-    let(:facts) { { :osfamily  => 'RedHat' } }
 
     it 'should fail' do
       expect {
@@ -2240,13 +1380,15 @@ describe 'ssh' do
 
   describe 'with hiera_merge parameter specified' do
     context 'as a non-boolean or non-string' do
-      let(:params) { { :hiera_merge => ['not_a_boolean','or_a_string'] } }
-      let(:facts) do
-        { :osfamily          => 'RedHat',
-          :fqdn              => 'hieramerge.example.com',
-          :lsbmajdistrelease => '6',
-        }
+      let :facts do
+        default_facts.merge(
+          {
+            :fqdn              => 'hieramerge.example.com',
+            :lsbmajdistrelease => '6',
+          }
+        )
       end
+      let(:params) { { :hiera_merge => ['not_a_boolean','or_a_string'] } }
 
       it 'should fail' do
         expect {
@@ -2256,12 +1398,14 @@ describe 'ssh' do
     end
 
     context 'as an invalid string' do
-      let(:params) { { :hiera_merge => 'invalid_string' } }
-      let(:facts) do
-        { :osfamily          => 'RedHat',
-          :lsbmajdistrelease => '6',
-        }
+      let :facts do
+        default_facts.merge(
+          {
+            :lsbmajdistrelease => '6',
+          }
+        )
       end
+      let(:params) { { :hiera_merge => 'invalid_string' } }
 
       it 'should fail' do
         expect {
@@ -2272,13 +1416,15 @@ describe 'ssh' do
 
     ['true',true].each do |value|
       context "as #{value} with hiera data getting collected" do
-        let(:params) { { :hiera_merge => value } }
-        let(:facts) do
-          { :osfamily          => 'RedHat',
-            :fqdn              => 'hieramerge.example.com',
-            :lsbmajdistrelease => '6',
-          }
+        let:facts do
+          default_facts.merge(
+            {
+              :fqdn              => 'hieramerge.example.com',
+              :lsbmajdistrelease => '6',
+            }
+          )
         end
+        let(:params) { { :hiera_merge => value } }
 
         it { should compile.with_all_deps }
 
@@ -2293,14 +1439,16 @@ describe 'ssh' do
     end
 
     context "as true with with hiera data getting merged through levels" do
-      let(:params) { { :hiera_merge => true } }
-      let(:facts) do
-        { :osfamily          => 'RedHat',
-          :fqdn              => 'hieramerge.example.com',
-          :lsbmajdistrelease => '6',
-          :specific          => 'test_hiera_merge',
-        }
+      let :facts do
+        default_facts.merge(
+          {
+            :fqdn              => 'hieramerge.example.com',
+            :lsbmajdistrelease => '6',
+            :specific          => 'test_hiera_merge',
+          }
+        )
       end
+      let(:params) { { :hiera_merge => true } }
 
       it { should compile.with_all_deps }
 
@@ -2314,14 +1462,17 @@ describe 'ssh' do
     end
 
     context "as true with no hiera data provided" do
-      let(:params) { { :hiera_merge => true } }
-      let(:facts) do
-        { :osfamily          => 'Suse',
-          :fqdn              => 'notinhiera.example.com',
-          :lsbmajdistrelease => '11',
-          :architecture      => 'x86_64',
-        }
+      let :facts do
+        default_facts.merge(
+          {
+            :osfamily          => 'Suse',
+            :fqdn              => 'notinhiera.example.com',
+            :lsbmajdistrelease => '11',
+            :architecture      => 'x86_64',
+          }
+        )
       end
+      let(:params) { { :hiera_merge => true } }
 
       it { should compile.with_all_deps }
 
@@ -2336,12 +1487,15 @@ describe 'ssh' do
 
     ['false',false].each do |value|
       context "as #{value}" do
-        let(:params) { { :hiera_merge => value } }
-        let(:facts) do
-          { :osfamily          => 'RedHat',
-            :lsbmajdistrelease => '6',
-          }
+        let :facts do
+          default_facts.merge(
+            {
+              :osfamily          => 'RedHat',
+              :lsbmajdistrelease => '6',
+            }
+          )
         end
+        let(:params) { { :hiera_merge => value } }
 
         it { should compile.with_all_deps }
 
@@ -2352,14 +1506,14 @@ describe 'ssh' do
 
   describe 'with ssh_package_adminfile parameter specified' do
     context 'as a valid path' do
-      let(:params) { { :ssh_package_adminfile => '/var/tmp/admin' } }
       let :facts do
-        { :fqdn          => 'monkey.example.com',
-          :osfamily      => 'Solaris',
-          :kernelrelease => '5.10',
-          :sshrsakey     => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
+        default_solaris_facts.merge(
+          {
+            :kernelrelease => '5.10',
+          }
+        )
       end
+      let(:params) { { :ssh_package_adminfile => '/var/tmp/admin' } }
 
       ['SUNWsshcu','SUNWsshdr','SUNWsshdu','SUNWsshr','SUNWsshu'].each do |pkg|
         it {
@@ -2373,14 +1527,14 @@ describe 'ssh' do
     end
 
     context 'as an invalid path' do
-      let(:params) { { :ssh_package_adminfile => 'invalid/path' } }
       let :facts do
-        { :fqdn          => 'monkey.example.com',
-          :osfamily      => 'Solaris',
-          :kernelrelease => '5.10',
-          :sshrsakey     => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
+        default_solaris_facts.merge(
+          {
+            :kernelrelease => '5.10',
+          }
+        )
       end
+      let(:params) { { :ssh_package_adminfile => 'invalid/path' } }
 
       it 'should fail' do
         expect {
@@ -2391,26 +1545,20 @@ describe 'ssh' do
   end
 
   describe 'with sshd_config_xauth_location parameter specified' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
     context 'as a valid path' do
       let(:params) { { :sshd_config_xauth_location => '/opt/ssh/bin/xauth' } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it { should contain_file('sshd_config').with_content(/^XAuthLocation \/opt\/ssh\/bin\/xauth$/) }
     end
 
     context 'as an invalid path' do
       let(:params) { { :sshd_config_xauth_location => 'invalid/path' } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -2421,12 +1569,6 @@ describe 'ssh' do
 
     context 'as an invalid type' do
       let(:params) { { :sshd_config_xauth_location => true } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -2437,15 +1579,15 @@ describe 'ssh' do
   end
 
   describe 'with ssh_package_source parameter specified' do
+    let :facts do
+      default_solaris_facts.merge(
+        {
+          :kernelrelease => '5.10',
+        }
+      )
+    end
     context 'as a valid path' do
       let(:params) { { :ssh_package_source => '/mnt/packages' } }
-      let(:facts) do
-        { :fqdn          => 'monkey.example.com',
-          :osfamily      => 'Solaris',
-          :kernelrelease => '5.10',
-          :sshrsakey     => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       ['SUNWsshcu','SUNWsshdr','SUNWsshdu','SUNWsshr','SUNWsshu'].each do |pkg|
         it {
@@ -2460,13 +1602,6 @@ describe 'ssh' do
 
     context 'as an invalid path' do
       let(:params) { { :ssh_package_source => 'invalid/path' } }
-      let(:facts) do
-        { :fqdn          => 'monkey.example.com',
-          :osfamily      => 'Solaris',
-          :kernelrelease => '5.10',
-          :sshrsakey     => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -2477,13 +1612,6 @@ describe 'ssh' do
 
     context 'as an invalid type' do
       let(:params) { { :ssh_package_source => true } }
-      let(:facts) do
-        { :fqdn          => 'monkey.example.com',
-          :osfamily      => 'Solaris',
-          :kernelrelease => '5.10',
-          :sshrsakey     => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -2496,25 +1624,25 @@ describe 'ssh' do
   describe 'with parameter ssh_config_forward_x11_trusted' do
     ['yes','no'].each do |value|
       context "specified as #{value}" do
-        let(:params) { { :ssh_config_forward_x11_trusted => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
+        let :facts do
+          default_facts.merge(
+            {
+            }
+          )
         end
+        let(:params) { { :ssh_config_forward_x11_trusted => value } }
 
         it { should contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted #{value}$/) }
       end
     end
 
     context 'not specified' do
-      let(:facts) do
-        { :fqdn          => 'monkey.example.com',
-          :osfamily      => 'Solaris',
-          :kernelrelease => '5.11',
-          :sshrsakey     => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
+      let :facts do
+        default_solaris_facts.merge(
+          {
+            :kernelrelease => '5.11',
+          }
+        )
       end
 
       it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted/) }
@@ -2522,13 +1650,13 @@ describe 'ssh' do
 
     ['YES',true].each do |value|
       context "specified an invalid value #{value}" do
-        let(:params) { { :ssh_config_forward_x11_trusted => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
+        let :facts do
+          default_facts.merge(
+            {
+            }
+          )
         end
+        let(:params) { { :ssh_config_forward_x11_trusted => value } }
 
         it 'should fail' do
           expect {
@@ -2542,14 +1670,14 @@ describe 'ssh' do
   describe 'with parameter ssh_gssapidelegatecredentials' do
     ['yes','no'].each do |value|
       context "specified as #{value}" do
-        let(:params) { { :ssh_gssapidelegatecredentials => value } }
-        let(:facts) do
-          { :fqdn          => 'monkey.example.com',
-            :osfamily      => 'Solaris',
-            :kernelrelease => '5.11',
-            :sshrsakey     => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
+        let :facts do
+          default_solaris_facts.merge(
+            {
+              :kernelrelease => '5.11',
+            }
+          )
         end
+        let(:params) { { :ssh_gssapidelegatecredentials => value } }
 
         it { should contain_file('ssh_config').with_content(/^GSSAPIDelegateCredentials #{value}$/) }
       end
@@ -2557,13 +1685,13 @@ describe 'ssh' do
 
     ['YES',true].each do |value|
       context "specified an invalid value #{value}" do
-        let(:params) { { :ssh_gssapidelegatecredentials => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
+        let :facts do
+          default_facts.merge(
+            {
+            }
+          )
         end
+        let(:params) { { :ssh_gssapidelegatecredentials => value } }
 
         it 'should fail' do
           expect {
@@ -2575,11 +1703,11 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_gssapiauthentication' do
-    let(:facts) do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
     end
 
     ['yes','no'].each do |value|
@@ -2610,11 +1738,11 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_gssapiauthentication' do
-    let(:facts) do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
     end
 
     ['yes','no'].each do |value|
@@ -2645,27 +1773,21 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_gssapikeyexchange' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
     ['yes','no'].each do |value|
       context "specified as #{value}" do
         let(:params) { { :sshd_gssapikeyexchange => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
-        end
 
         it { should contain_file('sshd_config').with_content(/^GSSAPIKeyExchange #{value}$/) }
       end
     end
 
     context 'not specified' do
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange/) }
     end
@@ -2673,12 +1795,6 @@ describe 'ssh' do
     ['YES',true].each do |value|
       context "specified an invalid value #{value}" do
         let(:params) { { :sshd_gssapikeyexchange => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
-        end
 
         it 'should fail' do
           expect {
@@ -2690,27 +1806,21 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_pamauthenticationviakbdint' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
     ['yes','no'].each do |value|
       context "specified as #{value}" do
         let(:params) { { :sshd_pamauthenticationviakbdint => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
-        end
 
         it { should contain_file('sshd_config').with_content(/^PAMAuthenticationViaKBDInt #{value}$/) }
       end
     end
 
     context 'not specified' do
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it { should_not contain_file('sshd_config').with_content(/^\s*PAMAuthenticationViaKBDInt/) }
     end
@@ -2718,12 +1828,6 @@ describe 'ssh' do
     ['YES',true].each do |value|
       context "specified an invalid value #{value}" do
         let(:params) { { :sshd_pamauthenticationviakbdint => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
-        end
 
         it 'should fail' do
           expect {
@@ -2737,25 +1841,25 @@ describe 'ssh' do
   describe 'with parameter sshd_gssapicleanupcredentials' do
     ['yes','no'].each do |value|
       context "specified as #{value}" do
-        let(:params) { { :sshd_gssapicleanupcredentials => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
+        let :facts do
+          default_facts.merge(
+            {
+            }
+          )
         end
+        let(:params) { { :sshd_gssapicleanupcredentials => value } }
 
         it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials #{value}$/) }
       end
     end
 
     context 'not specified' do
-      let(:facts) do
-        { :fqdn          => 'monkey.example.com',
-          :osfamily      => 'Solaris',
-          :kernelrelease => '5.11',
-          :sshrsakey     => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
+      let :facts do
+        default_solaris_facts.merge(
+          {
+            :kernelrelease => '5.11',
+          }
+        )
       end
 
       it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPICleanupCredentials/) }
@@ -2763,13 +1867,13 @@ describe 'ssh' do
 
     ['YES',true].each do |value|
       context "specified an invalid value #{value}" do
-        let(:params) { { :sshd_gssapicleanupcredentials => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
+        let :facts do
+          default_facts.merge(
+            {
+            }
+          )
         end
+        let(:params) { { :sshd_gssapicleanupcredentials => value } }
 
         it 'should fail' do
           expect {
@@ -2782,15 +1886,15 @@ describe 'ssh' do
 
 
   describe 'with parameter ssh_sendenv specified' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
     ['true',true].each do |value|
       context "as #{value}" do
         let(:params) { { :ssh_sendenv => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
-        end
 
         it { should contain_file('ssh_config').with_content(/^\s*SendEnv/) }
       end
@@ -2799,12 +1903,6 @@ describe 'ssh' do
     ['false',false].each do |value|
       context "as #{value}" do
         let(:params) { { :ssh_sendenv => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
-        end
 
         it { should_not contain_file('ssh_config').with_content(/^\s*SendEnv/) }
       end
@@ -2812,12 +1910,6 @@ describe 'ssh' do
 
     context 'as an invalid string' do
       let(:params) { { :ssh_sendenv => 'invalid' } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -2828,12 +1920,6 @@ describe 'ssh' do
 
     context 'as an invalid type' do
       let(:params) { { :ssh_sendenv => ['invalid','type'] } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -2844,15 +1930,15 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_config_maxstartups specified' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
     ['10','10:30:100'].each do |value|
       context "as a valid string - #{value}" do
         let(:params) { { :sshd_config_maxstartups => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
-        end
 
         it { should contain_file('sshd_config').with_content(/^MaxStartups #{value}$/) }
       end
@@ -2861,12 +1947,6 @@ describe 'ssh' do
     ['10a',true,'10:30:1a'].each do |value|
       context "as an invalid string - #{value}" do
         let(:params) { { :sshd_config_maxstartups => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
-        end
 
         it 'should fail' do
           expect {
@@ -2878,12 +1958,7 @@ describe 'ssh' do
 
     context 'as an invalid type' do
       let(:params) { { :sshd_config_maxstartups => true } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
+
       it 'should fail' do
         expect {
           should contain_class('ssh')
@@ -2893,25 +1968,21 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_config_maxsessions specified' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
     context 'as a valid integer' do
       let(:params) { { :sshd_config_maxsessions => 10 } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
+
       it { should contain_file('sshd_config').with_content(/^MaxSessions 10$/) }
     end
 
     context 'as an invalid type' do
       let(:params) { { :sshd_config_maxsessions => 'BOGUS' } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
+
       it 'should fail' do
         expect {
           should contain_class('ssh')
@@ -2921,15 +1992,15 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_acceptenv specified' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
     ['true',true].each do |value|
       context "as #{value}" do
         let(:params) { { :sshd_acceptenv => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
-        end
 
         it { should contain_file('sshd_config').with_content(/^\s*AcceptEnv/) }
       end
@@ -2938,12 +2009,6 @@ describe 'ssh' do
     ['false',false].each do |value|
       context "as #{value}" do
         let(:params) { { :sshd_acceptenv => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
-        end
 
         it { should_not contain_file('sshd_config').with_content(/^\s*AcceptEnv/) }
       end
@@ -2951,12 +2016,6 @@ describe 'ssh' do
 
     context 'as an invalid string' do
       let(:params) { { :sshd_acceptenv => 'invalid' } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -2967,12 +2026,6 @@ describe 'ssh' do
 
     context 'as an invalid type' do
       let(:params) { { :sshd_acceptenv => ['invalid','type'] } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -2983,15 +2036,15 @@ describe 'ssh' do
   end
 
   describe 'with parameter service_hasstatus' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
     ['true',true,'false',false].each do |value|
       context "specified as #{value}" do
         let(:params) { { :service_hasstatus => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
-        end
 
         it {
           should contain_service('sshd_service').with({
@@ -3008,12 +2061,6 @@ describe 'ssh' do
 
     context 'specified as an invalid string' do
       let(:params) { { :service_hasstatus => 'invalid' } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -3024,12 +2071,6 @@ describe 'ssh' do
 
     context 'specified as an invalid type' do
       let(:params) { { :service_hasstatus => ['invalid','type'] } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -3040,14 +2081,14 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_config_global_known_hosts_file' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
     context 'specified as a valid path' do
       let(:params) { { :ssh_config_global_known_hosts_file => '/valid/path' } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it {
         should contain_file('ssh_known_hosts').with({
@@ -3064,12 +2105,6 @@ describe 'ssh' do
 
     context 'specified as an invalid path' do
       let(:params) { { :ssh_config_global_known_hosts_file => 'invalid/path' } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -3080,12 +2115,6 @@ describe 'ssh' do
 
     context 'specified as an invalid type' do
       let(:params) { { :ssh_config_global_known_hosts_file => { 'invalid' => 'type'} } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -3096,14 +2125,14 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_config_global_known_hosts_owner' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
     context 'specified as a valid string' do
       let(:params) { { :ssh_config_global_known_hosts_owner => 'gh' } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it {
         should contain_file('ssh_known_hosts').with({
@@ -3118,12 +2147,6 @@ describe 'ssh' do
 
     context 'specified as an invalid type [non-string]' do
       let(:params) { { :ssh_config_global_known_hosts_owner => ['invalid','type'] } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -3134,14 +2157,14 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_config_global_known_hosts_group' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
     context 'specified as a valid string' do
       let(:params) { { :ssh_config_global_known_hosts_group => 'gh' } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it {
         should contain_file('ssh_known_hosts').with({
@@ -3156,12 +2179,6 @@ describe 'ssh' do
 
     context 'specified as an invalid type [non-string]' do
       let(:params) { { :ssh_config_global_known_hosts_group => ['invalid','type'] } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -3172,14 +2189,14 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_config_global_known_hosts_mode' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
     context 'specified as a valid mode' do
       let(:params) { { :ssh_config_global_known_hosts_mode => '0666' } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it {
         should contain_file('ssh_known_hosts').with({
@@ -3195,12 +2212,6 @@ describe 'ssh' do
     ['666','0842','06666'].each do |value|
       context "specified as invalid mode - #{value}" do
         let(:params) { { :ssh_config_global_known_hosts_mode => value } }
-        let(:facts) do
-          { :fqdn      => 'monkey.example.com',
-            :osfamily  => 'RedHat',
-            :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-          }
-        end
 
         it 'should fail' do
           expect {
@@ -3212,12 +2223,6 @@ describe 'ssh' do
 
     context 'specified as an invalid type [non-string]' do
       let(:params) { { :ssh_config_global_known_hosts_mode => ['invalid','type'] } }
-      let(:facts) do
-        { :fqdn      => 'monkey.example.com',
-          :osfamily  => 'RedHat',
-          :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -3228,6 +2233,13 @@ describe 'ssh' do
   end
 
   describe 'with ssh_key_import parameter specified' do
+    let :facts do
+      default_facts.merge(
+        {
+          :lsbmajdistrelease => '6',
+        }
+      )
+    end
     context 'as a non-boolean or non-string' do
     let(:params) { { :ssh_key_import => ['not_a_boolean','or_a_string'] } }
 
@@ -3240,11 +2252,6 @@ describe 'ssh' do
 
     context 'as an invalid string' do
       let(:params) { { :ssh_key_import => 'invalid_string' } }
-      let(:facts) do
-        { :osfamily          => 'RedHat',
-          :lsbmajdistrelease => '6',
-        }
-      end
 
       it 'should fail' do
         expect {
@@ -3256,11 +2263,6 @@ describe 'ssh' do
     ['true',true].each do |value|
       context "as #{value}" do
         let(:params) { { :ssh_key_import => value } }
-        let(:facts) do
-          { :osfamily          => 'RedHat',
-            :lsbmajdistrelease => '6',
-          }
-        end
 
         it { should compile.with_all_deps }
 
@@ -3281,11 +2283,6 @@ describe 'ssh' do
     ['false',false].each do |value|
       context "as #{value}" do
         let(:params) { { :ssh_key_import => value } }
-        let(:facts) do
-          { :osfamily          => 'RedHat',
-            :lsbmajdistrelease => '6',
-          }
-        end
 
         it { should compile.with_all_deps }
 
@@ -3295,11 +2292,11 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_hostbasedauthentication' do
-    let(:facts) do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
     end
 
     ['yes','no'].each do |value|
@@ -3327,11 +2324,11 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_ignoreuserknownhosts' do
-    let(:facts) do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
     end
 
     ['yes','no'].each do |value|
@@ -3359,11 +2356,11 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_ignorerhosts' do
-    let(:facts) do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
     end
 
     ['yes','no'].each do |value|
@@ -3391,11 +2388,11 @@ describe 'ssh' do
   end
 
   describe 'with parameter manage_service' do
-    let(:facts) do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
     end
 
     ['YES','badvalue',2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
@@ -3412,32 +2409,24 @@ describe 'ssh' do
     ['true', true].each do |value|
       context "specified as valid true value #{value} (as #{value.class})" do
         let(:params) { { :manage_service => value } }
-        it do
-          expect {
-            should contain_service('sshd_service')
-          }
-        end
+        it { should contain_service('sshd_service') }
       end
     end
 
     ['false', false].each do |value|
       context "specified as valid false value #{value} (as #{value.class})" do
         let(:params) { { :manage_service => value } }
-        it do
-          expect {
-            should_not contain_service('sshd_service')
-          }
-        end
+        it { should_not contain_service('sshd_service') }
       end
     end
   end
 
   describe 'with parameter sshd_addressfamily' do
-    let(:facts) do
-      { :fqdn      => 'monkey.example.com',
-        :osfamily  => 'RedHat',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
     end
 
     ['any','inet','inet6'].each do |value|
@@ -3460,7 +2449,12 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_config_use_roaming' do
-    let(:facts) { { :osfamily  => 'RedHat' } }
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
 
     ['yes','no','unset'].each do |value|
       context "set to valid value #{value}" do
@@ -3476,10 +2470,11 @@ describe 'ssh' do
 
   describe 'variable type and content validations' do
     # set needed custom facts and variables
-    let(:facts) do
-      {
-        :osfamily => 'RedHat',
-      }
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
     end
     let(:mandatory_params) do
       {
