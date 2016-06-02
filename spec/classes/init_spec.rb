@@ -1941,7 +1941,7 @@ describe 'ssh' do
      it { should contain_file('sshd_config').with_content(/^MaxAuthTries 6$/)}
     end
     context 'as an invalid type' do
-      let(:params) {{ sshd_config_maxauthtries => 'BOGUS'}}
+      let(:params) {{ :sshd_config_maxauthtries => 'BOGUS'}}
       it 'should fail' do
         expect{
           should contain_class('ssh')
