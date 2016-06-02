@@ -94,7 +94,7 @@ GSSAPIDelegateCredentials <%= @ssh_gssapidelegatecredentials %>
 <% if @ssh_config_macs -%>
   MACs <%= @ssh_config_macs.join(',') %>
 <% end -%>
-#  EnableSSHKeysign no
 <% if @ssh_enable_ssh_keysign -%>
+#  EnableSSHKeysign no
    EnableSSHKeysign yes
 <% end -%>
