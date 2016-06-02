@@ -491,6 +491,14 @@ class ssh (
     validate_re($sshd_gssapicleanupcredentials_real, '^(yes|no)$', "ssh::sshd_gssapicleanupcredentials may be either 'yes' or 'no' and is set to <${sshd_gssapicleanupcredentials_real}>.")
   }
 
+  if $ssh_strict_host_key_checking != undef {
+    validate_re($ssh_strict_host_key_checking, '^(yes|no)$', "ssh::ssh_ssh_strict_host_key_checking may be either 'yes' or 'no' and is set to <${ssh_strict_host_key_checking}>.")
+  }
+
+  if $ssh_enable_ssh_keysign != undef {
+    validate_re($ssh_enable_ssh_keysign, '^(yes|no)$', "ssh::ssh_enable_ssh_keysign may be either 'yes' or 'no' and is set to <${ssh_enable_ssh_keysign}>.")
+  }
+
   if $sshd_config_authkey_location != undef {
     validate_string($sshd_config_authkey_location)
   }
@@ -530,6 +538,8 @@ class ssh (
   if $sshd_config_strictmodes != undef {
     validate_re($sshd_config_strictmodes, '^(yes|no)$', "ssh::sshd_config_strictmodes may be either 'yes' or 'no' and is set to <${sshd_config_strictmodes}>.")
   }
+
+  validate_re($ssh_hostbasedauthentication, '^(yes|no)$', "ssh::ssh_hostbasedauthentication may be either 'yes' or 'no' and is set to <${ssh_hostbasedauthentication}>.")
 
   validate_re($sshd_hostbasedauthentication, '^(yes|no)$', "ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to <${sshd_hostbasedauthentication}>.")
 
