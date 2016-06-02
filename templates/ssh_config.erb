@@ -28,7 +28,9 @@
    PasswordAuthentication yes
    PubkeyAuthentication yes
 #   HostbasedAuthentication no
+<% if @ssh_strict_host_key_checking -%>
    HostbasedAuthentication <%= @ssh_hostbasedauthentication %>
+<% end -%>
 #   BatchMode no
 #   CheckHostIP yes
 #   AddressFamily any

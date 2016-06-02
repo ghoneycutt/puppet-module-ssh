@@ -154,7 +154,7 @@ ssh_hostbasedauthentication
 -------------------------
 String for HostbasedAuthentication option in ssh_config. Valid values are 'yes' and 'no'.
 
-- *Default*: 'no'
+- *Default*: undef
 
 
 ssh_strict_host_key_checking

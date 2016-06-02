@@ -20,7 +20,7 @@ class ssh (
   $ssh_config_forward_agent            = undef,
   $ssh_config_server_alive_interval    = undef,
   $ssh_config_sendenv_xmodifiers       = false,
-  $ssh_hostbasedauthentication        = 'no',
+  $ssh_hostbasedauthentication         = undef,
   $ssh_strict_host_key_checking        = undef,
   $ssh_config_ciphers                  = undef,
   $ssh_config_macs                     = undef,
@@ -538,8 +538,9 @@ class ssh (
   if $sshd_config_strictmodes != undef {
     validate_re($sshd_config_strictmodes, '^(yes|no)$', "ssh::sshd_config_strictmodes may be either 'yes' or 'no' and is set to <${sshd_config_strictmodes}>.")
   }
-
-  validate_re($ssh_hostbasedauthentication, '^(yes|no)$', "ssh::ssh_hostbasedauthentication may be either 'yes' or 'no' and is set to <${ssh_hostbasedauthentication}>.")
+  if $ssh_hostbasedauthentication != undef {
+    validate_re($ssh_hostbasedauthentication, '^(yes|no)$', "ssh::ssh_hostbasedauthentication may be either 'yes' or 'no' and is set to <${ssh_hostbasedauthentication}>.")
+  }
 
   validate_re($sshd_hostbasedauthentication, '^(yes|no)$', "ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to <${sshd_hostbasedauthentication}>.")
 
