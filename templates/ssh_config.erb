@@ -28,11 +28,17 @@
    PasswordAuthentication yes
    PubkeyAuthentication yes
 #   HostbasedAuthentication no
+<% if @ssh_hostbasedauthentication -%>
+   HostbasedAuthentication <%= @ssh_hostbasedauthentication %>
+<% end -%>
 #   BatchMode no
 #   CheckHostIP yes
 #   AddressFamily any
 #   ConnectTimeout 0
 #   StrictHostKeyChecking ask
+<% if @ssh_strict_host_key_checking -%>
+   StrictHostKeyChecking <%= @ssh_strict_host_key_checking %>
+<% end -%>
 #   IdentityFile ~/.ssh/identity
    IdentityFile ~/.ssh/id_rsa
    IdentityFile ~/.ssh/id_dsa
@@ -89,4 +95,8 @@ GSSAPIDelegateCredentials <%= @ssh_gssapidelegatecredentials %>
 <% end -%>
 <% if @ssh_config_macs -%>
   MACs <%= @ssh_config_macs.join(',') %>
+<% end -%>
+<% if @ssh_enable_ssh_keysign -%>
+#  EnableSSHKeysign no
+   EnableSSHKeysign yes
 <% end -%>

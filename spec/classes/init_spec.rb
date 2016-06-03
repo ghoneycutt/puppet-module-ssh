@@ -1736,6 +1736,111 @@ describe 'ssh' do
     end
   end
 
+  describe 'with parameter ssh_hostbasedauthentication' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    ['yes','no'].each do |value|
+      context "specified as valid #{value} (as #{value.class})" do
+        let(:params) { { :ssh_hostbasedauthentication => value } }
+
+        it { should contain_file('ssh_config').with_content(/^\s*HostbasedAuthentication #{value}$/) }
+      end
+    end
+
+    ['YES',true,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "specified as invalid value #{value} (as #{value.class})" do
+        let(:params) { { :ssh_hostbasedauthentication => value } }
+
+        if value.is_a?(Array)
+          value = value.join
+        elsif value.is_a?(Hash)
+          value = '{ha => sh}'
+        end
+
+        it 'should fail' do
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::ssh_hostbasedauthentication may be either 'yes' or 'no' and is set to <#{Regexp.escape(value.to_s)}>\./)
+        end
+      end
+    end
+  end
+
+  describe 'with parameter ssh_strict_host_key_checking' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    ['yes','no', 'ask'].each do |value|
+      context "specified as valid #{value} (as #{value.class})" do
+        let(:params) { { :ssh_strict_host_key_checking => value } }
+
+        it { should contain_file('ssh_config').with_content(/^\s*StrictHostKeyChecking #{value}$/) }
+      end
+    end
+
+    ['YES',true,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "specified as invalid value #{value} (as #{value.class})" do
+        let(:params) { { :ssh_strict_host_key_checking => value } }
+
+        if value.is_a?(Array)
+          value = value.join
+        elsif value.is_a?(Hash)
+          value = '{ha => sh}'
+        end
+
+        it 'should fail' do
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::ssh_strict_host_key_checking may be either 'yes' or 'no' and is set to <#{Regexp.escape(value.to_s)}>\./)
+        end
+      end
+    end
+  end
+
+  describe 'with parameter ssh_enable_ssh_keysign' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    ['yes','no'].each do |value|
+      context "specified as valid #{value} (as #{value.class})" do
+        let(:params) { { :ssh_enable_ssh_keysign => value } }
+
+        it { should contain_file('ssh_config').with_content(/^\s*EnableSSHKeysign #{value}$/) }
+      end
+    end
+
+    ['YES',true,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "specified as invalid value #{value} (as #{value.class})" do
+        let(:params) { { :ssh_enable_ssh_keysign => value } }
+
+        if value.is_a?(Array)
+          value = value.join
+        elsif value.is_a?(Hash)
+          value = '{ha => sh}'
+        end
+
+        it 'should fail' do
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::ssh_enable_ssh_keysign may be either 'yes' or 'no' and is set to <#{Regexp.escape(value.to_s)}>\./)
+        end
+      end
+    end
+  end
+
   describe 'with parameter sshd_gssapiauthentication' do
     let :facts do
       default_facts.merge(
