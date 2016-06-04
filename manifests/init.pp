@@ -492,7 +492,7 @@ class ssh (
   }
 
   if $ssh_strict_host_key_checking != undef {
-    validate_re($ssh_strict_host_key_checking, '^(yes|no|ask)$', "ssh::ssh_ssh_strict_host_key_checking may be 'yes', 'no' or ask and is set to <${ssh_strict_host_key_checking}>.")
+    validate_re($ssh_strict_host_key_checking, '^(yes|no|ask)$', "ssh::ssh_strict_host_key_checking may be 'yes', 'no' or 'ask' and is set to <${ssh_strict_host_key_checking}>.")
   }
 
   if $ssh_enable_ssh_keysign != undef {

@@ -160,9 +160,9 @@ String for HostbasedAuthentication option in ssh_config. Valid values are 'yes' 
 ssh_strict_host_key_checking
 -----------------------------
 *string* For StrictHostKeyChecking setting in ssh_config. Valid values are
-'yes', 'no' or ask.
+'yes', 'no' or 'ask'.
 
-- *Default*: ask
+- *Default*: undef
 
 ssh_enable_ssh_keysign
 -----------------------------

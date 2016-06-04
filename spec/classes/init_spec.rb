@@ -316,6 +316,9 @@ describe 'ssh' do
                                                  'hmac-sha1-etm@openssh.com',
         ],
         :ssh_config_global_known_hosts_file => '/etc/ssh/ssh_known_hosts2',
+        :ssh_hostbasedauthentication        => 'yes',
+        :ssh_strict_host_key_checking       => 'ask',
+        :ssh_enable_ssh_keysign             => 'yes',
       }
     end
 
@@ -345,6 +348,9 @@ describe 'ssh' do
     it { should contain_file('ssh_config').with_content(/^\s*Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc$/) }
     it { should contain_file('ssh_config').with_content(/^\s*MACs hmac-md5-etm@openssh.com,hmac-sha1-etm@openssh.com$/) }
     it { should contain_file('ssh_config').with_content(/^\s*GlobalKnownHostsFile \/etc\/ssh\/ssh_known_hosts2$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*HostbasedAuthentication yes$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*StrictHostKeyChecking ask$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*EnableSSHKeysign yes$/) }
   end
 
   context 'with params used in sshd_config set on valid osfamily' do
@@ -1800,7 +1806,7 @@ describe 'ssh' do
         it 'should fail' do
           expect {
             should contain_class('ssh')
-          }.to raise_error(Puppet::Error,/ssh::ssh_strict_host_key_checking may be either 'yes' or 'no' and is set to <#{Regexp.escape(value.to_s)}>\./)
+          }.to raise_error(Puppet::Error,/ssh::ssh_strict_host_key_checking may be 'yes', 'no' or 'ask' and is set to <#{Regexp.escape(value.to_s)}>\./)
         end
       end
     end
