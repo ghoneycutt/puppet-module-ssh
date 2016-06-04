@@ -74,6 +74,7 @@ describe 'ssh' do
     'Suse-10-x86_64' => {
       :architecture           => 'x86_64',
       :osfamily               => 'Suse',
+      :operatingsystem        => 'SLED',
       :operatingsystemrelease => '10.4',
       :ssh_version            => 'OpenSSH_5.1p1',
       :ssh_version_numeric    => '5.1',
@@ -100,6 +101,7 @@ describe 'ssh' do
     'Suse-11-x86_64' => {
       :architecture           => 'x86_64',
       :osfamily               => 'Suse',
+      :operatingsystem        => 'SLED',
       :operatingsystemrelease => '11.4',
       :ssh_version            => 'OpenSSH_6.6.1p1',
       :ssh_version_numeric    => '6.6',
@@ -126,6 +128,7 @@ describe 'ssh' do
     'Suse-12-x86_64' => {
       :architecture           => 'x86_64',
       :osfamily               => 'Suse',
+      :operatingsystem        => 'SLED',
       :operatingsystemrelease => '12.0',
       :ssh_version            => 'OpenSSH_6.6.1p1',
       :ssh_version_numeric    => '6.6',
@@ -1471,6 +1474,7 @@ describe 'ssh' do
         default_facts.merge(
           {
             :osfamily          => 'Suse',
+            :operatingsystem   => 'SLED',
             :fqdn              => 'notinhiera.example.com',
             :lsbmajdistrelease => '11',
             :architecture      => 'x86_64',
