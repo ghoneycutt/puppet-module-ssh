@@ -20,6 +20,8 @@ class ssh (
   $ssh_config_forward_agent            = undef,
   $ssh_config_server_alive_interval    = undef,
   $ssh_config_sendenv_xmodifiers       = false,
+  $ssh_hostbasedauthentication         = undef,
+  $ssh_strict_host_key_checking        = undef,
   $ssh_config_ciphers                  = undef,
   $ssh_config_macs                     = undef,
   $ssh_config_use_roaming              = 'USE_DEFAULTS',
@@ -45,6 +47,7 @@ class ssh (
   $sshd_config_banner                  = 'none',
   $sshd_config_ciphers                 = undef,
   $sshd_config_macs                    = undef,
+  $ssh_enable_ssh_keysign              = undef,
   $sshd_config_allowgroups             = [],
   $sshd_config_allowusers              = [],
   $sshd_config_denygroups              = [],
@@ -488,6 +491,14 @@ class ssh (
     validate_re($sshd_gssapicleanupcredentials_real, '^(yes|no)$', "ssh::sshd_gssapicleanupcredentials may be either 'yes' or 'no' and is set to <${sshd_gssapicleanupcredentials_real}>.")
   }
 
+  if $ssh_strict_host_key_checking != undef {
+    validate_re($ssh_strict_host_key_checking, '^(yes|no|ask)$', "ssh::ssh_strict_host_key_checking may be 'yes', 'no' or 'ask' and is set to <${ssh_strict_host_key_checking}>.")
+  }
+
+  if $ssh_enable_ssh_keysign != undef {
+    validate_re($ssh_enable_ssh_keysign, '^(yes|no)$', "ssh::ssh_enable_ssh_keysign may be either 'yes' or 'no' and is set to <${ssh_enable_ssh_keysign}>.")
+  }
+
   if $sshd_config_authkey_location != undef {
     validate_string($sshd_config_authkey_location)
   }
@@ -526,6 +537,9 @@ class ssh (
 
   if $sshd_config_strictmodes != undef {
     validate_re($sshd_config_strictmodes, '^(yes|no)$', "ssh::sshd_config_strictmodes may be either 'yes' or 'no' and is set to <${sshd_config_strictmodes}>.")
+  }
+  if $ssh_hostbasedauthentication != undef {
+    validate_re($ssh_hostbasedauthentication, '^(yes|no)$', "ssh::ssh_hostbasedauthentication may be either 'yes' or 'no' and is set to <${ssh_hostbasedauthentication}>.")
   }
 
   validate_re($sshd_hostbasedauthentication, '^(yes|no)$', "ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to <${sshd_hostbasedauthentication}>.")
