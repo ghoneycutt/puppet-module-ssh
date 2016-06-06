@@ -17,6 +17,8 @@
 Port 22
 #Protocol 2,1
 Protocol 2
+#AddressFamily any
+AddressFamily any
 
 # HostKey for protocol version 1
 #HostKey /etc/ssh/ssh_host_key
@@ -28,7 +30,7 @@ HostKey /etc/ssh/ssh_host_rsa_key
 # Lifetime and size of ephemeral version 1 server key
 #KeyRegenerationInterval 1h
 #ServerKeyBits 1024
-ServerKeyBits 768
+ServerKeyBits 1024
 # Logging
 # obsoletes QuietMode and FascistLogging
 #SyslogFacility AUTH
@@ -65,12 +67,6 @@ IgnoreRhosts yes
 # To disable tunneled clear text passwords, change to no here!
 #PasswordAuthentication yes
 PasswordAuthentication yes
-# Use PAM via keyboard interactive method for authentication.
-# Depending on the setup of pam.conf(4) this may allow tunneled clear text
-# passwords even when PasswordAuthentication is set to no. This is dependent
-# on what the individual modules request and is out of the control of sshd
-# or the protocol.
-PAMAuthenticationViaKBDInt yes
 #PermitEmptyPasswords no
 
 # Change to no to disable s/key passwords
@@ -85,9 +81,24 @@ ChallengeResponseAuthentication yes
 # GSSAPI options
 #GSSAPIAuthentication no
 GSSAPIAuthentication yes
-GSSAPIKeyExchange yes
+#GSSAPICleanupCredentials yes
+GSSAPICleanupCredentials yes
 
+# Set this to 'yes' to enable PAM authentication, account processing,
+# and session processing. If this is enabled, PAM authentication will
+# be allowed through the ChallengeResponseAuthentication mechanism.
+# Depending on your PAM configuration, this may bypass the setting of
+# PasswordAuthentication, PermitEmptyPasswords, and
+# "PermitRootLogin without-password". If you just want the PAM account and
+# session checks to run without PAM authentication, then enable this but set
+# ChallengeResponseAuthentication=no
+#UsePAM no
+UsePAM yes
 
+# Accept locale-related environment variables
+AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+AcceptEnv LC_IDENTIFICATION LC_ALL
 #AllowTcpForwarding yes
 AllowTcpForwarding yes
 #GatewayPorts no
@@ -107,6 +118,8 @@ PrintMotd yes
 ClientAliveInterval 0
 ClientAliveCountMax 3
 #ShowPatchLevel no
+#UseDNS yes
+UseDNS yes
 #PidFile /var/run/sshd.pid
 #MaxStartups 10:30:100
 #MaxSessions 10
@@ -119,7 +132,7 @@ ClientAliveCountMax 3
 Banner none
 
 #XAuthLocation /usr/bin/xauth
-XAuthLocation /usr/openwin/bin/xauth
+XAuthLocation /usr/bin/xauth
 
 # override default of no subsystems
 Subsystem sftp /usr/lib/ssh/sftp-server

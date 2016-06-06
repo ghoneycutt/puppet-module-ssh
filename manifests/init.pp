@@ -83,7 +83,7 @@ class ssh (
   $sshd_ignoreuserknownhosts           = 'no',
   $sshd_ignorerhosts                   = 'yes',
   $manage_service                      = true,
-  $sshd_addressfamily                  = 'any',
+  $sshd_addressfamily                  = 'USE_DEFAULTS',
   $service_ensure                      = 'running',
   $service_name                        = 'USE_DEFAULTS',
   $service_enable                      = true,
@@ -123,6 +123,7 @@ class ssh (
       $default_service_hasstatus               = true
       $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
+      $default_sshd_addressfamily              = 'any'
     }
     'Suse': {
       $default_packages                        = 'openssh'
@@ -143,6 +144,7 @@ class ssh (
       $default_service_hasstatus               = true
       $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
+      $default_sshd_addressfamily              = 'any'
       case $::architecture {
         'x86_64': {
           if ($::operatingsystem == 'SLES') and ($::operatingsystemrelease =~ /^12\./) {
@@ -180,6 +182,7 @@ class ssh (
       $default_service_hasstatus               = true
       $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
+      $default_sshd_addressfamily              = 'any'
     }
     'Solaris': {
       $default_ssh_config_hash_known_hosts     = undef
@@ -197,6 +200,7 @@ class ssh (
       $default_sshd_config_serverkeybits       = '768'
       $default_ssh_package_adminfile           = undef
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
+      $default_sshd_addressfamily              = undef
       case $::kernelrelease {
         '5.11': {
           $default_packages                      = ['network/ssh',
@@ -423,6 +427,12 @@ class ssh (
         fail('ssh::service_hasstatus must be true or false.')
       }
     }
+  }
+
+  if $sshd_addressfamily == 'USE_DEFAULTS' {
+    $sshd_addressfamily_real = $default_sshd_addressfamily
+  } else {
+    $sshd_addressfamily_real = $sshd_addressfamily
   }
 
   # validate params
@@ -809,8 +819,12 @@ class ssh (
     create_resources('ssh_authorized_key', $keys_real)
   }
 
-  if $sshd_addressfamily != undef {
-    validate_re($sshd_addressfamily, '^(any|inet|inet6)$',
-      "ssh::sshd_addressfamily can be undef, 'any', 'inet' or 'inet6' and is set to ${sshd_addressfamily}.")
+  if $sshd_addressfamily_real != undef {
+    if $::osfamily == 'Solaris' {
+      fail("ssh::sshd_addressfamily is not supported on Solaris and is set to <${sshd_addressfamily}>.")
+    } else {
+      validate_re($sshd_addressfamily_real, '^(any|inet|inet6)$',
+        "ssh::sshd_addressfamily can be undef, 'any', 'inet' or 'inet6' and is set to ${sshd_addressfamily_real}.")
+    }
   }
 }
