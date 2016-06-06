@@ -74,6 +74,7 @@ describe 'ssh' do
     'Suse-10-x86_64' => {
       :architecture           => 'x86_64',
       :osfamily               => 'Suse',
+      :operatingsystem        => 'SLED',
       :operatingsystemrelease => '10.4',
       :ssh_version            => 'OpenSSH_5.1p1',
       :ssh_version_numeric    => '5.1',
@@ -100,6 +101,7 @@ describe 'ssh' do
     'Suse-11-x86_64' => {
       :architecture           => 'x86_64',
       :osfamily               => 'Suse',
+      :operatingsystem        => 'SLED',
       :operatingsystemrelease => '11.4',
       :ssh_version            => 'OpenSSH_6.6.1p1',
       :ssh_version_numeric    => '6.6',
@@ -126,6 +128,7 @@ describe 'ssh' do
     'Suse-12-x86_64' => {
       :architecture           => 'x86_64',
       :osfamily               => 'Suse',
+      :operatingsystem        => 'SLED',
       :operatingsystemrelease => '12.0',
       :ssh_version            => 'OpenSSH_6.6.1p1',
       :ssh_version_numeric    => '6.6',
@@ -316,6 +319,9 @@ describe 'ssh' do
                                                  'hmac-sha1-etm@openssh.com',
         ],
         :ssh_config_global_known_hosts_file => '/etc/ssh/ssh_known_hosts2',
+        :ssh_hostbasedauthentication        => 'yes',
+        :ssh_strict_host_key_checking       => 'ask',
+        :ssh_enable_ssh_keysign             => 'yes',
       }
     end
 
@@ -345,6 +351,9 @@ describe 'ssh' do
     it { should contain_file('ssh_config').with_content(/^\s*Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc$/) }
     it { should contain_file('ssh_config').with_content(/^\s*MACs hmac-md5-etm@openssh.com,hmac-sha1-etm@openssh.com$/) }
     it { should contain_file('ssh_config').with_content(/^\s*GlobalKnownHostsFile \/etc\/ssh\/ssh_known_hosts2$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*HostbasedAuthentication yes$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*StrictHostKeyChecking ask$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*EnableSSHKeysign yes$/) }
   end
 
   context 'with params used in sshd_config set on valid osfamily' do
@@ -1466,6 +1475,7 @@ describe 'ssh' do
         default_facts.merge(
           {
             :osfamily          => 'Suse',
+            :operatingsystem   => 'SLED',
             :fqdn              => 'notinhiera.example.com',
             :lsbmajdistrelease => '11',
             :architecture      => 'x86_64',
@@ -1732,6 +1742,111 @@ describe 'ssh' do
           expect {
             should contain_class('ssh')
           }.to raise_error(Puppet::Error,/ssh::ssh_gssapiauthentication may be either 'yes' or 'no' and is set to <#{Regexp.escape(value.to_s)}>\./)
+        end
+      end
+    end
+  end
+
+  describe 'with parameter ssh_hostbasedauthentication' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    ['yes','no'].each do |value|
+      context "specified as valid #{value} (as #{value.class})" do
+        let(:params) { { :ssh_hostbasedauthentication => value } }
+
+        it { should contain_file('ssh_config').with_content(/^\s*HostbasedAuthentication #{value}$/) }
+      end
+    end
+
+    ['YES',true,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "specified as invalid value #{value} (as #{value.class})" do
+        let(:params) { { :ssh_hostbasedauthentication => value } }
+
+        if value.is_a?(Array)
+          value = value.join
+        elsif value.is_a?(Hash)
+          value = '{ha => sh}'
+        end
+
+        it 'should fail' do
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::ssh_hostbasedauthentication may be either 'yes' or 'no' and is set to <#{Regexp.escape(value.to_s)}>\./)
+        end
+      end
+    end
+  end
+
+  describe 'with parameter ssh_strict_host_key_checking' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    ['yes','no', 'ask'].each do |value|
+      context "specified as valid #{value} (as #{value.class})" do
+        let(:params) { { :ssh_strict_host_key_checking => value } }
+
+        it { should contain_file('ssh_config').with_content(/^\s*StrictHostKeyChecking #{value}$/) }
+      end
+    end
+
+    ['YES',true,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "specified as invalid value #{value} (as #{value.class})" do
+        let(:params) { { :ssh_strict_host_key_checking => value } }
+
+        if value.is_a?(Array)
+          value = value.join
+        elsif value.is_a?(Hash)
+          value = '{ha => sh}'
+        end
+
+        it 'should fail' do
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::ssh_strict_host_key_checking may be 'yes', 'no' or 'ask' and is set to <#{Regexp.escape(value.to_s)}>\./)
+        end
+      end
+    end
+  end
+
+  describe 'with parameter ssh_enable_ssh_keysign' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    ['yes','no'].each do |value|
+      context "specified as valid #{value} (as #{value.class})" do
+        let(:params) { { :ssh_enable_ssh_keysign => value } }
+
+        it { should contain_file('ssh_config').with_content(/^\s*EnableSSHKeysign #{value}$/) }
+      end
+    end
+
+    ['YES',true,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "specified as invalid value #{value} (as #{value.class})" do
+        let(:params) { { :ssh_enable_ssh_keysign => value } }
+
+        if value.is_a?(Array)
+          value = value.join
+        elsif value.is_a?(Hash)
+          value = '{ha => sh}'
+        end
+
+        it 'should fail' do
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::ssh_enable_ssh_keysign may be either 'yes' or 'no' and is set to <#{Regexp.escape(value.to_s)}>\./)
         end
       end
     end
