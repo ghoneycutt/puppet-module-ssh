@@ -771,10 +771,12 @@ class ssh (
   }
 
   # export each node's ssh key
-  @@sshkey { $::fqdn :
-    ensure => $ssh_key_ensure,
-    type   => $ssh_key_type,
-    key    => $key,
+  if is_string($key) {
+    @@sshkey { $::fqdn :
+      ensure => $ssh_key_ensure,
+      type   => $ssh_key_type,
+      key    => $key,
+    }
   }
 
   file { 'ssh_known_hosts':
