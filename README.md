@@ -596,7 +596,7 @@ Import all exported node SSH keys. Valid values are 'true' and 'false'.
 
 ssh_key_type
 ------------
-Encryption type for SSH key. Valid values are 'rsa', 'dsa', 'ssh-dss' and 'ssh-rsa'
+Encryption type for SSH key. Valid values are 'ecdsa-sha2-nistp256', 'rsa', 'dsa', 'ssh-dss' and 'ssh-rsa'
 
 - *Default*: 'ssh-rsa'
 
