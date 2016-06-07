@@ -4,6 +4,8 @@ describe 'ssh' do
 
   default_facts = {
     :fqdn                   => 'monkey.example.com',
+    :hostname               => 'monkey',
+    :ipaddress              => '127.0.0.1',
     :osfamily               => 'RedHat',
     :ssh_version            => 'OpenSSH_6.6p1',
     :ssh_version_numeric    => '6.6',
@@ -12,6 +14,8 @@ describe 'ssh' do
 
   default_solaris_facts = {
     :fqdn                   => 'monkey.example.com',
+    :hostname               => 'monkey',
+    :ipaddress              => '127.0.0.1',
     :osfamily               => 'Solaris',
     :ssh_version            => 'Sun_SSH_2.2',
     :ssh_version_numeric    => '2.2',
@@ -188,6 +192,8 @@ describe 'ssh' do
         facts.merge(
           {
             :fqdn       => 'monkey.example.com',
+            :hostname   => 'monkey',
+            :ipaddress  => '127.0.0.1',
             :sshrsakey  => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==',
           }
         )
