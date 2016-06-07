@@ -68,6 +68,7 @@ MaxAuthTries <%= @sshd_config_maxauthtries %>
 
 #RSAAuthentication yes
 #PubkeyAuthentication yes
+PubkeyAuthentication <%= @sshd_pubkeyauthentication %>
 #AuthorizedKeysFile .ssh/authorized_keys
 <% if @sshd_config_authkey_location -%>
 AuthorizedKeysFile <%= @sshd_config_authkey_location %>

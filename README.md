@@ -556,6 +556,12 @@ String for HostbasedAuthentication option in sshd_config. Valid values are 'yes'
 
 - *Default*: 'no'
 
+sshd_pubkeyauthentication
+-------------------------
+String for PubkeyAuthentication option in sshd_config. Valid values are 'yes' and 'no'.
+
+- *Default*: 'yes'
+
 sshd_ignoreuserknownhosts
 -------------------------
 String for IgnoreUserKnownHosts option in sshd_config. Valid values are 'yes' and 'no'. Specifies whether sshd(8) should ignore the user's ~/.ssh/known_hosts during RhostsRSAAuthentication or HostbasedAuthentication.

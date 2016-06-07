@@ -391,6 +391,7 @@ describe 'ssh' do
         :sshd_config_subsystem_sftp        => '/opt/ssh/bin/sftp',
         :sshd_kerberos_authentication      => 'no',
         :sshd_password_authentication      => 'no',
+        :sshd_pubkeyauthentication         => 'no',
         :sshd_allow_tcp_forwarding         => 'no',
         :sshd_x11_forwarding               => 'no',
         :sshd_use_pam                      => 'no',
@@ -478,6 +479,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^AuthorizedKeysCommand \/path\/to\/command$/) }
     it { should contain_file('sshd_config').with_content(/^AuthorizedKeysCommandUser asdf$/) }
     it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^PubkeyAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
     it { should contain_file('sshd_config').with_content(/^ChrootDirectory \/chrootdir$/) }
@@ -2463,6 +2465,38 @@ describe 'ssh' do
           expect {
             should contain_class('ssh')
           }.to raise_error(Puppet::Error,/ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to/)
+        end
+      end
+    end
+  end
+
+  describe 'with parameter sshd_pubkeyauthentication' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    ['yes','no'].each do |value|
+      context "specified as valid #{value} (as #{value.class})" do
+        let(:params) { { :sshd_pubkeyauthentication => value } }
+
+        it { should contain_file('sshd_config').with_content(/^PubkeyAuthentication #{value}$/) }
+      end
+    end
+
+    ['YES',true,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "specified as invalid value #{value} (as #{value.class})" do
+        let(:params) { { :sshd_pubkeyauthentication => value } }
+        if value.is_a?(Array)
+          value = value.join
+        end
+
+        it do
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::sshd_pubkeyauthentication may be either 'yes' or 'no' and is set to/)
         end
       end
     end
