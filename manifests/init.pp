@@ -81,6 +81,7 @@ class ssh (
   $sshd_config_hostkey                 = 'USE_DEFAULTS',
   $sshd_listen_address                 = undef,
   $sshd_hostbasedauthentication        = 'no',
+  $sshd_pubkeyauthentication           = 'yes',
   $sshd_ignoreuserknownhosts           = 'no',
   $sshd_ignorerhosts                   = 'yes',
   $manage_service                      = true,
@@ -561,6 +562,8 @@ class ssh (
 
   validate_re($sshd_hostbasedauthentication, '^(yes|no)$', "ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to <${sshd_hostbasedauthentication}>.")
 
+  validate_re($sshd_pubkeyauthentication, '^(yes|no)$', "ssh::sshd_pubkeyauthentication may be either 'yes' or 'no' and is set to <${sshd_pubkeyauthentication}>.")
+
   validate_re($sshd_ignoreuserknownhosts, '^(yes|no)$', "ssh::sshd_ignoreuserknownhosts may be either 'yes' or 'no' and is set to <${sshd_ignoreuserknownhosts}>.")
 
   validate_re($sshd_ignorerhosts, '^(yes|no)$', "ssh::sshd_ignorerhosts may be either 'yes' or 'no' and is set to <${sshd_ignorerhosts}>.")
@@ -620,8 +623,11 @@ class ssh (
     'ssh-dsa','dsa': {
       $key = $::sshdsakey
     }
+    'ecdsa-sha2-nistp256': {
+          $key = $::sshecdsakey
+    }
     default: {
-      fail("ssh::ssh_key_type must be 'ssh-rsa', 'rsa', 'ssh-dsa', or 'dsa' and is <${ssh_key_type}>.")
+      fail("ssh::ssh_key_type must be 'ecdsa-sha2-nistp256', 'ssh-rsa', 'rsa', 'ssh-dsa', or 'dsa' and is <${ssh_key_type}>.")
     }
   }
 
@@ -789,9 +795,10 @@ class ssh (
 
   # export each node's ssh key
   @@sshkey { $::fqdn :
-    ensure => $ssh_key_ensure,
-    type   => $ssh_key_type,
-    key    => $key,
+    ensure       => $ssh_key_ensure,
+    host_aliases => [$::hostname, $::ipaddress],
+    type         => $ssh_key_type,
+    key          => $key,
   }
 
   file { 'ssh_known_hosts':
