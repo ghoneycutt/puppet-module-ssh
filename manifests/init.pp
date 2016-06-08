@@ -20,6 +20,8 @@ class ssh (
   $ssh_config_forward_agent            = undef,
   $ssh_config_server_alive_interval    = undef,
   $ssh_config_sendenv_xmodifiers       = false,
+  $ssh_hostbasedauthentication         = undef,
+  $ssh_strict_host_key_checking        = undef,
   $ssh_config_ciphers                  = undef,
   $ssh_config_macs                     = undef,
   $ssh_config_use_roaming              = 'USE_DEFAULTS',
@@ -45,10 +47,12 @@ class ssh (
   $sshd_config_banner                  = 'none',
   $sshd_config_ciphers                 = undef,
   $sshd_config_macs                    = undef,
+  $ssh_enable_ssh_keysign              = undef,
   $sshd_config_allowgroups             = [],
   $sshd_config_allowusers              = [],
   $sshd_config_denygroups              = [],
   $sshd_config_denyusers               = [],
+  $sshd_config_maxauthtries            = undef,
   $sshd_config_maxstartups             = undef,
   $sshd_config_maxsessions             = undef,
   $sshd_config_chrootdirectory         = undef,
@@ -81,7 +85,7 @@ class ssh (
   $sshd_ignoreuserknownhosts           = 'no',
   $sshd_ignorerhosts                   = 'yes',
   $manage_service                      = true,
-  $sshd_addressfamily                  = 'any',
+  $sshd_addressfamily                  = 'USE_DEFAULTS',
   $service_ensure                      = 'running',
   $service_name                        = 'USE_DEFAULTS',
   $service_enable                      = true,
@@ -121,6 +125,7 @@ class ssh (
       $default_service_hasstatus               = true
       $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
+      $default_sshd_addressfamily              = 'any'
     }
     'Suse': {
       $default_packages                        = 'openssh'
@@ -141,6 +146,7 @@ class ssh (
       $default_service_hasstatus               = true
       $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
+      $default_sshd_addressfamily              = 'any'
       case $::architecture {
         'x86_64': {
           if ($::operatingsystem == 'SLES') and ($::operatingsystemrelease =~ /^12\./) {
@@ -178,6 +184,7 @@ class ssh (
       $default_service_hasstatus               = true
       $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
+      $default_sshd_addressfamily              = 'any'
     }
     'Solaris': {
       $default_ssh_config_hash_known_hosts     = undef
@@ -195,6 +202,7 @@ class ssh (
       $default_sshd_config_serverkeybits       = '768'
       $default_ssh_package_adminfile           = undef
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
+      $default_sshd_addressfamily              = undef
       case $::kernelrelease {
         '5.11': {
           $default_packages                      = ['network/ssh',
@@ -423,6 +431,12 @@ class ssh (
     }
   }
 
+  if $sshd_addressfamily == 'USE_DEFAULTS' {
+    $sshd_addressfamily_real = $default_sshd_addressfamily
+  } else {
+    $sshd_addressfamily_real = $sshd_addressfamily
+  }
+
   # validate params
   if $ssh_config_ciphers != undef {
     validate_array($ssh_config_ciphers)
@@ -493,8 +507,22 @@ class ssh (
     validate_re($sshd_gssapicleanupcredentials_real, '^(yes|no)$', "ssh::sshd_gssapicleanupcredentials may be either 'yes' or 'no' and is set to <${sshd_gssapicleanupcredentials_real}>.")
   }
 
+  if $ssh_strict_host_key_checking != undef {
+    validate_re($ssh_strict_host_key_checking, '^(yes|no|ask)$', "ssh::ssh_strict_host_key_checking may be 'yes', 'no' or 'ask' and is set to <${ssh_strict_host_key_checking}>.")
+  }
+
+  if $ssh_enable_ssh_keysign != undef {
+    validate_re($ssh_enable_ssh_keysign, '^(yes|no)$', "ssh::ssh_enable_ssh_keysign may be either 'yes' or 'no' and is set to <${ssh_enable_ssh_keysign}>.")
+  }
+
   if $sshd_config_authkey_location != undef {
     validate_string($sshd_config_authkey_location)
+  }
+
+  if $sshd_config_maxauthtries != undef {
+    if is_integer($sshd_config_maxauthtries) == false {
+      fail("ssh::sshd_config_maxauthtries must be a valid number and is set to <${sshd_config_maxauthtries}>.")
+    }
   }
 
   if $sshd_config_maxstartups != undef {
@@ -531,6 +559,9 @@ class ssh (
 
   if $sshd_config_strictmodes != undef {
     validate_re($sshd_config_strictmodes, '^(yes|no)$', "ssh::sshd_config_strictmodes may be either 'yes' or 'no' and is set to <${sshd_config_strictmodes}>.")
+  }
+  if $ssh_hostbasedauthentication != undef {
+    validate_re($ssh_hostbasedauthentication, '^(yes|no)$', "ssh::ssh_hostbasedauthentication may be either 'yes' or 'no' and is set to <${ssh_hostbasedauthentication}>.")
   }
 
   validate_re($sshd_hostbasedauthentication, '^(yes|no)$', "ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to <${sshd_hostbasedauthentication}>.")
@@ -800,8 +831,12 @@ class ssh (
     create_resources('ssh_authorized_key', $keys_real)
   }
 
-  if $sshd_addressfamily != undef {
-    validate_re($sshd_addressfamily, '^(any|inet|inet6)$',
-      "ssh::sshd_addressfamily can be undef, 'any', 'inet' or 'inet6' and is set to ${sshd_addressfamily}.")
+  if $sshd_addressfamily_real != undef {
+    if $::osfamily == 'Solaris' {
+      fail("ssh::sshd_addressfamily is not supported on Solaris and is set to <${sshd_addressfamily}>.")
+    } else {
+      validate_re($sshd_addressfamily_real, '^(any|inet|inet6)$',
+        "ssh::sshd_addressfamily can be undef, 'any', 'inet' or 'inet6' and is set to ${sshd_addressfamily_real}.")
+    }
   }
 }

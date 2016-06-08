@@ -150,6 +150,28 @@ in ssh_config.
 
 - *Default*: undef
 
+ssh_hostbasedauthentication
+-------------------------
+String for HostbasedAuthentication option in ssh_config. Valid values are 'yes' and 'no'.
+
+- *Default*: undef
+
+
+ssh_strict_host_key_checking
+-----------------------------
+*string* For StrictHostKeyChecking setting in ssh_config. Valid values are
+'yes', 'no' or 'ask'.
+
+- *Default*: undef
+
+ssh_enable_ssh_keysign
+-----------------------------
+*string* For EnableSSHKeysign setting in ssh_config. Valid values are
+'yes' and 'no' or to leave undef which will ensure the setting is not present
+in ssh_config.
+
+- *Default*: undef
+
 sshd_addressfamily
 ----------------
 Specifies the value of the AddressFamily setting in sshd_config. Valid values are 'any', 'inet' (IPv4 only), 'inet6' (IPv6 only) and undef. A value of undef will ensure that AddressFamily is not in the configuration.
@@ -181,6 +203,12 @@ LogLevel option in sshd_config. Acceptable values are QUIET, FATAL, ERROR, INFO,
 *DEBUG, DEBUG1, DEBUG2, and DEBUG3* are permitted values for sshd, however [setting the logging level to DEBUG or higher violates the privacy of users](http://www.openbsd.org/cgi-bin/man.cgi/OpenBSD-current/man5/sshd_config.5?query=sshd_config) and should not be done unless manually debugging.
 
 - *Default*: 'INFO'
+
+sshd_config_maxauthtries
+---------------
+MaxAuthTries option in sshd_config.  Specifies the maximum number of authentication attempts permitted per connection.  Once the number of failures reaches half this value, additional failures are logged.
+
+- *Default*: '6'
 
 sshd_config_mode
 ---------------
