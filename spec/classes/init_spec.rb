@@ -398,6 +398,8 @@ describe 'ssh' do
         :sshd_config_subsystem_sftp        => '/opt/ssh/bin/sftp',
         :sshd_kerberos_authentication      => 'no',
         :sshd_password_authentication      => 'no',
+        :sshd_config_permitemptypasswords  => 'no',
+        :sshd_config_permituserenvironment => 'no',
         :sshd_pubkeyauthentication         => 'no',
         :sshd_allow_tcp_forwarding         => 'no',
         :sshd_x11_forwarding               => 'no',
@@ -480,6 +482,8 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key/) }
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_dsa_key/) }
     it { should contain_file('sshd_config').with_content(/^StrictModes yes$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitUserEnvironment no/) }
+    it { should contain_file('sshd_config').with_content(/^PermitEmptyPasswords no/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxAuthTries/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
@@ -973,6 +977,64 @@ describe 'ssh' do
         expect {
           should contain_class('ssh')
         }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
+  describe 'with sshd_config_permitemptypasswords' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    ['yes','no'].each do |value|
+      context "set to #{value}" do
+        let (:params) {{ 'sshd_config_permitemptypasswords' => value }}
+
+        it { should contain_file('sshd_config').with_content(/^PermitEmptyPasswords #{value}$/) }
+      end
+    end
+
+    context 'set to invalid value on valid osfamily' do
+      let :params do
+        { :sshd_config_permitemptypasswords => 'invalid' }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_permitemptypasswords may be either \'yes\' or \'no\' and is set to <invalid>\./)
+      end
+    end
+  end
+
+  describe 'with sshd_config_permituserenvironment' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    ['yes','no'].each do |value|
+      context "set to #{value}" do
+        let (:params) {{ 'sshd_config_permituserenvironment' => value }}
+
+        it { should contain_file('sshd_config').with_content(/^PermitUserEnvironment #{value}$/) }
+      end
+    end
+
+    context 'set to invalid value on valid osfamily' do
+      let :params do
+        { :sshd_config_permituserenvironment => 'invalid' }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_permituserenvironment may be either \'yes\' or \'no\' and is set to <invalid>\./)
       end
     end
   end

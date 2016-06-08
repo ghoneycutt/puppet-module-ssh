@@ -222,6 +222,21 @@ String or Array to specify address(es) for which sshd will bind. Corresponds to 
 
 - *Default*: undef
 
+sshd_config_permitemptypasswords
+--------------------------------
+PermitEmptyPasswords option in sshd_config.  When password authentication is allowed, it specifies whether the server allows login to accounts with empty password strings.
+Valid values are 'yes' and 'no'.
+
+- *Default*: undef
+
+sshd_config_permituserenvironment
+---------------------------------
+PermitUserEnvironment option in sshd_config.  Specifies whether ~/.ssh/environment and environment= options in ~/.ssh/authorized_keys are processed by sshd(8).  The default is “no”.  Enabling environment processing may enable users to bypass access restrictions in some configurations using mechanisms such as LD_PRELOAD.
+Valid values are 'yes' and 'no'.
+
+
+- *Default*: undef
+
 sshd_config_port
 ---------------------------
 String, Integer or Array to specify listen port[s] for sshd. Port option in sshd_config.

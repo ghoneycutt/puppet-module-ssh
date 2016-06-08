@@ -34,6 +34,8 @@ class ssh (
   $sshd_config_group                   = 'root',
   $sshd_config_loglevel                = 'INFO',
   $sshd_config_mode                    = 'USE_DEFAULTS',
+  $sshd_config_permitemptypasswords    = undef,
+  $sshd_config_permituserenvironment   = undef,
   $sshd_config_port                    = '22',
   $sshd_config_syslog_facility         = 'AUTH',
   $sshd_config_template                = 'ssh/sshd_config.erb',
@@ -458,6 +460,12 @@ class ssh (
 
   if $ssh_config_hash_known_hosts_real != undef {
     validate_re($ssh_config_hash_known_hosts_real, '^(yes|no)$', "ssh::ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts_real}>.")
+  }
+  if $sshd_config_permitemptypasswords != undef {
+    validate_re($sshd_config_permitemptypasswords, '^(yes|no)$', "ssh::sshd_config_permitemptypasswords may be either 'yes' or 'no' and is set to <${sshd_config_permitemptypasswords}>.")
+  }
+  if $sshd_config_permituserenvironment != undef {
+    validate_re($sshd_config_permituserenvironment, '^(yes|no)$', "ssh::sshd_config_permituserenvironment may be either 'yes' or 'no' and is set to <${sshd_config_permituserenvironment}>.")
   }
   case type3x($sshd_config_port) {
     'string': {

@@ -107,6 +107,9 @@ PasswordAuthentication <%= @sshd_password_authentication %>
 PAMAuthenticationViaKBDInt <%= @sshd_pamauthenticationviakbdint_real %>
 <% end -%>
 #PermitEmptyPasswords no
+<% if @sshd_config_permitemptypasswords != nil -%>
+PermitEmptyPasswords <%= @sshd_config_permitemptypasswords %>
+<% end -%>
 
 # Change to no to disable s/key passwords
 #ChallengeResponseAuthentication yes
@@ -165,6 +168,9 @@ PrintMotd <%= @sshd_config_print_motd %>
 #UseLogin no
 #UsePrivilegeSeparation yes
 #PermitUserEnvironment no
+<% if @sshd_config_permituserenvironment != nil -%>
+PermitUserEnvironment <%= @sshd_config_permituserenvironment %>
+<% end -%>
 #Compression delayed
 #ClientAliveInterval 0
 ClientAliveInterval <%= @sshd_client_alive_interval %>
