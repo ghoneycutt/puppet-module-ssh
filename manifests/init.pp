@@ -35,6 +35,7 @@ class ssh (
   $sshd_config_loglevel                = 'INFO',
   $sshd_config_mode                    = 'USE_DEFAULTS',
   $sshd_config_port                    = '22',
+  $sshd_config_ports                   = undef,
   $sshd_config_syslog_facility         = 'AUTH',
   $sshd_config_template                = 'ssh/sshd_config.erb',
   $sshd_config_login_grace_time        = '120',
@@ -457,7 +458,10 @@ class ssh (
   if $ssh_config_hash_known_hosts_real != undef {
     validate_re($ssh_config_hash_known_hosts_real, '^(yes|no)$', "ssh::ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts_real}>.")
   }
-  validate_re($sshd_config_port, '^\d+$', "ssh::sshd_config_port must be a valid number and is set to <${sshd_config_port}>.")
+  validate_integer($sshd_config_port)
+  if $sshd_config_ports {
+    validate_array($sshd_config_ports)
+  }
   if $sshd_kerberos_authentication != undef {
     validate_re($sshd_kerberos_authentication, '^(yes|no)$', "ssh::sshd_kerberos_authentication may be either 'yes' or 'no' and is set to <${sshd_kerberos_authentication}>.")
   }
