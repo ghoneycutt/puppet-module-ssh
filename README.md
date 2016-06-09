@@ -224,7 +224,7 @@ String or Array to specify address(es) for which sshd will bind. Corresponds to 
 
 sshd_config_port
 ---------------------------
-String to specify listen port for sshd. Port option in sshd_config.
+String, Integer or Array to specify listen port[s] for sshd. Port option in sshd_config.
 
 - *Default*: '22'
 
