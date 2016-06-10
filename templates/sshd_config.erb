@@ -14,7 +14,9 @@
 # default value.
 
 #Port 22
-Port <%= @sshd_config_port %>
+<% @sshd_config_port_array.each do |p| -%>
+<%= "Port #{p}" %>
+<% end -%>
 #Protocol 2,1
 Protocol 2
 <% if @sshd_addressfamily_real != nil -%>
@@ -68,6 +70,7 @@ MaxAuthTries <%= @sshd_config_maxauthtries %>
 
 #RSAAuthentication yes
 #PubkeyAuthentication yes
+PubkeyAuthentication <%= @sshd_pubkeyauthentication %>
 #AuthorizedKeysFile .ssh/authorized_keys
 <% if @sshd_config_authkey_location -%>
 AuthorizedKeysFile <%= @sshd_config_authkey_location %>

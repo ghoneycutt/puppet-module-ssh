@@ -4,6 +4,8 @@ describe 'ssh' do
 
   default_facts = {
     :fqdn                   => 'monkey.example.com',
+    :hostname               => 'monkey',
+    :ipaddress              => '127.0.0.1',
     :osfamily               => 'RedHat',
     :ssh_version            => 'OpenSSH_6.6p1',
     :ssh_version_numeric    => '6.6',
@@ -12,6 +14,8 @@ describe 'ssh' do
 
   default_solaris_facts = {
     :fqdn                   => 'monkey.example.com',
+    :hostname               => 'monkey',
+    :ipaddress              => '127.0.0.1',
     :osfamily               => 'Solaris',
     :ssh_version            => 'Sun_SSH_2.2',
     :ssh_version_numeric    => '2.2',
@@ -188,6 +192,8 @@ describe 'ssh' do
         facts.merge(
           {
             :fqdn       => 'monkey.example.com',
+            :hostname   => 'monkey',
+            :ipaddress  => '127.0.0.1',
             :sshrsakey  => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==',
           }
         )
@@ -385,6 +391,7 @@ describe 'ssh' do
         :sshd_config_subsystem_sftp        => '/opt/ssh/bin/sftp',
         :sshd_kerberos_authentication      => 'no',
         :sshd_password_authentication      => 'no',
+        :sshd_pubkeyauthentication         => 'no',
         :sshd_allow_tcp_forwarding         => 'no',
         :sshd_x11_forwarding               => 'no',
         :sshd_use_pam                      => 'no',
@@ -473,6 +480,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^AuthorizedKeysCommand \/path\/to\/command$/) }
     it { should contain_file('sshd_config').with_content(/^AuthorizedKeysCommandUser asdf$/) }
     it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^PubkeyAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
     it { should contain_file('sshd_config').with_content(/^ChrootDirectory \/chrootdir$/) }
@@ -963,21 +971,40 @@ describe 'ssh' do
     end
   end
 
-  context 'with sshd_config_port not being a valid number' do
+  describe 'sshd_config_port param' do
     let :facts do
       default_facts.merge(
         {
         }
       )
     end
-    let :params do
-      { :sshd_config_port => '22invalid' }
+
+    context 'when set to an array' do
+      let (:params) {{'sshd_config_port' => ['22222', '22223'] }}
+
+      it { should contain_file('sshd_config').with_content(/^Port 22222\nPort 22223$/) }
     end
 
-    it 'should fail' do
-      expect {
-        should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/ssh::sshd_config_port must be a valid number and is set to <22invalid>\./)
+    context 'when set to a string' do
+      let (:params) {{'sshd_config_port' => '22222' }}
+
+      it { should contain_file('sshd_config').with_content(/^Port 22222$/) }
+    end
+
+    context 'when set to an integer' do
+      let (:params) {{'sshd_config_port' => 22222 }}
+
+      it { should contain_file('sshd_config').with_content(/^Port 22222$/) }
+    end
+
+    context 'when not set to a valid number' do
+      let (:params) {{'sshd_config_port' => '22invalid' }}
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_port must be a valid number and is set to <22invalid>\./)
+      end
     end
   end
 
@@ -2458,6 +2485,38 @@ describe 'ssh' do
           expect {
             should contain_class('ssh')
           }.to raise_error(Puppet::Error,/ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to/)
+        end
+      end
+    end
+  end
+
+  describe 'with parameter sshd_pubkeyauthentication' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    ['yes','no'].each do |value|
+      context "specified as valid #{value} (as #{value.class})" do
+        let(:params) { { :sshd_pubkeyauthentication => value } }
+
+        it { should contain_file('sshd_config').with_content(/^PubkeyAuthentication #{value}$/) }
+      end
+    end
+
+    ['YES',true,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "specified as invalid value #{value} (as #{value.class})" do
+        let(:params) { { :sshd_pubkeyauthentication => value } }
+        if value.is_a?(Array)
+          value = value.join
+        end
+
+        it do
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::sshd_pubkeyauthentication may be either 'yes' or 'no' and is set to/)
         end
       end
     end

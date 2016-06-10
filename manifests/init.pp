@@ -82,6 +82,7 @@ class ssh (
   $sshd_config_hostkey                 = 'USE_DEFAULTS',
   $sshd_listen_address                 = undef,
   $sshd_hostbasedauthentication        = 'no',
+  $sshd_pubkeyauthentication           = 'yes',
   $sshd_ignoreuserknownhosts           = 'no',
   $sshd_ignorerhosts                   = 'yes',
   $manage_service                      = true,
@@ -461,7 +462,22 @@ class ssh (
   if $ssh_config_hash_known_hosts_real != undef {
     validate_re($ssh_config_hash_known_hosts_real, '^(yes|no)$', "ssh::ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts_real}>.")
   }
-  validate_re($sshd_config_port, '^\d+$', "ssh::sshd_config_port must be a valid number and is set to <${sshd_config_port}>.")
+  case type3x($sshd_config_port) {
+    'string': {
+      validate_re($sshd_config_port, '^\d+$', "ssh::sshd_config_port must be a valid number and is set to <${sshd_config_port}>.")
+      $sshd_config_port_array = [ str2num($sshd_config_port) ]
+    }
+    'array': {
+      $sshd_config_port_array = $sshd_config_port
+    }
+    'integer': {
+      $sshd_config_port_array = [ $sshd_config_port ]
+    }
+    default: {
+      fail('ssh:sshd_config_port must be a string, an integer or an array. ')
+    }
+  }
+  validate_numeric($sshd_config_port_array, 65535, 1)
   if $sshd_kerberos_authentication != undef {
     validate_re($sshd_kerberos_authentication, '^(yes|no)$', "ssh::sshd_kerberos_authentication may be either 'yes' or 'no' and is set to <${sshd_kerberos_authentication}>.")
   }
@@ -566,6 +582,8 @@ class ssh (
 
   validate_re($sshd_hostbasedauthentication, '^(yes|no)$', "ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to <${sshd_hostbasedauthentication}>.")
 
+  validate_re($sshd_pubkeyauthentication, '^(yes|no)$', "ssh::sshd_pubkeyauthentication may be either 'yes' or 'no' and is set to <${sshd_pubkeyauthentication}>.")
+
   validate_re($sshd_ignoreuserknownhosts, '^(yes|no)$', "ssh::sshd_ignoreuserknownhosts may be either 'yes' or 'no' and is set to <${sshd_ignoreuserknownhosts}>.")
 
   validate_re($sshd_ignorerhosts, '^(yes|no)$', "ssh::sshd_ignorerhosts may be either 'yes' or 'no' and is set to <${sshd_ignorerhosts}>.")
@@ -625,8 +643,11 @@ class ssh (
     'ssh-dsa','dsa': {
       $key = $::sshdsakey
     }
+    'ecdsa-sha2-nistp256': {
+          $key = $::sshecdsakey
+    }
     default: {
-      fail("ssh::ssh_key_type must be 'ssh-rsa', 'rsa', 'ssh-dsa', or 'dsa' and is <${ssh_key_type}>.")
+      fail("ssh::ssh_key_type must be 'ecdsa-sha2-nistp256', 'ssh-rsa', 'rsa', 'ssh-dsa', or 'dsa' and is <${ssh_key_type}>.")
     }
   }
 
@@ -794,9 +815,10 @@ class ssh (
 
   # export each node's ssh key
   @@sshkey { $::fqdn :
-    ensure => $ssh_key_ensure,
-    type   => $ssh_key_type,
-    key    => $key,
+    ensure       => $ssh_key_ensure,
+    host_aliases => [$::hostname, $::ipaddress],
+    type         => $ssh_key_type,
+    key          => $key,
   }
 
   file { 'ssh_known_hosts':
