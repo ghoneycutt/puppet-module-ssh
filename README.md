@@ -658,6 +658,12 @@ File mode of the global known_hosts file
 
 - *Default*: '0644'
 
+ssh_config_user_known_hosts_file
+----------------------------------
+Array of user's known_hosts files
+
+- *Default*: undefined
+
 manage_root_ssh_config
 ----------------------
 Manage SSH config of root. Valid values are 'true' and 'false'.

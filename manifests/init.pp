@@ -98,6 +98,7 @@ class ssh (
   $ssh_config_global_known_hosts_owner = 'root',
   $ssh_config_global_known_hosts_group = 'root',
   $ssh_config_global_known_hosts_mode  = '0644',
+  $ssh_config_user_known_hosts_file    = undef,
   $keys                                = undef,
   $manage_root_ssh_config              = false,
   $root_ssh_config_content             = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
@@ -647,6 +648,11 @@ class ssh (
   }
 
   validate_absolute_path($ssh_config_global_known_hosts_file)
+
+  if $ssh_config_user_known_hosts_file != undef {
+    validate_array($ssh_config_user_known_hosts_file)
+  }
+
   validate_string($ssh_config_global_known_hosts_owner)
   validate_string($ssh_config_global_known_hosts_group)
   validate_re($ssh_config_global_known_hosts_mode, '^[0-7]{4}$',

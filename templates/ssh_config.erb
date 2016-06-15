@@ -100,3 +100,6 @@ GSSAPIDelegateCredentials <%= @ssh_gssapidelegatecredentials %>
 # EnableSSHKeysign no
   EnableSSHKeysign <%= @ssh_enable_ssh_keysign %>
 <% end -%>
+<% if @ssh_config_user_known_hosts_file -%>
+  UserKnownHostsFile <%= @ssh_config_user_known_hosts_file.join(' ') %>
+<% end -%>
