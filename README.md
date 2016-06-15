@@ -640,6 +640,12 @@ File of the global known_hosts file
 
 - *Default*: '/etc/ssh/ssh_known_hosts'
 
+ssh_config_global_known_hosts_list
+----------------------------------
+Array of additional known_hosts files to be added to GlobalKnownHostsFile option together with ssh_config_global_known_hosts_file
+
+- *Default*: undefined
+
 ssh_config_global_known_hosts_owner
 ----------------------------------
 Owner of the global known_hosts file

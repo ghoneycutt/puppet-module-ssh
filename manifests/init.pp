@@ -95,6 +95,7 @@ class ssh (
   $ssh_key_import                      = true,
   $ssh_key_type                        = 'ssh-rsa',
   $ssh_config_global_known_hosts_file  = '/etc/ssh/ssh_known_hosts',
+  $ssh_config_global_known_hosts_list  = undef,
   $ssh_config_global_known_hosts_owner = 'root',
   $ssh_config_global_known_hosts_group = 'root',
   $ssh_config_global_known_hosts_mode  = '0644',
@@ -648,6 +649,15 @@ class ssh (
   }
 
   validate_absolute_path($ssh_config_global_known_hosts_file)
+  $ssh_config_global_known_hosts_file_real = any2array($ssh_config_global_known_hosts_file)
+
+  if $ssh_config_global_known_hosts_list != undef {
+    validate_array($ssh_config_global_known_hosts_list)
+    validate_absolute_path($ssh_config_global_known_hosts_list)
+    $ssh_config_global_known_hosts_list_real = concat($ssh_config_global_known_hosts_file_real, $ssh_config_global_known_hosts_list)
+  } else {
+    $ssh_config_global_known_hosts_list_real = $ssh_config_global_known_hosts_file_real
+  }
 
   if $ssh_config_user_known_hosts_file != undef {
     validate_array($ssh_config_user_known_hosts_file)

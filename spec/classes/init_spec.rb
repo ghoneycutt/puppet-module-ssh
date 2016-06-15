@@ -327,6 +327,9 @@ describe 'ssh' do
                                                  'hmac-sha1-etm@openssh.com',
         ],
         :ssh_config_global_known_hosts_file => '/etc/ssh/ssh_known_hosts2',
+        :ssh_config_global_known_hosts_list => [ '/etc/ssh/ssh_known_hosts3',
+					         '/etc/ssh/ssh_known_hosts4',
+	],
         :ssh_config_user_known_hosts_file   => [ '.ssh/known_hosts1',
                                                  '.ssh/known_hosts2',
         ],
@@ -361,7 +364,7 @@ describe 'ssh' do
     it { should contain_file('ssh_config').with_content(/^  SendEnv XMODIFIERS$/) }
     it { should contain_file('ssh_config').with_content(/^\s*Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc$/) }
     it { should contain_file('ssh_config').with_content(/^\s*MACs hmac-md5-etm@openssh.com,hmac-sha1-etm@openssh.com$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*GlobalKnownHostsFile \/etc\/ssh\/ssh_known_hosts2$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*GlobalKnownHostsFile \/etc\/ssh\/ssh_known_hosts2 \/etc\/ssh\/ssh_known_hosts3 \/etc\/ssh\/ssh_known_hosts4$/) }
     it { should contain_file('ssh_config').with_content(/^\s*UserKnownHostsFile \.ssh\/known_hosts1 \.ssh\/known_hosts2$/) }
     it { should contain_file('ssh_config').with_content(/^\s*HostbasedAuthentication yes$/) }
     it { should contain_file('ssh_config').with_content(/^\s*StrictHostKeyChecking ask$/) }
@@ -2292,6 +2295,47 @@ describe 'ssh' do
         }.to raise_error(Puppet::Error,/is not an absolute path/)
       end
     end
+  end
+
+  describe 'with parameter ssh_config_global_known_hosts_list' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    context 'when set to an array of valid absolute paths' do
+      let (:params) {{'ssh_config_global_known_hosts_list' => ['/valid/path1','/valid/path2'] }}
+
+      it { should contain_file('ssh_config').with_content(/^\s*GlobalKnownHostsFile.*\/valid\/path1 \/valid\/path2$/) }
+    end
+
+    context 'specified as an invalid path' do
+      let(:params) {{ :ssh_config_global_known_hosts_list => ['/valid/path','invalid/path'] }}
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/\"invalid\/path\" is not an absolute path\./)
+      end
+    end
+
+    ['YES',true,2.42,a = { 'ha' => 'sh' }].each do |value|
+       context "specified as invalid value #{value} (as #{value.class})" do
+         let(:params) { { :ssh_config_global_known_hosts_list => value } }
+
+         if value.is_a?(Hash)
+           value = '{ha => sh}'
+         end
+
+         it 'should fail' do
+           expect {
+             should contain_class('ssh')
+           }.to raise_error(Puppet::Error, /is not an Array/)
+         end
+       end
+     end
   end
 
   describe 'with parameter ssh_config_user_known_hosts_file' do
