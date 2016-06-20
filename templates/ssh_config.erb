@@ -57,8 +57,8 @@
 <% if @ssh_config_hash_known_hosts_real != nil -%>
    HashKnownHosts <%= @ssh_config_hash_known_hosts_real %>
 <% end -%>
-<% if @ssh_config_global_known_hosts_file -%>
-   GlobalKnownHostsFile <%= @ssh_config_global_known_hosts_file %>
+<% if @ssh_config_global_known_hosts_list_real -%>
+   GlobalKnownHostsFile <%= @ssh_config_global_known_hosts_list_real.join(' ') %>
 <% end -%>
 Host *
 #  GSSAPIAuthentication yes
@@ -99,4 +99,7 @@ GSSAPIDelegateCredentials <%= @ssh_gssapidelegatecredentials %>
 <% if not @ssh_enable_ssh_keysign.nil? -%>
 # EnableSSHKeysign no
   EnableSSHKeysign <%= @ssh_enable_ssh_keysign %>
+<% end -%>
+<% if @ssh_config_user_known_hosts_file -%>
+  UserKnownHostsFile <%= @ssh_config_user_known_hosts_file.join(' ') %>
 <% end -%>

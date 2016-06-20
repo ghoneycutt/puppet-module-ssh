@@ -640,6 +640,13 @@ File of the global known_hosts file
 
 - *Default*: '/etc/ssh/ssh_known_hosts'
 
+ssh_config_global_known_hosts_list
+----------------------------------
+Array of additional known_hosts files to be added to GlobalKnownHostsFile
+option together with `ssh_config_global_known_hosts_file`.
+
+- *Default*: undef
+
 ssh_config_global_known_hosts_owner
 ----------------------------------
 Owner of the global known_hosts file
@@ -657,6 +664,13 @@ ssh_config_global_known_hosts_mode
 File mode of the global known_hosts file
 
 - *Default*: '0644'
+
+ssh_config_user_known_hosts_file
+--------------------------------
+Array of user's known_hosts files used in the ssh config option
+UserKnownHostsFile.
+
+- *Default*: undef
 
 manage_root_ssh_config
 ----------------------
