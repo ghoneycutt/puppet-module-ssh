@@ -1,3 +1,7 @@
+### v3
+
+  * Add FreeBSD support
+
 ### v3.42.0 - 2016-06-24
   * Add support for managing sshd_config options PermitUserEnvironment and
     PermitEmptyPasswords
