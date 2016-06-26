@@ -327,6 +327,12 @@ describe 'ssh' do
                                                  'hmac-sha1-etm@openssh.com',
         ],
         :ssh_config_global_known_hosts_file => '/etc/ssh/ssh_known_hosts2',
+        :ssh_config_global_known_hosts_list => [ '/etc/ssh/ssh_known_hosts3',
+					         '/etc/ssh/ssh_known_hosts4',
+	],
+        :ssh_config_user_known_hosts_file   => [ '.ssh/known_hosts1',
+                                                 '.ssh/known_hosts2',
+        ],
         :ssh_hostbasedauthentication        => 'yes',
         :ssh_strict_host_key_checking       => 'ask',
         :ssh_enable_ssh_keysign             => 'yes',
@@ -358,7 +364,8 @@ describe 'ssh' do
     it { should contain_file('ssh_config').with_content(/^  SendEnv XMODIFIERS$/) }
     it { should contain_file('ssh_config').with_content(/^\s*Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc$/) }
     it { should contain_file('ssh_config').with_content(/^\s*MACs hmac-md5-etm@openssh.com,hmac-sha1-etm@openssh.com$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*GlobalKnownHostsFile \/etc\/ssh\/ssh_known_hosts2$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*GlobalKnownHostsFile \/etc\/ssh\/ssh_known_hosts2 \/etc\/ssh\/ssh_known_hosts3 \/etc\/ssh\/ssh_known_hosts4$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*UserKnownHostsFile \.ssh\/known_hosts1 \.ssh\/known_hosts2$/) }
     it { should contain_file('ssh_config').with_content(/^\s*HostbasedAuthentication yes$/) }
     it { should contain_file('ssh_config').with_content(/^\s*StrictHostKeyChecking ask$/) }
     it { should contain_file('ssh_config').with_content(/^\s*EnableSSHKeysign yes$/) }
@@ -391,6 +398,8 @@ describe 'ssh' do
         :sshd_config_subsystem_sftp        => '/opt/ssh/bin/sftp',
         :sshd_kerberos_authentication      => 'no',
         :sshd_password_authentication      => 'no',
+        :sshd_config_permitemptypasswords  => 'no',
+        :sshd_config_permituserenvironment => 'no',
         :sshd_pubkeyauthentication         => 'no',
         :sshd_allow_tcp_forwarding         => 'no',
         :sshd_x11_forwarding               => 'no',
@@ -474,6 +483,8 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key/) }
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_dsa_key/) }
     it { should contain_file('sshd_config').with_content(/^StrictModes yes$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitUserEnvironment no/) }
+    it { should contain_file('sshd_config').with_content(/^PermitEmptyPasswords no/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxAuthTries/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxSessions/) }
@@ -967,6 +978,64 @@ describe 'ssh' do
         expect {
           should contain_class('ssh')
         }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
+  describe 'with sshd_config_permitemptypasswords' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    ['yes','no'].each do |value|
+      context "set to #{value}" do
+        let (:params) {{ 'sshd_config_permitemptypasswords' => value }}
+
+        it { should contain_file('sshd_config').with_content(/^PermitEmptyPasswords #{value}$/) }
+      end
+    end
+
+    context 'set to invalid value on valid osfamily' do
+      let :params do
+        { :sshd_config_permitemptypasswords => 'invalid' }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_permitemptypasswords may be either \'yes\' or \'no\' and is set to <invalid>\./)
+      end
+    end
+  end
+
+  describe 'with sshd_config_permituserenvironment' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    ['yes','no'].each do |value|
+      context "set to #{value}" do
+        let (:params) {{ 'sshd_config_permituserenvironment' => value }}
+
+        it { should contain_file('sshd_config').with_content(/^PermitUserEnvironment #{value}$/) }
+      end
+    end
+
+    context 'set to invalid value on valid osfamily' do
+      let :params do
+        { :sshd_config_permituserenvironment => 'invalid' }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_permituserenvironment may be either \'yes\' or \'no\' and is set to <invalid>\./)
       end
     end
   end
@@ -2289,6 +2358,78 @@ describe 'ssh' do
         }.to raise_error(Puppet::Error,/is not an absolute path/)
       end
     end
+  end
+
+  describe 'with parameter ssh_config_global_known_hosts_list' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    context 'when set to an array of valid absolute paths' do
+      let (:params) {{'ssh_config_global_known_hosts_list' => ['/valid/path1','/valid/path2'] }}
+
+      it { should contain_file('ssh_config').with_content(/^\s*GlobalKnownHostsFile.*\/valid\/path1 \/valid\/path2$/) }
+    end
+
+    context 'specified as an invalid path' do
+      let(:params) {{ :ssh_config_global_known_hosts_list => ['/valid/path','invalid/path'] }}
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/\"invalid\/path\" is not an absolute path\./)
+      end
+    end
+
+    ['YES',true,2.42,a = { 'ha' => 'sh' }].each do |value|
+       context "specified as invalid value #{value} (as #{value.class})" do
+         let(:params) { { :ssh_config_global_known_hosts_list => value } }
+
+         if value.is_a?(Hash)
+           value = '{ha => sh}'
+         end
+
+         it 'should fail' do
+           expect {
+             should contain_class('ssh')
+           }.to raise_error(Puppet::Error, /is not an Array/)
+         end
+       end
+     end
+  end
+
+  describe 'with parameter ssh_config_user_known_hosts_file' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    context 'when set to an array of paths' do
+      let (:params) {{'ssh_config_user_known_hosts_file' => ['valid/path1','/valid/path2'] }}
+
+      it { should contain_file('ssh_config').with_content(/^\s*UserKnownHostsFile valid\/path1 \/valid\/path2$/) }
+    end
+
+    ['YES',true,2.42,a = { 'ha' => 'sh' }].each do |value|
+       context "specified as invalid value #{value} (as #{value.class})" do
+         let(:params) { { :ssh_config_user_known_hosts_file => value } }
+
+         if value.is_a?(Hash)
+           value = '{ha => sh}'
+         end
+
+         it 'should fail' do
+           expect {
+             should contain_class('ssh')
+           }.to raise_error(Puppet::Error, /is not an Array/)
+         end
+       end
+     end
   end
 
   describe 'with parameter ssh_config_global_known_hosts_owner' do

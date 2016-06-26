@@ -34,6 +34,8 @@ class ssh (
   $sshd_config_group                   = 'root',
   $sshd_config_loglevel                = 'INFO',
   $sshd_config_mode                    = 'USE_DEFAULTS',
+  $sshd_config_permitemptypasswords    = undef,
+  $sshd_config_permituserenvironment   = undef,
   $sshd_config_port                    = '22',
   $sshd_config_syslog_facility         = 'AUTH',
   $sshd_config_template                = 'ssh/sshd_config.erb',
@@ -96,9 +98,11 @@ class ssh (
   $ssh_key_import                      = true,
   $ssh_key_type                        = 'ssh-rsa',
   $ssh_config_global_known_hosts_file  = '/etc/ssh/ssh_known_hosts',
+  $ssh_config_global_known_hosts_list  = undef,
   $ssh_config_global_known_hosts_owner = 'root',
   $ssh_config_global_known_hosts_group = 'root',
   $ssh_config_global_known_hosts_mode  = '0644',
+  $ssh_config_user_known_hosts_file    = undef,
   $keys                                = undef,
   $manage_root_ssh_config              = false,
   $root_ssh_config_content             = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
@@ -462,6 +466,12 @@ class ssh (
   if $ssh_config_hash_known_hosts_real != undef {
     validate_re($ssh_config_hash_known_hosts_real, '^(yes|no)$', "ssh::ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts_real}>.")
   }
+  if $sshd_config_permitemptypasswords != undef {
+    validate_re($sshd_config_permitemptypasswords, '^(yes|no)$', "ssh::sshd_config_permitemptypasswords may be either 'yes' or 'no' and is set to <${sshd_config_permitemptypasswords}>.")
+  }
+  if $sshd_config_permituserenvironment != undef {
+    validate_re($sshd_config_permituserenvironment, '^(yes|no)$', "ssh::sshd_config_permituserenvironment may be either 'yes' or 'no' and is set to <${sshd_config_permituserenvironment}>.")
+  }
   case type3x($sshd_config_port) {
     'string': {
       validate_re($sshd_config_port, '^\d+$', "ssh::sshd_config_port must be a valid number and is set to <${sshd_config_port}>.")
@@ -652,6 +662,20 @@ class ssh (
   }
 
   validate_absolute_path($ssh_config_global_known_hosts_file)
+  $ssh_config_global_known_hosts_file_real = any2array($ssh_config_global_known_hosts_file)
+
+  if $ssh_config_global_known_hosts_list != undef {
+    validate_array($ssh_config_global_known_hosts_list)
+    validate_absolute_path($ssh_config_global_known_hosts_list)
+    $ssh_config_global_known_hosts_list_real = concat($ssh_config_global_known_hosts_file_real, $ssh_config_global_known_hosts_list)
+  } else {
+    $ssh_config_global_known_hosts_list_real = $ssh_config_global_known_hosts_file_real
+  }
+
+  if $ssh_config_user_known_hosts_file != undef {
+    validate_array($ssh_config_user_known_hosts_file)
+  }
+
   validate_string($ssh_config_global_known_hosts_owner)
   validate_string($ssh_config_global_known_hosts_group)
   validate_re($ssh_config_global_known_hosts_mode, '^[0-7]{4}$',

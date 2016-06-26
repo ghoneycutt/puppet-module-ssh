@@ -1,3 +1,14 @@
+### v3.42.0 - 2016-06-24
+  * Add support for managing sshd_config options PermitUserEnvironment and
+    PermitEmptyPasswords
+
+### v3.41.1 - 2016-06-20
+  * Update years in LICENSE
+
+### v3.41.0 - 2016-06-20
+  * Add ability to specify an array for GlobalKnownHostsFile in ssh_config.
+  * Add support for UserKnownHostsFile in ssh_config.
+
 ### v3.40.0 - 2016-06-09
   * Add ability to specify multiple ports
 
