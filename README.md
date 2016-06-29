@@ -421,6 +421,19 @@ after approximately 45 seconds.  This option applies to protocol version 2 only.
 
 - *Default*: '3'
 
+sshd_config_tcp_keepalive
+------------------------
+TCPKeepAlive in sshd_config.
+Specifies  whether the system should send TCP keepalive messages to the other side.  If they
+are sent, death of the connection or crash of one of the machines will be properly noticed.
+However, this means that connections will die if the route is down temporarily, and some
+people find it annoying.  On the other hand, if TCP keepalives are not sent, sessions may
+hang indefinitely on the server, leaving ``ghost'' users and consuming server resources.
+The default is ``yes'' (to send TCP keepalive messages), and the server will notice if the
+network goes down or the client host crashes.  This avoids infinitely hanging sessions.
+
+- *Default*: 'yes'
+
 sshd_config_ciphers
 -------------------
 Array of ciphers for the Ciphers setting in sshd_config.

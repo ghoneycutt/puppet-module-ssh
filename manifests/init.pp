@@ -105,6 +105,7 @@ class ssh (
   $keys                                = undef,
   $manage_root_ssh_config              = false,
   $root_ssh_config_content             = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
+  $sshd_config_tcp_keepalive           = 'yes',
 ) {
 
   case $::osfamily {
@@ -750,6 +751,7 @@ class ssh (
     validate_array($sshd_config_allowgroups_real)
   }
 
+  validate_re($sshd_config_tcp_keepalive, '^(yes|no)$', "ssh::sshd_config_tcp_keepalive may be either 'yes' or 'no' and is set to <${sshd_config_tcp_keepalive}>.")
   package { $packages_real:
     ensure    => installed,
     source    => $ssh_package_source_real,

@@ -438,6 +438,7 @@ describe 'ssh' do
         :sshd_listen_address               => [ '192.168.1.1',
                                                 '2001:db8::dead:f00d',
         ],
+        :sshd_config_tcp_keepalive         => 'yes',
       }
     end
 
@@ -503,6 +504,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^\s*AllowUsers foo bar$/) }
     it { should contain_file('sshd_config').with_content(/^\s*AllowGroups ssh security$/) }
     it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1\nListenAddress 2001:db8::dead:f00d$/) }
+    it { should contain_file('sshd_config').with_content(/^TCPKeepAlive yes$/) }
 
     it {
       should contain_file('sshd_banner').with({
@@ -2756,6 +2758,25 @@ describe 'ssh' do
       context "specified as valid false value #{value} (as #{value.class})" do
         let(:params) { { :manage_service => value } }
         it { should_not contain_service('sshd_service') }
+      end
+    end
+  end
+
+  describe 'sshd_config_tcp_keepalive param' do
+    let :facts do
+      default_facts.merge(
+        {
+        }
+      )
+    end
+
+    context 'when set to invalid' do
+      let (:params) { { :sshd_config_tcp_keepalive => 'invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_tcp_keepalive may be either \'yes\' or \'no\' and is set to <invalid>\./)
       end
     end
   end
