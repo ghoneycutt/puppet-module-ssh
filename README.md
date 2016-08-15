@@ -27,6 +27,9 @@ only), 1.9.3, 2.0.0, 2.1.0 and 2.3.1 (Puppet v4 only).
  * EL 5
  * EL 6
  * EL 7
+ * FreeBSD 10
+ * FreeBSD 11
+ * FreeBSD 12
  * SLES 10
  * SLES 11
  * SLES 12
@@ -80,7 +83,7 @@ ssh_config_group
 ----------------
 ssh_config's group.
 
-- *Default*: 'root'
+- *Default*: 'USE_DEFAULTS'
 
 ssh_config_mode
 ---------------
@@ -194,7 +197,7 @@ sshd_config_group
 ----------------
 sshd_config's group.
 
-- *Default*: 'root'
+- *Default*: 'USE_DEFAULTS'
 
 sshd_config_loglevel
 ---------------------------
@@ -672,7 +675,7 @@ ssh_config_global_known_hosts_group
 ----------------------------------
 Group of the global known_hosts file
 
-- *Default*: 'root'
+- *Default*: 'USE_DEFAULTS'
 
 ssh_config_global_known_hosts_mode
 ----------------------------------
