@@ -36,6 +36,45 @@ describe 'ssh' do
       :sshd_config_fixture    => 'sshd_config_debian',
       :ssh_config_fixture     => 'ssh_config_debian',
     },
+    'FreeBSD-10' => {
+      :architecture           => 'amd64',
+      :osfamily               => 'FreeBSD',
+      :operatingsystemrelease => '10',
+      :ssh_version            => 'OpenSSH_7.2p2',
+      :ssh_version_numeric    => '7.2',
+      :ssh_packages           => nil,
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'sshd',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => nil,
+      :ssh_config_fixture     => nil,
+    },
+    'FreeBSD-11' => {
+      :architecture           => 'amd64',
+      :osfamily               => 'FreeBSD',
+      :operatingsystemrelease => '11',
+      :ssh_version            => 'OpenSSH_7.2p2',
+      :ssh_version_numeric    => '7.2',
+      :ssh_packages           => nil,
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'sshd',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => nil,
+      :ssh_config_fixture     => nil,
+    },
+    'FreeBSD-12' => {
+      :architecture           => 'amd64',
+      :osfamily               => 'FreeBSD',
+      :operatingsystemrelease => '12',
+      :ssh_version            => 'OpenSSH_7.2p2',
+      :ssh_version_numeric    => '7.2',
+      :ssh_packages           => nil,
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'sshd',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => nil,
+      :ssh_config_fixture     => nil,
+    },
     'RedHat-5' => {
       :architecture           => 'x86_64',
       :osfamily               => 'RedHat',
@@ -199,18 +238,32 @@ describe 'ssh' do
         )
       end
 
+      if facts[:osfamily] == 'FreeBSD'
+        group = 'wheel'
+      else
+        group = 'root'
+      end
+
       it { should compile.with_all_deps }
 
       it { should contain_class('ssh')}
 
       it { should_not contain_class('common')}
 
-      facts[:ssh_packages].each do |pkg|
-        it {
-          should contain_package(pkg).with({
-            'ensure' => 'installed',
-          })
-        }
+      if facts[:ssh_packages] == nil
+        it { is_expected.to have_package_resource_count(0) }
+      else
+        facts[:ssh_packages].each do |pkg|
+          it {
+            should contain_package(pkg).with({
+              'ensure' => 'installed',
+              'before' => [
+                'File[ssh_config]',
+                'File[sshd_config]',
+              ],
+            })
+          }
+        end
       end
 
       it {
@@ -218,7 +271,7 @@ describe 'ssh' do
           'ensure' => 'file',
           'path'   => '/etc/ssh/ssh_known_hosts',
           'owner'  => 'root',
-          'group'  => 'root',
+          'group'  => group,
           'mode'   => '0644',
         })
       }
@@ -228,18 +281,14 @@ describe 'ssh' do
           'ensure'  => 'file',
           'path'    => '/etc/ssh/ssh_config',
           'owner'   => 'root',
-          'group'   => 'root',
+          'group'   => group,
           'mode'    => '0644',
         })
       }
 
-      ssh_config_fixture = File.read(fixtures(facts[:ssh_config_fixture]))
-      it { should contain_file('ssh_config').with_content(ssh_config_fixture) }
-
-      facts[:ssh_packages].each do |pkg|
-        it {
-          should contain_file('ssh_config').that_requires("Package[#{pkg}]")
-        }
+      if facts[:ssh_config_fixture] != nil
+        ssh_config_fixture = File.read(fixtures(facts[:ssh_config_fixture]))
+        it { should contain_file('ssh_config').with_content(ssh_config_fixture) }
       end
 
       it {
@@ -247,19 +296,15 @@ describe 'ssh' do
           'ensure'  => 'file',
           'path'    => '/etc/ssh/sshd_config',
           'owner'   => 'root',
-          'group'   => 'root',
+          'group'   => group,
           'mode'    => facts[:sshd_config_mode],
         })
       }
 
-      facts[:ssh_packages].each do |pkg|
-        it {
-          should contain_file('sshd_config').that_requires("Package[#{pkg}]")
-        }
+      if facts[:sshd_config_fixture] != nil
+        sshd_config_fixture = File.read(fixtures(facts[:sshd_config_fixture]))
+        it { should contain_file('sshd_config').with_content(sshd_config_fixture) }
       end
-
-      sshd_config_fixture = File.read(fixtures(facts[:sshd_config_fixture]))
-      it { should contain_file('sshd_config').with_content(sshd_config_fixture) }
 
       it {
         should contain_service('sshd_service').with({
@@ -296,7 +341,7 @@ describe 'ssh' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/ssh supports osfamilies RedHat, Suse, Debian and Solaris\. Detected osfamily is <C64>\./)
+      }.to raise_error(Puppet::Error,/ssh supports osfamilies Debian, FreeBSD, RedHat, Solaris and Suse\. Detected osfamily is <C64>\./)
     end
   end
 
@@ -348,7 +393,6 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
-        'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
       })
     }
 
@@ -450,7 +494,6 @@ describe 'ssh' do
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0600',
-        'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
       })
     }
 

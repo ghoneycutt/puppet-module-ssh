@@ -13,7 +13,7 @@ class ssh (
   $ssh_config_hash_known_hosts         = 'USE_DEFAULTS',
   $ssh_config_path                     = '/etc/ssh/ssh_config',
   $ssh_config_owner                    = 'root',
-  $ssh_config_group                    = 'root',
+  $ssh_config_group                    = 'USE_DEFAULTS',
   $ssh_config_mode                     = '0644',
   $ssh_config_forward_x11              = undef,
   $ssh_config_forward_x11_trusted      = 'USE_DEFAULTS',
@@ -31,7 +31,7 @@ class ssh (
   $ssh_gssapidelegatecredentials       = undef,
   $sshd_config_path                    = '/etc/ssh/sshd_config',
   $sshd_config_owner                   = 'root',
-  $sshd_config_group                   = 'root',
+  $sshd_config_group                   = 'USE_DEFAULTS',
   $sshd_config_loglevel                = 'INFO',
   $sshd_config_mode                    = 'USE_DEFAULTS',
   $sshd_config_permitemptypasswords    = undef,
@@ -99,7 +99,7 @@ class ssh (
   $ssh_config_global_known_hosts_file  = '/etc/ssh/ssh_known_hosts',
   $ssh_config_global_known_hosts_list  = undef,
   $ssh_config_global_known_hosts_owner = 'root',
-  $ssh_config_global_known_hosts_group = 'root',
+  $ssh_config_global_known_hosts_group = 'USE_DEFAULTS',
   $ssh_config_global_known_hosts_mode  = '0644',
   $ssh_config_user_known_hosts_file    = undef,
   $keys                                = undef,
@@ -107,7 +107,39 @@ class ssh (
   $root_ssh_config_content             = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
 ) {
 
+  if $::osfamily == 'FreeBSD' {
+    $default_ssh_config_group = 'wheel'
+    $default_sshd_config_group = 'wheel'
+    $default_ssh_config_global_known_hosts_group = 'wheel'
+  } else {
+    $default_ssh_config_group = 'root'
+    $default_sshd_config_group = 'root'
+    $default_ssh_config_global_known_hosts_group = 'root'
+  }
+
   case $::osfamily {
+    'FreeBSD': {
+      $default_packages                        = undef
+      $default_service_name                    = 'sshd'
+      $default_ssh_config_hash_known_hosts     = 'no'
+      $default_ssh_config_forward_x11_trusted  = 'yes'
+      $default_ssh_package_source              = undef
+      $default_ssh_package_adminfile           = undef
+      $default_ssh_sendenv                     = true
+      $default_sshd_config_subsystem_sftp      = '/usr/libexec/openssh/sftp-server'
+      $default_sshd_config_mode                = '0600'
+      $default_sshd_config_use_dns             = 'yes'
+      $default_sshd_config_xauth_location      = '/usr/bin/xauth'
+      $default_sshd_use_pam                    = 'yes'
+      $default_sshd_gssapikeyexchange          = undef
+      $default_sshd_pamauthenticationviakbdint = undef
+      $default_sshd_gssapicleanupcredentials   = 'yes'
+      $default_sshd_acceptenv                  = true
+      $default_service_hasstatus               = true
+      $default_sshd_config_serverkeybits       = '1024'
+      $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
+      $default_sshd_addressfamily              = 'any'
+    }
     'RedHat': {
       $default_packages                        = ['openssh-server',
                                                   'openssh-clients']
@@ -242,7 +274,7 @@ class ssh (
       }
     }
     default: {
-      fail("ssh supports osfamilies RedHat, Suse, Debian and Solaris. Detected osfamily is <${::osfamily}>.")
+      fail("ssh supports osfamilies Debian, FreeBSD, RedHat, Solaris and Suse. Detected osfamily is <${::osfamily}>.")
     }
   }
 
@@ -266,6 +298,27 @@ class ssh (
   } else {
     $packages_real = $packages
   }
+
+  if $ssh_config_group == 'USE_DEFAULTS' {
+    $ssh_config_group_real = $default_ssh_config_group
+  } else {
+    $ssh_config_group_real = $ssh_config_group
+  }
+  validate_string($ssh_config_group_real)
+
+  if $sshd_config_group == 'USE_DEFAULTS' {
+    $sshd_config_group_real = $default_sshd_config_group
+  } else {
+    $sshd_config_group_real = $sshd_config_group
+  }
+  validate_string($sshd_config_group_real)
+
+  if $ssh_config_global_known_hosts_group == 'USE_DEFAULTS' {
+    $ssh_config_global_known_hosts_group_real = $default_ssh_config_global_known_hosts_group
+  } else {
+    $ssh_config_global_known_hosts_group_real = $ssh_config_global_known_hosts_group
+  }
+  validate_string($ssh_config_global_known_hosts_group_real)
 
   if $ssh_config_hash_known_hosts == 'USE_DEFAULTS' {
     $ssh_config_hash_known_hosts_real = $default_ssh_config_hash_known_hosts
@@ -672,7 +725,6 @@ class ssh (
   }
 
   validate_string($ssh_config_global_known_hosts_owner)
-  validate_string($ssh_config_global_known_hosts_group)
   validate_re($ssh_config_global_known_hosts_mode, '^[0-7]{4}$',
     "ssh::ssh_config_global_known_hosts_mode must be a valid 4 digit mode in octal notation. Detected value is <${ssh_config_global_known_hosts_mode}>.")
 
@@ -750,20 +802,25 @@ class ssh (
     validate_array($sshd_config_allowgroups_real)
   }
 
-  package { $packages_real:
-    ensure    => installed,
-    source    => $ssh_package_source_real,
-    adminfile => $ssh_package_adminfile_real,
+  if $packages_real != undef {
+    package { $packages_real:
+      ensure    => installed,
+      source    => $ssh_package_source_real,
+      adminfile => $ssh_package_adminfile_real,
+      before    => [
+        File['ssh_config'],
+        File['sshd_config'],
+      ],
+    }
   }
 
   file  { 'ssh_config' :
     ensure  => file,
     path    => $ssh_config_path,
     owner   => $ssh_config_owner,
-    group   => $ssh_config_group,
+    group   => $ssh_config_group_real,
     mode    => $ssh_config_mode,
     content => template($ssh_config_template),
-    require => Package[$packages_real],
   }
 
   file  { 'sshd_config' :
@@ -771,20 +828,31 @@ class ssh (
     path    => $sshd_config_path,
     mode    => $sshd_config_mode_real,
     owner   => $sshd_config_owner,
-    group   => $sshd_config_group,
+    group   => $sshd_config_group_real,
     content => template($sshd_config_template),
-    require => Package[$packages_real],
   }
 
   if $sshd_config_banner != 'none' and $sshd_banner_content != undef {
-    file { 'sshd_banner' :
-      ensure  => file,
-      path    => $sshd_config_banner,
-      owner   => $sshd_banner_owner,
-      group   => $sshd_banner_group,
-      mode    => $sshd_banner_mode,
-      content => $sshd_banner_content,
-      require => Package[$packages_real],
+    if $packages_real == undef {
+      file { 'sshd_banner' :
+        ensure  => file,
+        path    => $sshd_config_banner,
+        owner   => $sshd_banner_owner,
+        group   => $sshd_banner_group,
+        mode    => $sshd_banner_mode,
+        content => $sshd_banner_content,
+        require => undef,
+      }
+    } else {
+      file { 'sshd_banner' :
+        ensure  => file,
+        path    => $sshd_config_banner,
+        owner   => $sshd_banner_owner,
+        group   => $sshd_banner_group,
+        mode    => $sshd_banner_mode,
+        content => $sshd_banner_content,
+        require => Package[$packages_real],
+      }
     }
   }
 
@@ -844,7 +912,7 @@ class ssh (
     ensure => file,
     path   => $ssh_config_global_known_hosts_file,
     owner  => $ssh_config_global_known_hosts_owner,
-    group  => $ssh_config_global_known_hosts_group,
+    group  => $ssh_config_global_known_hosts_group_real,
     mode   => $ssh_config_global_known_hosts_mode,
   }
 
