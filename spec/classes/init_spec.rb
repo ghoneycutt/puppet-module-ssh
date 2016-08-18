@@ -430,6 +430,7 @@ describe 'ssh' do
                                                 '2001:db8::dead:f00d',
         ],
         :sshd_config_tcp_keepalive         => 'yes',
+        :sshd_config_permittunnel          => 'no',
       }
     end
 
@@ -496,6 +497,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^\s*AllowGroups ssh security$/) }
     it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1\nListenAddress 2001:db8::dead:f00d$/) }
     it { should contain_file('sshd_config').with_content(/^TCPKeepAlive yes$/) }
+    it { should contain_file('sshd_config').with_content(/^PermitTunnel no$/) }
 
     it {
       should contain_file('sshd_banner').with({
@@ -904,6 +906,26 @@ describe 'ssh' do
         expect {
           should contain_class('ssh')
         }.to raise_error(Puppet::Error,/ssh::sshd_config_port must be a valid number and is set to <22invalid>\./)
+      end
+    end
+  end
+
+  describe 'sshd_config_permittunnel param' do
+    ['yes','point-to-point','ethernet','no'].each do |value|
+      context "set to #{value}" do
+        let (:params) { { :sshd_config_permittunnel => value } }
+
+        it { should contain_file('sshd_config').with_content(/^PermitTunnel #{value}$/) }
+      end
+    end
+
+    context 'when set to an invalid value' do
+      let (:params) { { :sshd_config_permittunnel => 'invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_permittunnel may be either \'yes\', \'point-to-point\', \'ethernet\' or \'no\' and is set to <invalid>\./)
       end
     end
   end

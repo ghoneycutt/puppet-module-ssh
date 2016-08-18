@@ -435,6 +435,18 @@ network goes down or the client host crashes.  This avoids infinitely hanging se
 
 - *Default*: 'yes'
 
+sshd_config_permittunnel
+-----------------------
+PermitTunnel in sshd_config.
+Specifies whether tun(4) device forwarding is allowed.  The argument must be
+'yes', 'point-to-point' (layer 3), 'ethernet' (layer 2), or 'no'.
+Specifying 'yes' permits both 'point-to-point' and 'ethernet'.  The
+default is 'no'.
+Independent of this setting, the permissions of the selected tun(4) device must
+allow access to the user.
+
+- *Default*: 'no'
+
 sshd_config_ciphers
 -------------------
 Array of ciphers for the Ciphers setting in sshd_config.
