@@ -1,3 +1,9 @@
+### v3.44.0 - 2016-08-28
+  * Add support for TCPKeepAlive in sshd_config
+
+### v3.43.0 - 2016-08-08
+  * Add support for Ruby 2.3.1 with Puppet v4
+
 ### v3.42.0 - 2016-06-24
   * Add support for managing sshd_config options PermitUserEnvironment and
     PermitEmptyPasswords
