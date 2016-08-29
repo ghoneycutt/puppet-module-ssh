@@ -111,6 +111,7 @@ X11Forwarding yes
 PrintMotd yes
 #PrintLastLog yes
 #TCPKeepAlive yes
+TCPKeepAlive yes
 #UseLogin no
 #UsePrivilegeSeparation yes
 #PermitUserEnvironment no
