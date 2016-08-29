@@ -207,9 +207,11 @@ ForceCommand <%= @sshd_config_forcecommand %>
 #Banner none
 Banner <%= @sshd_config_banner %>
 
+<% if @sshd_config_xauth_location_real -%>
 #XAuthLocation /usr/bin/xauth
 XAuthLocation <%= @sshd_config_xauth_location_real %>
 
+<% end -%>
 # override default of no subsystems
 Subsystem sftp <%= @sshd_config_subsystem_sftp_real %>
 

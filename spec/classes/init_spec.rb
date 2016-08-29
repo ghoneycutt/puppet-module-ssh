@@ -184,6 +184,19 @@ describe 'ssh' do
       :sshd_config_fixture    => 'sshd_config_solaris',
       :ssh_config_fixture     => 'ssh_config_solaris',
     },
+    'Ubuntu-1604' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'Debian',
+      :operatingsystemrelease => '16.04',
+      :ssh_version            => 'OpenSSH_7.2p2',
+      :ssh_version_numeric    => '7.2',
+      :ssh_packages           => ['openssh-server', 'openssh-client'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'ssh',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_ubuntu1604',
+      :ssh_config_fixture     => 'ssh_config_ubuntu1604',
+    },
   }
 
   osfamily_matrix.each do |os, facts|

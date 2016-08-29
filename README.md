@@ -32,6 +32,7 @@ only), 1.9.3, 2.0.0, 2.1.0 and 2.3.1 (Puppet v4 only).
  * SLES 12
  * Ubuntu 12.04 LTS
  * Ubuntu 14.04 LTS
+ * Ubuntu 16.04 LTS
  * Solaris 9
  * Solaris 10
  * Solaris 11
