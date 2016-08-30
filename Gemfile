@@ -23,16 +23,7 @@ gem 'puppet-lint-undef_in_function-check'
 gem 'puppet-lint-unquoted_string-check'
 gem 'puppet-lint-variable_contains_upcase'
 
-# rspec must be v2 for ruby 1.8.7
-if RUBY_VERSION >= '1.8.7' and RUBY_VERSION < '1.9'
-  # rake >=11 does not support ruby 1.8.7
-  gem 'rspec', '~> 2.0'
-  gem 'rake', '~> 10.0'
-end
-
-if RUBY_VERSION < '2.0'
-  # json 2.x requires ruby 2.0. Lock to 1.8
-  gem 'json', '~> 1.8'
-  # json_pure 2.0.2 requires ruby 2.0. Lock to 2.0.1
-  gem 'json_pure', '= 2.0.1'
-end
+gem 'rspec',     '~> 2.0'   if RUBY_VERSION >= '1.8.7' and RUBY_VERSION < '1.9'
+gem 'rake',      '~> 10.0'  if RUBY_VERSION >= '1.8.7' and RUBY_VERSION < '1.9'
+gem 'json',      '<= 1.8'   if RUBY_VERSION < '2.0.0'
+gem 'json_pure', '<= 2.0.1' if RUBY_VERSION < '2.0.0'
