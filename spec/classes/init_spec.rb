@@ -3,24 +3,32 @@ require 'spec_helper'
 describe 'ssh' do
 
   default_facts = {
-    :fqdn                   => 'monkey.example.com',
-    :hostname               => 'monkey',
-    :ipaddress              => '127.0.0.1',
-    :osfamily               => 'RedHat',
-    :ssh_version            => 'OpenSSH_6.6p1',
-    :ssh_version_numeric    => '6.6',
-    :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+    :fqdn                => 'monkey.example.com',
+    :hostname            => 'monkey',
+    :ipaddress           => '127.0.0.1',
+    :lsbmajdistrelease   => '6',
+    :osfamily            => 'RedHat',
+    :root_home           => '/root',
+    :specific            => 'dummy',
+    :ssh_version         => 'OpenSSH_6.6p1',
+    :ssh_version_numeric => '6.6',
+    :sshrsakey           => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==',
   }
 
   default_solaris_facts = {
-    :fqdn                   => 'monkey.example.com',
-    :hostname               => 'monkey',
-    :ipaddress              => '127.0.0.1',
-    :osfamily               => 'Solaris',
-    :ssh_version            => 'Sun_SSH_2.2',
-    :ssh_version_numeric    => '2.2',
-    :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
+    :fqdn                => 'monkey.example.com',
+    :hostname            => 'monkey',
+    :ipaddress           => '127.0.0.1',
+    :kernelrelease       => '5.10',
+    :osfamily            => 'Solaris',
+    :root_home           => '/root',
+    :specific            => 'dummy',
+    :ssh_version         => 'Sun_SSH_2.2',
+    :ssh_version_numeric => '2.2',
+    :sshrsakey           => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==',
   }
+
+  let(:facts) { default_facts }
 
   osfamily_matrix = {
     'Debian-7' => {
@@ -184,20 +192,24 @@ describe 'ssh' do
       :sshd_config_fixture    => 'sshd_config_solaris',
       :ssh_config_fixture     => 'ssh_config_solaris',
     },
+    'Ubuntu-1604' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'Debian',
+      :operatingsystemrelease => '16.04',
+      :ssh_version            => 'OpenSSH_7.2p2',
+      :ssh_version_numeric    => '7.2',
+      :ssh_packages           => ['openssh-server', 'openssh-client'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'ssh',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_ubuntu1604',
+      :ssh_config_fixture     => 'ssh_config_ubuntu1604',
+    },
   }
 
   osfamily_matrix.each do |os, facts|
     context "with default params on osfamily #{os}" do
-      let(:facts) do
-        facts.merge(
-          {
-            :fqdn       => 'monkey.example.com',
-            :hostname   => 'monkey',
-            :ipaddress  => '127.0.0.1',
-            :sshrsakey  => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==',
-          }
-        )
-      end
+      let(:facts) { default_facts.merge( facts )}
 
       it { should compile.with_all_deps }
 
@@ -281,17 +293,8 @@ describe 'ssh' do
   end
 
   context 'with default params on invalid osfamily' do
-    let :facts do
-      {
-        :fqdn      => 'monkey.example.com',
-        :osfamily  => 'C64',
-        :root_home => '/root',
-        :sshrsakey => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ=='
-      }
-    end
-    let :params do
-      { :manage_root_ssh_config => 'invalid' }
-    end
+    let(:facts) { default_facts.merge({ :osfamily => 'C64' }) }
+    let(:params) { { :manage_root_ssh_config => 'invalid' } }
 
     it 'should fail' do
       expect {
@@ -301,13 +304,7 @@ describe 'ssh' do
   end
 
   context 'with optional params used in ssh_config set on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-    let :params do
+    let(:params) do
       {
         :ssh_config_hash_known_hosts        => 'yes',
         :ssh_config_forward_agent           => 'yes',
@@ -372,13 +369,7 @@ describe 'ssh' do
   end
 
   context 'with params used in sshd_config set on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-    let :params do
+    let(:params) do
       {
         :sshd_config_port                  => '22222',
         :sshd_config_syslog_facility       => 'DAEMON',
@@ -520,16 +511,9 @@ describe 'ssh' do
   end
 
   describe 'sshd_config_chrootdirectory param' do
-    let :facts do
-      default_facts.merge(
-        {
-          :root_home => '/root',
-        }
-      )
-    end
     ['/chrootdir/subdir','/baby/one/more/test',].each do |value|
       context "set to valid #{value} (as #{value.class})" do
-        let (:params) {{'sshd_config_chrootdirectory' => value }}
+        let(:params) { {'sshd_config_chrootdirectory' => value } }
 
         it { should contain_file('sshd_config').with_content(/^ChrootDirectory #{value}$/) }
       end
@@ -537,7 +521,7 @@ describe 'ssh' do
 
     [true,'invalid','invalid/path/',3,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
       context "set to invalid #{value} (as #{value.class})" do
-        let (:params) {{'sshd_config_chrootdirectory' => value }}
+        let(:params) { {'sshd_config_chrootdirectory' => value } }
 
         it 'should fail' do
           expect {
@@ -550,16 +534,9 @@ describe 'ssh' do
   end
 
   describe 'sshd_config_forcecommand param' do
-    let :facts do
-      default_facts.merge(
-        {
-          :root_home => '/root',
-        }
-      )
-    end
     ['/bin/command','/bin/command -parameters','/bin/command --parameters','/bin/command /parameters'].each do |value|
       context "set to valid #{value} (as #{value.class})" do
-        let (:params) {{'sshd_config_forcecommand' => value }}
+        let(:params) { {'sshd_config_forcecommand' => value } }
 
         it { should contain_file('sshd_config').with_content(/^ForceCommand #{value}$/) }
       end
@@ -567,7 +544,7 @@ describe 'ssh' do
 
     [true,['array'],a = { 'ha' => 'sh' }].each do |value|
       context "set to invalid #{value} (as #{value.class})" do
-        let (:params) {{'sshd_config_forcecommand' => value }}
+        let(:params) { {'sshd_config_forcecommand' => value } }
 
         it 'should fail' do
           expect {
@@ -581,14 +558,6 @@ describe 'ssh' do
 
   describe 'sshd_config_match param' do
   # match and rules get alphabetically sorted by template, matches should be the last options in sshd_config (regex verify with= \Z)
-    let :facts do
-      default_facts.merge(
-        {
-          :root_home => '/root',
-        }
-      )
-    end
-
     context 'set to valid hash containing nested arrays' do
       let(:params) do
         { :sshd_config_match      => {
@@ -603,7 +572,7 @@ describe 'ssh' do
 
     [true,'string',3,2.42,['array']].each do |value|
       context "set to invalid #{value} (as #{value.class})" do
-        let (:params) {{'sshd_config_match' => value }}
+        let(:params) { {'sshd_config_match' => value } }
         it 'should fail' do
           expect {
             should contain_class('ssh')
@@ -615,22 +584,14 @@ describe 'ssh' do
   end
 
   describe 'sshd_listen_address param' do
-    let :facts do
-      default_facts.merge(
-        {
-          :root_home => '/root',
-        }
-      )
-    end
-
     context 'when set to an array' do
-      let (:params) {{'sshd_listen_address' => ['192.168.1.1','2001:db8::dead:f00d'] }}
+      let(:params) { {'sshd_listen_address' => ['192.168.1.1','2001:db8::dead:f00d'] } }
 
       it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1\nListenAddress 2001:db8::dead:f00d$/) }
     end
 
     context 'when set to a string' do
-      let (:params) {{'sshd_listen_address' => ['192.168.1.1'] }}
+      let(:params) { {'sshd_listen_address' => ['192.168.1.1'] } }
 
       it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1$/) }
     end
@@ -641,7 +602,7 @@ describe 'ssh' do
 
 
     context 'when set to an invalid type (not string or array)' do
-      let (:params) {{'sshd_listen_address' => true }}
+      let(:params) { {'sshd_listen_address' => true } }
 
       it 'should fail' do
         expect {
@@ -652,15 +613,8 @@ describe 'ssh' do
   end
 
   describe 'sshd_loglevel param' do
-    let :facts do
-      default_facts.merge(
-        {
-          :root_home => '/root',
-        }
-      )
-    end
     context 'when set to an invalid value' do
-      let (:params) {{'sshd_config_loglevel' => 'BOGON'}}
+      let(:params) { {'sshd_config_loglevel' => 'BOGON'} }
       it 'should fail' do
         expect {
           should contain_class('ssh')
@@ -669,32 +623,23 @@ describe 'ssh' do
     end
     ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE'].each do |supported_val|
       context "when set to #{supported_val}" do
-        let (:params) {{ 'sshd_config_loglevel' => supported_val}}
+        let(:params) { { 'sshd_config_loglevel' => supported_val} }
         it { should contain_file('sshd_config').with_content(/^LogLevel #{supported_val}$/) }
       end
     end
   end
 
   describe 'with sshd_kerberos_authentication' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     ['yes','no'].each do |value|
       context "set to #{value}" do
-        let (:params) {{ 'sshd_kerberos_authentication' => value }}
+        let(:params) { { 'sshd_kerberos_authentication' => value } }
 
         it { should contain_file('sshd_config').with_content(/^KerberosAuthentication #{value}$/) }
       end
     end
 
     context 'set to invalid value on valid osfamily' do
-      let :params do
-        { :sshd_kerberos_authentication => 'invalid' }
-      end
+      let(:params) { { :sshd_kerberos_authentication => 'invalid' } }
 
       it 'should fail' do
         expect {
@@ -705,16 +650,8 @@ describe 'ssh' do
   end
 
   context 'when ssh_config_template has a nonstandard value' do
-    let :facts do
-      default_facts.merge(
-        {
-          :root_home => '/root',
-        }
-      )
-    end
-
     context 'and that value is not valid' do
-      let (:params) {{'ssh_config_template' => false}}
+      let(:params) { {'ssh_config_template' => false} }
       it 'should fail' do
         expect {
           should contain_class('ssh')
@@ -722,7 +659,7 @@ describe 'ssh' do
       end
     end
     context 'and that value is valid' do
-      let (:params) {{'ssh_config_template' => 'ssh/sshd_config.erb'}}
+      let(:params) { {'ssh_config_template' => 'ssh/sshd_config.erb'} }
       it 'should lay down the ssh_config file from the specified template' do
         should contain_file('ssh_config').with_content(/OpenBSD: sshd_config/)
       end
@@ -730,16 +667,8 @@ describe 'ssh' do
   end
 
   context 'when sshd_config_template has a nonstandard value' do
-    let :facts do
-      default_facts.merge(
-        {
-          :root_home => '/root',
-        }
-      )
-    end
-
     context 'and that value is not valid' do
-      let (:params) {{'sshd_config_template' => false}}
+      let(:params) { {'sshd_config_template' => false} }
       it 'should fail' do
         expect {
           should contain_class('ssh')
@@ -747,7 +676,7 @@ describe 'ssh' do
       end
     end
     context 'and that value is valid' do
-      let (:params) {{'sshd_config_template' => 'ssh/ssh_config.erb'}}
+      let(:params) { {'sshd_config_template' => 'ssh/ssh_config.erb'} }
       it 'should lay down the sshd_config file from the specified template' do
         should contain_file('sshd_config').with_content(/OpenBSD: ssh_config/)
       end
@@ -756,16 +685,7 @@ describe 'ssh' do
 
   ['true',true].each do |value|
     context "with manage_root_ssh_config set to #{value} on valid osfamily" do
-      let :facts do
-        default_facts.merge(
-          {
-            :root_home => '/root',
-          }
-        )
-      end
-      let :params do
-        { :manage_root_ssh_config => value }
-      end
+      let(:params) { { :manage_root_ssh_config => value } }
 
       it { should compile.with_all_deps }
 
@@ -798,16 +718,7 @@ describe 'ssh' do
 
   ['false',false].each do |value|
     context "with manage_root_ssh_config set to #{value} on valid osfamily" do
-      let :facts do
-        default_facts.merge(
-          {
-            :root_home => '/root',
-          }
-        )
-      end
-      let :params do
-        { :manage_root_ssh_config => value }
-      end
+      let(:params) { { :manage_root_ssh_config => value } }
 
       it { should compile.with_all_deps }
 
@@ -823,12 +734,6 @@ describe 'ssh' do
 
   [true,'invalid'].each do |ciphers|
     context "with ssh_config_ciphers set to invalid value #{ciphers}" do
-      let :facts do
-        default_facts.merge(
-          {
-          }
-        )
-      end
       let(:params) { { :ssh_config_ciphers => ciphers } }
 
       it 'should fail' do
@@ -841,12 +746,6 @@ describe 'ssh' do
 
   [true,'invalid'].each do |macs|
     context "with ssh_config_macs set to invalid value #{macs}" do
-      let :facts do
-        default_facts.merge(
-          {
-          }
-        )
-      end
       let(:params) { { :ssh_config_macs => macs } }
 
       it 'should fail' do
@@ -858,15 +757,7 @@ describe 'ssh' do
   end
 
   context 'with ssh_config_hash_known_hosts set to invalid value on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-    let :params do
-      { :ssh_config_hash_known_hosts => 'invalid' }
-    end
+    let(:params) { { :ssh_config_hash_known_hosts => 'invalid' } }
 
     it 'should fail' do
       expect {
@@ -877,12 +768,6 @@ describe 'ssh' do
 
   [true,'invalid'].each do |ciphers|
     context "with sshd_config_ciphers set to invalid value #{ciphers}" do
-      let :facts do
-        default_facts.merge(
-          {
-          }
-        )
-      end
       let(:params) { { :sshd_config_ciphers => ciphers } }
 
       it 'should fail' do
@@ -895,12 +780,6 @@ describe 'ssh' do
 
   [true,'invalid'].each do |denyusers|
     context "with sshd_config_denyusers set to invalid value #{denyusers}" do
-      let :facts do
-        default_facts.merge(
-          {
-          }
-        )
-      end
       let(:params) { { :sshd_config_denyusers => denyusers } }
 
       it 'should fail' do
@@ -913,12 +792,6 @@ describe 'ssh' do
 
   [true,'invalid'].each do |denygroups|
     context "with sshd_config_denygroups set to invalid value #{denygroups}" do
-      let :facts do
-        default_facts.merge(
-          {
-          }
-        )
-      end
       let(:params) { { :sshd_config_denygroups => denygroups } }
 
       it 'should fail' do
@@ -931,12 +804,6 @@ describe 'ssh' do
 
   [true,'invalid'].each do |allowusers|
     context "with sshd_config_allowusers set to invalid value #{allowusers}" do
-      let :facts do
-        default_facts.merge(
-          {
-          }
-        )
-      end
       let(:params) { { :sshd_config_allowusers => allowusers } }
 
       it 'should fail' do
@@ -949,12 +816,6 @@ describe 'ssh' do
 
   [true,'invalid'].each do |allowgroups|
     context "with sshd_config_allowgroups set to invalid value #{allowgroups}" do
-      let :facts do
-        default_facts.merge(
-          {
-          }
-        )
-      end
       let(:params) { { :sshd_config_allowgroups => allowgroups } }
 
       it 'should fail' do
@@ -967,12 +828,6 @@ describe 'ssh' do
 
   [true,'invalid'].each do |macs|
     context "with sshd_config_macs set to invalid value #{macs}" do
-      let :facts do
-        default_facts.merge(
-          {
-          }
-        )
-      end
       let(:params) { { :sshd_config_macs => macs } }
 
       it 'should fail' do
@@ -984,25 +839,16 @@ describe 'ssh' do
   end
 
   describe 'with sshd_config_permitemptypasswords' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     ['yes','no'].each do |value|
       context "set to #{value}" do
-        let (:params) {{ 'sshd_config_permitemptypasswords' => value }}
+        let(:params) { { 'sshd_config_permitemptypasswords' => value } }
 
         it { should contain_file('sshd_config').with_content(/^PermitEmptyPasswords #{value}$/) }
       end
     end
 
     context 'set to invalid value on valid osfamily' do
-      let :params do
-        { :sshd_config_permitemptypasswords => 'invalid' }
-      end
+      let(:params) { { :sshd_config_permitemptypasswords => 'invalid' } }
 
       it 'should fail' do
         expect {
@@ -1013,25 +859,16 @@ describe 'ssh' do
   end
 
   describe 'with sshd_config_permituserenvironment' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     ['yes','no'].each do |value|
       context "set to #{value}" do
-        let (:params) {{ 'sshd_config_permituserenvironment' => value }}
+        let(:params) { { 'sshd_config_permituserenvironment' => value } }
 
         it { should contain_file('sshd_config').with_content(/^PermitUserEnvironment #{value}$/) }
       end
     end
 
     context 'set to invalid value on valid osfamily' do
-      let :params do
-        { :sshd_config_permituserenvironment => 'invalid' }
-      end
+      let(:params) { { :sshd_config_permituserenvironment => 'invalid' } }
 
       it 'should fail' do
         expect {
@@ -1042,33 +879,26 @@ describe 'ssh' do
   end
 
   describe 'sshd_config_port param' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     context 'when set to an array' do
-      let (:params) {{'sshd_config_port' => ['22222', '22223'] }}
+      let(:params) { {'sshd_config_port' => ['22222', '22223'] } }
 
       it { should contain_file('sshd_config').with_content(/^Port 22222\nPort 22223$/) }
     end
 
     context 'when set to a string' do
-      let (:params) {{'sshd_config_port' => '22222' }}
+      let(:params) { {'sshd_config_port' => '22222' } }
 
       it { should contain_file('sshd_config').with_content(/^Port 22222$/) }
     end
 
     context 'when set to an integer' do
-      let (:params) {{'sshd_config_port' => 22222 }}
+      let(:params) { {'sshd_config_port' => 22222 } }
 
       it { should contain_file('sshd_config').with_content(/^Port 22222$/) }
     end
 
     context 'when not set to a valid number' do
-      let (:params) {{'sshd_config_port' => '22invalid' }}
+      let(:params) { {'sshd_config_port' => '22invalid' } }
 
       it 'should fail' do
         expect {
@@ -1079,16 +909,7 @@ describe 'ssh' do
   end
 
   context 'with manage_root_ssh_config set to invalid value on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-          :root_home => '/root',
-        }
-      )
-    end
-    let :params do
-      { :manage_root_ssh_config => 'invalid' }
-    end
+    let(:params) { { :manage_root_ssh_config => 'invalid' } }
 
     it 'should fail' do
       expect {
@@ -1098,15 +919,7 @@ describe 'ssh' do
   end
 
   context 'with sshd_password_authentication set to invalid value on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-    let :params do
-      { :sshd_password_authentication => 'invalid' }
-    end
+    let(:params) { { :sshd_password_authentication => 'invalid' } }
 
     it 'should fail' do
       expect {
@@ -1116,15 +929,7 @@ describe 'ssh' do
   end
 
   context 'with sshd_allow_tcp_forwarding set to invalid value on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-    let :params do
-      { :sshd_allow_tcp_forwarding => 'invalid' }
-    end
+    let(:params) { { :sshd_allow_tcp_forwarding => 'invalid' } }
 
     it 'should fail' do
       expect {
@@ -1134,15 +939,7 @@ describe 'ssh' do
   end
 
   context 'with sshd_x11_forwarding set to invalid value on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-    let :params do
-      { :sshd_x11_forwarding => 'invalid' }
-    end
+    let(:params) { { :sshd_x11_forwarding => 'invalid' } }
 
     it 'should fail' do
       expect {
@@ -1152,15 +949,7 @@ describe 'ssh' do
   end
 
   context 'with sshd_use_pam set to invalid value on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-    let :params do
-      { :sshd_use_pam => 'invalid' }
-    end
+    let(:params) { { :sshd_use_pam => 'invalid' } }
 
     it 'should fail' do
       expect {
@@ -1170,15 +959,7 @@ describe 'ssh' do
   end
 
   context 'with sshd_config_serverkeybits set to invalid value on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-    let :params do
-      { :sshd_config_serverkeybits => 'invalid' }
-    end
+    let(:params) { { :sshd_config_serverkeybits => 'invalid' } }
 
     it 'should fail' do
       expect {
@@ -1188,15 +969,7 @@ describe 'ssh' do
   end
 
   context 'with sshd_client_alive_interval set to invalid value on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-    let :params do
-      { :sshd_client_alive_interval => 'invalid' }
-    end
+    let(:params) { { :sshd_client_alive_interval => 'invalid' } }
 
     it 'should fail' do
       expect {
@@ -1206,15 +979,7 @@ describe 'ssh' do
   end
 
   context 'with sshd_client_alive_count_max set to invalid value on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-    let :params do
-      { :sshd_client_alive_count_max => 'invalid' }
-    end
+    let(:params) { { :sshd_client_alive_count_max => 'invalid' } }
 
     it 'should fail' do
       expect {
@@ -1224,12 +989,6 @@ describe 'ssh' do
   end
 
   context 'with sshd_config_banner set to invalid value on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     let(:params) { { :sshd_config_banner => 'invalid/path' } }
 
     it 'should fail' do
@@ -1240,12 +999,6 @@ describe 'ssh' do
   end
 
   context 'with sshd_config_authkey_location set to invalid value on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     let(:params) { { :sshd_config_authkey_location => false } }
 
     it 'should fail' do
@@ -1256,12 +1009,6 @@ describe 'ssh' do
   end
 
   context 'with sshd_config_hostkey set to invalid value on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     let(:params) { { :sshd_config_hostkey => false } }
 
     it 'should fail' do
@@ -1272,12 +1019,6 @@ describe 'ssh' do
   end
 
   context 'with sshd_config_hostkey set to invalid path on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     let(:params) { { :sshd_config_hostkey => ['not_a_path'] } }
 
     it 'should fail' do
@@ -1289,15 +1030,7 @@ describe 'ssh' do
 
 
   context 'with sshd_config_strictmodes set to invalid value on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-    let :params do
-      { :sshd_config_strictmodes => 'invalid' }
-    end
+    let(:params) { { :sshd_config_strictmodes => 'invalid' } }
 
     it 'should fail' do
       expect {
@@ -1307,12 +1040,6 @@ describe 'ssh' do
   end
 
   context 'with sshd_authorized_keys_command specified with an invalid path' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     let(:params) { { :sshd_authorized_keys_command => 'invalid/path' } }
 
     it 'should fail' do
@@ -1323,12 +1050,6 @@ describe 'ssh' do
   end
 
   context 'with sshd_authorized_keys_command_user specified with an invalid type (non-string)' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     let(:params) { { :sshd_authorized_keys_command_user => ['invalid','type'] } }
 
     it 'should fail' do
@@ -1339,12 +1060,6 @@ describe 'ssh' do
   end
 
   context 'with sshd_banner_content set and with default value on sshd_config_banner on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     let(:params) { { :sshd_banner_content => 'textinbanner' } }
 
     it 'should fail' do
@@ -1356,12 +1071,6 @@ describe 'ssh' do
 
 
   context 'with ssh_config_sendenv_xmodifiers set to invalid type, array' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     let(:params) { { :ssh_config_sendenv_xmodifiers => ['invalid','type'] } }
 
     it 'should fail' do
@@ -1372,17 +1081,7 @@ describe 'ssh' do
   end
 
   context 'with ssh_config_sendenv_xmodifiers set to stringified \'true\'' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-    let :params do
-      {
-        :ssh_config_sendenv_xmodifiers => 'true',
-      }
-    end
+    let(:params) { { :ssh_config_sendenv_xmodifiers => 'true' } }
 
     it { should compile.with_all_deps }
 
@@ -1390,15 +1089,7 @@ describe 'ssh' do
   end
 
   context 'with manage_firewall set to true on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-    let :params do
-      { :manage_firewall => true }
-    end
+    let(:params) { { :manage_firewall => true } }
 
     it { should compile.with_all_deps }
 
@@ -1416,12 +1107,6 @@ describe 'ssh' do
   end
 
   context 'with keys defined on valid osfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     let(:params) { { :keys => {
       'root_for_userX' => {
         'ensure' => 'present',
@@ -1472,12 +1157,6 @@ describe 'ssh' do
   end
 
   context 'with keys specified as not of type hash' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     let(:params) { { :keys => [ 'not', 'a', 'hash' ] } }
 
     it 'should fail' do
@@ -1489,14 +1168,7 @@ describe 'ssh' do
 
   describe 'with hiera_merge parameter specified' do
     context 'as a non-boolean or non-string' do
-      let :facts do
-        default_facts.merge(
-          {
-            :fqdn              => 'hieramerge.example.com',
-            :lsbmajdistrelease => '6',
-          }
-        )
-      end
+      let(:facts) { default_facts.merge( { :fqdn => 'hieramerge.example.com'} )}
       let(:params) { { :hiera_merge => ['not_a_boolean','or_a_string'] } }
 
       it 'should fail' do
@@ -1507,13 +1179,6 @@ describe 'ssh' do
     end
 
     context 'as an invalid string' do
-      let :facts do
-        default_facts.merge(
-          {
-            :lsbmajdistrelease => '6',
-          }
-        )
-      end
       let(:params) { { :hiera_merge => 'invalid_string' } }
 
       it 'should fail' do
@@ -1525,14 +1190,7 @@ describe 'ssh' do
 
     ['true',true].each do |value|
       context "as #{value} with hiera data getting collected" do
-        let:facts do
-          default_facts.merge(
-            {
-              :fqdn              => 'hieramerge.example.com',
-              :lsbmajdistrelease => '6',
-            }
-          )
-        end
+        let(:facts) { default_facts.merge( { :fqdn => 'hieramerge.example.com'} )}
         let(:params) { { :hiera_merge => value } }
 
         it { should compile.with_all_deps }
@@ -1548,11 +1206,10 @@ describe 'ssh' do
     end
 
     context "as true with with hiera data getting merged through levels" do
-      let :facts do
+      let(:facts) do
         default_facts.merge(
           {
             :fqdn              => 'hieramerge.example.com',
-            :lsbmajdistrelease => '6',
             :specific          => 'test_hiera_merge',
           }
         )
@@ -1571,13 +1228,11 @@ describe 'ssh' do
     end
 
     context "as true with no hiera data provided" do
-      let :facts do
+      let(:facts) do
         default_facts.merge(
           {
             :osfamily               => 'Suse',
             :operatingsystem        => 'SLES',
-            :fqdn                   => 'notinhiera.example.com',
-            :lsbmajdistrelease      => '11',
             :operatingsystemrelease => '11.4',
             :architecture           => 'x86_64',
           }
@@ -1598,14 +1253,6 @@ describe 'ssh' do
 
     ['false',false].each do |value|
       context "as #{value}" do
-        let :facts do
-          default_facts.merge(
-            {
-              :osfamily          => 'RedHat',
-              :lsbmajdistrelease => '6',
-            }
-          )
-        end
         let(:params) { { :hiera_merge => value } }
 
         it { should compile.with_all_deps }
@@ -1617,13 +1264,7 @@ describe 'ssh' do
 
   describe 'with ssh_package_adminfile parameter specified' do
     context 'as a valid path' do
-      let :facts do
-        default_solaris_facts.merge(
-          {
-            :kernelrelease => '5.10',
-          }
-        )
-      end
+      let(:facts) { default_solaris_facts }
       let(:params) { { :ssh_package_adminfile => '/var/tmp/admin' } }
 
       ['SUNWsshcu','SUNWsshdr','SUNWsshdu','SUNWsshr','SUNWsshu'].each do |pkg|
@@ -1638,13 +1279,7 @@ describe 'ssh' do
     end
 
     context 'as an invalid path' do
-      let :facts do
-        default_solaris_facts.merge(
-          {
-            :kernelrelease => '5.10',
-          }
-        )
-      end
+      let(:facts) { default_solaris_facts }
       let(:params) { { :ssh_package_adminfile => 'invalid/path' } }
 
       it 'should fail' do
@@ -1656,12 +1291,6 @@ describe 'ssh' do
   end
 
   describe 'with sshd_config_xauth_location parameter specified' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     context 'as a valid path' do
       let(:params) { { :sshd_config_xauth_location => '/opt/ssh/bin/xauth' } }
 
@@ -1690,13 +1319,7 @@ describe 'ssh' do
   end
 
   describe 'with ssh_package_source parameter specified' do
-    let :facts do
-      default_solaris_facts.merge(
-        {
-          :kernelrelease => '5.10',
-        }
-      )
-    end
+    let(:facts) { default_solaris_facts }
     context 'as a valid path' do
       let(:params) { { :ssh_package_source => '/mnt/packages' } }
 
@@ -1735,12 +1358,6 @@ describe 'ssh' do
   describe 'with parameter ssh_config_forward_x11_trusted' do
     ['yes','no'].each do |value|
       context "specified as #{value}" do
-        let :facts do
-          default_facts.merge(
-            {
-            }
-          )
-        end
         let(:params) { { :ssh_config_forward_x11_trusted => value } }
 
         it { should contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted #{value}$/) }
@@ -1748,25 +1365,12 @@ describe 'ssh' do
     end
 
     context 'not specified' do
-      let :facts do
-        default_solaris_facts.merge(
-          {
-            :kernelrelease => '5.11',
-          }
-        )
-      end
-
+      let(:facts) { default_solaris_facts }
       it { should_not contain_file('ssh_config').with_content(/^\s*ForwardX11Trusted/) }
     end
 
     ['YES',true].each do |value|
       context "specified an invalid value #{value}" do
-        let :facts do
-          default_facts.merge(
-            {
-            }
-          )
-        end
         let(:params) { { :ssh_config_forward_x11_trusted => value } }
 
         it 'should fail' do
@@ -1781,13 +1385,7 @@ describe 'ssh' do
   describe 'with parameter ssh_gssapidelegatecredentials' do
     ['yes','no'].each do |value|
       context "specified as #{value}" do
-        let :facts do
-          default_solaris_facts.merge(
-            {
-              :kernelrelease => '5.11',
-            }
-          )
-        end
+        let(:facts) { default_solaris_facts }
         let(:params) { { :ssh_gssapidelegatecredentials => value } }
 
         it { should contain_file('ssh_config').with_content(/^GSSAPIDelegateCredentials #{value}$/) }
@@ -1796,12 +1394,6 @@ describe 'ssh' do
 
     ['YES',true].each do |value|
       context "specified an invalid value #{value}" do
-        let :facts do
-          default_facts.merge(
-            {
-            }
-          )
-        end
         let(:params) { { :ssh_gssapidelegatecredentials => value } }
 
         it 'should fail' do
@@ -1814,13 +1406,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_gssapiauthentication' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     ['yes','no'].each do |value|
       context "specified as valid #{value} (as #{value.class})" do
         let(:params) { { :ssh_gssapiauthentication => value } }
@@ -1849,13 +1434,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_hostbasedauthentication' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     ['yes','no'].each do |value|
       context "specified as valid #{value} (as #{value.class})" do
         let(:params) { { :ssh_hostbasedauthentication => value } }
@@ -1884,13 +1462,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_strict_host_key_checking' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     ['yes','no', 'ask'].each do |value|
       context "specified as valid #{value} (as #{value.class})" do
         let(:params) { { :ssh_strict_host_key_checking => value } }
@@ -1919,13 +1490,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_enable_ssh_keysign' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     ['yes','no'].each do |value|
       context "specified as valid #{value} (as #{value.class})" do
         let(:params) { { :ssh_enable_ssh_keysign => value } }
@@ -1954,13 +1518,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_gssapiauthentication' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     ['yes','no'].each do |value|
       context "specified as valid #{value} (as #{value.class})" do
         let(:params) { { :sshd_gssapiauthentication => value } }
@@ -1989,12 +1546,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_gssapikeyexchange' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     ['yes','no'].each do |value|
       context "specified as #{value}" do
         let(:params) { { :sshd_gssapikeyexchange => value } }
@@ -2022,12 +1573,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_pamauthenticationviakbdint' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     ['yes','no'].each do |value|
       context "specified as #{value}" do
         let(:params) { { :sshd_pamauthenticationviakbdint => value } }
@@ -2057,12 +1602,6 @@ describe 'ssh' do
   describe 'with parameter sshd_gssapicleanupcredentials' do
     ['yes','no'].each do |value|
       context "specified as #{value}" do
-        let :facts do
-          default_facts.merge(
-            {
-            }
-          )
-        end
         let(:params) { { :sshd_gssapicleanupcredentials => value } }
 
         it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials #{value}$/) }
@@ -2070,25 +1609,13 @@ describe 'ssh' do
     end
 
     context 'not specified' do
-      let :facts do
-        default_solaris_facts.merge(
-          {
-            :kernelrelease => '5.11',
-          }
-        )
-      end
+      let(:facts) { default_solaris_facts }
 
       it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPICleanupCredentials/) }
     end
 
     ['YES',true].each do |value|
       context "specified an invalid value #{value}" do
-        let :facts do
-          default_facts.merge(
-            {
-            }
-          )
-        end
         let(:params) { { :sshd_gssapicleanupcredentials => value } }
 
         it 'should fail' do
@@ -2102,12 +1629,6 @@ describe 'ssh' do
 
 
   describe 'with parameter ssh_sendenv specified' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     ['true',true].each do |value|
       context "as #{value}" do
         let(:params) { { :ssh_sendenv => value } }
@@ -2146,18 +1667,12 @@ describe 'ssh' do
   end
 
   describe 'with paramter sshd_config_maxauthtries specified'  do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     context 'as a valid integer' do
      let(:params) { { :sshd_config_maxauthtries => 6}}
      it { should contain_file('sshd_config').with_content(/^MaxAuthTries 6$/)}
     end
     context 'as an invalid type' do
-      let(:params) {{ :sshd_config_maxauthtries => 'BOGUS'}}
+      let(:params) { { :sshd_config_maxauthtries => 'BOGUS'} }
       it 'should fail' do
         expect{
           should contain_class('ssh')
@@ -2167,12 +1682,6 @@ describe 'ssh' do
  end
 
   describe 'with parameter sshd_config_maxstartups specified' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     ['10','10:30:100'].each do |value|
       context "as a valid string - #{value}" do
         let(:params) { { :sshd_config_maxstartups => value } }
@@ -2205,12 +1714,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_config_maxsessions specified' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     context 'as a valid integer' do
       let(:params) { { :sshd_config_maxsessions => 10 } }
 
@@ -2229,12 +1732,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_acceptenv specified' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     ['true',true].each do |value|
       context "as #{value}" do
         let(:params) { { :sshd_acceptenv => value } }
@@ -2273,12 +1770,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter service_hasstatus' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     ['true',true,'false',false].each do |value|
       context "specified as #{value}" do
         let(:params) { { :service_hasstatus => value } }
@@ -2318,12 +1809,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_config_global_known_hosts_file' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     context 'specified as a valid path' do
       let(:params) { { :ssh_config_global_known_hosts_file => '/valid/path' } }
 
@@ -2362,21 +1847,14 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_config_global_known_hosts_list' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     context 'when set to an array of valid absolute paths' do
-      let (:params) {{'ssh_config_global_known_hosts_list' => ['/valid/path1','/valid/path2'] }}
+      let(:params) { {'ssh_config_global_known_hosts_list' => ['/valid/path1','/valid/path2'] } }
 
       it { should contain_file('ssh_config').with_content(/^\s*GlobalKnownHostsFile.*\/valid\/path1 \/valid\/path2$/) }
     end
 
     context 'specified as an invalid path' do
-      let(:params) {{ :ssh_config_global_known_hosts_list => ['/valid/path','invalid/path'] }}
+      let(:params) { { :ssh_config_global_known_hosts_list => ['/valid/path','invalid/path'] } }
 
       it 'should fail' do
         expect {
@@ -2403,15 +1881,8 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_config_user_known_hosts_file' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     context 'when set to an array of paths' do
-      let (:params) {{'ssh_config_user_known_hosts_file' => ['valid/path1','/valid/path2'] }}
+      let(:params) { {'ssh_config_user_known_hosts_file' => ['valid/path1','/valid/path2'] } }
 
       it { should contain_file('ssh_config').with_content(/^\s*UserKnownHostsFile valid\/path1 \/valid\/path2$/) }
     end
@@ -2434,12 +1905,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_config_global_known_hosts_owner' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     context 'specified as a valid string' do
       let(:params) { { :ssh_config_global_known_hosts_owner => 'gh' } }
 
@@ -2466,12 +1931,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_config_global_known_hosts_group' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     context 'specified as a valid string' do
       let(:params) { { :ssh_config_global_known_hosts_group => 'gh' } }
 
@@ -2498,12 +1957,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_config_global_known_hosts_mode' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     context 'specified as a valid mode' do
       let(:params) { { :ssh_config_global_known_hosts_mode => '0666' } }
 
@@ -2542,13 +1995,6 @@ describe 'ssh' do
   end
 
   describe 'with ssh_key_import parameter specified' do
-    let :facts do
-      default_facts.merge(
-        {
-          :lsbmajdistrelease => '6',
-        }
-      )
-    end
     context 'as a non-boolean or non-string' do
     let(:params) { { :ssh_key_import => ['not_a_boolean','or_a_string'] } }
 
@@ -2601,13 +2047,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_hostbasedauthentication' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     ['yes','no'].each do |value|
       context "specified as valid #{value} (as #{value.class})" do
         let(:params) { { :sshd_hostbasedauthentication => value } }
@@ -2619,6 +2058,7 @@ describe 'ssh' do
     ['YES',true,2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
       context "specified as invalid value #{value} (as #{value.class})" do
         let(:params) { { :sshd_hostbasedauthentication => value } }
+
         if value.is_a?(Array)
           value = value.join
         end
@@ -2633,13 +2073,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_pubkeyauthentication' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     ['yes','no'].each do |value|
       context "specified as valid #{value} (as #{value.class})" do
         let(:params) { { :sshd_pubkeyauthentication => value } }
@@ -2665,13 +2098,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_ignoreuserknownhosts' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     ['yes','no'].each do |value|
       context "specified as valid #{value} (as #{value.class})" do
         let(:params) { { :sshd_ignoreuserknownhosts => value } }
@@ -2697,13 +2123,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_ignorerhosts' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     ['yes','no'].each do |value|
       context "specified as valid #{value} (as #{value.class})" do
         let(:params) { { :sshd_ignorerhosts => value } }
@@ -2729,13 +2148,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter manage_service' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     ['YES','badvalue',2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
       context "specified as invalid value #{value} (as #{value.class})" do
         let(:params) { { :manage_service => value } }
@@ -2763,15 +2175,8 @@ describe 'ssh' do
   end
 
   describe 'sshd_config_tcp_keepalive param' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     context 'when set to invalid' do
-      let (:params) { { :sshd_config_tcp_keepalive => 'invalid' } }
+      let(:params) { { :sshd_config_tcp_keepalive => 'invalid' } }
 
       it 'should fail' do
         expect {
@@ -2782,13 +2187,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter sshd_addressfamily' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     ['any','inet','inet6'].each do |value|
       context "set to a valid entry of #{value}" do
         let(:params) { { :sshd_addressfamily => value } }
@@ -2809,13 +2207,6 @@ describe 'ssh' do
   end
 
   describe 'with parameter ssh_config_use_roaming' do
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
-
     ['yes','no','unset'].each do |value|
       context "set to valid value #{value}" do
         let(:params) { { :ssh_config_use_roaming => value } }
@@ -2830,12 +2221,6 @@ describe 'ssh' do
 
   describe 'variable type and content validations' do
     # set needed custom facts and variables
-    let :facts do
-      default_facts.merge(
-        {
-        }
-      )
-    end
     let(:mandatory_params) do
       {
         #:param => 'value',
