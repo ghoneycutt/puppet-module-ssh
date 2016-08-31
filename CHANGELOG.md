@@ -1,3 +1,6 @@
+### v3.45.0 - 2016-08-30
+  * Add support for Ubuntu 16.04 LTS
+
 ### v3.44.0 - 2016-08-28
   * Add support for TCPKeepAlive in sshd_config
 
