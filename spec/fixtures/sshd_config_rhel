@@ -107,6 +107,7 @@ AllowTcpForwarding yes
 X11Forwarding yes
 #X11DisplayOffset 10
 #X11UseLocalhost yes
+X11UseLocalhost yes
 #PrintMotd yes
 PrintMotd yes
 #PrintLastLog yes
