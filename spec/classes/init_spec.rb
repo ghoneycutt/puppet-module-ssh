@@ -430,6 +430,9 @@ describe 'ssh' do
                                                 '2001:db8::dead:f00d',
         ],
         :sshd_config_tcp_keepalive         => 'yes',
+        :sshd_x11_display_offset           => '10',
+        :sshd_use_privilege_seperation     => 'sandbox',
+        :sshd_key_regeneration_interval    => '3600',
       }
     end
 
@@ -945,6 +948,54 @@ describe 'ssh' do
       expect {
         should contain_class('ssh')
       }.to raise_error(Puppet::Error,/ssh::sshd_x11_forwarding may be either \'yes\' or \'no\' and is set to <invalid>\./)
+    end
+  end
+
+  describe 'sshd_x11_display_offset' do
+    context 'when set to a string' do
+      let(:params) { {'sshd_x11_display_offset' => '22222' } }
+
+      it { should contain_file('sshd_config').with_content(/^X11DisplayOffset 22222$/) }
+    end
+
+    context 'when set to an integer' do
+      let(:params) { {'sshd_x11_display_offset' => 22222 } }
+
+      it { should contain_file('sshd_config').with_content(/^X11DisplayOffset 22222$/) }
+    end
+
+    context 'when not set to a valid number' do
+      let(:params) { {'sshd_x11_display_offset' => '22invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_x11_display_offset must be a valid number and is set to <22invalid>\./)
+      end
+    end
+  end
+
+  describe 'sshd_key_regeneration_interval' do
+    context 'when set to a string' do
+      let(:params) { {'sshd_key_regeneration_interval' => '3600' } }
+
+      it { should contain_file('sshd_config').with_content(/^KeyRegenerationInterval 3600$/) }
+    end
+
+    context 'when set to an integer' do
+      let(:params) { {'sshd_key_regeneration_interval' => 3600 } }
+
+      it { should contain_file('sshd_config').with_content(/^X11DisplayOffset 3600$/) }
+    end
+
+    context 'when not set to a valid number' do
+      let(:params) { {'sshd_key_regeneration_interval' => '3600invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_key_regeneration_interval must be a valid number and is set to <3600invalid>\./)
+      end
     end
   end
 
@@ -2205,7 +2256,27 @@ describe 'ssh' do
       end
     end
   end
+  
+  describe 'with sshd_use_privilege_seperation' do
+    ['yes','no', 'sandbox'].each do |value|
+      context "set to #{value}" do
+        let(:params) { { 'sshd_use_privilege_seperation' => value } }
 
+        it { should contain_file('sshd_config').with_content(/^UsePrivilegeSeparation #{value}$/) }
+      end
+    end
+
+    context 'set to invalid value on valid osfamily' do
+      let(:params) { { :sshd_use_privilege_seperation => 'invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_use_privilege_seperation may be either \'yes\', \'no\' or \'sandbox\' and is set to <invalid>\./)
+      end
+    end
+  end
+  
   describe 'with parameter ssh_config_use_roaming' do
     ['yes','no','unset'].each do |value|
       context "set to valid value #{value}" do

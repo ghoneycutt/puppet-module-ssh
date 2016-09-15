@@ -72,6 +72,7 @@ class ssh (
   $sshd_password_authentication        = 'yes',
   $sshd_allow_tcp_forwarding           = 'yes',
   $sshd_x11_forwarding                 = 'yes',
+  $sshd_x11_display_offset             = undef,
   $sshd_use_pam                        = 'USE_DEFAULTS',
   $sshd_client_alive_count_max         = '3',
   $sshd_client_alive_interval          = '0',
@@ -106,6 +107,8 @@ class ssh (
   $manage_root_ssh_config              = false,
   $root_ssh_config_content             = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
   $sshd_config_tcp_keepalive           = 'yes',
+  $sshd_use_privilege_seperation       = undef,
+  $sshd_key_regeneration_interval      = undef,
 ) {
 
   case $::osfamily {
@@ -361,6 +364,18 @@ class ssh (
     validate_re($ssh_config_forward_x11_trusted_real, '^(yes|no)$', "ssh::ssh_config_forward_x11_trusted may be either 'yes' or 'no' and is set to <${ssh_config_forward_x11_trusted_real}>.")
   }
 
+  if $sshd_x11_display_offset != undef {
+    validate_integer($sshd_x11_display_offset)
+  }
+
+  if $sshd_key_regeneration_interval != undef {
+    validate_integer($sshd_key_regeneration_interval)
+  }
+  
+  if $sshd_use_privilege_seperation != undef {
+  	validate_re(sshd_use_privilege_seperation, '^(yes|no|sandbox)$', "ssh::sshd_use_privilege_seperation may be either 'yes', 'no' or 'sandbox' and is set to <${sshd_use_privilege_seperation}>.")
+  }
+  
   if $sshd_gssapikeyexchange == 'USE_DEFAULTS' {
     $sshd_gssapikeyexchange_real = $default_sshd_gssapikeyexchange
   } else {
