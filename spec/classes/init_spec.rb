@@ -464,7 +464,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^KerberosAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding no$/) }
     it { should contain_file('sshd_config').with_content(/^X11Forwarding no$/) }
-    it { should contain_file('sshd_config').with_content(/^X11DisplayOffset 22222$/) }
+    it { should contain_file('sshd_config').with_content(/^X11DisplayOffset 10$/) }
     it { should contain_file('sshd_config').with_content(/^KeyRegenerationInterval 1234$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM no$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 242$/) }
@@ -501,6 +501,8 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^\s*AllowGroups ssh security$/) }
     it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1\nListenAddress 2001:db8::dead:f00d$/) }
     it { should contain_file('sshd_config').with_content(/^TCPKeepAlive yes$/) }
+    it { should contain_file('sshd_config').with_content(/^UsePrivilegeSeparation sandbox$/) }
+    it { should contain_file('sshd_config').with_content(/^KeyRegenerationInterval 3600$/) }
 
     it {
       should contain_file('sshd_banner').with({
