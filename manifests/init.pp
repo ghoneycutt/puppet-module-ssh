@@ -371,11 +371,11 @@ class ssh (
   if $sshd_key_regeneration_interval != undef {
     validate_integer($sshd_key_regeneration_interval)
   }
-  
+
   if $sshd_use_privilege_seperation != undef {
-  	validate_re(sshd_use_privilege_seperation, '^(yes|no|sandbox)$', "ssh::sshd_use_privilege_seperation may be either 'yes', 'no' or 'sandbox' and is set to <${sshd_use_privilege_seperation}>.")
+    validate_re(sshd_use_privilege_seperation, '^(yes|no|sandbox)$', "ssh::sshd_use_privilege_seperation may be either 'yes', 'no' or 'sandbox' and is set to <${sshd_use_privilege_seperation}>.")
   }
-  
+
   if $sshd_gssapikeyexchange == 'USE_DEFAULTS' {
     $sshd_gssapikeyexchange_real = $default_sshd_gssapikeyexchange
   } else {
