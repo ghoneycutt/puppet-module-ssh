@@ -464,6 +464,8 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^KerberosAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding no$/) }
     it { should contain_file('sshd_config').with_content(/^X11Forwarding no$/) }
+    it { should contain_file('sshd_config').with_content(/^X11DisplayOffset 22222$/) }
+    it { should contain_file('sshd_config').with_content(/^KeyRegenerationInterval 1234$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM no$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 242$/) }
     it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
@@ -977,19 +979,19 @@ describe 'ssh' do
 
   describe 'sshd_key_regeneration_interval' do
     context 'when set to a string' do
-      let(:params) { {'sshd_key_regeneration_interval' => '3600' } }
+      let(:params) { {'sshd_key_regeneration_interval' => '1234' } }
 
-      it { should contain_file('sshd_config').with_content(/^KeyRegenerationInterval 3600$/) }
+      it { should contain_file('sshd_config').with_content(/^KeyRegenerationInterval 1234$/) }
     end
 
     context 'when set to an integer' do
-      let(:params) { {'sshd_key_regeneration_interval' => 3600 } }
+      let(:params) { {'sshd_key_regeneration_interval' => 1234 } }
 
-      it { should contain_file('sshd_config').with_content(/^X11DisplayOffset 3600$/) }
+      it { should contain_file('sshd_config').with_content(/^X11DisplayOffset 1234$/) }
     end
 
     context 'when not set to a valid number' do
-      let(:params) { {'sshd_key_regeneration_interval' => '3600invalid' } }
+      let(:params) { {'sshd_key_regeneration_interval' => '1234invalid' } }
 
       it 'should fail' do
         expect {
