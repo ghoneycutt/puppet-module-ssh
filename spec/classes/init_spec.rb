@@ -432,7 +432,7 @@ describe 'ssh' do
         :sshd_config_tcp_keepalive         => 'yes',
         :sshd_x11_display_offset           => '10',
         :sshd_use_privilege_seperation     => 'sandbox',
-        :sshd_key_regeneration_interval    => '3600',
+        :sshd_key_regeneration_interval    => '1234',
       }
     end
 
@@ -502,7 +502,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1\nListenAddress 2001:db8::dead:f00d$/) }
     it { should contain_file('sshd_config').with_content(/^TCPKeepAlive yes$/) }
     it { should contain_file('sshd_config').with_content(/^UsePrivilegeSeparation sandbox$/) }
-    it { should contain_file('sshd_config').with_content(/^KeyRegenerationInterval 3600$/) }
+    it { should contain_file('sshd_config').with_content(/^KeyRegenerationInterval 1234$/) }
 
     it {
       should contain_file('sshd_banner').with({
