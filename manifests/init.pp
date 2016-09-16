@@ -366,7 +366,7 @@ class ssh (
 
   case type3x($sshd_x11_display_offset) {
     'string': {
-      validate_re($sshd_x11_display_offset, '^\d+$', "ssh::sshd_x11_display_offset must be a valid number and is set to <${sshd_x11_display_offset}>.")
+      validate_re("${sshd_x11_display_offset}", '^\d+$', "ssh::sshd_x11_display_offset must be a valid number and is set to <${sshd_x11_display_offset}>.")
       $sshd_x11_display_offset_array = [ str2num($sshd_x11_display_offset) ]
     }
     'integer': {
@@ -379,7 +379,7 @@ class ssh (
 
   case type3x($sshd_key_regeneration_interval) {
     'string': {
-      validate_re($sshd_key_regeneration_interval, '^\d+$', "ssh::sshd_key_regeneration_interval must be a valid number and is set to <${sshd_key_regeneration_interval}>.")
+      validate_re("${sshd_key_regeneration_interval}", '^\d+$', "ssh::sshd_key_regeneration_interval must be a valid number and is set to <${sshd_key_regeneration_interval}>.") 
       $sshd_key_regeneration_interval_array = [ str2num($sshd_key_regeneration_interval) ]
     }
     'integer': {

@@ -378,7 +378,7 @@ X11Forwarding in sshd_config. Specifies whether X11 forwarding is permitted.
 
 sshd_x11_display_offset
 -----------------------
-X11DisplayOffset in sshd_config. Specifies the first display number available for sshd's X11 forwarding.  This prevents sshd from interfering with real X11 servers.
+X11DisplayOffset in sshd_config. Specifies the first display number available for sshd's X11 forwarding. This prevents sshd from interfering with real X11 servers.
 
 - *Default*: undef
 
@@ -617,7 +617,7 @@ String for IgnoreRhosts option in sshd_config. Valid values are 'yes' and 'no'. 
 
 sshd_use_privilege_seperation
 -----------------------------
-UsePrivilegeSeparation in sshd_config. Valid values are 'yes', 'no' and sandbox.
+UsePrivilegeSeparation in sshd_config. Valid values are 'yes', 'no' and 'sandbox'.
 
 - *Default*: undef
 
