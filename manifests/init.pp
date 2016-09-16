@@ -379,7 +379,7 @@ class ssh (
 
   case type3x($sshd_key_regeneration_interval) {
     'string': {
-      validate_re("${sshd_key_regeneration_interval}", '^\d+$', "ssh::sshd_key_regeneration_interval must be a valid number and is set to <${sshd_key_regeneration_interval}>.") 
+      validate_re("${sshd_key_regeneration_interval}", '^\d+$', "ssh::sshd_key_regeneration_interval must be a valid number and is set to <${sshd_key_regeneration_interval}>.")
       $sshd_key_regeneration_interval_array = [ str2num($sshd_key_regeneration_interval) ]
     }
     'integer': {
