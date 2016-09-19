@@ -364,34 +364,39 @@ class ssh (
     validate_re($ssh_config_forward_x11_trusted_real, '^(yes|no)$', "ssh::ssh_config_forward_x11_trusted may be either 'yes' or 'no' and is set to <${ssh_config_forward_x11_trusted_real}>.")
   }
 
-  case type3x($sshd_x11_display_offset) {
-    'string': {
-      validate_re("${sshd_x11_display_offset}", '^\d+$', "ssh::sshd_x11_display_offset must be a valid number and is set to <${sshd_x11_display_offset}>.") # lint:ignore:only_variable_string
-      $sshd_x11_display_offset_array = [ str2num($sshd_x11_display_offset) ]
-    }
-    'integer': {
-      $sshd_x11_display_offset_array = [ $sshd_x11_display_offset ]
-    }
-    default: {
-      fail('ssh:sshd_x11_display_offset must be a string or an integer. ')
+  if $sshd_x11_display_offset != undef {
+    case type3x($sshd_x11_display_offset) {
+      'string': {
+        validate_re("${sshd_x11_display_offset}", '^\d+$', "ssh::sshd_x11_display_offset must be a valid number and is set to <${sshd_x11_display_offset}>.") # lint:ignore:only_variable_string
+        $sshd_x11_display_offset_array = [ str2num($sshd_x11_display_offset) ]
+      }
+      'integer': {
+        $sshd_x11_display_offset_array = [ $sshd_x11_display_offset ]
+      }
+      default: {
+        fail('ssh:sshd_x11_display_offset must be a string or an integer. ')
+      }
     }
   }
 
-  case type3x($sshd_key_regeneration_interval) {
-    'string': {
-      validate_re("${sshd_key_regeneration_interval}", '^\d+$', "ssh::sshd_key_regeneration_interval must be a valid number and is set to <${sshd_key_regeneration_interval}>.") # lint:ignore:only_variable_string
-      $sshd_key_regeneration_interval_array = [ str2num($sshd_key_regeneration_interval) ]
-    }
-    'integer': {
-      $sshd_key_regeneration_interval_array = [ $sshd_key_regeneration_interval ]
-    }
-    default: {
-      fail('ssh:sshd_key_regeneration_interval must be a string or an integer. ')
+  if $sshd_key_regeneration_interval != undef {
+    case type3x($sshd_key_regeneration_interval) {
+      'string': {
+        validate_re("${sshd_key_regeneration_interval}", '^\d+$', "ssh::sshd_key_regeneration_interval must be a valid number and is set to <${sshd_key_regeneration_interval}>.") # lint:ignore:only_variable_string
+        #validate_re($sshd_key_regeneration_interval, '^\d+$', "ssh::sshd_key_regeneration_interval must be a valid number and is set to <${sshd_key_regeneration_interval}>.")
+        $sshd_key_regeneration_interval_array = [ str2num($sshd_key_regeneration_interval) ]
+      }
+      'integer': {
+        $sshd_key_regeneration_interval_array = [ $sshd_key_regeneration_interval ]
+      }
+      default: {
+        fail('ssh:sshd_key_regeneration_interval must be a string or an integer. ')
+      }
     }
   }
 
   if $sshd_use_privilege_seperation != undef {
-    validate_re(sshd_use_privilege_seperation, '^(yes|no|sandbox)$', "ssh::sshd_use_privilege_seperation may be either 'yes', 'no' or 'sandbox' and is set to <${sshd_use_privilege_seperation}>.")
+    validate_re($sshd_use_privilege_seperation, '^(yes|no|sandbox)$', "ssh::sshd_use_privilege_seperation may be either 'yes', 'no' or 'sandbox' and is set to <${sshd_use_privilege_seperation}>.")
   }
 
   if $sshd_gssapikeyexchange == 'USE_DEFAULTS' {
