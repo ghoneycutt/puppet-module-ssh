@@ -42,7 +42,7 @@ HostKey <%= hostkey %>
 
 # Lifetime and size of ephemeral version 1 server key
 #KeyRegenerationInterval 1h
-<% if @sshd_key_regeneration_interval -%>
+<% if @sshd_key_regeneration_interval_real != nil -%>
 KeyRegenerationInterval <%= @sshd_key_regeneration_interval %>
 <% end -%>
 #ServerKeyBits 1024
@@ -163,8 +163,8 @@ AllowTcpForwarding <%= @sshd_allow_tcp_forwarding %>
 #X11Forwarding no
 X11Forwarding <%= @sshd_x11_forwarding %>
 #X11DisplayOffset 10
-<% if @sshd_x11_display_offset -%>
-X11DisplayOffset <%= @sshd_x11_display_offset %>
+<% if @sshd_x11_display_offset_real != nil -%>
+X11DisplayOffset <%= @sshd_x11_display_offset_real %>
 <% end -%>
 #X11UseLocalhost yes
 #PrintMotd yes
@@ -174,7 +174,7 @@ PrintMotd <%= @sshd_config_print_motd %>
 TCPKeepAlive <%= @sshd_config_tcp_keepalive %>
 #UseLogin no
 #UsePrivilegeSeparation yes
-<% if @sshd_use_privilege_seperation -%>
+<% if @sshd_use_privilege_seperation != nil -%>
 UsePrivilegeSeparation <%= @sshd_use_privilege_seperation %>
 <% end -%>
 #PermitUserEnvironment no
