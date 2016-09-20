@@ -376,6 +376,18 @@ X11Forwarding in sshd_config. Specifies whether X11 forwarding is permitted.
 
 - *Default*: 'yes'
 
+sshd_x11_display_offset
+-----------------------
+X11DisplayOffset in sshd_config. Specifies the first display number available for sshd's X11 forwarding. This prevents sshd from interfering with real X11 servers.
+
+- *Default*: undef
+
+sshd_key_regeneration_interval
+------------------------------
+ The option KeyRegenerationInterval specifies how long in seconds the server should wait before automatically regenerated its key. This is a security feature to prevent decrypting captured sessions.
+
+ - *Default*: undef
+
 sshd_use_pam
 ------------
 UsePam in sshd_config.
@@ -602,6 +614,12 @@ sshd_ignorerhosts
 String for IgnoreRhosts option in sshd_config. Valid values are 'yes' and 'no'. Specifies that .rhosts and .shosts files will not be used in RhostsRSAAuthentication or HostbasedAuthentication though /etc/hosts.equiv and /etc/ssh/shosts.equiv are still used.
 
 - *Default*: 'yes'
+
+sshd_use_privilege_seperation
+-----------------------------
+UsePrivilegeSeparation in sshd_config. Valid values are 'yes', 'no' and 'sandbox'.
+
+- *Default*: undef
 
 purge_keys
 ----------
