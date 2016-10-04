@@ -1,3 +1,6 @@
+### v3.46.0 - 2016-10-04
+  * Add sshd_x11_use_localhost parameter
+
 ### v3.45.0 - 2016-08-30
   * Add support for Ubuntu 16.04 LTS
 
