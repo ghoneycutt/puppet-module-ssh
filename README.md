@@ -376,6 +376,13 @@ X11Forwarding in sshd_config. Specifies whether X11 forwarding is permitted.
 
 - *Default*: 'yes'
 
+sshd_x11_use_localhost
+----------------------
+X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding server 
+to the loopback address or to the wildcard address.
+
+- *Default*: 'yes'
+
 sshd_use_pam
 ------------
 UsePam in sshd_config.

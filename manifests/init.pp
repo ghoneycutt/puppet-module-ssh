@@ -72,6 +72,7 @@ class ssh (
   $sshd_password_authentication        = 'yes',
   $sshd_allow_tcp_forwarding           = 'yes',
   $sshd_x11_forwarding                 = 'yes',
+  $sshd_x11_use_localhost              = 'yes',
   $sshd_use_pam                        = 'USE_DEFAULTS',
   $sshd_client_alive_count_max         = '3',
   $sshd_client_alive_interval          = '0',
@@ -502,6 +503,7 @@ class ssh (
   validate_re($sshd_password_authentication, '^(yes|no)$', "ssh::sshd_password_authentication may be either 'yes' or 'no' and is set to <${sshd_password_authentication}>.")
   validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "ssh::sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to <${sshd_allow_tcp_forwarding}>.")
   validate_re($sshd_x11_forwarding, '^(yes|no)$', "ssh::sshd_x11_forwarding may be either 'yes' or 'no' and is set to <${sshd_x11_forwarding}>.")
+  validate_re($sshd_x11_use_localhost, '^(yes|no)$', "ssh::sshd_x11_use_localhost may be either 'yes' or 'no' and is set to <${sshd_x11_use_localhost}>.")
   if $sshd_use_pam_real != undef {
     validate_re($sshd_use_pam_real, '^(yes|no)$', "ssh::sshd_use_pam may be either 'yes' or 'no' and is set to <${sshd_use_pam_real}>.")
   }

@@ -394,6 +394,7 @@ describe 'ssh' do
         :sshd_pubkeyauthentication         => 'no',
         :sshd_allow_tcp_forwarding         => 'no',
         :sshd_x11_forwarding               => 'no',
+        :sshd_x11_use_localhost            => 'no',
         :sshd_use_pam                      => 'no',
         :sshd_client_alive_interval        => '242',
         :sshd_config_serverkeybits         => '1024',
@@ -461,6 +462,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^KerberosAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding no$/) }
     it { should contain_file('sshd_config').with_content(/^X11Forwarding no$/) }
+    it { should contain_file('sshd_config').with_content(/^X11UseLocalhost no$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM no$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 242$/) }
     it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
@@ -945,6 +947,16 @@ describe 'ssh' do
       expect {
         should contain_class('ssh')
       }.to raise_error(Puppet::Error,/ssh::sshd_x11_forwarding may be either \'yes\' or \'no\' and is set to <invalid>\./)
+    end
+  end
+
+  context 'with sshd_x11_use_localhost set to invalid value on valid osfamily' do
+    let(:params) { { :sshd_x11_use_localhost => 'invalid' } }
+
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/ssh::sshd_x11_use_localhost may be either \'yes\' or \'no\' and is set to <invalid>\./)
     end
   end
 
