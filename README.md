@@ -125,6 +125,12 @@ Array of ciphers to be used with the Ciphers option in ssh_config.
 
 - *Default*: undef
 
+ssh_config_kexalgorithms
+------------------
+Array of key exchange algorithms to be used with the KexAlgorithms option in ssh_config.
+
+- *Default*: undef
+
 ssh_config_macs
 ---------------
 Array of ciphers to be used with the MACs option in ssh_config.
@@ -445,6 +451,12 @@ network goes down or the client host crashes.  This avoids infinitely hanging se
 sshd_config_ciphers
 -------------------
 Array of ciphers for the Ciphers setting in sshd_config.
+
+- *Default*: undef
+
+sshd_config_kexalgorithms
+-------------------
+Array of key exchange algorithms for the KexAlgorithms setting in sshd_config.
 
 - *Default*: undef
 

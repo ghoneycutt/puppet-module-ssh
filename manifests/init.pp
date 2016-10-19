@@ -23,6 +23,7 @@ class ssh (
   $ssh_hostbasedauthentication         = undef,
   $ssh_strict_host_key_checking        = undef,
   $ssh_config_ciphers                  = undef,
+  $ssh_config_kexalgorithms            = undef,
   $ssh_config_macs                     = undef,
   $ssh_config_use_roaming              = 'USE_DEFAULTS',
   $ssh_config_template                 = 'ssh/ssh_config.erb',
@@ -48,6 +49,7 @@ class ssh (
   $sshd_config_serverkeybits           = 'USE_DEFAULTS',
   $sshd_config_banner                  = 'none',
   $sshd_config_ciphers                 = undef,
+  $sshd_config_kexalgorithms           = undef,
   $sshd_config_macs                    = undef,
   $ssh_enable_ssh_keysign              = undef,
   $sshd_config_allowgroups             = [],
@@ -462,6 +464,14 @@ class ssh (
 
   if $sshd_config_ciphers != undef {
     validate_array($sshd_config_ciphers)
+  }
+
+  if $ssh_config_kexalgorithms != undef {
+    validate_array($ssh_config_kexalgorithms)
+  }
+
+  if $sshd_config_kexalgorithms != undef {
+    validate_array($sshd_config_kexalgorithms)
   }
 
   if $ssh_config_macs != undef {
