@@ -320,6 +320,15 @@ describe 'ssh' do
                                                  'aes192-cbc',
                                                  'aes256-cbc',
         ],
+        :ssh_config_kexalgorithms          => [ 'curve25519-sha256@libssh.org',
+						'ecdh-sha2-nistp256',
+						'ecdh-sha2-nistp384',
+						'ecdh-sha2-nistp521',
+						'diffie-hellman-group-exchange-sha256',
+						'diffie-hellman-group-exchange-sha1',
+						'diffie-hellman-group14-sha1',
+						'diffie-hellman-group1-sha1',
+	],
         :ssh_config_macs                    => [ 'hmac-md5-etm@openssh.com',
                                                  'hmac-sha1-etm@openssh.com',
         ],
@@ -360,6 +369,7 @@ describe 'ssh' do
     it { should contain_file('ssh_config').with_content(/^  ServerAliveInterval 300$/) }
     it { should contain_file('ssh_config').with_content(/^  SendEnv XMODIFIERS$/) }
     it { should contain_file('ssh_config').with_content(/^\s*Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,diffie-hellman-group1-sha1$/) }
     it { should contain_file('ssh_config').with_content(/^\s*MACs hmac-md5-etm@openssh.com,hmac-sha1-etm@openssh.com$/) }
     it { should contain_file('ssh_config').with_content(/^\s*GlobalKnownHostsFile \/etc\/ssh\/ssh_known_hosts2 \/etc\/ssh\/ssh_known_hosts3 \/etc\/ssh\/ssh_known_hosts4$/) }
     it { should contain_file('ssh_config').with_content(/^\s*UserKnownHostsFile \.ssh\/known_hosts1 \.ssh\/known_hosts2$/) }
@@ -412,6 +422,15 @@ describe 'ssh' do
                                                 'aes192-cbc',
                                                 'aes256-cbc',
         ],
+        :sshd_config_kexalgorithms         => [ 'curve25519-sha256@libssh.org',
+						'ecdh-sha2-nistp256',
+						'ecdh-sha2-nistp384',
+						'ecdh-sha2-nistp521',
+						'diffie-hellman-group-exchange-sha256',
+						'diffie-hellman-group-exchange-sha1',
+						'diffie-hellman-group14-sha1',
+						'diffie-hellman-group1-sha1',
+	],
         :sshd_config_macs                  => [ 'hmac-md5-etm@openssh.com',
                                                 'hmac-sha1-etm@openssh.com',
         ],
@@ -491,6 +510,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^ForceCommand \/force\/command --with-parameter 242$/) }
     it { should contain_file('sshd_config').with_content(/^Match User JohnDoe\n  AllowTcpForwarding yes\Z/) }
     it { should contain_file('sshd_config').with_content(/^\s*Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc$/) }
+    it { should contain_file('sshd_config').with_content(/^\s*KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,diffie-hellman-group1-sha1$/) }
     it { should contain_file('sshd_config').with_content(/^\s*MACs hmac-md5-etm@openssh.com,hmac-sha1-etm@openssh.com$/) }
     it { should contain_file('sshd_config').with_content(/^\s*DenyUsers root lusers$/) }
     it { should contain_file('sshd_config').with_content(/^\s*DenyGroups nossh wheel$/) }
@@ -746,6 +766,18 @@ describe 'ssh' do
     end
   end
 
+  [true,'invalid'].each do |kexalgorithms|
+    context "with ssh_config_kexalgorithms set to invalid value #{kexalgorithms}" do
+      let(:params) { { :ssh_config_kexalgorithms => kexalgorithms } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
   [true,'invalid'].each do |macs|
     context "with ssh_config_macs set to invalid value #{macs}" do
       let(:params) { { :ssh_config_macs => macs } }
@@ -771,6 +803,18 @@ describe 'ssh' do
   [true,'invalid'].each do |ciphers|
     context "with sshd_config_ciphers set to invalid value #{ciphers}" do
       let(:params) { { :sshd_config_ciphers => ciphers } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
+  [true,'invalid'].each do |kexalgorithms|
+    context "with sshd_config_kexalgorithms set to invalid value #{kexalgorithms}" do
+      let(:params) { { :sshd_config_kexalgorithms => kexalgorithms } }
 
       it 'should fail' do
         expect {

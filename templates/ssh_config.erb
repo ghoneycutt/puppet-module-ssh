@@ -49,6 +49,9 @@
 <% if @ssh_config_ciphers -%>
     Ciphers <%= @ssh_config_ciphers.join(',') %>
 <% end -%>
+<% if @ssh_config_kexalgorithms -%>
+    KexAlgorithms <%= @ssh_config_kexalgorithms.join(',') %>
+<% end -%>
 #   EscapeChar ~
 #   Tunnel no
 #   TunnelDevice any:any
