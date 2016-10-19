@@ -1,3 +1,6 @@
+### v3.47.0 - 2016-10-19
+  * Add support for KexAlgorithms
+
 ### v3.46.0 - 2016-10-04
   * Add sshd_x11_use_localhost parameter
 
