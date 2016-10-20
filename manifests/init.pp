@@ -21,6 +21,7 @@ class ssh (
   $ssh_config_server_alive_interval    = undef,
   $ssh_config_sendenv_xmodifiers       = false,
   $ssh_hostbasedauthentication         = undef,
+  $ssh_config_proxy_command            = undef,
   $ssh_strict_host_key_checking        = undef,
   $ssh_config_ciphers                  = undef,
   $ssh_config_kexalgorithms            = undef,

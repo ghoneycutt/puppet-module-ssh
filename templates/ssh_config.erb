@@ -63,6 +63,9 @@
 <% if @ssh_config_global_known_hosts_list_real -%>
    GlobalKnownHostsFile <%= @ssh_config_global_known_hosts_list_real.join(' ') %>
 <% end -%>
+<% if @ssh_config_proxy_command -%>
+   ProxyCommand <%= @ssh_config_proxy_command %>
+ <% end -%>
 Host *
 #  GSSAPIAuthentication yes
   GSSAPIAuthentication <%= @ssh_gssapiauthentication %>
