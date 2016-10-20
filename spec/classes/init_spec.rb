@@ -796,7 +796,7 @@ describe 'ssh' do
     content "with ssh_config_proxy_command set to invalid value #{proxycommand}" do
       let(:params) { { :ssh_config_proxy_command => proxycommand } }
 
-      if 'should fail' do
+      it 'should fail' do
         expect {
           should contain_class('ssh')
       }.to raise_error(Puppet::Error)
