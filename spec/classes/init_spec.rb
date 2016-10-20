@@ -372,7 +372,7 @@ describe 'ssh' do
     it { should contain_file('ssh_config').with_content(/^\s*Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc$/) }
     it { should contain_file('ssh_config').with_content(/^\s*KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,diffie-hellman-group1-sha1$/) }
     it { should contain_file('ssh_config').with_content(/^\s*MACs hmac-md5-etm@openssh.com,hmac-sha1-etm@openssh.com$/) }
-    it { should contain_file('ssh_config').with_content(/^\s*ProxyCommand ssh -W %h:%p firewall.example.org$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*ProxyCommand ssh -W %h:%p firewall\.example\.org$/) }
     it { should contain_file('ssh_config').with_content(/^\s*GlobalKnownHostsFile \/etc\/ssh\/ssh_known_hosts2 \/etc\/ssh\/ssh_known_hosts3 \/etc\/ssh\/ssh_known_hosts4$/) }
     it { should contain_file('ssh_config').with_content(/^\s*UserKnownHostsFile \.ssh\/known_hosts1 \.ssh\/known_hosts2$/) }
     it { should contain_file('ssh_config').with_content(/^\s*HostbasedAuthentication yes$/) }
@@ -792,14 +792,14 @@ describe 'ssh' do
     end
   end
 
-  [true,'invalid'].each do |proxycommand|
-    content "with ssh_config_proxy_command set to invalid value #{proxycommand}" do
-      let(:params) { { :ssh_config_proxy_command => proxycommand } }
+  [true, ['not','a','string']].each do |proxy_command|
+    context "with ssh_config_proxy_command set to invalid value #{proxy_command}" do
+      let(:params) { { :ssh_config_proxy_command => proxy_command } }
 
       it 'should fail' do
         expect {
           should contain_class('ssh')
-      }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error)
       end
     end
   end

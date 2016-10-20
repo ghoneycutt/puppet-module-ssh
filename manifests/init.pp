@@ -558,6 +558,10 @@ class ssh (
     validate_re($ssh_strict_host_key_checking, '^(yes|no|ask)$', "ssh::ssh_strict_host_key_checking may be 'yes', 'no' or 'ask' and is set to <${ssh_strict_host_key_checking}>.")
   }
 
+  if $ssh_config_proxy_command != undef {
+    validate_string($ssh_config_proxy_command)
+  }
+
   if $ssh_enable_ssh_keysign != undef {
     validate_re($ssh_enable_ssh_keysign, '^(yes|no)$', "ssh::ssh_enable_ssh_keysign may be either 'yes' or 'no' and is set to <${ssh_enable_ssh_keysign}>.")
   }
