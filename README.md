@@ -376,6 +376,14 @@ String of user for AuthorizedKeysCommandUser in sshd_config.
 
 - *Default*: undef
 
+sshd_config_trusted_user_ca_keys
+--------------------------------
+Fully qualified path to the file containing public keys of certificate
+authorities that are trusted to sign user certificates for authentication.
+This parameter corresponds with the TrustedUserCAKeys setting in sshd_config.
+
+- *Default*: undef
+
 sshd_x11_forwarding
 -------------------
 X11Forwarding in sshd_config. Specifies whether X11 forwarding is permitted.
