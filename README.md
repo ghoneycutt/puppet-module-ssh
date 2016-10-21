@@ -163,6 +163,11 @@ String for HostbasedAuthentication option in ssh_config. Valid values are 'yes' 
 
 - *Default*: undef
 
+ssh_config_proxy_command
+-------------------------
+String for ProxyCommand option in ssh_config.
+
+- *Default*: undef
 
 ssh_strict_host_key_checking
 -----------------------------
