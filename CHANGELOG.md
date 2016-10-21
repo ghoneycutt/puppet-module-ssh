@@ -1,3 +1,6 @@
+### v3.48.0 - 2016-10-20
+  * Add support for ProxyCommand
+
 ### v3.47.0 - 2016-10-19
   * Add support for KexAlgorithms
 
