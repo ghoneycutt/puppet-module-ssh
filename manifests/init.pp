@@ -110,6 +110,7 @@ class ssh (
   $manage_root_ssh_config              = false,
   $root_ssh_config_content             = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
   $sshd_config_tcp_keepalive           = 'yes',
+  $sshd_config_permittunnel            = 'no',
 ) {
 
   case $::osfamily {
@@ -781,6 +782,9 @@ class ssh (
   }
 
   validate_re($sshd_config_tcp_keepalive, '^(yes|no)$', "ssh::sshd_config_tcp_keepalive may be either 'yes' or 'no' and is set to <${sshd_config_tcp_keepalive}>.")
+
+  validate_re($sshd_config_permittunnel, '^(yes|no|point-to-point|ethernet)$', "ssh::sshd_config_permittunnel may be either 'yes', 'point-to-point', 'ethernet' or 'no' and is set to <${sshd_config_permittunnel}>.")
+
   package { $packages_real:
     ensure    => installed,
     source    => $ssh_package_source_real,

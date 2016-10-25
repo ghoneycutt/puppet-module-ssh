@@ -115,6 +115,7 @@ ClientAliveCountMax 3
 #MaxSessions 10
 
 #PermitTunnel no
+PermitTunnel no
 #ChrootDirectory none
 
 # no default banner path

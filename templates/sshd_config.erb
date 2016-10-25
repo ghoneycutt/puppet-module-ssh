@@ -195,6 +195,7 @@ MaxSessions <%= @sshd_config_maxsessions %>
 <% end -%>
 
 #PermitTunnel no
+PermitTunnel <%= @sshd_config_permittunnel %>
 <% if @sshd_config_chrootdirectory -%>
 ChrootDirectory <%= @sshd_config_chrootdirectory %>
 <% else -%>
