@@ -1,3 +1,6 @@
+### v3.49.0 - 2016-10-25
+  * Add support for PermitTunnel in sshd_config
+
 ### v3.48.0 - 2016-10-20
   * Add support for ProxyCommand
 
