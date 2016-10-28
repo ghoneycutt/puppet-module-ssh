@@ -275,7 +275,10 @@ LoginGraceTime option in sshd_config.
 
 sshd_config_challenge_resp_auth
 -------------------------------
-ChallengeResponseAuthentication option in sshd_config.
+ChallengeResponseAuthentication option in sshd_config. RedHat defaults
+to setting this to no for EL 5, 6 and 7, though the module will set it
+to 'yes'. Suggest setting to 'no' with Hiera on EL systems. This will
+default to 'no' for those platforms in the next major release.
 
 - *Default*: 'yes'
 
