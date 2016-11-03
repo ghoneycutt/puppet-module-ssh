@@ -21,6 +21,9 @@ doc/
 # Vim
 *.swp
 
+# Eclipse
+.project
+
 # OS X
 .DS_Store
 
