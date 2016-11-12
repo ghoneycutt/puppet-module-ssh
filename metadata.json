@@ -1,12 +1,12 @@
 {
-  "name": "ghoneycutt-ssh",
+  "name": "olevole-ssh",
   "version": "3.49.0",
-  "author": "ghoneycutt",
+  "author": "olevole",
   "summary": "Manages SSH",
   "license": "Apache-2.0",
-  "source": "git://github.com/ghoneycutt/puppet-module-ssh.git",
-  "project_page": "https://github.com/ghoneycutt/puppet-module-ssh",
-  "issues_url": "https://github.com/ghoneycutt/puppet-module-ssh/issues",
+  "source": "git://github.com/olevole/puppet-module-ssh.git",
+  "project_page": "https://github.com/olevole/puppet-module-ssh",
+  "issues_url": "https://github.com/olevole/puppet-module-ssh/issues",
   "requirements": [
     {
       "name": "pe",
