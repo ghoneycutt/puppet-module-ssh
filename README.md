@@ -1,6 +1,8 @@
 # About
 
+This is fork of https://github.com/ghoneycutt/puppet-module-ssh with additional support for FreeBSD platform
 
+Fork reason: the lack interest of the author to support FreeBSD OS: https://github.com/ghoneycutt/puppet-module-ssh/pull/180
 
 # puppet-module-ssh
 
