@@ -428,7 +428,7 @@ class ssh (
     $sshd_config_hostkey_real = $default_sshd_config_hostkey
   } else {
     validate_array($sshd_config_hostkey)
-    validate_absolute_path(join($sshd_config_hostkey))
+    validate_absolute_path($sshd_config_hostkey)
     $sshd_config_hostkey_real = $sshd_config_hostkey
   }
 
