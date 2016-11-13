@@ -1,3 +1,9 @@
+# About
+
+This is fork of https://github.com/ghoneycutt/puppet-module-ssh with additional support for FreeBSD platform
+
+Fork reason: the lack interest of the author to support FreeBSD OS: https://github.com/ghoneycutt/puppet-module-ssh/pull/180
+
 # puppet-module-ssh
 
 Manage ssh client and server.
@@ -27,6 +33,9 @@ only), 1.9.3, 2.0.0, 2.1.0 and 2.3.1 (Puppet v4 only).
  * EL 5
  * EL 6
  * EL 7
+ * FreeBSD 10
+ * FreeBSD 11
+ * FreeBSD 12
  * SLES 10
  * SLES 11
  * SLES 12
