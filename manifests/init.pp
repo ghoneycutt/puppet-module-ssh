@@ -87,6 +87,7 @@ class ssh (
   $sshd_config_hostkey                 = 'USE_DEFAULTS',
   $sshd_listen_address                 = undef,
   $sshd_hostbasedauthentication        = 'no',
+  $sshd_pubkeyacceptedkeytypes         = undef,
   $sshd_pubkeyauthentication           = 'yes',
   $sshd_ignoreuserknownhosts           = 'no',
   $sshd_ignorerhosts                   = 'yes',
@@ -635,6 +636,10 @@ class ssh (
   }
 
   validate_re($sshd_hostbasedauthentication, '^(yes|no)$', "ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to <${sshd_hostbasedauthentication}>.")
+
+  if $sshd_pubkeyacceptedkeytypes != undef {
+    validate_array($sshd_pubkeyacceptedkeytypes)
+  }
 
   validate_re($sshd_pubkeyauthentication, '^(yes|no)$', "ssh::sshd_pubkeyauthentication may be either 'yes' or 'no' and is set to <${sshd_pubkeyauthentication}>.")
 
