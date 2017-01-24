@@ -403,6 +403,12 @@ describe 'ssh' do
         :sshd_password_authentication      => 'no',
         :sshd_config_permitemptypasswords  => 'no',
         :sshd_config_permituserenvironment => 'no',
+        :sshd_pubkeyacceptedkeytypes       => [ 'ecdsa-sha2-nistp256',
+                                                'ecdsa-sha2-nistp384',
+                                                'ecdsa-sha2-nistp521',
+                                                'ssh-ed25519',
+                                                'ssh-rsa',
+        ],
         :sshd_pubkeyauthentication         => 'no',
         :sshd_allow_tcp_forwarding         => 'no',
         :sshd_x11_forwarding               => 'no',
@@ -506,6 +512,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^AuthorizedKeysCommand \/path\/to\/command$/) }
     it { should contain_file('sshd_config').with_content(/^AuthorizedKeysCommandUser asdf$/) }
     it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
+    it { should contain_file('sshd_config').with_content(/^PubkeyAcceptedKeyTypes ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,ssh-ed25519,ssh-rsa$/) }
     it { should contain_file('sshd_config').with_content(/^PubkeyAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
@@ -2160,6 +2167,18 @@ describe 'ssh' do
             should contain_class('ssh')
           }.to raise_error(Puppet::Error,/ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to/)
         end
+      end
+    end
+  end
+
+  [true,'invalid'].each do |pubkeyacceptedkeytypes|
+    context "with sshd_pubkeyacceptedkeytypes set to invalid value #{pubkeyacceptedkeytypes}" do
+      let(:params) { { :sshd_pubkeyacceptedkeytypes => pubkeyacceptedkeytypes } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
       end
     end
   end
