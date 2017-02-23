@@ -166,7 +166,9 @@ X11UseLocalhost <%= @sshd_x11_use_localhost %>
 PrintMotd <%= @sshd_config_print_motd %>
 #PrintLastLog yes
 #TCPKeepAlive yes
-TCPKeepAlive <%= @sshd_config_tcp_keepalive %>
+<% if @sshd_config_tcp_keepalive_real != nil -%>
+TCPKeepAlive <%= @sshd_config_tcp_keepalive_real %>
+<% end -%>
 #UseLogin no
 #UsePrivilegeSeparation yes
 #PermitUserEnvironment no
@@ -188,14 +190,16 @@ MaxStartups <%= @sshd_config_maxstartups %>
 <% else -%>
 #MaxStartups 10:30:100
 <% end -%>
-<% if @sshd_config_maxsessions -%>
-MaxSessions <%= @sshd_config_maxsessions %>
+<% if @sshd_config_maxsessions_integer != nil -%>
+MaxSessions <%= @sshd_config_maxsessions_integer %>
 <% else -%>
 #MaxSessions 10
 <% end -%>
 
 #PermitTunnel no
-PermitTunnel <%= @sshd_config_permittunnel %>
+<% if @sshd_config_permittunnel_real != nil -%>
+PermitTunnel <%= @sshd_config_permittunnel_real %>
+<% end -%>
 <% if @sshd_config_chrootdirectory -%>
 ChrootDirectory <%= @sshd_config_chrootdirectory %>
 <% else -%>

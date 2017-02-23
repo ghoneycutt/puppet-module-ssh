@@ -806,13 +806,27 @@ describe 'ssh' do
     end
   end
 
-  context 'with ssh_config_hash_known_hosts set to invalid value on valid osfamily' do
-    let(:params) { { :ssh_config_hash_known_hosts => 'invalid' } }
+  describe 'with ssh_config_hash_known_hosts param' do
+    ['yes','no','unset'].each do |value|
+      context "set to #{value}" do
+        let (:params) { { :ssh_config_hash_known_hosts => value } }
 
-    it 'should fail' do
-      expect {
-        should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/ssh::ssh_config_hash_known_hosts may be either \'yes\' or \'no\' and is set to <invalid>\./)
+        if value == 'unset'
+          it { should contain_file('ssh_config').without_content(/^\s*HashKnownHosts/) }
+        else
+          it { should contain_file('ssh_config').with_content(/^\s*HashKnownHosts #{value}$/) }
+        end
+      end
+    end
+
+    context 'when set to an invalid value' do
+      let (:params) { { :ssh_config_hash_known_hosts => 'invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::ssh_config_hash_known_hosts may be either \'yes\', \'no\' or \'unset\' and is set to <invalid>\./)
+      end
     end
   end
 
@@ -971,11 +985,15 @@ describe 'ssh' do
   end
 
   describe 'sshd_config_permittunnel param' do
-    ['yes','point-to-point','ethernet','no'].each do |value|
+    ['yes','point-to-point','ethernet','no','unset'].each do |value|
       context "set to #{value}" do
         let (:params) { { :sshd_config_permittunnel => value } }
 
-        it { should contain_file('sshd_config').with_content(/^PermitTunnel #{value}$/) }
+        if value == 'unset'
+          it { should contain_file('sshd_config').without_content(/^\s*PermitTunnel/) }
+        else
+          it { should contain_file('sshd_config').with_content(/^PermitTunnel #{value}$/) }
+        end
       end
     end
 
@@ -985,7 +1003,7 @@ describe 'ssh' do
       it 'should fail' do
         expect {
           should contain_class('ssh')
-        }.to raise_error(Puppet::Error,/ssh::sshd_config_permittunnel may be either \'yes\', \'point-to-point\', \'ethernet\' or \'no\' and is set to <invalid>\./)
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_permittunnel may be either \'yes\', \'point-to-point\', \'ethernet\', \'no\' or \'unset\' and is set to <invalid>\./)
       end
     end
   end
@@ -1812,6 +1830,12 @@ describe 'ssh' do
       it { should contain_file('sshd_config').with_content(/^MaxSessions 10$/) }
     end
 
+    context 'as a valid string <unset>' do
+      let(:params) { { :sshd_config_maxsessions => 'unset' } }
+
+      it { should contain_file('sshd_config').without_content(/^\s*MaxSessions/) }
+    end
+
     context 'as an invalid type' do
       let(:params) { { :sshd_config_maxsessions => 'BOGUS' } }
 
@@ -2267,13 +2291,25 @@ describe 'ssh' do
   end
 
   describe 'sshd_config_tcp_keepalive param' do
-    context 'when set to invalid' do
-      let(:params) { { :sshd_config_tcp_keepalive => 'invalid' } }
+    ['yes','no','unset'].each do |value|
+      context "set to #{value}" do
+        let (:params) { { :sshd_config_tcp_keepalive => value } }
+
+        if value == 'unset'
+          it { should contain_file('sshd_config').without_content(/^\s*TCPKeepAlive/) }
+        else
+          it { should contain_file('sshd_config').with_content(/^TCPKeepAlive #{value}$/) }
+        end
+      end
+    end
+
+    context 'when set to an invalid value' do
+      let (:params) { { :sshd_config_tcp_keepalive => 'invalid' } }
 
       it 'should fail' do
         expect {
           should contain_class('ssh')
-        }.to raise_error(Puppet::Error,/ssh::sshd_config_tcp_keepalive may be either \'yes\' or \'no\' and is set to <invalid>\./)
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_tcp_keepalive may be either \'yes\', \'no\' or \'unset\' and is set to <invalid>\./)
       end
     end
   end
