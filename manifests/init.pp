@@ -109,8 +109,8 @@ class ssh (
   $keys                                = undef,
   $manage_root_ssh_config              = false,
   $root_ssh_config_content             = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
-  $sshd_config_tcp_keepalive           = 'yes',
-  $sshd_config_permittunnel            = 'no',
+  $sshd_config_tcp_keepalive           = undef,
+  $sshd_config_permittunnel            = undef,
 ) {
 
   case $::osfamily {
@@ -136,6 +136,8 @@ class ssh (
       $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
       $default_sshd_addressfamily              = 'any'
+      $default_sshd_config_tcp_keepalive       = 'yes'
+      $default_sshd_config_permittunnel        = 'no'
     }
     'Suse': {
       $default_packages                        = 'openssh'
@@ -157,6 +159,8 @@ class ssh (
       $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
       $default_sshd_addressfamily              = 'any'
+      $default_sshd_config_tcp_keepalive       = 'yes'
+      $default_sshd_config_permittunnel        = 'no'
       case $::architecture {
         'x86_64': {
           if ($::operatingsystem == 'SLES') and ($::operatingsystemrelease =~ /^12\./) {
@@ -207,6 +211,8 @@ class ssh (
       $default_service_hasstatus               = true
       $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_addressfamily              = 'any'
+      $default_sshd_config_tcp_keepalive       = 'yes'
+      $default_sshd_config_permittunnel        = 'no'
     }
     'Solaris': {
       $default_ssh_config_hash_known_hosts     = undef
@@ -225,6 +231,8 @@ class ssh (
       $default_ssh_package_adminfile           = undef
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
       $default_sshd_addressfamily              = undef
+      $default_sshd_config_tcp_keepalive       = undef
+      $default_sshd_config_permittunnel        = undef
       case $::kernelrelease {
         '5.11': {
           $default_packages                      = ['network/ssh',
@@ -285,10 +293,10 @@ class ssh (
     $packages_real = $packages
   }
 
-  if $ssh_config_hash_known_hosts == 'USE_DEFAULTS' {
-    $ssh_config_hash_known_hosts_real = $default_ssh_config_hash_known_hosts
-  } else {
-    $ssh_config_hash_known_hosts_real = $ssh_config_hash_known_hosts
+  case $ssh_config_hash_known_hosts {
+    'unset':        { $ssh_config_hash_known_hosts_real = undef }
+    'USE_DEFAULTS': { $ssh_config_hash_known_hosts_real = $default_ssh_config_hash_known_hosts }
+    default:        { $ssh_config_hash_known_hosts_real = $ssh_config_hash_known_hosts }
   }
 
   if $service_name == 'USE_DEFAULTS' {
@@ -459,6 +467,23 @@ class ssh (
     $sshd_addressfamily_real = $sshd_addressfamily
   }
 
+  case $sshd_config_maxsessions {
+    'unset', undef: { $sshd_config_maxsessions_integer = undef }
+    default:        { $sshd_config_maxsessions_integer = floor($sshd_config_maxsessions) }
+  }
+
+  case $sshd_config_tcp_keepalive {
+    'unset': { $sshd_config_tcp_keepalive_real = undef }
+    undef:   { $sshd_config_tcp_keepalive_real = $default_sshd_config_tcp_keepalive }
+    default: { $sshd_config_tcp_keepalive_real = $sshd_config_tcp_keepalive }
+  }
+
+  case $sshd_config_permittunnel {
+    'unset': { $sshd_config_permittunnel_real = undef }
+    undef:   { $sshd_config_permittunnel_real = $default_sshd_config_permittunnel }
+    default: { $sshd_config_permittunnel_real = $sshd_config_permittunnel }
+  }
+
   # validate params
   if $ssh_config_ciphers != undef {
     validate_array($ssh_config_ciphers)
@@ -485,7 +510,7 @@ class ssh (
   }
 
   if $ssh_config_hash_known_hosts_real != undef {
-    validate_re($ssh_config_hash_known_hosts_real, '^(yes|no)$', "ssh::ssh_config_hash_known_hosts may be either 'yes' or 'no' and is set to <${ssh_config_hash_known_hosts_real}>.")
+    validate_re($ssh_config_hash_known_hosts_real, '^(yes|no)$', "ssh::ssh_config_hash_known_hosts may be either 'yes', 'no' or 'unset' and is set to <${ssh_config_hash_known_hosts_real}>.")
   }
   if $sshd_config_permitemptypasswords != undef {
     validate_re($sshd_config_permitemptypasswords, '^(yes|no)$', "ssh::sshd_config_permitemptypasswords may be either 'yes' or 'no' and is set to <${sshd_config_permitemptypasswords}>.")
@@ -580,13 +605,6 @@ class ssh (
   if $sshd_config_maxstartups != undef {
     validate_re($sshd_config_maxstartups,'^(\d+)+(\d+?:\d+?:\d+)?$',
       "ssh::sshd_config_maxstartups may be either an integer or three integers separated with colons, such as 10:30:100. Detected value is <${sshd_config_maxstartups}>.")
-  }
-
-  if $sshd_config_maxsessions != undef {
-    $is_int_sshd_config_maxsessions = is_integer($sshd_config_maxsessions)
-    if $is_int_sshd_config_maxsessions == false {
-      fail("sshd_config_maxsessions must be an integer. Detected value is ${sshd_config_maxsessions}.")
-    }
   }
 
   if $sshd_config_chrootdirectory != undef {
@@ -781,9 +799,14 @@ class ssh (
     validate_array($sshd_config_allowgroups_real)
   }
 
-  validate_re($sshd_config_tcp_keepalive, '^(yes|no)$', "ssh::sshd_config_tcp_keepalive may be either 'yes' or 'no' and is set to <${sshd_config_tcp_keepalive}>.")
 
-  validate_re($sshd_config_permittunnel, '^(yes|no|point-to-point|ethernet)$', "ssh::sshd_config_permittunnel may be either 'yes', 'point-to-point', 'ethernet' or 'no' and is set to <${sshd_config_permittunnel}>.")
+  if $sshd_config_tcp_keepalive_real != undef {
+    validate_re($sshd_config_tcp_keepalive_real, '^(yes|no)$', "ssh::sshd_config_tcp_keepalive may be either 'yes', 'no' or 'unset' and is set to <${sshd_config_tcp_keepalive_real}>.")
+  }
+
+  if $sshd_config_permittunnel_real != undef {
+    validate_re($sshd_config_permittunnel_real, '^(yes|no|point-to-point|ethernet|unset)$', "ssh::sshd_config_permittunnel may be either 'yes', 'point-to-point', 'ethernet', 'no' or 'unset' and is set to <${sshd_config_permittunnel_real}>.")
+  }
 
   package { $packages_real:
     ensure    => installed,

@@ -101,7 +101,6 @@ X11UseLocalhost yes
 PrintMotd yes
 #PrintLastLog yes
 #TCPKeepAlive yes
-TCPKeepAlive yes
 #UseLogin no
 #UsePrivilegeSeparation yes
 #PermitUserEnvironment no
@@ -115,7 +114,6 @@ ClientAliveCountMax 3
 #MaxSessions 10
 
 #PermitTunnel no
-PermitTunnel no
 #ChrootDirectory none
 
 # no default banner path

@@ -37,6 +37,14 @@ only), 1.9.3, 2.0.0, 2.1.0 and 2.3.1 (Puppet v4 only).
  * Solaris 10
  * Solaris 11
 
+If you use the Sun Solaris SSH, please keep in mind that not all parameters can be used.
+
+Unsupported parameters for ssh_config:
+AddressFamily, Tunnel, TunnelDevice, PermitLocalCommand, HashKnownHosts
+
+Unsupported parameters for sshd_config:
+KerberosOrLocalPasswd, KerberosTicketCleanup, KerberosGetAFSToken, TCPKeepAlive, ShowPatchLevel, MaxSessions, PermitTunnel
+
 ===
 
 # Parameters
@@ -62,6 +70,8 @@ information should the file's contents be disclosed. The default is 'no' on Linu
 Note that existing names and addresses in known hosts files will not be converted automatically,
 but may be manually hashed using ssh-keygen. Use of this option may break facilities such as
 tab-completion that rely on being able to read unhashed host names from ~/.ssh/known_hosts.
+
+A value of 'unset' will not add this parameter to the configuration file.
 
 - *Default*: 'USE_DEFAULTS'
 
@@ -451,22 +461,29 @@ are sent, death of the connection or crash of one of the machines will be proper
 However, this means that connections will die if the route is down temporarily, and some
 people find it annoying.  On the other hand, if TCP keepalives are not sent, sessions may
 hang indefinitely on the server, leaving ``ghost'' users and consuming server resources.
-The default is ``yes'' (to send TCP keepalive messages), and the server will notice if the
-network goes down or the client host crashes.  This avoids infinitely hanging sessions.
+A value of 'unset' will not add this parameter to the configuration file.
 
-- *Default*: 'yes'
+On Linux the default is set to ``yes'' (to send TCP keepalive messages), and the server will
+notice if the network goes down or the client host crashes.  This avoids infinitely hanging
+sessions.
+On Solaris the default is to not add this parameter to the configuration file.
+
+- *Default*: undef
 
 sshd_config_permittunnel
 -----------------------
 PermitTunnel in sshd_config.
-Specifies whether tun(4) device forwarding is allowed.  The argument must be
-'yes', 'point-to-point' (layer 3), 'ethernet' (layer 2), or 'no'.
-Specifying 'yes' permits both 'point-to-point' and 'ethernet'.  The
-default is 'no'.
+Specifies whether tun(4) device forwarding is allowed.  The argument must be 'yes',
+'point-to-point' (layer 3), 'ethernet' (layer 2), 'no', or 'unset' (parameter not used).
+Specifying 'yes' permits both 'point-to-point' and 'ethernet'.
 Independent of this setting, the permissions of the selected tun(4) device must
 allow access to the user.
+A value of 'unset' will not add this parameter to the configuration file.
 
-- *Default*: 'no'
+On Linux the default is set to ``no''.
+On Solaris the default is to not add this parameter to the configuration file.
+
+- *Default*: undef
 
 sshd_config_ciphers
 -------------------
@@ -519,6 +536,7 @@ Specifies the maximum number of concurrent unauthenticated connections to the SS
 sshd_config_maxsessions
 -----------------------
 Specifies the maximum number of open sessions permitted per network connection.
+A value of 'unset' or undef will not add this parameter to the configuration file.
 
 - *Default*: undef
 
