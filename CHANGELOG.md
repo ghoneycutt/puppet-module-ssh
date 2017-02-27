@@ -1,3 +1,7 @@
+### v3.49.1 - 2017-02-27
+  * Fix parameters not compatible with Solaris
+  * Add support for Puppet v4.9
+
 ### v3.49.0 - 2016-10-25
   * Add support for PermitTunnel in sshd_config
 
