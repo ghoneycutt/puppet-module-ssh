@@ -402,7 +402,7 @@ X11Forwarding in sshd_config. Specifies whether X11 forwarding is permitted.
 
 sshd_x11_use_localhost
 ----------------------
-X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding server 
+X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding server
 to the loopback address or to the wildcard address.
 
 - *Default*: 'yes'
@@ -773,6 +773,12 @@ Content of root's ~/.ssh/config.
 manage_service
 --------------
 Manage the sshd service through this module or not.  Valid values are 'true' and 'false'.
+
+- *Default*: 'true'
+
+manage_global_known_hosts
+----------------------
+Manage the global known_hosts file. Valid values are 'true' and 'false'.
 
 - *Default*: 'true'
 

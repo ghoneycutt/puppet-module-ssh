@@ -111,6 +111,7 @@ class ssh (
   $root_ssh_config_content             = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
   $sshd_config_tcp_keepalive           = undef,
   $sshd_config_permittunnel            = undef,
+  $manage_global_known_hosts           = true,
 ) {
 
   case $::osfamily {
@@ -763,6 +764,13 @@ class ssh (
   #ssh_config template
   validate_string($ssh_config_template)
 
+  if type3x($manage_global_known_hosts) == 'string' {
+    $manage_global_known_hosts_real = str2bool($manage_global_known_hosts)
+  } else {
+    $manage_global_known_hosts_real = $manage_global_known_hosts
+  }
+  validate_bool($manage_global_known_hosts_real)
+
   #sshd_config template
   validate_string($sshd_config_template)
 
@@ -898,24 +906,27 @@ class ssh (
     key          => $key,
   }
 
-  file { 'ssh_known_hosts':
-    ensure => file,
-    path   => $ssh_config_global_known_hosts_file,
-    owner  => $ssh_config_global_known_hosts_owner,
-    group  => $ssh_config_global_known_hosts_group,
-    mode   => $ssh_config_global_known_hosts_mode,
-  }
+  if $manage_global_known_hosts_real == true {
 
-  # import all nodes' ssh keys
-  if $ssh_key_import_real == true {
-    Sshkey <<||>> {
-      target => $ssh_config_global_known_hosts_file,
+    file { 'ssh_known_hosts':
+      ensure => file,
+      path   => $ssh_config_global_known_hosts_file,
+      owner  => $ssh_config_global_known_hosts_owner,
+      group  => $ssh_config_global_known_hosts_group,
+      mode   => $ssh_config_global_known_hosts_mode,
     }
-  }
 
-  # remove ssh key's not managed by puppet
-  resources  { 'sshkey':
-    purge => $purge_keys_real,
+    # import all nodes' ssh keys
+    if $ssh_key_import_real == true {
+      Sshkey <<||>> {
+        target => $ssh_config_global_known_hosts_file,
+      }
+    }
+
+    # remove ssh key's not managed by puppet
+    resources  { 'sshkey':
+      purge => $purge_keys_real,
+    }
   }
 
   # manage users' ssh authorized keys if present

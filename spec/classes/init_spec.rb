@@ -1018,6 +1018,16 @@ describe 'ssh' do
     end
   end
 
+  context 'with manage_global_known_hosts set to invalid value on valid osfamily' do
+    let(:params) { { :manage_global_known_hosts => 'invalid' } }
+
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/Unknown type of boolean/)
+    end
+  end
+
   context 'with sshd_password_authentication set to invalid value on valid osfamily' do
     let(:params) { { :sshd_password_authentication => 'invalid' } }
 
@@ -1958,6 +1968,43 @@ describe 'ssh' do
         expect {
           should contain_class('ssh')
         }.to raise_error(Puppet::Error,/is not an absolute path/)
+      end
+    end
+  end
+
+  describe 'with parameter manage_global_known_hosts' do
+    ['YES','badvalue',2.42,['array'],a = { 'ha' => 'sh' }].each do |value|
+      context "specified as invalid value #{value} (as #{value.class})" do
+        let(:params) { { :manage_global_known_hosts => value } }
+        it do
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/(is not a boolean|Unknown type of boolean)/)
+        end
+      end
+    end
+
+    ['true', true].each do |value|
+      context "specified as valid true value #{value} (as #{value.class})" do
+        let(:params) { { :manage_global_known_hosts => value } }
+
+        it {
+          should contain_file('ssh_known_hosts').with({
+            'ensure' => 'file',
+            'path'   => '/etc/ssh/ssh_known_hosts',
+            'owner'  => 'root',
+            'group'  => 'root',
+            'mode'   => '0644',
+          })
+        }
+      end
+    end
+
+    ['false', false].each do |value|
+      context "specified as valid false value #{value} (as #{value.class})" do
+        let(:params) { { :manage_global_known_hosts => value } }
+
+        it { should_not contain_file('/etc/ssh/ssh_known_hosts') }
       end
     end
   end
