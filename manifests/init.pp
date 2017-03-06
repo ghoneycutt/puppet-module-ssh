@@ -52,6 +52,7 @@ class ssh (
   $sshd_config_ciphers                 = undef,
   $sshd_config_kexalgorithms           = undef,
   $sshd_config_macs                    = undef,
+  $sshd_config_authenticationmethods   = [],
   $ssh_enable_ssh_keysign              = undef,
   $sshd_config_allowgroups             = [],
   $sshd_config_allowusers              = [],

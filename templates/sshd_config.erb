@@ -196,6 +196,10 @@ MaxSessions <%= @sshd_config_maxsessions_integer %>
 #MaxSessions 10
 <% end -%>
 
+<% if @sshd_config_authenticationmethods != [] -%>
+AuthenticationMethods  <%= @sshd_config_authenticationmethods.join(' ') -%>
+<% end -%>
+
 #PermitTunnel no
 <% if @sshd_config_permittunnel_real != nil -%>
 PermitTunnel <%= @sshd_config_permittunnel_real %>
