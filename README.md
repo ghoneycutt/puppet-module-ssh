@@ -642,6 +642,12 @@ String for HostbasedAuthentication option in sshd_config. Valid values are 'yes'
 
 - *Default*: 'no'
 
+sshd_pubkeyacceptedkeytypes
+-------------------------
+Array of public key types to be used with the PubkeyAcceptedKeyTypes option in sshd_config.
+
+- *Default*: undef
+
 sshd_pubkeyauthentication
 -------------------------
 String for PubkeyAuthentication option in sshd_config. Valid values are 'yes' and 'no'.
