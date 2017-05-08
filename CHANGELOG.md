@@ -1,3 +1,6 @@
+### v3.50.0 - 2017-05-08
+  * Add param sshd_pubkeyacceptedkeytypes to set PubkeyAcceptedKeyTypes
+
 ### v3.49.1 - 2017-02-27
   * Fix parameters not compatible with Solaris
   * Add support for Puppet v4.9
