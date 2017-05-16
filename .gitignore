@@ -32,3 +32,9 @@ coverage/
 spec/fixtures/manifests/*
 spec/fixtures/modules/*
 Gemfile.lock
+
+# JetBrains IDE
+.idea/
+
+# Rbenv
+.ruby-version
