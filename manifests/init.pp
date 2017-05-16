@@ -112,6 +112,8 @@ class ssh (
   $root_ssh_config_content             = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
   $sshd_config_tcp_keepalive           = undef,
   $sshd_config_permittunnel            = undef,
+  $sshd_config_hostcertificate         = undef,
+  $sshd_config_trustedusercakeys       = undef,
 ) {
 
   case $::osfamily {
@@ -485,6 +487,16 @@ class ssh (
     default: { $sshd_config_permittunnel_real = $sshd_config_permittunnel }
   }
 
+  case $sshd_config_hostcertificate {
+    'unset', undef: { $sshd_config_hostcertificate_real = undef }
+    default: { $sshd_config_hostcertificate_real = $sshd_config_hostcertificate }
+  }
+
+  case $sshd_config_trustedusercakeys {
+    'unset', undef: { $sshd_config_trustedusercakeys_real = undef }
+    default: { $sshd_config_trustedusercakeys_real = $sshd_config_trustedusercakeys }
+  }
+
   # validate params
   if $ssh_config_ciphers != undef {
     validate_array($ssh_config_ciphers)
@@ -811,6 +823,14 @@ class ssh (
 
   if $sshd_config_permittunnel_real != undef {
     validate_re($sshd_config_permittunnel_real, '^(yes|no|point-to-point|ethernet|unset)$', "ssh::sshd_config_permittunnel may be either 'yes', 'point-to-point', 'ethernet', 'no' or 'unset' and is set to <${sshd_config_permittunnel_real}>.")
+  }
+
+  if $sshd_config_hostcertificate_real != undef {
+    validate_absolute_path($sshd_config_hostcertificate_real)
+  }
+
+  if $sshd_config_trustedusercakeys_real != undef {
+    validate_absolute_path($sshd_config_trustedusercakeys_real)
   }
 
   package { $packages_real:
