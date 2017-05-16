@@ -254,3 +254,13 @@ Match <%= key %>
 <%     end -%>
 <%   end -%>
 <% end -%>
+
+<% if @sshd_config_hostcertificate_real -%>
+# SSH Host Certificate for CA-based user authentication
+HostCertificate <%= @sshd_config_hostcertificate_real %>
+<% end -%>
+
+<% if @sshd_config_trustedusercakeys_real -%>
+# Pubkey of the SSH CA that issues user certificates
+TrustedUserCAKeys <%= @sshd_config_trustedusercakeys_real %>
+<% end -%>
