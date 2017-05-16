@@ -459,6 +459,8 @@ describe 'ssh' do
         ],
         :sshd_config_tcp_keepalive         => 'yes',
         :sshd_config_permittunnel          => 'no',
+        :sshd_config_hostcertificate       => '/etc/ssh/ssh_host_key-cert.pub',
+        :sshd_config_trustedusercakeys     => '/etc/ssh/authorized_users_ca.pub',
       }
     end
 
@@ -529,6 +531,8 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1\nListenAddress 2001:db8::dead:f00d$/) }
     it { should contain_file('sshd_config').with_content(/^TCPKeepAlive yes$/) }
     it { should contain_file('sshd_config').with_content(/^PermitTunnel no$/) }
+    it { should contain_file('sshd_config').with_content(/^HostCertificate \/etc\/ssh\/ssh_host_key-cert\.pub$/)}
+    it { should contain_file('sshd_config').with_content(/^TrustedUserCAKeys \/etc\/ssh\/authorized_users_ca\.pub$/)}
 
     it {
       should contain_file('sshd_banner').with({
@@ -1012,6 +1016,26 @@ describe 'ssh' do
           should contain_class('ssh')
         }.to raise_error(Puppet::Error,/ssh::sshd_config_permittunnel may be either \'yes\', \'point-to-point\', \'ethernet\', \'no\' or \'unset\' and is set to <invalid>\./)
       end
+    end
+  end
+
+  context 'with sshd_config_hostcertificate set to invalid value on valid osfamily' do
+    let(:params) { { :sshd_config_hostcertificate => 'invalid' } }
+
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/"invalid" is not an absolute path/)
+    end
+  end
+
+  context 'with sshd_config_trustedusercakeys set to invalid value on valid osfamily' do
+    let(:params) { { :sshd_config_trustedusercakeys => 'invalid' } }
+
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/"invalid" is not an absolute path/)
     end
   end
 
