@@ -459,8 +459,6 @@ describe 'ssh' do
         ],
         :sshd_config_tcp_keepalive         => 'yes',
         :sshd_config_permittunnel          => 'no',
-        :sshd_config_hostcertificate       => '/etc/ssh/ssh_host_key-cert.pub',
-        :sshd_config_trustedusercakeys     => '/etc/ssh/authorized_users_ca.pub',
       }
     end
 
@@ -531,8 +529,6 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1\nListenAddress 2001:db8::dead:f00d$/) }
     it { should contain_file('sshd_config').with_content(/^TCPKeepAlive yes$/) }
     it { should contain_file('sshd_config').with_content(/^PermitTunnel no$/) }
-    it { should contain_file('sshd_config').with_content(/^HostCertificate \/etc\/ssh\/ssh_host_key-cert\.pub$/)}
-    it { should contain_file('sshd_config').with_content(/^TrustedUserCAKeys \/etc\/ssh\/authorized_users_ca\.pub$/)}
 
     it {
       should contain_file('sshd_banner').with({
@@ -1015,6 +1011,20 @@ describe 'ssh' do
         expect {
           should contain_class('ssh')
         }.to raise_error(Puppet::Error,/ssh::sshd_config_permittunnel may be either \'yes\', \'point-to-point\', \'ethernet\', \'no\' or \'unset\' and is set to <invalid>\./)
+      end
+    end
+  end
+
+  describe 'sshd_config_hostcertificate param' do
+    ['unset', '/etc/ssh/ssh_host_key-cert.pub'].each do |value|
+      context "set to #{value}" do
+        let (:params) { { :sshd_config_hostcertificate => value } }
+
+        if value == 'unset'
+          it { should contain_file('sshd_config').without_content(/^\s*HostCertificate/) }
+        else
+          it { should contain_file('sshd_config').with_content(/^HostCertificate #{value}/) }
+        end
       end
     end
   end
