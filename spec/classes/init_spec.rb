@@ -1015,6 +1015,54 @@ describe 'ssh' do
     end
   end
 
+  describe 'sshd_config_hostcertificate param' do
+    ['unset', '/etc/ssh/ssh_host_key-cert.pub'].each do |value|
+      context "set to #{value}" do
+        let (:params) { { :sshd_config_hostcertificate => value } }
+
+        if value == 'unset'
+          it { should contain_file('sshd_config').without_content(/^\s*HostCertificate/) }
+        else
+          it { should contain_file('sshd_config').with_content(/^HostCertificate #{value}/) }
+        end
+      end
+    end
+  end
+
+  context 'with sshd_config_hostcertificate set to invalid value on valid osfamily' do
+    let(:params) { { :sshd_config_hostcertificate => 'invalid' } }
+
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/"invalid" is not an absolute path/)
+    end
+  end
+
+  describe 'sshd_config_trustedusercakeys param' do
+    ['unset', '/etc/ssh/authorized_users_ca.pub'].each do |value|
+      context "set to #{value}" do
+        let (:params) { { :sshd_config_trustedusercakeys => value } }
+
+        if value == 'unset'
+          it { should contain_file('sshd_config').without_content(/^\s*TrustedUserCAKeys/) }
+        else
+          it { should contain_file('sshd_config').with_content(/^TrustedUserCAKeys #{value}/) }
+        end
+      end
+    end 
+  end
+
+  context 'with sshd_config_trustedusercakeys set to invalid value on valid osfamily' do
+    let(:params) { { :sshd_config_trustedusercakeys => 'invalid' } }
+
+    it 'should fail' do
+      expect {
+        should contain_class('ssh')
+      }.to raise_error(Puppet::Error,/"invalid" is not an absolute path/)
+    end
+  end
+
   context 'with manage_root_ssh_config set to invalid value on valid osfamily' do
     let(:params) { { :manage_root_ssh_config => 'invalid' } }
 
