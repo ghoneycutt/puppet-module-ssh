@@ -570,6 +570,18 @@ ssh::sshd_config_match:
     - 'PasswordAuthentication no'
 ```
 
+sshd_config_hostcertificate
+---------------------------
+Absolute path to the OpenSSH Host CA Certificate (HostCertificate) for use with SSH CA validation for Host Certificates.
+
+- *Default*: undefined
+
+sshd_config_trustedusercakeys
+-----------------------------
+Absolute path to the OpenSSH User CA Certificate (TrustedUserCAKeys) for use with SSH CA Validation for Users.
+
+- *Default*: undefined
+
 keys
 ----
 Hash of keys for user's ~/.ssh/authorized_keys
