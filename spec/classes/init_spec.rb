@@ -1040,7 +1040,7 @@ describe 'ssh' do
   end
 
   describe 'sshd_config_trustedusercakeys param' do
-    ['unset', '/etc/ssh/authorized_users_ca.pub'].each do |value|
+    ['unset', '/etc/ssh/authorized_users_ca.pub', 'none'].each do |value|
       context "set to #{value}" do
         let (:params) { { :sshd_config_trustedusercakeys => value } }
 

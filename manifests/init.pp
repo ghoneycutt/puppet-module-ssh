@@ -830,7 +830,10 @@ class ssh (
   }
 
   if $sshd_config_trustedusercakeys_real != undef {
-    validate_absolute_path($sshd_config_trustedusercakeys_real)
+    # TrustedUserCAKeys may be a path to the keys or 'none'
+    if $sshd_config_trustedusercakeys_real != 'none' {
+      validate_absolute_path($sshd_config_trustedusercakeys_real)
+    }
   }
 
   package { $packages_real:

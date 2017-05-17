@@ -578,7 +578,7 @@ Absolute path to the OpenSSH Host CA Certificate (HostCertificate) for use with 
 
 sshd_config_trustedusercakeys
 -----------------------------
-Absolute path to the OpenSSH User CA Certificate (TrustedUserCAKeys) for use with SSH CA Validation for Users.
+Absolute path to the OpenSSH User CA Certificate (TrustedUserCAKeys) for use with SSH CA Validation for Users or the string 'none'.
 
 - *Default*: undefined
 
