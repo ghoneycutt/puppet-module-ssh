@@ -254,3 +254,9 @@ Match <%= key %>
 <%     end -%>
 <%   end -%>
 <% end -%>
+<% if @sshd_config_hostcertificate_real -%>
+HostCertificate <%= @sshd_config_hostcertificate_real %>
+<% end -%>
+<% if @sshd_config_trustedusercakeys_real -%>
+TrustedUserCAKeys <%= @sshd_config_trustedusercakeys_real %>
+<% end -%>
