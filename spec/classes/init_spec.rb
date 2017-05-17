@@ -505,6 +505,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_dsa_key/) }
     it { should contain_file('sshd_config').with_content(/^StrictModes yes$/) }
     it { should contain_file('sshd_config').with_content(/^PermitUserEnvironment no/) }
+    it { should contain_file('sshd_config').with_content(/^Compression yes$/) }
     it { should contain_file('sshd_config').with_content(/^PermitEmptyPasswords no/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxAuthTries/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
@@ -528,6 +529,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^\s*AllowGroups ssh security$/) }
     it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1\nListenAddress 2001:db8::dead:f00d$/) }
     it { should contain_file('sshd_config').with_content(/^TCPKeepAlive yes$/) }
+    it { should contain_file('sshd_config').with_content(/^UsePrivilegeSeparation no$/) }
     it { should contain_file('sshd_config').with_content(/^PermitTunnel no$/) }
 
     it {
