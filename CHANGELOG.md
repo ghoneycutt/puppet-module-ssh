@@ -1,3 +1,7 @@
+### v3.51.0 - 2017-05-17
+  * Add params sshd_config_hostcertificate and
+    sshd_config_trustedusercakeys to set HostCertificate and TrustedUserCAKeys.
+
 ### v3.50.0 - 2017-05-08
   * Add param sshd_pubkeyacceptedkeytypes to set PubkeyAcceptedKeyTypes
 
