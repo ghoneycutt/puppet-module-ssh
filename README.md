@@ -259,6 +259,15 @@ Valid values are 'yes' and 'no'.
 
 - *Default*: undef
 
+sshd_config_compression
+---------------------------------
+Compression option in sshd_config.
+Specifies whether compression is allowed in an SSH connection prior to authentication.
+If specified, valid values are 'yes', 'no' and 'delayed'.
+
+
+- *Default*: undef
+
 sshd_config_port
 ---------------------------
 String, Integer or Array to specify listen port[s] for sshd. Port option in sshd_config.
@@ -297,6 +306,14 @@ sshd_config_print_motd
 PrintMotd option in sshd_config.
 
 - *Default*: 'yes'
+
+sshd_config_print_lastlog
+----------------------
+PrintLastLog option in sshd_config.
+Verify SSH provides users with feedback on when account accesses last occurred.
+If specified, valid values are 'yes' and 'no'.
+
+- *Default*: undef
 
 sshd_config_use_dns
 -------------------
@@ -467,6 +484,14 @@ On Linux the default is set to ``yes'' (to send TCP keepalive messages), and the
 notice if the network goes down or the client host crashes.  This avoids infinitely hanging
 sessions.
 On Solaris the default is to not add this parameter to the configuration file.
+
+- *Default*: undef
+
+sshd_config_use_privilege_separation
+----------------------
+UsePrivilegeSeparation in sshd_config.
+Causes the SSH process to drop root privileges when not needed.
+If specified, valid values are 'yes', 'no' and 'sandbox'.
 
 - *Default*: undef
 
