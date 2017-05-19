@@ -507,6 +507,7 @@ describe 'ssh' do
     it { should_not contain_file('sshd_config').with_content(/^\s*GSSAPIKeyExchange yes$/) }
     it { should contain_file('sshd_config').with_content(/^AcceptEnv L.*$/) }
     it { should contain_file('sshd_config').with_content(/^AuthorizedKeysFile .ssh\/authorized_keys/) }
+    it { should_not contain_file('sshd_config').with_content(/^\s*KexAlgorithms/) }
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_rsa_key/) }
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_dsa_key/) }
     it { should contain_file('sshd_config').with_content(/^StrictModes yes$/) }
