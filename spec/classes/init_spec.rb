@@ -235,6 +235,12 @@ describe 'ssh' do
         })
       }
 
+      facts[:ssh_packages].each do |pkg|
+        it {
+          should contain_file('ssh_known_hosts').that_requires("Package[#{pkg}]")
+        }
+      end
+
       it {
         should contain_file('ssh_config').with({
           'ensure'  => 'file',
@@ -1990,6 +1996,7 @@ describe 'ssh' do
           'owner'  => 'root',
           'group'  => 'root',
           'mode'   => '0644',
+          'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
         })
       }
 
@@ -2086,6 +2093,7 @@ describe 'ssh' do
           'owner'  => 'gh',
           'group'  => 'root',
           'mode'   => '0644',
+          'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
         })
       }
     end
@@ -2112,6 +2120,7 @@ describe 'ssh' do
           'owner'  => 'root',
           'group'  => 'gh',
           'mode'   => '0644',
+          'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
         })
       }
     end
@@ -2138,6 +2147,7 @@ describe 'ssh' do
           'owner'  => 'root',
           'group'  => 'root',
           'mode'   => '0666',
+          'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
         })
       }
     end
@@ -2201,6 +2211,7 @@ describe 'ssh' do
             'owner'   => 'root',
             'group'   => 'root',
             'mode'    => '0644',
+            'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
           })
         }
       end

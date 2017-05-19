@@ -927,11 +927,12 @@ class ssh (
   }
 
   file { 'ssh_known_hosts':
-    ensure => file,
-    path   => $ssh_config_global_known_hosts_file,
-    owner  => $ssh_config_global_known_hosts_owner,
-    group  => $ssh_config_global_known_hosts_group,
-    mode   => $ssh_config_global_known_hosts_mode,
+    ensure  => file,
+    path    => $ssh_config_global_known_hosts_file,
+    owner   => $ssh_config_global_known_hosts_owner,
+    group   => $ssh_config_global_known_hosts_group,
+    mode    => $ssh_config_global_known_hosts_mode,
+    require => Package[$packages_real],
   }
 
   # import all nodes' ssh keys
