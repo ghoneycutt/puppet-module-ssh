@@ -336,7 +336,13 @@ Banner option in sshd_config.
 
 sshd_banner_content
 -------------------
-content parameter for file specified in sshd_config_banner
+content parameter for file specified in sshd_config_banner. Mutually exclusive with sshd_banner_source
+
+- *Default*: undef
+
+sshd_banner_source
+------------------
+source parameter for file specified in sshd_config_banner. Mutually exclusive with sshd_banner_content
 
 - *Default*: undef
 

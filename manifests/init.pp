@@ -66,6 +66,7 @@ class ssh (
   $sshd_authorized_keys_command        = undef,
   $sshd_authorized_keys_command_user   = undef,
   $sshd_banner_content                 = undef,
+  $sshd_banner_source                  = undef,
   $sshd_banner_owner                   = 'root',
   $sshd_banner_group                   = 'root',
   $sshd_banner_mode                    = '0644',
@@ -572,6 +573,12 @@ class ssh (
   if $sshd_banner_content != undef and $sshd_config_banner == 'none' {
     fail('ssh::sshd_config_banner must be set to be able to use sshd_banner_content.')
   }
+  if $sshd_banner_source != undef and $sshd_config_banner == 'none' {
+    fail('ssh::sshd_config_banner must be set to be able to use sshd_banner_source.')
+  }
+  if $sshd_banner_content != undef and $sshd_banner_source != undef {
+    fail('ssh::sshd_banner_content is mutually exclusive with ssh::sshd_banner_source')
+  }
 
   validate_re($ssh_gssapiauthentication, '^(yes|no)$', "ssh::ssh_gssapiauthentication may be either 'yes' or 'no' and is set to <${ssh_gssapiauthentication}>.")
 
@@ -862,7 +869,7 @@ class ssh (
     require => Package[$packages_real],
   }
 
-  if $sshd_config_banner != 'none' and $sshd_banner_content != undef {
+  if $sshd_config_banner != 'none' and ( $sshd_banner_content != undef or $sshd_banner_source != undef ) {
     file { 'sshd_banner' :
       ensure  => file,
       path    => $sshd_config_banner,
@@ -870,6 +877,7 @@ class ssh (
       group   => $sshd_banner_group,
       mode    => $sshd_banner_mode,
       content => $sshd_banner_content,
+      source  => $sshd_banner_source,
       require => Package[$packages_real],
     }
   }
