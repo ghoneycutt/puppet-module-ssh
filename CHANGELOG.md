@@ -1,3 +1,6 @@
+### v3.51.1 - 2017-05-19
+  * Ensure that ssh_known_hosts requires the ssh packages
+
 ### v3.51.0 - 2017-05-17
   * Add params sshd_config_hostcertificate and
     sshd_config_trustedusercakeys to set HostCertificate and TrustedUserCAKeys.
