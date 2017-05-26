@@ -1,3 +1,7 @@
+### v3.52.0 - 2017-05-26
+  * Add params for Add PrintLastLog, UsePrivilegeSeparation, and
+    Compression options in sshd_config.
+
 ### v3.51.1 - 2017-05-19
   * Ensure that ssh_known_hosts requires the ssh packages
 
