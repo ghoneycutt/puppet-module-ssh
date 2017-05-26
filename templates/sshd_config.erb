@@ -168,17 +168,26 @@ X11UseLocalhost <%= @sshd_x11_use_localhost %>
 #PrintMotd yes
 PrintMotd <%= @sshd_config_print_motd %>
 #PrintLastLog yes
+<% if @sshd_config_print_last_log != nil -%>
+PrintLastLog <%= @sshd_config_print_last_log %>
+<% end -%>
 #TCPKeepAlive yes
 <% if @sshd_config_tcp_keepalive_real != nil -%>
 TCPKeepAlive <%= @sshd_config_tcp_keepalive_real %>
 <% end -%>
 #UseLogin no
 #UsePrivilegeSeparation yes
+<% if @sshd_config_use_privilege_separation != nil -%>
+UsePrivilegeSeparation <%= @sshd_config_use_privilege_separation %>
+<% end -%>
 #PermitUserEnvironment no
 <% if @sshd_config_permituserenvironment != nil -%>
 PermitUserEnvironment <%= @sshd_config_permituserenvironment %>
 <% end -%>
 #Compression delayed
+<% if @sshd_config_compression != nil -%>
+Compression <%= @sshd_config_compression %>
+<% end -%>
 #ClientAliveInterval 0
 ClientAliveInterval <%= @sshd_client_alive_interval %>
 ClientAliveCountMax <%= @sshd_client_alive_count_max %>

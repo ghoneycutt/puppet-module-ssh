@@ -389,82 +389,85 @@ describe 'ssh' do
   context 'with params used in sshd_config set on valid osfamily' do
     let(:params) do
       {
-        :sshd_config_port                  => '22222',
-        :sshd_config_syslog_facility       => 'DAEMON',
-        :sshd_config_login_grace_time      => '60',
-        :permit_root_login                 => 'no',
-        :sshd_config_chrootdirectory       => '/chrootdir',
-        :sshd_config_forcecommand          => '/force/command --with-parameter 242',
-        :sshd_config_match                 => { 'User JohnDoe' => [ 'AllowTcpForwarding yes', ], },
-        :sshd_config_challenge_resp_auth   => 'no',
-        :sshd_config_print_motd            => 'no',
-        :sshd_config_use_dns               => 'no',
-        :sshd_config_banner                => '/etc/sshd_banner',
-        :sshd_authorized_keys_command      => '/path/to/command',
-        :sshd_authorized_keys_command_user => 'asdf',
-        :sshd_banner_content               => 'textinbanner',
-        :sshd_config_xauth_location        => '/opt/ssh/bin/xauth',
-        :sshd_config_subsystem_sftp        => '/opt/ssh/bin/sftp',
-        :sshd_kerberos_authentication      => 'no',
-        :sshd_password_authentication      => 'no',
-        :sshd_config_permitemptypasswords  => 'no',
-        :sshd_config_permituserenvironment => 'no',
-        :sshd_pubkeyacceptedkeytypes       => [ 'ecdsa-sha2-nistp256',
-                                                'ecdsa-sha2-nistp384',
-                                                'ecdsa-sha2-nistp521',
-                                                'ssh-ed25519',
-                                                'ssh-rsa',
+        :sshd_config_port                     => '22222',
+        :sshd_config_syslog_facility          => 'DAEMON',
+        :sshd_config_login_grace_time         => '60',
+        :permit_root_login                    => 'no',
+        :sshd_config_chrootdirectory          => '/chrootdir',
+        :sshd_config_forcecommand             => '/force/command --with-parameter 242',
+        :sshd_config_match                    => { 'User JohnDoe' => [ 'AllowTcpForwarding yes', ], },
+        :sshd_config_challenge_resp_auth      => 'no',
+        :sshd_config_print_motd               => 'no',
+	:sshd_config_print_last_log           => 'no',
+        :sshd_config_use_dns                  => 'no',
+        :sshd_config_banner                   => '/etc/sshd_banner',
+        :sshd_authorized_keys_command         => '/path/to/command',
+        :sshd_authorized_keys_command_user    => 'asdf',
+        :sshd_banner_content                  => 'textinbanner',
+        :sshd_config_xauth_location           => '/opt/ssh/bin/xauth',
+        :sshd_config_subsystem_sftp           => '/opt/ssh/bin/sftp',
+        :sshd_kerberos_authentication         => 'no',
+        :sshd_password_authentication         => 'no',
+        :sshd_config_permitemptypasswords     => 'no',
+        :sshd_config_permituserenvironment    => 'no',
+	:sshd_config_compression              => 'no',
+        :sshd_pubkeyacceptedkeytypes          => [ 'ecdsa-sha2-nistp256',
+                                                   'ecdsa-sha2-nistp384',
+                                                   'ecdsa-sha2-nistp521',
+                                                   'ssh-ed25519',
+                                                   'ssh-rsa',
         ],
-        :sshd_pubkeyauthentication         => 'no',
-        :sshd_allow_tcp_forwarding         => 'no',
-        :sshd_x11_forwarding               => 'no',
-        :sshd_x11_use_localhost            => 'no',
-        :sshd_use_pam                      => 'no',
-        :sshd_client_alive_interval        => '242',
-        :sshd_config_serverkeybits         => '1024',
-        :sshd_client_alive_count_max       => '0',
-        :sshd_config_authkey_location      => '.ssh/authorized_keys',
-        :sshd_config_hostkey               => [ '/etc/ssh/ssh_host_rsa_key',
+        :sshd_pubkeyauthentication            => 'no',
+        :sshd_allow_tcp_forwarding            => 'no',
+        :sshd_x11_forwarding                  => 'no',
+        :sshd_x11_use_localhost               => 'no',
+        :sshd_use_pam                         => 'no',
+        :sshd_client_alive_interval           => '242',
+        :sshd_config_serverkeybits            => '1024',
+        :sshd_client_alive_count_max          => '0',
+        :sshd_config_authkey_location         => '.ssh/authorized_keys',
+        :sshd_config_hostkey                  => [ '/etc/ssh/ssh_host_rsa_key',
                                                 '/etc/ssh/ssh_host_dsa_key',
         ],
-        :sshd_config_strictmodes           => 'yes',
-        :sshd_config_ciphers               => [ 'aes128-cbc',
-                                                '3des-cbc',
-                                                'blowfish-cbc',
-                                                'cast128-cbc',
-                                                'arcfour',
-                                                'aes192-cbc',
-                                                'aes256-cbc',
+        :sshd_config_strictmodes              => 'yes',
+        :sshd_config_ciphers                  => [ 'aes128-cbc',
+                                                   '3des-cbc',
+                                                   'blowfish-cbc',
+                                                   'cast128-cbc',
+                                                   'arcfour',
+                                                   'aes192-cbc',
+                                                   'aes256-cbc',
         ],
-        :sshd_config_kexalgorithms         => [ 'curve25519-sha256@libssh.org',
-						'ecdh-sha2-nistp256',
-						'ecdh-sha2-nistp384',
-						'ecdh-sha2-nistp521',
-						'diffie-hellman-group-exchange-sha256',
-						'diffie-hellman-group-exchange-sha1',
-						'diffie-hellman-group14-sha1',
-						'diffie-hellman-group1-sha1',
+        :sshd_config_kexalgorithms            => [ 'curve25519-sha256@libssh.org',
+						   'ecdh-sha2-nistp256',
+						   'ecdh-sha2-nistp384',
+						   'ecdh-sha2-nistp521',
+						   'diffie-hellman-group-exchange-sha256',
+						   'diffie-hellman-group-exchange-sha1',
+						   'diffie-hellman-group14-sha1',
+						   'diffie-hellman-group1-sha1',
 	],
-        :sshd_config_macs                  => [ 'hmac-md5-etm@openssh.com',
-                                                'hmac-sha1-etm@openssh.com',
+        :sshd_config_macs                     => [ 'hmac-md5-etm@openssh.com',
+                                                   'hmac-sha1-etm@openssh.com',
         ],
-        :sshd_config_denyusers             => [ 'root',
-                                                'lusers',
+        :sshd_config_denyusers                => [ 'root',
+                                                   'lusers',
         ],
-        :sshd_config_denygroups            => [ 'nossh',
-                                                'wheel',
+        :sshd_config_denygroups               => [ 'nossh',
+                                                   'wheel',
         ],
-        :sshd_config_allowusers            => [ 'foo',
-                                                'bar',
+        :sshd_config_allowusers               => [ 'foo',
+                                                   'bar',
         ],
-        :sshd_config_allowgroups           => [ 'ssh',
-                                                'security',
+        :sshd_config_allowgroups              => [ 'ssh',
+                                                   'security',
         ],
-        :sshd_listen_address               => [ '192.168.1.1',
-                                                '2001:db8::dead:f00d',
+        :sshd_listen_address                  => [ '192.168.1.1',
+                                                   '2001:db8::dead:f00d',
         ],
-        :sshd_config_tcp_keepalive         => 'yes',
-        :sshd_config_permittunnel          => 'no',
+        :sshd_config_tcp_keepalive            => 'yes',
+	:sshd_config_use_privilege_separation => 'no',
+        :sshd_config_permittunnel             => 'no',
       }
     end
 
@@ -488,6 +491,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^PermitRootLogin no$/) }
     it { should contain_file('sshd_config').with_content(/^ChallengeResponseAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^PrintMotd no$/) }
+    it { should contain_file('sshd_config').with_content(/^PrintLastLog no$/) }
     it { should contain_file('sshd_config').with_content(/^UseDNS no$/) }
     it { should contain_file('sshd_config').with_content(/^Banner \/etc\/sshd_banner$/) }
     it { should contain_file('sshd_config').with_content(/^XAuthLocation \/opt\/ssh\/bin\/xauth$/) }
@@ -511,6 +515,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^HostKey \/etc\/ssh\/ssh_host_dsa_key/) }
     it { should contain_file('sshd_config').with_content(/^StrictModes yes$/) }
     it { should contain_file('sshd_config').with_content(/^PermitUserEnvironment no/) }
+    it { should contain_file('sshd_config').with_content(/^Compression no$/) }
     it { should contain_file('sshd_config').with_content(/^PermitEmptyPasswords no/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxAuthTries/) }
     it { should_not contain_file('sshd_config').with_content(/^MaxStartups/) }
@@ -534,6 +539,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^\s*AllowGroups ssh security$/) }
     it { should contain_file('sshd_config').with_content(/^ListenAddress 192.168.1.1\nListenAddress 2001:db8::dead:f00d$/) }
     it { should contain_file('sshd_config').with_content(/^TCPKeepAlive yes$/) }
+    it { should contain_file('sshd_config').with_content(/^UsePrivilegeSeparation no$/) }
     it { should contain_file('sshd_config').with_content(/^PermitTunnel no$/) }
 
     it {
@@ -620,6 +626,26 @@ describe 'ssh' do
       end
     end
 
+  end
+
+describe 'sshd_config_print_last_log param' do
+    ['yes','no'].each do |value|
+      context "set to #{value}" do
+        let (:params) { { :sshd_config_print_last_log => value } }
+
+        it { should contain_file('sshd_config').with_content(/^PrintLastLog #{value}$/) }
+      end
+    end
+
+    context 'when set to an invalid value' do
+      let (:params) { { :sshd_config_print_last_log => 'invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_print_last_log may be either \'yes\' or \'no\' and is set to <invalid>\./)
+      end
+    end
   end
 
   describe 'sshd_listen_address param' do
@@ -963,6 +989,26 @@ describe 'ssh' do
         expect {
           should contain_class('ssh')
         }.to raise_error(Puppet::Error,/ssh::sshd_config_permituserenvironment may be either \'yes\' or \'no\' and is set to <invalid>\./)
+      end
+    end
+  end
+	
+  describe 'sshd_config_compression param' do
+    ['yes','no','delayed'].each do |value|
+      context "set to #{value}" do
+        let (:params) { { :sshd_config_compression => value } }
+
+        it { should contain_file('sshd_config').with_content(/^Compression #{value}$/) }
+      end
+    end
+
+    context 'when set to an invalid value' do
+      let (:params) { { :sshd_config_compression => 'invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_compression may be either \'yes\', \'no\' or \'delayed\' and is set to <invalid>\./)
       end
     end
   end
@@ -2388,6 +2434,26 @@ describe 'ssh' do
         expect {
           should contain_class('ssh')
         }.to raise_error(Puppet::Error,/ssh::sshd_config_tcp_keepalive may be either \'yes\', \'no\' or \'unset\' and is set to <invalid>\./)
+      end
+    end
+  end
+	
+  describe 'sshd_config_use_privilege_separation param' do
+    ['yes','no','sandbox'].each do |value|
+      context "set to #{value}" do
+        let (:params) { { :sshd_config_use_privilege_separation => value } }
+
+        it { should contain_file('sshd_config').with_content(/^UsePrivilegeSeparation #{value}$/) }
+      end
+    end
+
+    context 'when set to an invalid value' do
+      let (:params) { { :sshd_config_use_privilege_separation => 'invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_use_privilege_separation may be either \'yes\', \'no\' or \'sandbox\' and is set to <invalid>\./)
       end
     end
   end
