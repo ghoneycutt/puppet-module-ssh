@@ -29,6 +29,7 @@ class ssh (
   $ssh_config_use_roaming               = 'USE_DEFAULTS',
   $ssh_config_template                  = 'ssh/ssh_config.erb',
   $ssh_sendenv                          = 'USE_DEFAULTS',
+  $ssh_sendenv_string                   = undef,
   $ssh_gssapiauthentication             = 'yes',
   $ssh_gssapidelegatecredentials        = undef,
   $sshd_config_path                     = '/etc/ssh/sshd_config',
@@ -86,6 +87,7 @@ class ssh (
   $sshd_pamauthenticationviakbdint      = 'USE_DEFAULTS',
   $sshd_gssapicleanupcredentials        = 'USE_DEFAULTS',
   $sshd_acceptenv                       = 'USE_DEFAULTS',
+  $sshd_acceptenv_string                = undef,
   $sshd_config_hostkey                  = 'USE_DEFAULTS',
   $sshd_listen_address                  = undef,
   $sshd_hostbasedauthentication         = 'no',
@@ -407,6 +409,9 @@ class ssh (
   if $ssh_sendenv == 'USE_DEFAULTS' {
     $ssh_sendenv_real = $default_ssh_sendenv
   } else {
+    if $ssh_sendenv_string {
+      validate_string($ssh_sendenv_string)
+    }
     case type3x($ssh_sendenv) {
       'string': {
         validate_re($ssh_sendenv, '^(true|false)$', "ssh::ssh_sendenv may be either 'true' or 'false' and is set to <${ssh_sendenv}>.")
@@ -424,6 +429,9 @@ class ssh (
   if $sshd_acceptenv == 'USE_DEFAULTS' {
     $sshd_acceptenv_real = $default_sshd_acceptenv
   } else {
+    if $ssh_acceptenv_string {
+      validate_string($ssh_acceptenv_string)
+    }
     case type3x($sshd_acceptenv) {
       'string': {
         validate_re($sshd_acceptenv, '^(true|false)$', "ssh::sshd_acceptenv may be either 'true' or 'false' and is set to <${sshd_acceptenv}>.")
