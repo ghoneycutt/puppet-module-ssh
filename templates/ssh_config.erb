@@ -102,7 +102,6 @@ GSSAPIDelegateCredentials <%= @ssh_gssapidelegatecredentials %>
 # Send custom locale-related environment variables
   SendEnv <%= @ssh_sendenv_string %>
 <% end -%>
-<% end -%>
 <% if @ssh_config_macs -%>
   MACs <%= @ssh_config_macs.join(',') %>
 <% end -%>
