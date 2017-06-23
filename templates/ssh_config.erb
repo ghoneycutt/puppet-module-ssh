@@ -90,7 +90,7 @@ GSSAPIDelegateCredentials <%= @ssh_gssapidelegatecredentials %>
 <% if @ssh_config_server_alive_interval != nil -%>
   ServerAliveInterval <%= @ssh_config_server_alive_interval %>
 <% end -%>
-<% if (@ssh_sendenv_real == true) and !(@ssh_sendenv_string) -%>
+<% if (@ssh_sendenv_real == true) and (@ssh_sendenv_string == nil) -%>
 # Send locale-related environment variables
   SendEnv LANG LANGUAGE LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
   SendEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
