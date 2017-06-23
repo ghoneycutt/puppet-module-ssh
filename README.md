@@ -153,6 +153,12 @@ Boolean to enable SendEnv options for specifying environment variables. Default 
 
 - *Default*: 'USE_DEFAULTS'
 
+ssh_sendenv_string
+-------------
+String for SendEnv option for specifying custom environment variables.
+
+- *Default*: undef
+
 ssh_gssapiauthentication
 -------------------------
 GSSAPIAuthentication: Enables/disables GSS-API user authentication in ssh_config. Valid values are 'yes' and 'no'.
@@ -419,7 +425,7 @@ X11Forwarding in sshd_config. Specifies whether X11 forwarding is permitted.
 
 sshd_x11_use_localhost
 ----------------------
-X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding server 
+X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding server
 to the loopback address or to the wildcard address.
 
 - *Default*: 'yes'
@@ -672,6 +678,12 @@ sshd_acceptenv
 Boolean to enable AcceptEnv options for specifying environment variables. Default is set to true on Linux.
 
 - *Default*: 'USE_DEFAULTS'
+
+sshd_acceptenv_string
+-------------
+String for AcceptEnv option for specifying custom environment variables.
+
+- *Default*: undef
 
 sshd_hostbasedauthentication
 -------------------------
