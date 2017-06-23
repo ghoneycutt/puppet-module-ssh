@@ -429,8 +429,8 @@ class ssh (
   if $sshd_acceptenv == 'USE_DEFAULTS' {
     $sshd_acceptenv_real = $default_sshd_acceptenv
   } else {
-    if $ssh_acceptenv_string {
-      validate_string($ssh_acceptenv_string)
+    if $sshd_acceptenv_string {
+      validate_string($sshd_acceptenv_string)
     }
     case type3x($sshd_acceptenv) {
       'string': {
