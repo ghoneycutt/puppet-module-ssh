@@ -280,8 +280,14 @@ class ssh (
 
   if "${::ssh_version}" =~ /^OpenSSH/  { # lint:ignore:only_variable_string
     $ssh_version_array = split($::ssh_version_numeric, '\.')
-    $ssh_version_maj_int = 0 + $ssh_version_array[0]
-    $ssh_version_min_int = 0 + $ssh_version_array[1]
+    $ssh_version_maj_int = versioncmp($::puppetversion, "4.0.0") ? {
+        -1          => 0 + $ssh_version_array[0],
+        default     => Numeric($ssh_version_array[0]),
+    }
+    $ssh_version_min_int = versioncmp($::puppetversion, "4.0.0") ? {
+        -1          => 0 + $ssh_version_array[1],
+        default     => Numeric($ssh_version_array[1]),
+    }
     if $ssh_version_maj_int > 5 {
       $default_ssh_config_use_roaming = 'no'
     } elsif $ssh_version_maj_int == 5 and $ssh_version_min_int >= 4 {
