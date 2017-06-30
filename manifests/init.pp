@@ -102,6 +102,7 @@ class ssh (
   $service_hasstatus                    = 'USE_DEFAULTS',
   $ssh_key_ensure                       = 'present',
   $ssh_key_import                       = true,
+  $ssh_key_export                       = true,
   $ssh_key_type                         = 'ssh-rsa',
   $ssh_config_global_known_hosts_file   = '/etc/ssh/ssh_known_hosts',
   $ssh_config_global_known_hosts_list   = undef,
@@ -695,6 +696,20 @@ class ssh (
   }
   validate_bool($ssh_key_import_real)
 
+  case type3x($ssh_key_export) {
+    'string': {
+      validate_re($ssh_key_export, '^(true|false)$', "ssh::ssh_key_export may be either 'true' or 'false' and is set to <${ssh_key_export}>.")
+      $ssh_key_export_real = str2bool($ssh_key_export)
+    }
+    'boolean': {
+      $ssh_key_export_real = $ssh_key_export
+    }
+    default: {
+      fail('ssh::ssh_key_export type must be true or false.')
+    }
+  }
+  validate_bool($ssh_key_export_real)
+
   case type3x($ssh_config_sendenv_xmodifiers) {
     'string': {
       $ssh_config_sendenv_xmodifiers_real = str2bool($ssh_config_sendenv_xmodifiers)
@@ -932,11 +947,13 @@ class ssh (
   }
 
   # export each node's ssh key
-  @@sshkey { $::fqdn :
-    ensure       => $ssh_key_ensure,
-    host_aliases => [$::hostname, $::ipaddress],
-    type         => $ssh_key_type,
-    key          => $key,
+  if $ssh_key_export_real == true {
+    @@sshkey { $::fqdn :
+      ensure       => $ssh_key_ensure,
+      host_aliases => [$::hostname, $::ipaddress],
+      type         => $ssh_key_type,
+      key          => $key,
+    }
   }
 
   file { 'ssh_known_hosts':
