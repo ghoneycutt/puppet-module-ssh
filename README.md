@@ -147,6 +147,13 @@ Array of ciphers to be used with the MACs option in ssh_config.
 
 - *Default*: undef
 
+ssh_config_verify_host_key_dns
+---------------
+VerifyHostKeyDNS: Enables/disables VerifyHostKeyDNS DNSSEC validation in ssh_config. Valid values are 'yes' and 'no'.
+
+- *Default*: undef
+
+
 ssh_sendenv
 -------------
 Boolean to enable SendEnv options for specifying environment variables. Default is set to true on Linux.
