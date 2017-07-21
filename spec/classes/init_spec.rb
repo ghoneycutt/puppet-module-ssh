@@ -1068,16 +1068,22 @@ describe 'sshd_config_print_last_log param' do
   end
 
   describe 'sshd_config_hostcertificate param' do
-    ['unset', '/etc/ssh/ssh_host_key-cert.pub'].each do |value|
-      context "set to #{value}" do
-        let (:params) { { :sshd_config_hostcertificate => value } }
+    context 'unset value' do
+      let(:params) { { :sshd_config_hostcertificate => 'unset' } }
 
-        if value == 'unset'
-          it { should contain_file('sshd_config').without_content(/^\s*HostCertificate/) }
-        else
-          it { should contain_file('sshd_config').with_content(/^HostCertificate #{value}/) }
-        end
-      end
+      it { should contain_file('sshd_config').without_content(/^\s*HostCertificate/) }
+    end
+
+    context 'with a certificate' do
+      let(:params) { { :sshd_config_hostcertificate => ['/etc/ssh/ssh_host_key-cert.pub'] } }
+
+      it { should contain_file('sshd_config').with_content(/^HostCertificate \/etc\/ssh\/ssh_host_key-cert\.pub/) }
+    end
+
+    context 'with multiple certs' do
+      let(:params) { { :sshd_config_hostcertificate => [ '/etc/ssh/ssh_host_key-cert.pub', '/etc/ssh/ssh_host_key-cert2.pub'] } }
+
+      it { should contain_file('sshd_config').with_content(/^HostCertificate \/etc\/ssh\/ssh_host_key-cert\.pub\nHostCertificate \/etc\/ssh\/ssh_host_key-cert2\.pub/)}
     end
   end
 
@@ -1087,7 +1093,7 @@ describe 'sshd_config_print_last_log param' do
     it 'should fail' do
       expect {
         should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/"invalid" is not an absolute path/)
+      }.to raise_error(Puppet::PreformattedError,/"invalid" is not an Array/)
     end
   end
 

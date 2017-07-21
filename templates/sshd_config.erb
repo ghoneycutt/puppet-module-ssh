@@ -264,7 +264,9 @@ Match <%= key %>
 <%   end -%>
 <% end -%>
 <% if @sshd_config_hostcertificate_real -%>
-HostCertificate <%= @sshd_config_hostcertificate_real %>
+<%   @sshd_config_hostcertificate_real.each do |cert| -%>
+HostCertificate <%= cert %>
+<%   end -%>
 <% end -%>
 <% if @sshd_config_trustedusercakeys_real -%>
 TrustedUserCAKeys <%= @sshd_config_trustedusercakeys_real %>

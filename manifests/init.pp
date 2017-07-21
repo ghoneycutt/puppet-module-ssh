@@ -839,6 +839,7 @@ class ssh (
   }
 
   if $sshd_config_hostcertificate_real != undef {
+    validate_array($sshd_config_hostcertificate_real)
     validate_absolute_path($sshd_config_hostcertificate_real)
   }
 
