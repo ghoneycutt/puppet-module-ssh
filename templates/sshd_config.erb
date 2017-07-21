@@ -271,3 +271,6 @@ HostCertificate <%= cert %>
 <% if @sshd_config_trustedusercakeys_real -%>
 TrustedUserCAKeys <%= @sshd_config_trustedusercakeys_real %>
 <% end -%>
+<% if @sshd_config_authorized_principals_file_real -%>
+AuthorizedPrincipalsFile <%= @sshd_config_authorized_principals_file_real %>
+<% end -%>

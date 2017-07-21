@@ -1097,6 +1097,20 @@ describe 'sshd_config_print_last_log param' do
     end
   end
 
+  context 'with sshd_config_authorized_principals_file param' do
+    ['unset', '.ssh/authorized_principals'].each do |value|
+      context "set to #{value}" do
+        let (:params) { { :sshd_config_authorized_principals_file => value } }
+
+        if value == 'unset'
+          it { should contain_file('sshd_config').without_content(/^\s*AuthorizedPrincipalsFile/)}
+        else
+          it { should contain_file('sshd_config').with_content(/^AuthorizedPrincipalsFile \.ssh\/authorized_principals/)}
+        end
+      end
+    end
+  end
+
   describe 'sshd_config_trustedusercakeys param' do
     ['unset', '/etc/ssh/authorized_users_ca.pub', 'none'].each do |value|
       context "set to #{value}" do
