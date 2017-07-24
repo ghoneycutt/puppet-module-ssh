@@ -1,3 +1,15 @@
+### v3.54.0 - 2017-07-24
+  * Allow sshd_config_hostcertificate to be an array. This fixes a bug
+    where you could have specified one cert and multiple HostKey's since
+    `sshd_config_hostkey` allows an array.
+  * Add parameter `sshd_config_authorized_principals_file` to manage the
+    `AuthorizedPrincipalsFile` setting in `sshd_config`.
+
+### v3.53.0 - 2017-07-24
+  * Support only latest Puppet v3
+  * Support only last few releases on Puppet v4
+  * Add support for Puppet v5
+
 ### v3.52.0 - 2017-05-26
   * Add params for Add PrintLastLog, UsePrivilegeSeparation, and
     Compression options in sshd_config.
