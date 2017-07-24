@@ -327,22 +327,22 @@ describe 'ssh' do
                                                  'aes256-cbc',
         ],
         :ssh_config_kexalgorithms          => [ 'curve25519-sha256@libssh.org',
-						'ecdh-sha2-nistp256',
-						'ecdh-sha2-nistp384',
-						'ecdh-sha2-nistp521',
-						'diffie-hellman-group-exchange-sha256',
-						'diffie-hellman-group-exchange-sha1',
-						'diffie-hellman-group14-sha1',
-						'diffie-hellman-group1-sha1',
-	],
+            'ecdh-sha2-nistp256',
+            'ecdh-sha2-nistp384',
+            'ecdh-sha2-nistp521',
+            'diffie-hellman-group-exchange-sha256',
+            'diffie-hellman-group-exchange-sha1',
+            'diffie-hellman-group14-sha1',
+            'diffie-hellman-group1-sha1',
+  ],
         :ssh_config_macs                    => [ 'hmac-md5-etm@openssh.com',
                                                  'hmac-sha1-etm@openssh.com',
         ],
         :ssh_config_proxy_command           => 'ssh -W %h:%p firewall.example.org',
         :ssh_config_global_known_hosts_file => '/etc/ssh/ssh_known_hosts2',
         :ssh_config_global_known_hosts_list => [ '/etc/ssh/ssh_known_hosts3',
-					         '/etc/ssh/ssh_known_hosts4',
-	],
+                   '/etc/ssh/ssh_known_hosts4',
+  ],
         :ssh_config_user_known_hosts_file   => [ '.ssh/known_hosts1',
                                                  '.ssh/known_hosts2',
         ],
@@ -398,7 +398,7 @@ describe 'ssh' do
         :sshd_config_match                    => { 'User JohnDoe' => [ 'AllowTcpForwarding yes', ], },
         :sshd_config_challenge_resp_auth      => 'no',
         :sshd_config_print_motd               => 'no',
-	:sshd_config_print_last_log           => 'no',
+  :sshd_config_print_last_log           => 'no',
         :sshd_config_use_dns                  => 'no',
         :sshd_config_banner                   => '/etc/sshd_banner',
         :sshd_authorized_keys_command         => '/path/to/command',
@@ -410,7 +410,7 @@ describe 'ssh' do
         :sshd_password_authentication         => 'no',
         :sshd_config_permitemptypasswords     => 'no',
         :sshd_config_permituserenvironment    => 'no',
-	:sshd_config_compression              => 'no',
+  :sshd_config_compression              => 'no',
         :sshd_pubkeyacceptedkeytypes          => [ 'ecdsa-sha2-nistp256',
                                                    'ecdsa-sha2-nistp384',
                                                    'ecdsa-sha2-nistp521',
@@ -439,14 +439,14 @@ describe 'ssh' do
                                                    'aes256-cbc',
         ],
         :sshd_config_kexalgorithms            => [ 'curve25519-sha256@libssh.org',
-						   'ecdh-sha2-nistp256',
-						   'ecdh-sha2-nistp384',
-						   'ecdh-sha2-nistp521',
-						   'diffie-hellman-group-exchange-sha256',
-						   'diffie-hellman-group-exchange-sha1',
-						   'diffie-hellman-group14-sha1',
-						   'diffie-hellman-group1-sha1',
-	],
+               'ecdh-sha2-nistp256',
+               'ecdh-sha2-nistp384',
+               'ecdh-sha2-nistp521',
+               'diffie-hellman-group-exchange-sha256',
+               'diffie-hellman-group-exchange-sha1',
+               'diffie-hellman-group14-sha1',
+               'diffie-hellman-group1-sha1',
+  ],
         :sshd_config_macs                     => [ 'hmac-md5-etm@openssh.com',
                                                    'hmac-sha1-etm@openssh.com',
         ],
@@ -466,7 +466,7 @@ describe 'ssh' do
                                                    '2001:db8::dead:f00d',
         ],
         :sshd_config_tcp_keepalive            => 'yes',
-	:sshd_config_use_privilege_separation => 'no',
+  :sshd_config_use_privilege_separation => 'no',
         :sshd_config_permittunnel             => 'no',
       }
     end
@@ -992,7 +992,7 @@ describe 'sshd_config_print_last_log param' do
       end
     end
   end
-	
+
   describe 'sshd_config_compression param' do
     ['yes','no','delayed'].each do |value|
       context "set to #{value}" do
@@ -2437,7 +2437,7 @@ describe 'sshd_config_print_last_log param' do
       end
     end
   end
-	
+
   describe 'sshd_config_use_privilege_separation param' do
     ['yes','no','sandbox'].each do |value|
       context "set to #{value}" do
