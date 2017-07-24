@@ -1,8 +1,6 @@
 ---
 language: ruby
 
-bundler_args: --without system_tests development
-
 cache: bundler
 
 before_install:
@@ -48,6 +46,10 @@ matrix:
     env: PUPPET_GEM_VERSION="~> 4.10.0"
   - rvm: 2.1.9
     env: PUPPET_GEM_VERSION="~> 4"
+  - rvm: 2.4.1
+    env: PUPPET_GEM_VERSION="~> 5.0.0"
+  - rvm: 2.4.1
+    env: PUPPET_GEM_VERSION="~> 5"
 
 notifications:
   email: false
