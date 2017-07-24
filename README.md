@@ -598,7 +598,7 @@ ssh::sshd_config_match:
 
 sshd_config_hostcertificate
 ---------------------------
-An Array of Absolute Paths to the Host CA Public Key. Each entry *MUST* be tied 1:1 to a Host CA Private Key (see [sshd_config_hostkey](#sshd_config_hostkey))
+An Absolute Path or Array of Absolute Paths to the Host CA Public Key. Each entry *MUST* be tied 1:1 to a Host CA Private Key (see [sshd_config_hostkey](#sshd_config_hostkey))
 
 - *Default*: undefined
 
