@@ -1075,7 +1075,7 @@ describe 'sshd_config_print_last_log param' do
     end
 
     context 'with a certificate' do
-      let(:params) { { :sshd_config_hostcertificate => ['/etc/ssh/ssh_host_key-cert.pub'] } }
+      let(:params) { { :sshd_config_hostcertificate => '/etc/ssh/ssh_host_key-cert.pub' } }
 
       it { should contain_file('sshd_config').with_content(/^HostCertificate \/etc\/ssh\/ssh_host_key-cert\.pub/) }
     end
@@ -1088,12 +1088,14 @@ describe 'sshd_config_print_last_log param' do
   end
 
   context 'with sshd_config_hostcertificate set to invalid value on valid osfamily' do
-    let(:params) { { :sshd_config_hostcertificate => 'invalid' } }
+    context 'with string' do
+      let(:params) { { :sshd_config_hostcertificate => 'invalid' } }
 
-    it 'should fail' do
-      expect {
-        should contain_class('ssh')
-      }.to raise_error(Puppet::PreformattedError,/"invalid" is not an Array/)
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/"invalid" is not an absolute path/)
+      end
     end
   end
 

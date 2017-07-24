@@ -263,10 +263,12 @@ Match <%= key %>
 <%     end -%>
 <%   end -%>
 <% end -%>
-<% if @sshd_config_hostcertificate_real -%>
+<% if @sshd_config_hostcertificate_real.class == Array -%>
 <%   @sshd_config_hostcertificate_real.each do |cert| -%>
 HostCertificate <%= cert %>
 <%   end -%>
+<% elsif @sshd_config_hostcertificate_real.class == String -%>
+HostCertificate <%= @sshd_config_hostcertificate_real %>
 <% end -%>
 <% if @sshd_config_trustedusercakeys_real -%>
 TrustedUserCAKeys <%= @sshd_config_trustedusercakeys_real %>
