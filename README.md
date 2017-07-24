@@ -20,8 +20,8 @@ This module may be used with a simple `include ::ssh`
 # Compatibility
 
 This module has been tested to work on the following systems with Puppet
-versions v3, v3 with future parser and v4 with  Ruby versions 1.8.7 (Puppet v3
-only), 1.9.3, 2.0.0, 2.1.0 and 2.3.1 (Puppet v4 only).
+versions v3, v3 with future parser, and v4 with Ruby versions 1.8.7 (Puppet v3
+only), 1.9.3, 2.0.0 and 2.1.0. See .travis.yml for the exact matrix.
 
  * Debian 7
  * EL 5
