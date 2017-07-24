@@ -90,7 +90,7 @@ GSSAPIDelegateCredentials <%= @ssh_gssapidelegatecredentials %>
 <% if @ssh_config_server_alive_interval != nil -%>
   ServerAliveInterval <%= @ssh_config_server_alive_interval %>
 <% end -%>
-<% if @ssh_sendenv_real == true -%>
+<% if (@ssh_sendenv_real == true) and !(@ssh_sendenv_string) -%>
 # Send locale-related environment variables
   SendEnv LANG LANGUAGE LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
   SendEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
@@ -98,6 +98,9 @@ GSSAPIDelegateCredentials <%= @ssh_gssapidelegatecredentials %>
 <% if @ssh_config_sendenv_xmodifiers_real == true -%>
   SendEnv XMODIFIERS
 <% end -%>
+<% elsif @ssh_sendenv_string -%>
+# Send custom locale-related environment variables
+  SendEnv <%= @ssh_sendenv_string %>
 <% end -%>
 <% if @ssh_config_macs -%>
   MACs <%= @ssh_config_macs.join(',') %>
