@@ -28,6 +28,7 @@ class ssh (
   $ssh_config_macs                      = undef,
   $ssh_config_use_roaming               = 'USE_DEFAULTS',
   $ssh_config_template                  = 'ssh/ssh_config.erb',
+  $ssh_config_verify_host_key_dns       = undef,
   $ssh_sendenv                          = 'USE_DEFAULTS',
   $ssh_gssapiauthentication             = 'yes',
   $ssh_gssapidelegatecredentials        = undef,
