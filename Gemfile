@@ -33,6 +33,6 @@ gem 'puppetlabs_spec_helper', '2.0.2',    :require => false if RUBY_VERSION >= '
 gem 'puppetlabs_spec_helper', '>= 2.0.0', :require => false if RUBY_VERSION >= '1.9'
 gem 'parallel_tests',         '<= 2.9.0', :require => false if RUBY_VERSION < '2.0.0'
 
-if puppetversion < '5.0'
+if puppetversion && puppetversion < '5.0'
   gem 'semantic_puppet', :require => false
 end

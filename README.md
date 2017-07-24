@@ -598,13 +598,21 @@ ssh::sshd_config_match:
 
 sshd_config_hostcertificate
 ---------------------------
-Absolute path to the OpenSSH Host CA Certificate (HostCertificate) for use with SSH CA validation for Host Certificates.
+An Absolute Path or Array of Absolute Paths to the Host CA Public Key. Each entry *MUST* be tied 1:1 to a Host CA Private Key (see [sshd_config_hostkey](#sshd_config_hostkey))
 
 - *Default*: undefined
 
 sshd_config_trustedusercakeys
 -----------------------------
 Absolute path to the OpenSSH User CA Certificate (TrustedUserCAKeys) for use with SSH CA Validation for Users or the string 'none'.
+
+- *Default*: undefined
+
+sshd_config_authorized_principals_file
+--------------------------------------
+String path (relative or absolute) to the `authorized_principals` file. Sets the `AuthorizedPrincipalsFile` setting in `sshd_config`
+
+See `sshd_config(5)` for more details
 
 - *Default*: undefined
 
