@@ -8,6 +8,9 @@ ssh_key_ensure and purge_keys.
 
 This module may be used with a simple `include ::ssh`
 
+The `ssh::config_entry` defined type may be used directly and is used to manage
+Host entries in a personal `~/.ssh/config` file.
+
 ===
 
 ### Table of Contents
@@ -851,4 +854,31 @@ ssh::keys:
   root_for_userY:
     ensure: absent
     user: root
+```
+
+Manage config entries in a personal ssh/config file.
+
+```
+Ssh::Config_entry {
+  ensure => present,
+  path   => '/home/jenkins/.ssh/config',
+  owner  => 'jenkins',
+  group  => 'jenkins',
+}
+
+
+ssh::config_entry { 'jenkins *':
+  host  => '*',
+  lines => [
+    '  ForwardX11 no',
+    '  StrictHostKeyChecking no',
+  ],
+  order => '10',
+}
+
+ssh::config_entry { 'jenkins github.com':
+  host  => 'github.com',
+  lines => ["  IdentityFile /home/jenkins/.ssh/jenkins-gihub.key"],
+  order => '20',
+}
 ```
