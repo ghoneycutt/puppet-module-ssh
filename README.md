@@ -57,8 +57,9 @@ A value of `'USE_DEFAULTS'` will use the defaults specified by the module.
 
 hiera_merge
 -----------
-Boolean to merges all found instances of ssh::keys in Hiera. This is useful for specifying
-SSH keys at different levels of the hierarchy and having them all included in the catalog.
+Boolean to merges all found instances of ssh::keys and ssh::config_entries in Hiera.
+This is useful for specifying SSH keys at different levels of the hierarchy and having
+them all included in the catalog.
 
 This will default to 'true' in future versions.
 
@@ -618,6 +619,24 @@ String path (relative or absolute) to the `authorized_principals` file. Sets the
 See `sshd_config(5)` for more details
 
 - *Default*: undefined
+
+config_entries
+--------------
+Hash of config entries for a specific user's ~/.ssh/config. Please check the docs for ssd::config_entry for a list and details of the parameters usable here.
+Setting hiera_merge to true will activate merging entries through all levels of hiera.
+
+- *Hiera example*:
+
+``` yaml
+ssh::config_entries:
+  'root':
+    owner: 'root'
+    group: 'root'
+    path:  '/root/.ssh/config'
+    host:  'host.example.local'
+```
+
+- *Default*: {}
 
 keys
 ----

@@ -295,6 +295,8 @@ describe 'ssh' do
           'purge' => 'true',
         })
       }
+
+      it { should have_ssh__config_entry_resource_count(0) }
     end
   end
 
@@ -1343,6 +1345,71 @@ describe 'sshd_config_print_last_log param' do
         'proto'  => 'tcp',
       })
     }
+  end
+
+  context 'with config_entries defined on valid osfamily' do
+    let(:params) do
+      {
+        :config_entries => {
+          'root' => {
+            'owner' => 'root',
+            'group' => 'root',
+            'path'  => '/root/.ssh/config',
+            'host'  => 'test_host1',
+          },
+          'user' => {
+            'owner' => 'user',
+            'group' => 'group',
+            'path'  => '/home/user/.ssh/config',
+            'host'  => 'test_host2',
+            'order' => '242',
+            'lines' => [ 'ForwardX11 no', 'StrictHostKeyChecking no' ],
+          },
+        }
+      }
+    end
+
+    it { should compile.with_all_deps }
+    it { should have_ssh__config_entry_resource_count(2) }
+    it do
+      should contain_ssh__config_entry('root').with({
+        'owner' => 'root',
+        'group' => 'root',
+        'path'  => '/root/.ssh/config',
+        'host'  => 'test_host1',
+      })
+    end
+    it do
+      should contain_ssh__config_entry('user').with({
+        'owner' => 'user',
+        'group' => 'group',
+        'path'  => '/home/user/.ssh/config',
+        'host'  => 'test_host2',
+        'order' => '242',
+        'lines' => [ 'ForwardX11 no', 'StrictHostKeyChecking no' ],
+      })
+    end
+  end
+
+  describe 'with hiera providing data from multiple levels' do
+    let(:facts) do
+      default_facts.merge({
+        :fqdn     => 'hieramerge.example.com',
+        :specific => 'test_hiera_merge',
+      })
+    end
+
+    context 'with defaults for all parameters' do
+      it { should have_ssh__config_entry_resource_count(1) }
+      it { should contain_ssh__config_entry('user_from_fqdn') }
+    end
+
+    context 'with hiera_merge set to valid <true>' do
+      let(:params) { { :hiera_merge => true } }
+      it { should have_ssh__config_entry_resource_count(2) }
+      it { should contain_ssh__config_entry('user_from_fqdn') }
+      it { should contain_ssh__config_entry('user_from_fact') }
+    end
   end
 
   context 'with keys defined on valid osfamily' do
@@ -2514,14 +2581,15 @@ describe 'sshd_config_print_last_log param' do
   end
 
   describe 'variable type and content validations' do
-    # set needed custom facts and variables
-    let(:mandatory_params) do
-      {
-        #:param => 'value',
-      }
-    end
+    mandatory_params = {} if mandatory_params.nil?
 
     validations = {
+      'hash' => {
+        :name    => %w[config_entries],
+        :valid   => [], # valid hashes are to complex to block test them here. types::mount should have its own spec tests anyway.
+        :invalid => ['string', %w[array], 3, 2.42, true],
+        :message => 'is not a Hash',
+      },
       'regex (yes|no|unset)' => {
         :name    => %w(ssh_config_use_roaming),
         :valid   => ['yes', 'no', 'unset'],
@@ -2543,9 +2611,7 @@ describe 'sshd_config_print_last_log param' do
         var[:invalid].each do |invalid|
           context "when #{var_name} (#{type}) is set to invalid #{invalid} (as #{invalid.class})" do
             let(:params) { [mandatory_params, var[:params], { :"#{var_name}" => invalid, }].reduce(:merge) }
-            it 'should fail' do
-              expect { should contain_class(subject) }.to raise_error(Puppet::Error, /#{var[:message]}/)
-            end
+            it { is_expected.to compile.and_raise_error(/#{var[:message]}/) }
           end
         end
       end # var[:name].each

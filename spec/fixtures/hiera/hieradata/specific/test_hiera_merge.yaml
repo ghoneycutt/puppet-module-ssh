@@ -7,3 +7,9 @@ ssh::sshd_config_denygroups:
   - denygroup_from_fact
 ssh::sshd_config_denyusers:
   - denyuser_from_fact
+ssh::config_entries:
+  'user_from_fact':
+    owner: 'fact_user'
+    group: 'fact_user'
+    path:  '/home/fact_user/.ssh/config'
+    host:  'fact_host.example.local'
