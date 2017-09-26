@@ -8,6 +8,9 @@ ssh_key_ensure and purge_keys.
 
 This module may be used with a simple `include ::ssh`
 
+The `ssh::config_entry` defined type may be used directly and is used to manage
+Host entries in a personal `~/.ssh/config` file.
+
 ===
 
 ### Table of Contents
@@ -54,8 +57,9 @@ A value of `'USE_DEFAULTS'` will use the defaults specified by the module.
 
 hiera_merge
 -----------
-Boolean to merges all found instances of ssh::keys in Hiera. This is useful for specifying
-SSH keys at different levels of the hierarchy and having them all included in the catalog.
+Boolean to merges all found instances of ssh::keys and ssh::config_entries in Hiera.
+This is useful for specifying SSH keys at different levels of the hierarchy and having
+them all included in the catalog.
 
 This will default to 'true' in future versions.
 
@@ -616,6 +620,24 @@ See `sshd_config(5)` for more details
 
 - *Default*: undefined
 
+config_entries
+--------------
+Hash of config entries for a specific user's ~/.ssh/config. Please check the docs for ssd::config_entry for a list and details of the parameters usable here.
+Setting hiera_merge to true will activate merging entries through all levels of hiera.
+
+- *Hiera example*:
+
+``` yaml
+ssh::config_entries:
+  'root':
+    owner: 'root'
+    group: 'root'
+    path:  '/root/.ssh/config'
+    host:  'host.example.local'
+```
+
+- *Default*: {}
+
 keys
 ----
 Hash of keys for user's ~/.ssh/authorized_keys
@@ -851,4 +873,31 @@ ssh::keys:
   root_for_userY:
     ensure: absent
     user: root
+```
+
+Manage config entries in a personal ssh/config file.
+
+```
+Ssh::Config_entry {
+  ensure => present,
+  path   => '/home/jenkins/.ssh/config',
+  owner  => 'jenkins',
+  group  => 'jenkins',
+}
+
+
+ssh::config_entry { 'jenkins *':
+  host  => '*',
+  lines => [
+    '  ForwardX11 no',
+    '  StrictHostKeyChecking no',
+  ],
+  order => '10',
+}
+
+ssh::config_entry { 'jenkins github.com':
+  host  => 'github.com',
+  lines => ["  IdentityFile /home/jenkins/.ssh/jenkins-gihub.key"],
+  order => '20',
+}
 ```

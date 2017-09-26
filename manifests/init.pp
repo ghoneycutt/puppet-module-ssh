@@ -109,6 +109,7 @@ class ssh (
   $ssh_config_global_known_hosts_group    = 'root',
   $ssh_config_global_known_hosts_mode     = '0644',
   $ssh_config_user_known_hosts_file       = undef,
+  $config_entries                         = {},
   $keys                                   = undef,
   $manage_root_ssh_config                 = false,
   $root_ssh_config_content                = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
@@ -802,18 +803,21 @@ class ssh (
   $supported_loglevel_vals=['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE']
   validate_re($sshd_config_loglevel, $supported_loglevel_vals)
 
-  #enable hiera merging for groups and users
+  #enable hiera merging for groups, users, and config_entries
   if $hiera_merge_real == true {
     $sshd_config_allowgroups_real = hiera_array('ssh::sshd_config_allowgroups',[])
     $sshd_config_allowusers_real  = hiera_array('ssh::sshd_config_allowusers',[])
     $sshd_config_denygroups_real  = hiera_array('ssh::sshd_config_denygroups',[])
     $sshd_config_denyusers_real   = hiera_array('ssh::sshd_config_denyusers',[])
+    $config_entries_real          = hiera_hash('ssh::config_entries',{})
   } else {
     $sshd_config_allowgroups_real = $sshd_config_allowgroups
     $sshd_config_allowusers_real  = $sshd_config_allowusers
     $sshd_config_denygroups_real  = $sshd_config_denygroups
     $sshd_config_denyusers_real   = $sshd_config_denyusers
+    $config_entries_real          = $config_entries
   }
+  validate_hash($config_entries_real)
 
   if $sshd_config_denyusers_real != [] {
     validate_array($sshd_config_denyusers_real)
@@ -972,6 +976,9 @@ class ssh (
   resources  { 'sshkey':
     purge => $purge_keys_real,
   }
+
+  # manage users' ssh config entries if present
+  create_resources('ssh::config_entry',$config_entries_real)
 
   # manage users' ssh authorized keys if present
   if $keys != undef {
