@@ -1,3 +1,8 @@
+### v3.55.0 - 2017-09-26
+  * Add `ssh::config_entry` defined type to manage `~/.ssh/config`
+  * Add `config_entries` parameter to ssh class to allow specifying a
+    hash of multiple entries for `ssh::config_entry`.
+
 ### v3.54.0 - 2017-07-24
   * Allow sshd_config_hostcertificate to be an array. This fixes a bug
     where you could have specified one cert and multiple HostKey's since
