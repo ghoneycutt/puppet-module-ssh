@@ -1,3 +1,6 @@
+### v3.56.1 - 2017-11-20
+  * Fix regex bug with `sshd_config_maxstartups`
+
 ### v3.56.0 - 2017-10-27
   * Support puppetlabs/concat v3 and v4
 
