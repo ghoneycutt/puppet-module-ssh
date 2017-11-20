@@ -23,9 +23,8 @@ Host entries in a personal `~/.ssh/config` file.
 # Compatibility
 
 This module has been tested to work on the following systems with the
-latest Puppet v3, v3 with future parser, last few releases of v4 and
-Puppet v5. See .travis.yml for the exact matrix of supported Puppet and
-ruby versions.
+latest Puppet v3, v3 with future parser, v4 and v5.  See `.travis.yml`
+for the exact matrix of supported Puppet and ruby versions.
 
  * Debian 7
  * EL 5
