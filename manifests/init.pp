@@ -632,7 +632,7 @@ class ssh (
   }
 
   if $sshd_config_maxstartups != undef {
-    validate_re($sshd_config_maxstartups,'^(\d+)+(\d+?:\d+?:\d+)?$',
+    validate_re($sshd_config_maxstartups,'^((\d+)|(\d+?:\d+?:\d+)?)$',
       "ssh::sshd_config_maxstartups may be either an integer or three integers separated with colons, such as 10:30:100. Detected value is <${sshd_config_maxstartups}>.")
   }
 

@@ -557,9 +557,11 @@ Array of users for the AllowUsers setting in sshd_config.
 
 - *Default*: undef
 
-sshd_config_maxstartups
+sshd_config_maxstartups (string)
 -----------------------
-Specifies the maximum number of concurrent unauthenticated connections to the SSH daemon.
+Specifies the maximum number of concurrent unauthenticated connections
+to the SSH daemon. Must be a stringified integer or a string with three
+integers separated by colons, such as '10:30:100'.
 
 - *Default*: undef
 
