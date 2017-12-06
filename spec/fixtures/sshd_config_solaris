@@ -112,10 +112,10 @@ ClientAliveCountMax 3
 #PidFile /var/run/sshd.pid
 #MaxStartups 10:30:100
 #MaxSessions 10
-#AllowAgentForwarding yes
 
 #PermitTunnel no
 #ChrootDirectory none
+#AllowAgentForwarding yes
 
 # no default banner path
 #Banner none
