@@ -115,6 +115,7 @@ ClientAliveCountMax 3
 
 #PermitTunnel no
 #ChrootDirectory none
+#AllowAgentForwarding yes
 
 # no default banner path
 #Banner none

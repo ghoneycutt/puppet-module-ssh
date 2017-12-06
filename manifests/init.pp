@@ -119,6 +119,7 @@ class ssh (
   $sshd_config_hostcertificate            = undef,
   $sshd_config_trustedusercakeys          = undef,
   $sshd_config_authorized_principals_file = undef,
+  $sshd_config_allowagentforwarding       = undef,
 ) {
 
   case $::osfamily {
@@ -864,6 +865,10 @@ class ssh (
 
   if $sshd_config_authorized_principals_file_real != undef {
     validate_string($sshd_config_authorized_principals_file_real)
+  }
+
+  if $sshd_config_allowagentforwarding != undef {
+    validate_re($sshd_config_allowagentforwarding, '^(yes|no)$', "ssh::sshd_config_allowagentforwarding may be either 'yes' or 'no' and is set to <${sshd_config_allowagentforwarding}>.")
   }
 
   package { $packages_real:

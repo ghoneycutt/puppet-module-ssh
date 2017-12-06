@@ -133,6 +133,7 @@ UseDNS yes
 #PermitTunnel no
 PermitTunnel no
 #ChrootDirectory none
+#AllowAgentForwarding yes
 
 # no default banner path
 #Banner none
