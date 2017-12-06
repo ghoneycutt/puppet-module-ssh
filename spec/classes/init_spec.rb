@@ -470,6 +470,7 @@ describe 'ssh' do
         :sshd_config_tcp_keepalive            => 'yes',
   :sshd_config_use_privilege_separation => 'no',
         :sshd_config_permittunnel             => 'no',
+        :sshd_config_allowagentforwarding     => 'no',
       }
     end
 
@@ -1266,6 +1267,26 @@ describe 'sshd_config_print_last_log param' do
       expect {
         should contain_class('ssh')
       }.to raise_error(Puppet::Error,/is not an absolute path./)
+    end
+  end
+
+  describe 'with sshd_config_allowagentforwarding' do
+    ['yes','no'].each do |value|
+      context "set to #{value}" do
+        let(:params) { { 'sshd_config_allowagentforwarding' => value } }
+
+        it { should contain_file('sshd_config').with_content(/^AllowAgentForwarding #{value}$/) }
+      end
+    end
+
+    context 'set to invalid value on valid osfamily' do
+      let(:params) { { :sshd_config_allowagentforwarding => 'invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_allowagentforwarding may be either \'yes\' or \'no\' and is set to <invalid>\./)
+      end
     end
   end
 
