@@ -621,6 +621,13 @@ See `sshd_config(5)` for more details
 
 - *Default*: undefined
 
+sshd_config_allowagentforwarding
+--------------------------------
+AllowAgentForwarding option in sshd_config. Specifies if ssh-agent(1)
+forwarding is permitted. Valid values are 'yes' and 'no'.
+
+- *Default*: undef
+
 config_entries
 --------------
 Hash of config entries for a specific user's ~/.ssh/config. Please check the docs for ssd::config_entry for a list and details of the parameters usable here.
