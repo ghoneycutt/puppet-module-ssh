@@ -93,6 +93,7 @@ class ssh (
   $sshd_pubkeyauthentication              = 'yes',
   $sshd_ignoreuserknownhosts              = 'no',
   $sshd_ignorerhosts                      = 'yes',
+  $sshd_config_authenticationmethods      = undef,
   $manage_service                         = true,
   $sshd_addressfamily                     = 'USE_DEFAULTS',
   $service_ensure                         = 'running',
@@ -667,6 +668,10 @@ class ssh (
 
   if $sshd_pubkeyacceptedkeytypes != undef {
     validate_array($sshd_pubkeyacceptedkeytypes)
+  }
+
+  if $sshd_config_authenticationmethods != undef {
+    validate_array($sshd_config_authenticationmethods)
   }
 
   validate_re($sshd_pubkeyauthentication, '^(yes|no)$', "ssh::sshd_pubkeyauthentication may be either 'yes' or 'no' and is set to <${sshd_pubkeyauthentication}>.")

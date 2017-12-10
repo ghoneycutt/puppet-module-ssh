@@ -419,6 +419,9 @@ describe 'ssh' do
                                                    'ssh-ed25519',
                                                    'ssh-rsa',
         ],
+        :sshd_config_authenticationmethods    => [ 'publickey',
+                                                   'keyboard-interactive',
+        ],
         :sshd_pubkeyauthentication            => 'no',
         :sshd_allow_tcp_forwarding            => 'no',
         :sshd_x11_forwarding                  => 'no',
@@ -526,6 +529,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^AuthorizedKeysCommandUser asdf$/) }
     it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^PubkeyAcceptedKeyTypes ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,ssh-ed25519,ssh-rsa$/) }
+    it { should contain_file('sshd_config').with_content(/^AuthenticationMethods publickey,keyboard-interactive$/) }
     it { should contain_file('sshd_config').with_content(/^PubkeyAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
@@ -2392,6 +2396,18 @@ describe 'sshd_config_print_last_log param' do
   [true,'invalid'].each do |pubkeyacceptedkeytypes|
     context "with sshd_pubkeyacceptedkeytypes set to invalid value #{pubkeyacceptedkeytypes}" do
       let(:params) { { :sshd_pubkeyacceptedkeytypes => pubkeyacceptedkeytypes } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/is not/)
+      end
+    end
+  end
+
+  [true,'invalid'].each do |authenticationmethods|
+    context "with sshd_config_authenticationmethods set to invalid value #{authenticationmethods}" do
+      let(:params) { { :sshd_config_authenticationmethods => authenticationmethods } }
 
       it 'should fail' do
         expect {

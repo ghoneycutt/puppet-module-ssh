@@ -729,6 +729,12 @@ String for IgnoreUserKnownHosts option in sshd_config. Valid values are 'yes' an
 
 - *Default*: 'no'
 
+sshd_config_authenticationmethods
+-------------------------
+Array of AuthenticationMethods in sshd_config.
+
+- *Default*: undef
+
 sshd_ignorerhosts
 -------------------------
 String for IgnoreRhosts option in sshd_config. Valid values are 'yes' and 'no'. Specifies that .rhosts and .shosts files will not be used in RhostsRSAAuthentication or HostbasedAuthentication though /etc/hosts.equiv and /etc/ssh/shosts.equiv are still used.

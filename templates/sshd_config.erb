@@ -98,6 +98,9 @@ IgnoreUserKnownHosts <%= @sshd_ignoreuserknownhosts %>
 #IgnoreRhosts yes
 IgnoreRhosts <%= @sshd_ignorerhosts %>
 
+<%- if @sshd_config_authenticationmethods -%>
+AuthenticationMethods <%= @sshd_config_authenticationmethods.join(',') %>
+<%- end -%>
 # To disable tunneled clear text passwords, change to no here!
 #PasswordAuthentication yes
 PasswordAuthentication <%= @sshd_password_authentication %>
