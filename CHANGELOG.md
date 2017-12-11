@@ -1,3 +1,7 @@
+### v3.57.0 - 2017-12-10
+  * Add support for AuthenticationMethods and AllowAgentForwarding
+    options in sshd_config
+
 ### v3.56.1 - 2017-11-20
   * Fix regex bug with `sshd_config_maxstartups`
 
