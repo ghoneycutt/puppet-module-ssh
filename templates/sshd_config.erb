@@ -220,6 +220,10 @@ ChrootDirectory <%= @sshd_config_chrootdirectory %>
 <% if @sshd_config_forcecommand -%>
 ForceCommand <%= @sshd_config_forcecommand %>
 <% end -%>
+<% if @sshd_config_allowagentforwarding != nil -%>
+#AllowAgentForwarding yes
+AllowAgentForwarding <%= @sshd_config_allowagentforwarding %>
+<% end -%>
 
 # no default banner path
 #Banner none
