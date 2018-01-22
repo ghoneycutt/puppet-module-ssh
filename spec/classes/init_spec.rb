@@ -428,7 +428,6 @@ describe 'ssh' do
         :sshd_x11_use_localhost               => 'no',
         :sshd_use_pam                         => 'no',
         :sshd_client_alive_interval           => '242',
-        :sshd_config_serverkeybits            => '1024',
         :sshd_client_alive_count_max          => '0',
         :sshd_config_authkey_location         => '.ssh/authorized_keys',
         :sshd_config_hostkey                  => [ '/etc/ssh/ssh_host_rsa_key',
@@ -509,7 +508,6 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^X11UseLocalhost no$/) }
     it { should contain_file('sshd_config').with_content(/^UsePAM no$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveInterval 242$/) }
-    it { should contain_file('sshd_config').with_content(/^ServerKeyBits 1024$/) }
     it { should contain_file('sshd_config').with_content(/^ClientAliveCountMax 0$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPIAuthentication yes$/) }
     it { should contain_file('sshd_config').with_content(/^GSSAPICleanupCredentials yes$/) }
@@ -1201,16 +1199,6 @@ describe 'sshd_config_print_last_log param' do
       expect {
         should contain_class('ssh')
       }.to raise_error(Puppet::Error,/ssh::sshd_use_pam may be either \'yes\' or \'no\' and is set to <invalid>\./)
-    end
-  end
-
-  context 'with sshd_config_serverkeybits set to invalid value on valid osfamily' do
-    let(:params) { { :sshd_config_serverkeybits => 'invalid' } }
-
-    it 'should fail' do
-      expect {
-        should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/ssh::sshd_config_serverkeybits must be an integer and is set to <invalid>\./)
     end
   end
 

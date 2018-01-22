@@ -40,12 +40,6 @@ ListenAddress <%= @sshd_listen_address %>
 HostKey <%= hostkey %>
 <% end -%>
 
-# Lifetime and size of ephemeral version 1 server key
-#KeyRegenerationInterval 1h
-#ServerKeyBits 1024
-<% if @sshd_config_serverkeybits_real != nil -%>
-ServerKeyBits <%= @sshd_config_serverkeybits_real %>
-<% end -%>
 # Logging
 # obsoletes QuietMode and FascistLogging
 #SyslogFacility AUTH
