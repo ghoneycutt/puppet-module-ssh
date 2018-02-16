@@ -2375,8 +2375,6 @@ describe 'sshd_config_print_last_log param' do
         it { should compile.with_all_deps }
 
         it { should contain_class('ssh') }
-
-        it { should_not contain_resources('sshkey') }
       end
     end
   end
