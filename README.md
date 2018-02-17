@@ -423,7 +423,7 @@ X11Forwarding in sshd_config. Specifies whether X11 forwarding is permitted.
 
 sshd_x11_use_localhost
 ----------------------
-X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding server 
+X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding server
 to the loopback address or to the wildcard address.
 
 - *Default*: 'yes'
@@ -792,9 +792,15 @@ Boolean to declare whether the service's init script has a functional status com
 
 ssh_key_ensure
 --------------
-Export node SSH key. Valid values are 'present' and 'absent'.
+Export node SSH key. Valid values are 'present' and 'absent'. Requires ssh_key_export set to 'true'.
 
 - *Default*: 'present'
+
+ssh_key_export
+--------------
+Manage node SSH key with exported resources. Valid values are 'true' and 'false'.
+
+- *Default*: 'true'
 
 ssh_key_import
 --------------
