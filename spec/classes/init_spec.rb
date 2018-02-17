@@ -2375,6 +2375,12 @@ describe 'sshd_config_print_last_log param' do
         it { should compile.with_all_deps }
 
         it { should contain_class('ssh') }
+
+        context "as an exported resource" do
+            subject { exported_resources }
+
+            it { should_not contain_resources('sshkey') }
+        end
       end
     end
   end
