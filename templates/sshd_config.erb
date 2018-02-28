@@ -36,8 +36,10 @@ ListenAddress <%= @sshd_listen_address %>
 # HostKeys for protocol version 2
 #HostKey /etc/ssh/ssh_host_rsa_key
 #HostKey /etc/ssh/ssh_host_dsa_key
+<% if @sshd_config_hostkey_real %>
 <% @sshd_config_hostkey_real.each do |hostkey| -%>
 HostKey <%= hostkey %>
+<% end -%>
 <% end -%>
 
 # Lifetime and size of ephemeral version 1 server key
