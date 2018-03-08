@@ -143,7 +143,7 @@ class ssh (
       $default_sshd_gssapicleanupcredentials   = 'yes'
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
-      if $::operatingsystemrelease == '7.4' {
+      if $::operatingsystemrelease =~ /^7\./ {
         $default_sshd_config_serverkeybits     = undef
       } else {
         $default_sshd_config_serverkeybits     = '1024'
