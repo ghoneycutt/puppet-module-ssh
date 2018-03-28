@@ -311,7 +311,7 @@ PrintMotd option in sshd_config.
 
 - *Default*: 'yes'
 
-sshd_config_print_lastlog
+sshd_config_print_last_log
 ----------------------
 PrintLastLog option in sshd_config.
 Verify SSH provides users with feedback on when account accesses last occurred.
