@@ -27,10 +27,6 @@ AddressFamily any
 #HostKey /etc/ssh/ssh_host_dsa_key
 HostKey /etc/ssh/ssh_host_rsa_key
 
-# Lifetime and size of ephemeral version 1 server key
-#KeyRegenerationInterval 1h
-#ServerKeyBits 1024
-ServerKeyBits 1024
 # Logging
 # obsoletes QuietMode and FascistLogging
 #SyslogFacility AUTH

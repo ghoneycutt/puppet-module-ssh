@@ -49,7 +49,6 @@ class ssh (
   $sshd_config_use_dns                    = 'USE_DEFAULTS',
   $sshd_config_authkey_location           = undef,
   $sshd_config_strictmodes                = undef,
-  $sshd_config_serverkeybits              = 'USE_DEFAULTS',
   $sshd_config_banner                     = 'none',
   $sshd_config_ciphers                    = undef,
   $sshd_config_kexalgorithms              = undef,
@@ -143,7 +142,6 @@ class ssh (
       $default_sshd_gssapicleanupcredentials   = 'yes'
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
-      $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
       $default_sshd_addressfamily              = 'any'
       $default_sshd_config_tcp_keepalive       = 'yes'
@@ -166,7 +164,6 @@ class ssh (
       $default_sshd_gssapicleanupcredentials   = 'yes'
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
-      $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
       $default_sshd_addressfamily              = 'any'
       $default_sshd_config_tcp_keepalive       = 'yes'
@@ -219,7 +216,6 @@ class ssh (
       $default_sshd_gssapicleanupcredentials   = 'yes'
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
-      $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_addressfamily              = 'any'
       $default_sshd_config_tcp_keepalive       = 'yes'
       $default_sshd_config_permittunnel        = 'no'
@@ -237,7 +233,6 @@ class ssh (
       $default_sshd_pamauthenticationviakbdint = 'yes'
       $default_sshd_gssapicleanupcredentials   = undef
       $default_sshd_acceptenv                  = false
-      $default_sshd_config_serverkeybits       = '768'
       $default_ssh_package_adminfile           = undef
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
       $default_sshd_addressfamily              = undef
@@ -367,12 +362,6 @@ class ssh (
     $sshd_use_pam_real = $default_sshd_use_pam
   } else {
     $sshd_use_pam_real = $sshd_use_pam
-  }
-
-  if $sshd_config_serverkeybits == 'USE_DEFAULTS' {
-    $sshd_config_serverkeybits_real = $default_sshd_config_serverkeybits
-  } else {
-    $sshd_config_serverkeybits_real = $sshd_config_serverkeybits
   }
 
   if $ssh_config_forward_x11_trusted == 'USE_DEFAULTS' {
@@ -574,9 +563,6 @@ class ssh (
   }
   if $sshd_use_pam_real != undef {
     validate_re($sshd_use_pam_real, '^(yes|no)$', "ssh::sshd_use_pam may be either 'yes' or 'no' and is set to <${sshd_use_pam_real}>.")
-  }
-  if $sshd_config_serverkeybits_real != undef {
-    if is_integer($sshd_config_serverkeybits_real) == false { fail("ssh::sshd_config_serverkeybits must be an integer and is set to <${sshd_config_serverkeybits}>.") }
   }
   if $ssh_config_use_roaming_real != undef {
     validate_re($ssh_config_use_roaming_real, '^(yes|no|unset)$', "ssh::ssh_config_use_roaming may be either 'yes', 'no' or 'unset' and is set to <${$ssh_config_use_roaming}>.")
