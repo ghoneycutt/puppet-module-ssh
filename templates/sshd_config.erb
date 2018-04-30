@@ -238,7 +238,7 @@ XAuthLocation <%= @sshd_config_xauth_location_real %>
 
 <% end -%>
 # override default of no subsystems
-Subsystem sftp <%= @sshd_config_subsystem_sftp_real %>
+Subsystem sftp <%= @sshd_config_subsystem_sftp_real %> <%= @sshd_config_subsystem_sftp_options %>
 
 <% if @sshd_config_ciphers -%>
 Ciphers <%= @sshd_config_ciphers.join(',') %>

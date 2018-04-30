@@ -73,6 +73,7 @@ class ssh (
   $sshd_banner_mode                       = '0644',
   $sshd_config_xauth_location             = 'USE_DEFAULTS',
   $sshd_config_subsystem_sftp             = 'USE_DEFAULTS',
+  $sshd_config_subsystem_sftp_options     = undef,
   $sshd_kerberos_authentication           = undef,
   $sshd_password_authentication           = 'yes',
   $sshd_allow_tcp_forwarding              = 'yes',
