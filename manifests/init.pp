@@ -322,6 +322,10 @@ class ssh (
     $sshd_config_subsystem_sftp_real = $sshd_config_subsystem_sftp
   }
 
+  if $sshd_config_subsystem_sftp_options != undef {
+    validate_string($sshd_config_subsystem_sftp_options)
+  }
+
   if $sshd_config_mode    == 'USE_DEFAULTS' {
     $sshd_config_mode_real = $default_sshd_config_mode
   } else {
