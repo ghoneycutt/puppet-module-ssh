@@ -6,6 +6,7 @@ class ssh (
   $hiera_merge                            = false,
   $packages                               = 'USE_DEFAULTS',
   $permit_root_login                      = 'yes',
+  $permit_open                            = undef,
   $purge_keys                             = true,
   $manage_firewall                        = false,
   $ssh_package_source                     = 'USE_DEFAULTS',
@@ -28,12 +29,14 @@ class ssh (
   $ssh_config_macs                        = undef,
   $ssh_config_use_roaming                 = 'USE_DEFAULTS',
   $ssh_config_template                    = 'ssh/ssh_config.erb',
+  $sshd_config_ipqos                      = undef,
   $ssh_sendenv                            = 'USE_DEFAULTS',
   $ssh_gssapiauthentication               = 'yes',
   $ssh_gssapidelegatecredentials          = undef,
   $sshd_config_path                       = '/etc/ssh/sshd_config',
   $sshd_config_owner                      = 'root',
   $sshd_config_group                      = 'root',
+  $sshd_config_gateway_ports              = undef,
   $sshd_config_loglevel                   = 'INFO',
   $sshd_config_mode                       = 'USE_DEFAULTS',
   $sshd_config_permitemptypasswords       = undef,
@@ -48,6 +51,7 @@ class ssh (
   $sshd_config_print_last_log             = undef,
   $sshd_config_use_dns                    = 'USE_DEFAULTS',
   $sshd_config_authkey_location           = undef,
+  $sshd_config_revoked_keys               = undef,
   $sshd_config_strictmodes                = undef,
   $sshd_config_serverkeybits              = 'USE_DEFAULTS',
   $sshd_config_banner                     = 'none',
@@ -65,6 +69,7 @@ class ssh (
   $sshd_config_chrootdirectory            = undef,
   $sshd_config_forcecommand               = undef,
   $sshd_config_match                      = undef,
+  $sshd_config_version_addendum           = undef,
   $sshd_authorized_keys_command           = undef,
   $sshd_authorized_keys_command_user      = undef,
   $sshd_banner_content                    = undef,
@@ -74,10 +79,14 @@ class ssh (
   $sshd_config_xauth_location             = 'USE_DEFAULTS',
   $sshd_config_subsystem_sftp             = 'USE_DEFAULTS',
   $sshd_kerberos_authentication           = undef,
+  $sshd_kerberos_get_afs_token            = undef,
+  $sshd_kerberos_or_local_passwd          = undef,
+  $sshd_kerberos_ticket_cleanup           = undef,
   $sshd_password_authentication           = 'yes',
   $sshd_allow_tcp_forwarding              = 'yes',
   $sshd_x11_forwarding                    = 'yes',
   $sshd_x11_use_localhost                 = 'yes',
+  $sshd_x11_display_offset                = undef,
   $sshd_use_pam                           = 'USE_DEFAULTS',
   $sshd_client_alive_count_max            = '3',
   $sshd_client_alive_interval             = '0',
@@ -85,6 +94,10 @@ class ssh (
   $sshd_gssapikeyexchange                 = 'USE_DEFAULTS',
   $sshd_pamauthenticationviakbdint        = 'USE_DEFAULTS',
   $sshd_gssapicleanupcredentials          = 'USE_DEFAULTS',
+  $sshd_gssapienablek5users               = undef,
+  $sshd_gssapistrictacceptorcheck         = undef,
+  $sshd_gssapistorecredentialsonrekey     = undef,
+  $sshd_gssapikexalgorithms               = undef,
   $sshd_acceptenv                         = 'USE_DEFAULTS',
   $sshd_config_hostkey                    = 'USE_DEFAULTS',
   $sshd_listen_address                    = undef,
@@ -408,6 +421,8 @@ class ssh (
     $ssh_config_use_roaming_real = $ssh_config_use_roaming
   }
 
+  validate_string($sshd_config_ipqos)
+
   if $ssh_sendenv == 'USE_DEFAULTS' {
     $ssh_sendenv_real = $default_ssh_sendenv
   } else {
@@ -565,6 +580,9 @@ class ssh (
   if $sshd_kerberos_authentication != undef {
     validate_re($sshd_kerberos_authentication, '^(yes|no)$', "ssh::sshd_kerberos_authentication may be either 'yes' or 'no' and is set to <${sshd_kerberos_authentication}>.")
   }
+  if $sshd_kerberos_get_afs_token != undef {
+    validate_re($sshd_kerberos_get_afs_token, '^(yes|no)$', "ssh::sshd_kerberos_get_afs_token may be either 'yes' or 'no' and is set to <${sshd_kerberos_get_afs_token}>.")
+  }
   validate_re($sshd_password_authentication, '^(yes|no)$', "ssh::sshd_password_authentication may be either 'yes' or 'no' and is set to <${sshd_password_authentication}>.")
   validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "ssh::sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to <${sshd_allow_tcp_forwarding}>.")
   validate_re($sshd_x11_forwarding, '^(yes|no)$', "ssh::sshd_x11_forwarding may be either 'yes' or 'no' and is set to <${sshd_x11_forwarding}>.")
@@ -645,7 +663,9 @@ class ssh (
   if $sshd_config_forcecommand != undef {
     validate_string($sshd_config_forcecommand)
   }
-
+  if $sshd_config_version_addendum != undef {
+    validate_string($sshd_config_version_addendum)
+  }
   if $sshd_authorized_keys_command != undef {
     validate_absolute_path($sshd_authorized_keys_command)
   }
@@ -656,6 +676,9 @@ class ssh (
 
   if $sshd_config_match != undef {
     validate_hash($sshd_config_match)
+  }
+  if $sshd_config_revoked_keys != undef {
+    validate_string($sshd_config_revoked_keys)
   }
 
   if $sshd_config_strictmodes != undef {
@@ -727,6 +750,10 @@ class ssh (
     default: {
       fail("ssh::permit_root_login may be either 'yes', 'without-password', 'forced-commands-only' or 'no' and is set to <${permit_root_login}>.")
     }
+  }
+
+  if $permit_open != undef {
+    validate_string($permit_open)
   }
 
   case $ssh_key_type {
@@ -804,6 +831,10 @@ class ssh (
 
   #sshd_config template
   validate_string($sshd_config_template)
+
+  if $sshd_config_gateway_ports != undef {
+    validate_re($sshd_config_gateway_ports, '^(yes|no)$', "ssh::sshd_config_gateway_ports may be either 'yes', 'no' or 'unset' and is set to <${sshd_config_gateway_ports}>.")
+  }
 
   #loglevel
   $supported_loglevel_vals=['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE']
