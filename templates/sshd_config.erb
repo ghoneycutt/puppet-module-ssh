@@ -39,7 +39,6 @@ ListenAddress <%= @sshd_listen_address %>
 <% @sshd_config_hostkey_real.each do |hostkey| -%>
 HostKey <%= hostkey %>
 <% end -%>
-
 #RevokedKeys
 <% if @sshd_config_revoked_keys -%>
 RevokedKeys <%= @sshd_config_revoked_keys %>
@@ -49,7 +48,6 @@ RevokedKeys <%= @sshd_config_revoked_keys %>
 <% if @sshd_config_version_addendum -%>
 VersionAddendum <%= @sshd_config_version_addendum %>
 <% end -%>
-
 # Lifetime and size of ephemeral version 1 server key
 #KeyRegenerationInterval 1h
 #ServerKeyBits 1024

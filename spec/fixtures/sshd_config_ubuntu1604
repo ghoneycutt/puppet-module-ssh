@@ -29,7 +29,9 @@ HostKey /etc/ssh/ssh_host_rsa_key
 HostKey /etc/ssh/ssh_host_dsa_key
 HostKey /etc/ssh/ssh_host_ecdsa_key
 HostKey /etc/ssh/ssh_host_ed25519_key
+#RevokedKeys
 
+#VersionAddendum
 # Lifetime and size of ephemeral version 1 server key
 #KeyRegenerationInterval 1h
 #ServerKeyBits 1024
@@ -47,6 +49,7 @@ LogLevel INFO
 LoginGraceTime 120
 #PermitRootLogin yes
 PermitRootLogin yes
+#PermitOpen any
 #StrictModes yes
 #MaxAuthTries 6
 
@@ -71,7 +74,10 @@ IgnoreRhosts yes
 # To disable tunneled clear text passwords, change to no here!
 #PasswordAuthentication yes
 PasswordAuthentication yes
+#KbdInteractiveAuthentication yes
 #PermitEmptyPasswords no
+
+#IPQoS lowdelay throughput
 
 # Change to no to disable s/key passwords
 #ChallengeResponseAuthentication yes
