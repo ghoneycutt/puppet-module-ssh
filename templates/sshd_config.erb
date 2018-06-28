@@ -208,13 +208,13 @@ AcceptEnv LC_IDENTIFICATION LC_ALL
 AllowTcpForwarding <%= @sshd_allow_tcp_forwarding %>
 #GatewayPorts no
 <% if @sshd_config_gateway_ports -%>
-GatewayPorts <% if @sshd_config_gateway_ports -%>
+GatewayPorts <%= @sshd_config_gateway_ports -%>
 <% end -%>
 #X11Forwarding no
 X11Forwarding <%= @sshd_x11_forwarding %>
 #X11DisplayOffset 10
 <% if @sshd_x11_display_offset -%>
-X11DisplayOffset <% if @sshd_x11_display_offset -%>
+X11DisplayOffset <%= @sshd_x11_display_offset -%>
 <% end -%>
 #X11UseLocalhost yes
 X11UseLocalhost <%= @sshd_x11_use_localhost %>
