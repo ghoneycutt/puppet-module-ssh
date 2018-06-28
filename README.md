@@ -15,7 +15,7 @@ Host entries in a personal `~/.ssh/config` file.
 
 ### Table of Contents
 1. [Compatibility](#compatibility)
-1. [Parameters](#parameters)
+1. [Param eters](#parameters)
 1. [Examples](#sample-usage)
 
 ===
@@ -133,6 +133,13 @@ ssh_config_template
 
 - *Default*: 'ssh/ssh_config.erb'
 
+sshd_config_ipqos
+-----------------------
+IPQos: Specifies the IPv4 type-of-service or DSCP class for the connection. Defaults to 'lowdelay', 'throughput' on Linux. Validates a string.
+
+- *Default*: undef
+
+
 ssh_config_ciphers
 ------------------
 Array of ciphers to be used with the Ciphers option in ssh_config.
@@ -221,6 +228,12 @@ sshd_config_group
 sshd_config's group.
 
 - *Default*: 'root'
+
+sshd_config_gateway_ports
+----------------
+Specifies whether remote hosts are allowed to connect to ports forwarded for the client. The Linux default is no
+
+- *Default*: undef
 
 sshd_config_loglevel
 ---------------------------
@@ -331,6 +344,12 @@ Specify location of authorized_keys file. Default is to not specify.
 
 - *Default*: undef
 
+sshd_config_revoked_keys
+----------------------------
+RevokedKeys Keys can be revoked by adding them to the revoked_keys file and specifying the file name.  Default is to not specify.
+
+- *Default*: undef
+
 sshd_config_hostkey
 ----------------------------
 Specify an array of server side HostKey files to use. Default is to use only /etc/ssh/ssh_host_rsa_key
@@ -391,6 +410,31 @@ Path to sftp file transfer subsystem in sshd_config.
 
 - *Default*: 'USE_DEFAULTS'
 
+sshd_kerberos_authentication
+-----------------------------
+KerberosAuthentication Specifies whether kerberos authentication is allowed. Valid values are yes and no.
+
+- *Default*: undef
+
+sshd_kerberos_get_afs_token
+-----------------------------
+KerberosGetAFSToken SIf AFS is active and the user has a Kerberos 5 TGT, attempt to acquire an AFS token before accessing the user's home directory. The default on Linux is 'no'. Valid values are yes and no.
+
+- *Default*: undef
+
+sshd_kerberos_or_local_passwd
+-----------------------------
+KerberosOrLocalPasswd If password authentication through Kerberos fails then the password will be validated via any additional
+local mechanism such as /etc/passwd. The default on Linux is 'yes'. Valid values are yes and no.
+
+- *Default*: undef
+
+sshd_kerberos_ticket_cleanup
+-----------------------------
+KerberosTicketCleanup Specifies whether to automatically destroy the user's ticket cache file on logout. The default on Linux is 'yes'. Valid values are yes and no.
+
+- *Default*: undef
+
 sshd_password_authentication
 -----------------------------
 PasswordAuthentication in sshd_config. Specifies whether password authentication is allowed.
@@ -427,6 +471,13 @@ X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding
 to the loopback address or to the wildcard address.
 
 - *Default*: 'yes'
+
+sshd_x11_display_offset
+----------------------
+X11DisplayOffset Specifies the first display number available for sshds X11 forwarding. This prevents sshd from
+interfering with real X11 servers. The default is 10. Valid values are integers.
+
+- *Default*: undef
 
 sshd_use_pam
 ------------
@@ -601,6 +652,12 @@ ssh::sshd_config_match:
     - 'PasswordAuthentication no'
 ```
 
+sshd_config_version_addendum
+---------------------------
+VersionAddendum  Optionally specifies additional text to append to the SSH protocol banner sent by the server upon connection. The default is none. Validates a string
+
+- *Default*: undefined
+
 sshd_config_hostcertificate
 ---------------------------
 An Absolute Path or Array of Absolute Paths to the Host CA Public Key. Each entry *MUST* be tied 1:1 to a Host CA Private Key (see [sshd_config_hostkey](#sshd_config_hostkey))
@@ -664,6 +721,12 @@ Allow root login. Valid values are 'yes', 'without-password', 'forced-commands-o
 
 - *Default*: yes
 
+permit_open
+-----------------
+PermitOpen By default, port forwarding will allow forwarding to any port if it is allowed at all. Defaults to 'any' on Linux. Valid values are strings
+
+- *Default*: undef
+
 ssh_config_forward_x11_trusted
 ------------------------------
 ForwardX11Trusted. Determine remote X11 client access to the original X11 display. The option is set to 'yes' on Linux. Valid values are 'yes', 'no', and undef.
@@ -700,11 +763,42 @@ PAMAuthenticationViaKBDInt: Use PAM via keyboard interactive method for authenti
 
 - *Default*: 'USE_DEFAULTS'
 
+sshd_config_kbdinteractiveauthentication
+-------------------------------
+KbdInteractiveAuthentication: Use keyboard interactive authentication. Default to 'yes' on Linux. Valid values are 'yes', 'no', and undef.
+
+- *Default*: undef
+
 sshd_gssapicleanupcredentials
 -----------------------------
 GSSAPICleanupCredentials: Specifies whether to automatically destroy the user's credentials on logout. Default is 'yes' on Linux. Valid values are 'yes', 'no', and undef.
 
 - *Default*: 'USE_DEFAULTS'
+
+sshd_gssapistrictacceptorcheck
+-----------------------------
+GSSAPIStrictAcceptorCheck: Determines whether to be strict about the identity of the GSSAPI acceptor a client authenticates against. Valid values are 'yes', 'no', and undef.
+
+- *Default*: undef
+
+sshd_gssapistorecredentialsonrekey
+-----------------------------
+GSSAPIStoreCredentialsOnRekey: Controls whether the user's GSSAPI credentials should be updated following a successful connection rekeying. This option can be used to accepted renewed or updated credentials from a compatible client. The default for Linux is “no”. Valid values are 'yes', 'no', and undef.
+
+- *Default*: undef
+
+sshd_gssapikexalgorithms
+-----------------------------
+GSSAPIKexAlgorithms: The list of key exchange algorithms that are accepted by GSSAPI key exchange. The default for Linux is “gss-gex-sha1-,gss-group1-sha1-,gss-group14-sha1-”. Valid values are strings and undef.
+
+- *Default*: undef
+
+sshd_gssapienablek5users
+-----------------------------
+GSSAPIEnablek5users: Specifies whether to look at .k5users file for GSSAPI authentication access control. Default is 'no' on Linux. Valid values are 'yes', 'no', and undef.
+
+- *Default*: undef
+
 
 sshd_acceptenv
 -------------
