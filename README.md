@@ -15,7 +15,7 @@ Host entries in a personal `~/.ssh/config` file.
 
 ### Table of Contents
 1. [Compatibility](#compatibility)
-1. [Param eters](#parameters)
+1. [Parameters](#parameters)
 1. [Examples](#sample-usage)
 
 ===
