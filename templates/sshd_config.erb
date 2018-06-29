@@ -143,21 +143,21 @@ IPQoS <%= @sshd_config_ipqos %>
 ChallengeResponseAuthentication <%= @sshd_config_challenge_resp_auth %>
 
 # Kerberos options
-<% if @sshd_kerberos_authentication != nil -%>
 #KerberosAuthentication no
+<% if @sshd_kerberos_authentication != nil -%>
 KerberosAuthentication <%= @sshd_kerberos_authentication %>
 <% end -%>
 #KerberosOrLocalPasswd yes
 <%- if @sshd_kerberos_or_local_passwd -%>
-#KerberosOrLocalPasswd <%= @sshd_kerberos_or_local_passwd %>
+KerberosOrLocalPasswd <%= @sshd_kerberos_or_local_passwd %>
 <% end -%>
 #KerberosTicketCleanup yes
- <%- if @sshd_kerberos_ticket_cleanup -%>
-#KerberosTicketCleanup <%= @sshd_kerberos_ticket_cleanup %>
+<%- if @sshd_kerberos_ticket_cleanup -%>
+KerberosTicketCleanup <%= @sshd_kerberos_ticket_cleanup %>
 <% end -%>
 #KerberosGetAFSToken no
 <%- if @sshd_kerberos_get_afs_token -%>
-#KerberosGetAFSToken <%= @sshd_kerberos_get_afs_token %>
+KerberosGetAFSToken <%= @sshd_kerberos_get_afs_token %>
 <% end -%>
 
 # GSSAPI options
