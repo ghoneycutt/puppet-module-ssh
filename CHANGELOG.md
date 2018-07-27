@@ -1,3 +1,6 @@
+### v3.57.1 - 2018-07-27
+  * Disable ServerkeyBits on RHEL 7.4 and later
+
 ### v3.57.0 - 2017-12-10
   * Add support for AuthenticationMethods and AllowAgentForwarding
     options in sshd_config
