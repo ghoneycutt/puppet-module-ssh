@@ -725,11 +725,11 @@ class ssh (
   }
 
   case $permit_root_login {
-    'no', 'yes', 'without-password', 'forced-commands-only': {
+    'no', 'yes', 'without-password', 'prohibit-password', 'forced-commands-only': {
       # noop
     }
     default: {
-      fail("ssh::permit_root_login may be either 'yes', 'without-password', 'forced-commands-only' or 'no' and is set to <${permit_root_login}>.")
+      fail("ssh::permit_root_login may be either 'yes', 'without-password', 'prohibit-password', 'forced-commands-only' or 'no' and is set to <${permit_root_login}>.")
     }
   }
 
