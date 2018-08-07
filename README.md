@@ -139,6 +139,19 @@ Array of ciphers to be used with the Ciphers option in ssh_config.
 
 - *Default*: undef
 
+ssh_config_identityfiles
+------------------------
+Array of global default identity file paths to be used with the IdentityFile option in ssh_config.  Each array item turns into a ```IdentityFile path/to/private/ssh/key``` line.  Example usage:
+```puppet
+class ssh {
+  ssh_config_identityfiles => [ '~/.ssh/id_ed25519',
+    '~/.ssh/id_rsa',
+    '~/.ssh/id_ecdsa'
+  ]
+}
+```
+- *Default*: 'USE_DEFAULTS'
+
 ssh_config_kexalgorithms
 ------------------
 Array of key exchange algorithms to be used with the KexAlgorithms option in ssh_config.
@@ -423,7 +436,7 @@ X11Forwarding in sshd_config. Specifies whether X11 forwarding is permitted.
 
 sshd_x11_use_localhost
 ----------------------
-X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding server 
+X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding server
 to the loopback address or to the wildcard address.
 
 - *Default*: 'yes'
