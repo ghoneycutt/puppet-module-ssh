@@ -741,10 +741,13 @@ class ssh (
       $key = $::sshdsakey
     }
     'ecdsa-sha2-nistp256': {
-          $key = $::sshecdsakey
+      $key = $::sshecdsakey
+    }
+    'ssh-ed25519': {
+      $key = $::sshed25519key
     }
     default: {
-      fail("ssh::ssh_key_type must be 'ecdsa-sha2-nistp256', 'ssh-rsa', 'rsa', 'ssh-dsa', or 'dsa' and is <${ssh_key_type}>.")
+      fail("ssh::ssh_key_type must be 'ecdsa-sha2-nistp256', 'ssh-ed25519', 'ssh-rsa', 'rsa', 'ssh-dsa', or 'dsa' and is <${ssh_key_type}>.")
     }
   }
 
