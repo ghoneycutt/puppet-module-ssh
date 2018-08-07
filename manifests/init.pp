@@ -23,6 +23,7 @@ class ssh (
   $ssh_hostbasedauthentication            = undef,
   $ssh_config_proxy_command               = undef,
   $ssh_strict_host_key_checking           = undef,
+  $ssh_config_identityfiles               = 'USE_DEFAULTS',
   $ssh_config_ciphers                     = undef,
   $ssh_config_kexalgorithms               = undef,
   $ssh_config_macs                        = undef,
@@ -351,6 +352,12 @@ class ssh (
     validate_absolute_path($ssh_package_source_real)
   }
 
+  if $ssh_config_identityfiles == 'USE_DEFAULTS' {
+    $ssh_config_identityfiles_real = ['~/.ssh/id_rsa', '~/.ssh/id_dsa']
+  } else {
+    $ssh_config_identityfiles_real = $ssh_config_identityfiles
+  }
+
   if $ssh_package_adminfile == 'USE_DEFAULTS' {
     $ssh_package_adminfile_real = $default_ssh_package_adminfile
   } else {
@@ -514,6 +521,11 @@ class ssh (
   }
 
   # validate params
+
+  if $ssh_config_identityfiles_real != undef {
+    validate_array($ssh_config_identityfiles_real)
+  }
+
   if $ssh_config_ciphers != undef {
     validate_array($ssh_config_ciphers)
   }
