@@ -40,8 +40,9 @@
    StrictHostKeyChecking <%= @ssh_strict_host_key_checking %>
 <% end -%>
 #   IdentityFile ~/.ssh/identity
-   IdentityFile ~/.ssh/id_rsa
-   IdentityFile ~/.ssh/id_dsa
+<% @ssh_config_identityfiles_real.each do |idfile| -%>
+   IdentityFile <%= idfile %>
+<% end -%>
 #   Port 22
    Protocol 2
 #   Cipher 3des
