@@ -223,7 +223,11 @@ class ssh (
       $default_sshd_gssapicleanupcredentials   = 'yes'
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
-      $default_sshd_config_serverkeybits       = '1024'
+      if versioncmp($::ssh_version_numeric, '7.4') < 0 {
+        $default_sshd_config_serverkeybits = '1024'
+      } else {
+        $default_sshd_config_serverkeybits = undef
+      }
       $default_sshd_addressfamily              = 'any'
       $default_sshd_config_tcp_keepalive       = 'yes'
       $default_sshd_config_permittunnel        = 'no'
