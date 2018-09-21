@@ -613,6 +613,12 @@ Absolute path to the OpenSSH User CA Certificate (TrustedUserCAKeys) for use wit
 
 - *Default*: undefined
 
+sshd_config_key_revocation_list
+-----------------------------
+Absolute path to a key revocation list (RevokedKeys) for use with SSH CA Validation for Users or the string 'none'.
+
+- *Default*: undefined
+
 sshd_config_authorized_principals_file
 --------------------------------------
 String path (relative or absolute) to the `authorized_principals` file. Sets the `AuthorizedPrincipalsFile` setting in `sshd_config`
