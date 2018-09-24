@@ -119,6 +119,7 @@ class ssh (
   $sshd_config_permittunnel               = undef,
   $sshd_config_hostcertificate            = undef,
   $sshd_config_trustedusercakeys          = undef,
+  $sshd_config_key_revocation_list        = undef,
   $sshd_config_authorized_principals_file = undef,
   $sshd_config_allowagentforwarding       = undef,
 ) {
@@ -507,6 +508,11 @@ class ssh (
     'unset', undef: { $sshd_config_trustedusercakeys_real = undef }
     default: { $sshd_config_trustedusercakeys_real = $sshd_config_trustedusercakeys }
   }
+  
+  case $sshd_config_key_revocation_list {
+    'unset', undef: { $sshd_config_key_revocation_list_real = undef }
+    default: { $sshd_config_key_revocation_list_real = $sshd_config_key_revocation_list }
+  }
 
   case $sshd_config_authorized_principals_file {
     'unset', undef: { $sshd_config_authorized_principals_file_real = undef }
@@ -869,6 +875,12 @@ class ssh (
     # TrustedUserCAKeys may be a path to the keys or 'none'
     if $sshd_config_trustedusercakeys_real != 'none' {
       validate_absolute_path($sshd_config_trustedusercakeys_real)
+    }
+  }
+  if $sshd_config_key_revocation_list_real != undef {
+    # RevokedKeys may be a path to the key revocation list or 'none'
+    if $sshd_config_key_revocation_list_real != 'none' {
+      validate_absolute_path($sshd_config_key_revocation_list)
     }
   }
 

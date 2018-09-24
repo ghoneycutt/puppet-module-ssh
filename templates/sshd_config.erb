@@ -280,6 +280,9 @@ HostCertificate <%= @sshd_config_hostcertificate_real %>
 <% if @sshd_config_trustedusercakeys_real -%>
 TrustedUserCAKeys <%= @sshd_config_trustedusercakeys_real %>
 <% end -%>
+<% if @sshd_config_key_revocation_list_real -%>
+RevokedKeys <%= @sshd_config_key_revocation_list_real %>
+<% end -%>
 <% if @sshd_config_authorized_principals_file_real -%>
 AuthorizedPrincipalsFile <%= @sshd_config_authorized_principals_file_real %>
 <% end -%>
