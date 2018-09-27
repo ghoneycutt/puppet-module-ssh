@@ -408,6 +408,7 @@ describe 'ssh' do
         :sshd_banner_content                  => 'textinbanner',
         :sshd_config_xauth_location           => '/opt/ssh/bin/xauth',
         :sshd_config_subsystem_sftp           => '/opt/ssh/bin/sftp',
+        :sshd_config_subsystem_sftp_options   => '-l VERBOSE -f LOCAL3',
         :sshd_kerberos_authentication         => 'no',
         :sshd_password_authentication         => 'no',
         :sshd_config_permitemptypasswords     => 'no',
@@ -501,7 +502,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^UseDNS no$/) }
     it { should contain_file('sshd_config').with_content(/^Banner \/etc\/sshd_banner$/) }
     it { should contain_file('sshd_config').with_content(/^XAuthLocation \/opt\/ssh\/bin\/xauth$/) }
-    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/opt\/ssh\/bin\/sftp$/) }
+    it { should contain_file('sshd_config').with_content(/^Subsystem sftp \/opt\/ssh\/bin\/sftp -l VERBOSE -f LOCAL3$/) }
     it { should contain_file('sshd_config').with_content(/^PasswordAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^KerberosAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding no$/) }
