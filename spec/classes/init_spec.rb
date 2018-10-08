@@ -488,6 +488,7 @@ describe 'ssh' do
   :sshd_config_use_privilege_separation => 'no',
         :sshd_config_permittunnel             => 'no',
         :sshd_config_allowagentforwarding     => 'no',
+        :sshd_config_key_revocation_list      => '/path/to/revocation_list',
       }
     end
 
@@ -562,6 +563,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^TCPKeepAlive yes$/) }
     it { should contain_file('sshd_config').with_content(/^UsePrivilegeSeparation no$/) }
     it { should contain_file('sshd_config').with_content(/^PermitTunnel no$/) }
+    it { should contain_file('sshd_config').with_content(/^RevokedKeys \/path\/to\/revocation_list$/) }
 
     it {
       should contain_file('sshd_banner').with({
@@ -1084,6 +1086,30 @@ describe 'sshd_config_print_last_log param' do
         expect {
           should contain_class('ssh')
         }.to raise_error(Puppet::Error,/ssh::sshd_config_permittunnel may be either \'yes\', \'point-to-point\', \'ethernet\', \'no\' or \'unset\' and is set to <invalid>\./)
+      end
+    end
+  end
+
+  describe 'sshd_config_key_revocation_list param' do
+    ['/path/to','unset'].each do |value|
+      context "set to #{value}" do
+        let (:params) { { :sshd_config_key_revocation_list => value } }
+
+        if value == 'unset'
+          it { should contain_file('sshd_config').without_content(/^\s*RevokedKeys/) }
+        else
+          it { should contain_file('sshd_config').with_content(/^RevokedKeys #{value}$/) }
+        end
+      end
+    end
+
+    context 'when set to an invalid value' do
+      let (:params) { { :sshd_config_key_revocation_list => 'invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/while evaluating a Function Call|is not an absolute path/)
       end
     end
   end

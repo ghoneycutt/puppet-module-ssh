@@ -261,6 +261,9 @@ AllowUsers <%= @sshd_config_allowusers_real.join(' ') %>
 <% if @sshd_config_allowgroups_real != [] -%>
 AllowGroups <%= @sshd_config_allowgroups_real.join(' ') %>
 <% end -%>
+<% if @sshd_config_key_revocation_list_real -%>
+RevokedKeys <%= @sshd_config_key_revocation_list_real %>
+<% end -%>
 <% if @sshd_config_match -%>
 
 <%   @sshd_config_match.sort.each do |key, hash| -%>
