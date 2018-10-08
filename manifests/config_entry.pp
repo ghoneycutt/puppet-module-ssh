@@ -1,21 +1,36 @@
-# == Define: ssh::config_entry
+# @summary Create config entries in a users' ~/.ssh/config
 #
-# Manage an entry in ~/.ssh/config for a particular user.  Lines model the lines
-# in each Host block.
+# Manage an entry in ~/.ssh/config for a particular user. Lines model the
+# lines in each Host block.
+#
+# @param owner
+#
+# @param group
+#
+# @param path
+#
+# @param host
+#
+# @param order
+#
+# @param ensure
+#
+# @param lines
+#
 define ssh::config_entry (
-  $owner,
-  $group,
-  $path,
-  $host,
-  $order  = '10',
-  $ensure = 'present',
-  $lines  = [],
+  String[1] $owner,
+  String[1] $group,
+  Stdlib::Absolutepath $path,
+  String[1] $host,
+  Enum['present','absent'] $ensure = 'present',
+  Integer[0] $order  = 10,
+  Array[String] $lines  = [],
 ) {
 
-  # All lines including the host line.  This will be joined with "\n  " for
+  # All lines including the host line. This will be joined with "\n  " for
   # indentation.
   $entry = concat(["Host ${host}"], $lines)
-  $content = join($entry, "\n")
+  $content = join($entry, "\n  ")
 
   if ! defined(Concat[$path]) {
     concat { $path:

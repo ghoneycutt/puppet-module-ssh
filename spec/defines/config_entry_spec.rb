@@ -66,8 +66,8 @@ describe 'ssh::config_entry' do
   end
 
   context 'with order set to valid string <242>' do
-    let(:params) { mandatory_params.merge({ :order => '242' }) }
-    it { should contain_concat__fragment('/test/path Host test_host').with_order('242') }
+    let(:params) { mandatory_params.merge({ :order => 242 }) }
+    it { should contain_concat__fragment('/test/path Host test_host').with_order(242) }
   end
 
 # /!\ no functionality for $ensure implemented yet
@@ -78,6 +78,6 @@ describe 'ssh::config_entry' do
 
   context 'with lines set to valid array [ <ForwardX11 no>, <StrictHostKeyChecking no> ]' do
     let(:params) { mandatory_params.merge({ :lines => ['ForwardX11 no', 'StrictHostKeyChecking no'] }) }
-    it { should contain_concat__fragment('/test/path Host test_host').with_content("Host test_host\nForwardX11 no\nStrictHostKeyChecking no") }
+    it { should contain_concat__fragment('/test/path Host test_host').with_content("Host test_host\n  ForwardX11 no\n  StrictHostKeyChecking no") }
   end
 end
