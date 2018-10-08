@@ -1,3 +1,6 @@
+### v3.58.0 - 2018-10-08
+  * Add RevokedKeys option to `sshd_config`
+
 ### v3.57.1 - 2018-07-27
   * Disable ServerkeyBits on RHEL 7.4 and later
 
