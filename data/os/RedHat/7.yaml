@@ -1,0 +1,58 @@
+---
+
+ssh::forward_x11_trusted: 'yes'
+ssh::gss_api_authentication: 'yes'
+
+ssh::send_env:
+  - 'LANG'
+  - 'LANGUAGE'
+  - 'LC_ADDRESS'
+  - 'LC_ALL'
+  - 'LC_COLLATE'
+  - 'LC_CTYPE'
+  - 'LC_IDENTIFICATION'
+  - 'LC_MEASUREMENT'
+  - 'LC_MESSAGES'
+  - 'LC_MONETARY'
+  - 'LC_NAME'
+  - 'LC_NUMERIC'
+  - 'LC_PAPER'
+  - 'LC_TELEPHONE'
+  - 'LC_TIME'
+  - 'XMODIFIERS'
+
+ssh::server::packages: 'openssh-server'
+
+ssh::server::accept_env:
+  - 'LANG'
+  - 'LC_CTYPE'
+  - 'LC_NUMERIC'
+  - 'LC_TIME'
+  - 'LC_COLLATE'
+  - 'LC_MONETARY'
+  - 'LC_MESSAGES'
+  - 'LC_PAPER'
+  - 'LC_NAME'
+  - 'LC_ADDRESS'
+  - 'LC_TELEPHONE'
+  - 'LC_MEASUREMENT'
+  - 'LC_IDENTIFICATION'
+  - 'LC_ALL'
+  - 'LANGUAGE'
+  - 'XMODIFIERS'
+
+ssh::server::authorized_keys_file: '.ssh/authorized_keys'
+ssh::server::challenge_response_authentication: 'no'
+ssh::server::gss_api_authentication: 'yes'
+ssh::server::gss_api_cleanup_credentials: 'no'
+ssh::server::host_key:
+  - '/etc/ssh/ssh_host_ecdsa_key'
+  - '/etc/ssh/ssh_host_ed25519_key'
+  - '/etc/ssh/ssh_host_rsa_key'
+
+ssh::server::password_authentication: 'no'
+ssh::server::subsystem: 'sftp /usr/libexec/openssh/sftp-server'
+ssh::server::syslog_facility: 'AUTHPRIV'
+ssh::server::use_dns: 'no'
+ssh::server::use_pam: 'yes'
+ssh::server::x11_forwarding: 'yes'
