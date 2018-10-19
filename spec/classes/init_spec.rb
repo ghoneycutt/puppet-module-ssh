@@ -689,6 +689,24 @@ describe 'ssh' do
 
   end
 
+  describe 'config_extralines params' do
+  # match and rules get alphabetically sorted by template, matches should be the last options in sshd_config (regex verify with= \Z)
+    context 'set to valid array' do
+      let(:params) do
+        { :sshd_config_extralines => [
+           '# This is a test extraline',
+          ],
+          :ssh_config_extralines => [
+           '# This is a test extraline',
+          ]
+        }
+      end
+      it { should contain_file('sshd_config').with_content(/^# This is a test extraline\Z/) }
+      it { should contain_file('ssh_config').with_content(/^# This is a test extraline\Z/) }
+    end
+  end
+
+
   describe 'sshd_config_match param' do
   # match and rules get alphabetically sorted by template, matches should be the last options in sshd_config (regex verify with= \Z)
     context 'set to valid hash containing nested arrays' do

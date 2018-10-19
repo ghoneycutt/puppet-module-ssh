@@ -637,6 +637,13 @@ forwarding is permitted. Valid values are 'yes' and 'no'.
 
 - *Default*: undef
 
+sshd_config_extralines
+--------------------------------
+Array of lines which should be added at the end of the sshd config
+
+- *Default*: []
+
+
 config_entries
 --------------
 Hash of config entries for a specific user's ~/.ssh/config. Please check the docs for ssd::config_entry for a list and details of the parameters usable here.
@@ -690,6 +697,13 @@ ssh_package_adminfile
 Path to admin file for SSH packages.
 
 - *Default*: 'USE_DEFAULTS'
+
+
+ssh_config_extralines
+--------------------------------
+Array of lines which should be added at the end of the ssh config
+
+- *Default*: []
 
 sshd_gssapiauthentication
 -------------------------
@@ -866,6 +880,8 @@ root_ssh_config_content
 Content of root's ~/.ssh/config.
 
 - *Default*: "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
+
+
 
 manage_service
 --------------
