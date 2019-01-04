@@ -1,3 +1,6 @@
+### v3.59.0 - 2018-01-03
+  * Support Puppet 6
+
 ### v3.58.0 - 2018-10-08
   * Add RevokedKeys option to `sshd_config`
 
