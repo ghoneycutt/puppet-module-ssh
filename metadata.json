@@ -10,7 +10,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 3.0.0 < 6.0.0"
+      "version_requirement": ">= 3.0.0 < 7.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -90,6 +90,7 @@
     {"name":"puppetlabs/stdlib","version_requirement":">= 4.6.0 < 6.0.0"},
     {"name":"puppetlabs/concat","version_requirement":">= 2.0.0 < 6.0.0"},
     {"name":"ghoneycutt/common","version_requirement":">= 1.4.1 < 2.0.0"},
-    {"name":"puppetlabs/firewall","version_requirement":">= 1.9.0 < 2.0.0"}
+    {"name":"puppetlabs/firewall","version_requirement":">= 1.9.0 < 2.0.0"},
+    {"name":"puppetlabs/sshkeys_core","version_requirement":">= 1.0.1 <2.0.0"}
   ]
 }
