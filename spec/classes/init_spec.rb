@@ -2120,6 +2120,26 @@ describe 'sshd_config_print_last_log param' do
     end
   end
 
+  describe 'with parameter sshd_acceptenv_list specified' do
+
+    context 'as an invalid string' do
+      let(:params) { { :sshd_acceptenv_list => 'MYCUSTOMENV' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_acceptenv_list type must be an array\./)
+      end
+    end
+
+    context 'with a new env' do
+      let(:params) { { :sshd_acceptenv_list => ['MYCUSTOMENV'] } }
+
+      it { should contain_file('sshd_config').with_content(/^\s*AcceptEnv\sMYCUSTOMENV/) }
+      end
+    end
+  end
+
   describe 'with parameter service_hasstatus' do
     ['true',true,'false',false].each do |value|
       context "specified as #{value}" do

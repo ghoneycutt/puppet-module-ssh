@@ -423,7 +423,7 @@ X11Forwarding in sshd_config. Specifies whether X11 forwarding is permitted.
 
 sshd_x11_use_localhost
 ----------------------
-X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding server 
+X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding server
 to the loopback address or to the wildcard address.
 
 - *Default*: 'yes'
@@ -710,7 +710,15 @@ sshd_acceptenv
 -------------
 Boolean to enable AcceptEnv options for specifying environment variables. Default is set to true on Linux.
 
-- *Default*: 'USE_DEFAULTS'
+- *Default*: true
+
+sshd_acceptenv_list
+-------------
+Array of environment variables options for AcceptEnv settings.
+
+- *Default*: [ 'LANG', 'LC_CTYPE', 'LC_NUMERIC', 'LC_TIME', 'LC_COLLATE',
+               'LC_MONETARY', 'LC_MESSAGES', 'LC_PAPER', 'LC_NAME', 'LC_ADDRESS',
+               'LC_TELEPHONE', 'LC_MEASUREMENT', 'LC_IDENTIFICATION', 'LC_ALL' ]
 
 sshd_hostbasedauthentication
 -------------------------

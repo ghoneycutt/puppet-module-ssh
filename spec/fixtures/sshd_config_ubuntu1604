@@ -100,9 +100,20 @@ GSSAPICleanupCredentials yes
 UsePAM yes
 
 # Accept locale-related environment variables
-AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
-AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
-AcceptEnv LC_IDENTIFICATION LC_ALL
+AcceptEnv LANG
+AcceptEnv LC_CTYPE
+AcceptEnv LC_NUMERIC
+AcceptEnv LC_TIME
+AcceptEnv LC_COLLATE
+AcceptEnv LC_MONETARY
+AcceptEnv LC_MESSAGES
+AcceptEnv LC_PAPER
+AcceptEnv LC_NAME
+AcceptEnv LC_ADDRESS
+AcceptEnv LC_TELEPHONE
+AcceptEnv LC_MEASUREMENT
+AcceptEnv LC_IDENTIFICATION
+AcceptEnv LC_ALL
 #AllowTcpForwarding yes
 AllowTcpForwarding yes
 #GatewayPorts no
