@@ -2136,7 +2136,6 @@ describe 'sshd_config_print_last_log param' do
       let(:params) { { :sshd_acceptenv_list => ['MYCUSTOMENV'] } }
 
       it { should contain_file('sshd_config').with_content(/^\s*AcceptEnv\sMYCUSTOMENV/) }
-      end
     end
   end
 
