@@ -202,10 +202,20 @@ class ssh (
         ]
         $default_ssh_config_hash_known_hosts     = 'yes'
         $default_sshd_config_xauth_location      = undef
+        $default_sshd_config_serverkeybits       = '1024'
+      } elsif $::operatingsystemrelease == '18.04' {
+        $default_sshd_config_hostkey             = [
+          '/etc/ssh/ssh_host_rsa_key',
+          '/etc/ssh/ssh_host_dsa_key',
+          '/etc/ssh/ssh_host_ecdsa_key',
+          '/etc/ssh/ssh_host_ed25519_key',
+        ]
+        $default_sshd_config_serverkeybits       = undef
       } else {
         $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
         $default_ssh_config_hash_known_hosts     = 'no'
         $default_sshd_config_xauth_location      = '/usr/bin/xauth'
+        $default_sshd_config_serverkeybits       = '1024'
       }
       $default_packages                        = ['openssh-server',
                                                   'openssh-client']
@@ -223,7 +233,6 @@ class ssh (
       $default_sshd_gssapicleanupcredentials   = 'yes'
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
-      $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_addressfamily              = 'any'
       $default_sshd_config_tcp_keepalive       = 'yes'
       $default_sshd_config_permittunnel        = 'no'

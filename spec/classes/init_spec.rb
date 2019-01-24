@@ -219,6 +219,17 @@ describe 'ssh' do
       :sshd_config_fixture    => 'sshd_config_ubuntu1604',
       :ssh_config_fixture     => 'ssh_config_ubuntu1604',
     },
+    'Ubuntu-1804' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'Debian',
+      :operatingsystemrelease => '18.04',
+      :ssh_version            => 'OpenSSH_7.6p1',
+      :ssh_version_numeric    => '7.6',
+      :ssh_packages           => ['openssh-server', 'openssh-client'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'ssh',
+      :sshd_service_hasstatus => true,
+    },
   }
 
   osfamily_matrix.each do |os, facts|
