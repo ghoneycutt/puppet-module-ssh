@@ -391,6 +391,12 @@ Path to sftp file transfer subsystem in sshd_config.
 
 - *Default*: 'USE_DEFAULTS'
 
+sshd_config_subsystem_sftp_options
+----------------------------------
+Options for sftp subsystem.
+
+- *Default*: undef
+
 sshd_password_authentication
 -----------------------------
 PasswordAuthentication in sshd_config. Specifies whether password authentication is allowed.

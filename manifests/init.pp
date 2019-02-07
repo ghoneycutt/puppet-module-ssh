@@ -73,6 +73,7 @@ class ssh (
   $sshd_banner_mode                       = '0644',
   $sshd_config_xauth_location             = 'USE_DEFAULTS',
   $sshd_config_subsystem_sftp             = 'USE_DEFAULTS',
+  $sshd_config_subsystem_sftp_options     = undef,
   $sshd_kerberos_authentication           = undef,
   $sshd_password_authentication           = 'yes',
   $sshd_allow_tcp_forwarding              = 'yes',
@@ -324,6 +325,10 @@ class ssh (
     $sshd_config_subsystem_sftp_real = $default_sshd_config_subsystem_sftp
   } else {
     $sshd_config_subsystem_sftp_real = $sshd_config_subsystem_sftp
+  }
+
+  if $sshd_config_subsystem_sftp_options != undef {
+    validate_string($sshd_config_subsystem_sftp_options)
   }
 
   if $sshd_config_mode    == 'USE_DEFAULTS' {
