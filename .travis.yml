@@ -4,10 +4,12 @@ language: ruby
 cache: bundler
 
 before_install:
+  - if [ $BUNDLER_VERSION ]; then
+      gem install -v $BUNDLER_VERSION bundler --no-rdoc --no-ri;
+    fi
   - bundle -v
   - rm Gemfile.lock || true
-  - gem update --system
-  - gem update bundler
+  - gem update --system $RUBYGEMS_VERSION
   - gem --version
   - bundle -v
 
@@ -18,24 +20,20 @@ script: 'SPEC_OPTS="--format documentation" bundle exec rake validate lint spec'
 matrix:
   fast_finish: true
   include:
-  - rvm: 1.8.7
-    env: PUPPET_GEM_VERSION="~> 3" FIXTURES_YML=".fixtures-puppetv3.yml"
-  - rvm: 1.8.7
-    env: PUPPET_GEM_VERSION="~> 3" FIXTURES_YML=".fixtures-puppetv3.yml" FUTURE_PARSER="yes"
   - rvm: 1.9.3
-    env: PUPPET_GEM_VERSION="~> 3" FIXTURES_YML=".fixtures-puppetv3.yml"
+    env: PUPPET_GEM_VERSION="~> 3" FIXTURES_YML=".fixtures-puppetv3.yml" RUBYGEMS_VERSION=2.7.8 BUNDLER_VERSION=1.17.3
   - rvm: 1.9.3
-    env: PUPPET_GEM_VERSION="~> 3" FIXTURES_YML=".fixtures-puppetv3.yml" FUTURE_PARSER="yes"
+    env: PUPPET_GEM_VERSION="~> 3" FIXTURES_YML=".fixtures-puppetv3.yml" FUTURE_PARSER="yes" RUBYGEMS_VERSION=2.7.8 BUNDLER_VERSION=1.17.3
   - rvm: 2.0.0
-    env: PUPPET_GEM_VERSION="~> 3" FIXTURES_YML=".fixtures-puppetv3.yml"
+    env: PUPPET_GEM_VERSION="~> 3" FIXTURES_YML=".fixtures-puppetv3.yml" RUBYGEMS_VERSION=2.7.8 BUNDLER_VERSION=1.17.3
   - rvm: 2.0.0
-    env: PUPPET_GEM_VERSION="~> 3" FIXTURES_YML=".fixtures-puppetv3.yml" FUTURE_PARSER="yes"
+    env: PUPPET_GEM_VERSION="~> 3" FIXTURES_YML=".fixtures-puppetv3.yml" FUTURE_PARSER="yes" RUBYGEMS_VERSION=2.7.8 BUNDLER_VERSION=1.17.3
   - rvm: 2.1.9
-    env: PUPPET_GEM_VERSION="~> 3" FIXTURES_YML=".fixtures-puppetv3.yml"
+    env: PUPPET_GEM_VERSION="~> 3" FIXTURES_YML=".fixtures-puppetv3.yml" RUBYGEMS_VERSION=2.7.8 BUNDLER_VERSION=1.17.3
   - rvm: 2.1.9
-    env: PUPPET_GEM_VERSION="~> 3" FIXTURES_YML=".fixtures-puppetv3.yml" FUTURE_PARSER="yes"
+    env: PUPPET_GEM_VERSION="~> 3" FIXTURES_YML=".fixtures-puppetv3.yml" FUTURE_PARSER="yes" RUBYGEMS_VERSION=2.7.8 BUNDLER_VERSION=1.17.3
   - rvm: 2.1.9
-    env: PUPPET_GEM_VERSION="~> 4"
+    env: PUPPET_GEM_VERSION="~> 4" RUBYGEMS_VERSION=2.7.8 BUNDLER_VERSION=1.17.3
   - rvm: 2.4.1
     env: PUPPET_GEM_VERSION="~> 5"
   - rvm: 2.5.1
