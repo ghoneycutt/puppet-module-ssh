@@ -1,3 +1,6 @@
+### v3.59.1 - 2019-02-28
+  * Put Match block at end of sshd_config
+
 ### v3.59.0 - 2018-01-03
   * Support Puppet 6
 
