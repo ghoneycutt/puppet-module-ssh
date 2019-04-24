@@ -311,6 +311,32 @@ describe 'ssh' do
       }
 
       it { should have_ssh__config_entry_resource_count(0) }
+
+      context 'with exported sshkey resources' do
+        subject { exported_resources}
+        context 'With only IPv4 address' do
+          let(:facts) { default_facts.merge( facts )}
+          it { should contain_sshkey('monkey.example.com').with(
+            'ensure' => 'present',
+            'host_aliases' => ['monkey', '127.0.0.1']
+          )}
+        end
+        context 'With dual stack IP' do
+          let(:facts) { default_facts.merge({ :ipaddress6 => 'dead:beef::1/64' }) }
+          it { should contain_sshkey('monkey.example.com').with(
+            'ensure' => 'present',
+            'host_aliases' => ['monkey', '127.0.0.1', 'dead:beef::1/64']
+          )}
+        end
+        context 'With only IPv6 address' do
+          let(:facts) { default_facts.merge({ :ipaddress6 => 'dead:beef::1/64', :ipaddress => nil }) }
+          it { should contain_sshkey('monkey.example.com').with(
+            'ensure' => 'present',
+            'host_aliases' => ['monkey', 'dead:beef::1/64']
+          )}
+        end
+      end
+
     end
   end
 
