@@ -1,3 +1,8 @@
+### v3.60.0 - 2019-04-29
+  * Support Debian 9
+  * Add ability for IPv6 addresses to be exported as part of the sshkey
+      for the FQDN.
+
 ### v3.59.1 - 2019-02-28
   * Put Match block at end of sshd_config
 

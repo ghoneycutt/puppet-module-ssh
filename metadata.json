@@ -1,6 +1,6 @@
 {
   "name": "ghoneycutt-ssh",
-  "version": "3.59.1",
+  "version": "v3.60.0",
   "author": "ghoneycutt",
   "summary": "Manages SSH",
   "license": "Apache-2.0",
@@ -10,7 +10,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 3.0.0 < 7.0.0"
+      "version_requirement": ">= 3.8.7 < 7.0.0"
     }
   ],
   "operatingsystem_support": [
