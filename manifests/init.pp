@@ -974,10 +974,18 @@ class ssh (
     }
   }
 
+  # If either IPv4 or IPv6 stack is not configured on the agent, the
+  # corresponding $::ipaddress(6)? fact is not present. So, we cannot assume
+  # these variables are defined. Getvar (Stdlib 4.13+, ruby 1.8.7+) handles
+  # this correctly.
+  if getvar('::ipaddress') and getvar('::ipaddress6') { $host_aliases = [$::hostname, $::ipaddress, $::ipaddress6] }
+  elsif getvar('::ipaddress6') { $host_aliases = [$::hostname, $::ipaddress6] }
+  else { $host_aliases = [$::hostname, $::ipaddress] }
+
   # export each node's ssh key
   @@sshkey { $::fqdn :
     ensure       => $ssh_key_ensure,
-    host_aliases => [$::hostname, $::ipaddress],
+    host_aliases => $host_aliases,
     type         => $ssh_key_type,
     key          => $key,
   }
