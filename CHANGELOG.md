@@ -1,3 +1,6 @@
+### v3.60.1 - 2019-04-29
+  * Fix screwed up metadata
+
 ### v3.60.0 - 2019-04-29
   * Support Debian 9
   * Add ability for IPv6 addresses to be exported as part of the sshkey
