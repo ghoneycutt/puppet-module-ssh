@@ -1,3 +1,7 @@
+### v3.61.0 - 2019-05-01
+  * Support Debian 8
+  * Support Ubuntu 18.04 LTS
+
 ### v3.60.1 - 2019-04-29
   * Fix screwed up metadata
 
