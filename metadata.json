@@ -15,7 +15,7 @@
   ],
   "operatingsystem_support": [
       {
-       "operatingsystem": "AIX",
+       "operatingsystem": "AIX"
     },
      {
        "operatingsystem": "debian",
