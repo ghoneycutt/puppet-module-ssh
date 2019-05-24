@@ -14,9 +14,12 @@
     }
   ],
   "operatingsystem_support": [
-    {
-      "operatingsystem": "Debian",
-      "operatingsystemrelease": [
+      {
+       "operatingsystem": "AIX",
+    },
+     {
+       "operatingsystem": "debian",
+       "operatingsystemrelease": [
         "7",
         "8",
         "9"
