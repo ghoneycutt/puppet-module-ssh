@@ -8,6 +8,7 @@ class ssh (
   $permit_root_login                      = 'yes',
   $purge_keys                             = true,
   $manage_firewall                        = false,
+  $manage_packages                        = true,
   $ssh_package_source                     = 'USE_DEFAULTS',
   $ssh_package_adminfile                  = 'USE_DEFAULTS',
   $ssh_config_hash_known_hosts            = 'USE_DEFAULTS',
@@ -384,6 +385,26 @@ class ssh (
           fail('ssh module supports Solaris kernel release 5.9, 5.10 and 5.11.')
         }
       }
+    }
+    'AIX': {
+      $default_ssh_config_hash_known_hosts     = undef
+      $default_ssh_sendenv                     = false
+      $default_ssh_config_forward_x11_trusted  = undef
+      $default_sshd_config_subsystem_sftp      = '/usr/sbin/sftp-server'
+      $default_sshd_config_mode                = '0644'
+      $default_sshd_config_use_dns             = undef
+      $default_sshd_config_xauth_location      = undef
+      $default_sshd_use_pam                    = 'yes'
+      $default_sshd_gssapikeyexchange          = 'yes'
+      $default_sshd_pamauthenticationviakbdint = 'yes'
+      $default_sshd_gssapicleanupcredentials   = undef
+      $default_sshd_acceptenv                  = false
+      $default_sshd_config_serverkeybits       = '768'
+      $default_ssh_package_adminfile           = undef
+      $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
+      $default_sshd_addressfamily              = undef
+      $default_sshd_config_tcp_keepalive       = undef
+      $default_sshd_config_permittunnel        = undef
     }
     default: {
       fail("ssh supports osfamilies RedHat, Suse, Debian and Solaris. Detected osfamily is <${::osfamily}>.")
@@ -995,10 +1016,12 @@ class ssh (
     validate_re($sshd_config_allowagentforwarding, '^(yes|no)$', "ssh::sshd_config_allowagentforwarding may be either 'yes' or 'no' and is set to <${sshd_config_allowagentforwarding}>.")
   }
 
-  package { $packages_real:
-    ensure    => installed,
-    source    => $ssh_package_source_real,
-    adminfile => $ssh_package_adminfile_real,
+  if $manage_package {
+    package { $packages_real:
+      ensure    => installed,
+      source    => $ssh_package_source_real,
+      adminfile => $ssh_package_adminfile_real,
+    }
   }
 
   file  { 'ssh_config' :
