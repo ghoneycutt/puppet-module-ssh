@@ -1269,13 +1269,23 @@ describe 'sshd_config_print_last_log param' do
     end
   end
 
-  context 'with sshd_allow_tcp_forwarding set to invalid value on valid osfamily' do
-    let(:params) { { :sshd_allow_tcp_forwarding => 'invalid' } }
+  describe 'sshd_allow_tcp_forwarding param' do
+    ['yes', 'no', 'local', 'remote'].each do |value|
+      context "set to #{value}" do
+        let (:params) { { :sshd_allow_tcp_forwarding => value } }
 
-    it 'should fail' do
-      expect {
-        should contain_class('ssh')
-      }.to raise_error(Puppet::Error,/ssh::sshd_allow_tcp_forwarding may be either \'yes\' or \'no\' and is set to <invalid>\./)
+        it { should contain_file('sshd_config').with_content(/^AllowTcpForwarding #{value}/) }
+      end
+    end
+
+    context 'set to invalid' do
+      let(:params) { { :sshd_allow_tcp_forwarding => 'invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_allow_tcp_forwarding may be either \'yes\', \'no\', \'local\' or \'remote\' and is set to <invalid>\./)
+      end
     end
   end
 
