@@ -441,6 +441,14 @@ This module sets this option to 'yes' on Linux and undef on Solaris.
 
 - *Default*: 'USE_DEFAULTS'
 
+sshd_config_x11_display_offset
+------------------------------
+X11DisplayOffset in sshd_config.
+Specifies the first display number available for sshd's X11 forwarding. This prevents sshd
+from interfering with real X11 servers.
+
+- *Default*: '10'
+
 ssh_config_use_roaming
 ----------------------
 String to enable or disable UseRoaming in client configuration ssh_config.

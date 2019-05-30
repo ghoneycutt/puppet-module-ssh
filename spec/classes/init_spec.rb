@@ -554,6 +554,7 @@ describe 'ssh' do
         :sshd_config_permittunnel             => 'no',
         :sshd_config_allowagentforwarding     => 'no',
         :sshd_config_key_revocation_list      => '/path/to/revocation_list',
+        :sshd_config_x11_display_offset       => '999',
       }
     end
 
@@ -629,6 +630,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^UsePrivilegeSeparation no$/) }
     it { should contain_file('sshd_config').with_content(/^PermitTunnel no$/) }
     it { should contain_file('sshd_config').with_content(/^RevokedKeys \/path\/to\/revocation_list$/) }
+    it { should contain_file('sshd_config').with_content(/^X11DisplayOffset 999$/) }
 
     it {
       should contain_file('sshd_banner').with({
@@ -1164,6 +1166,19 @@ describe 'sshd_config_print_last_log param' do
           it { should contain_file('sshd_config').without_content(/^\s*RevokedKeys/) }
         else
           it { should contain_file('sshd_config').with_content(/^RevokedKeys #{value}$/) }
+        end
+      end
+    end
+
+  describe 'sshd_config_x11_display_offset param' do
+    ['999','unset'].each do |value|
+      context "set to #{value}" do
+        let (:params) { { :sshd_config_x11_display_offset => value } }
+
+        if value == 'unset'
+          it { should contain_file('sshd_config').without_content(/^\s*X11DisplayOffset/) }
+        else
+          it { should contain_file('sshd_config').with_content(/^X11DisplayOffset #{value}$/) }
         end
       end
     end

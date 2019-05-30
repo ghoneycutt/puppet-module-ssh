@@ -122,6 +122,7 @@ class ssh (
   $sshd_config_key_revocation_list        = undef,
   $sshd_config_authorized_principals_file = undef,
   $sshd_config_allowagentforwarding       = undef,
+  $sshd_config_x11_display_offset         = '10',
 ) {
 
   case $::osfamily {
@@ -622,6 +623,11 @@ class ssh (
     default: { $sshd_config_authorized_principals_file_real = $sshd_config_authorized_principals_file }
   }
 
+  case $sshd_config_x11_display_offset {
+    'unset', undef: { $sshd_config_x11_display_offset_real = undef }
+    default: { $sshd_config_x11_display_offset_real = $sshd_config_x11_display_offset }
+  }
+
   # validate params
   if $ssh_config_ciphers != undef {
     validate_array($ssh_config_ciphers)
@@ -993,6 +999,10 @@ class ssh (
 
   if $sshd_config_allowagentforwarding != undef {
     validate_re($sshd_config_allowagentforwarding, '^(yes|no)$', "ssh::sshd_config_allowagentforwarding may be either 'yes' or 'no' and is set to <${sshd_config_allowagentforwarding}>.")
+  }
+
+  if $sshd_config_x11_display_offset_real != undef {
+    validate_integer($sshd_config_x11_display_offset_real)
   }
 
   package { $packages_real:
