@@ -1170,6 +1170,17 @@ describe 'sshd_config_print_last_log param' do
       end
     end
 
+    context 'when set to an invalid value' do
+      let (:params) { { :sshd_config_key_revocation_list => 'invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/while evaluating a Function Call|is not an absolute path/)
+      end
+    end
+  end
+
   describe 'sshd_config_x11_display_offset param' do
     ['999','unset'].each do |value|
       context "set to #{value}" do
@@ -1181,15 +1192,15 @@ describe 'sshd_config_print_last_log param' do
           it { should contain_file('sshd_config').with_content(/^X11DisplayOffset #{value}$/) }
         end
       end
-    end
 
-    context 'when set to an invalid value' do
-      let (:params) { { :sshd_config_key_revocation_list => 'invalid' } }
+      context 'when not set to a valid number' do
+        let(:params) { {'sshd_config_x11_display_offset' => '999invalid' } }
 
-      it 'should fail' do
-        expect {
-          should contain_class('ssh')
-        }.to raise_error(Puppet::Error,/while evaluating a Function Call|is not an absolute path/)
+        it 'should fail' do
+          expect {
+            should contain_class('ssh')
+          }.to raise_error(Puppet::Error,/ssh::sshd_config_x11_display_offset must be a valid number and is set to <999invalid>\./)
+        end
       end
     end
   end
