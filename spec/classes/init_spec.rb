@@ -1200,7 +1200,7 @@ describe 'sshd_config_print_last_log param' do
       it 'should fail' do
         expect {
           should contain_class('ssh')
-        }.to raise_error(Puppet::Error,/ssh::sshd_config_x11_display_offset must be a valid number and is set to <999invalid>\./)
+        }.to raise_error(Puppet::Error,/validate_integer(): Expected first argument to be an Integer or Array, got String/)
       end
     end
   end
