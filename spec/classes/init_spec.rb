@@ -1192,15 +1192,15 @@ describe 'sshd_config_print_last_log param' do
           it { should contain_file('sshd_config').with_content(/^X11DisplayOffset #{value}$/) }
         end
       end
+    end
 
-      context 'when not set to a valid number' do
-        let(:params) { {'sshd_config_x11_display_offset' => '999invalid' } }
+    context 'when not set to a valid number' do
+      let(:params) { {'sshd_config_x11_display_offset' => '999invalid' } }
 
-        it 'should fail' do
-          expect {
-            should contain_class('ssh')
-          }.to raise_error(Puppet::Error,/ssh::sshd_config_x11_display_offset must be a valid number and is set to <999invalid>\./)
-        end
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_x11_display_offset must be a valid number and is set to <999invalid>\./)
       end
     end
   end
