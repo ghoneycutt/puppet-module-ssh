@@ -122,7 +122,7 @@ class ssh (
   $sshd_config_key_revocation_list        = undef,
   $sshd_config_authorized_principals_file = undef,
   $sshd_config_allowagentforwarding       = undef,
-  $sshd_config_x11_display_offset         = '10',
+  $sshd_config_x11_display_offset         = undef,
 ) {
 
   case $::osfamily {
