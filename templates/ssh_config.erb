@@ -1,111 +1,274 @@
 # This file is being maintained by Puppet.
 # DO NOT EDIT
+#
+# See https://man.openbsd.org/sshd_config for more info
 
-# $OpenBSD: ssh_config,v 1.21 2005/12/06 22:38:27 reyk Exp $
-
-# This is the ssh client system-wide configuration file.  See
-# ssh_config(5) for more information.  This file provides defaults for
-# users, and the values can be changed in per-user configuration files
-# or on the command line.
-
-# Configuration data is parsed as follows:
-#  1. command line options
-#  2. user-specific file
-#  3. system-wide file
-# Any configuration value is only changed the first time it is set.
-# Thus, host-specific definitions should be at the beginning of the
-# configuration file, and defaults at the end.
-
-# Site-wide defaults for some commonly used options.  For a comprehensive
-# list of available options, their meanings and defaults, please see the
-# ssh_config(5) man page.
-
-# Host *
-#   ForwardAgent no
-#   ForwardX11 no
-#   RhostsRSAAuthentication no
-#   RSAAuthentication yes
-   PasswordAuthentication yes
-   PubkeyAuthentication yes
-#   HostbasedAuthentication no
-<% if @ssh_hostbasedauthentication -%>
-   HostbasedAuthentication <%= @ssh_hostbasedauthentication %>
+Host <%= @host %>
+<% if @add_keys_to_agent != nil -%>
+  AddKeysToAgent <%= @add_keys_to_agent %>
 <% end -%>
-#   BatchMode no
-#   CheckHostIP yes
-#   AddressFamily any
-#   ConnectTimeout 0
-#   StrictHostKeyChecking ask
-<% if @ssh_strict_host_key_checking -%>
-   StrictHostKeyChecking <%= @ssh_strict_host_key_checking %>
+<% if @address_family != nil -%>
+  AddressFamily <%= @address_family %>
 <% end -%>
-#   IdentityFile ~/.ssh/identity
-   IdentityFile ~/.ssh/id_rsa
-   IdentityFile ~/.ssh/id_dsa
-#   Port 22
-   Protocol 2
-#   Cipher 3des
-#   Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc
-<% if @ssh_config_ciphers -%>
-    Ciphers <%= @ssh_config_ciphers.join(',') %>
+<% if @batch_mode != nil -%>
+  BatchMode <%= @batch_mode %>
 <% end -%>
-<% if @ssh_config_kexalgorithms -%>
-    KexAlgorithms <%= @ssh_config_kexalgorithms.join(',') %>
+<% if @bind_address != nil -%>
+  BindAddress <%= @bind_address %>
 <% end -%>
-#   EscapeChar ~
-#   Tunnel no
-#   TunnelDevice any:any
-#   PermitLocalCommand no
-#   HashKnownHosts no
-<% if @ssh_config_hash_known_hosts_real != nil -%>
-   HashKnownHosts <%= @ssh_config_hash_known_hosts_real %>
+<% if @bind_interface != nil -%>
+  BindInterface <%= @bind_interface %>
 <% end -%>
-<% if @ssh_config_global_known_hosts_list_real -%>
-   GlobalKnownHostsFile <%= @ssh_config_global_known_hosts_list_real.join(' ') %>
+<% if @canonical_domains != nil -%>
+  CanonicalDomains <%= @canonical_domains.join(' ') %>
 <% end -%>
-<% if @ssh_config_proxy_command -%>
-   ProxyCommand <%= @ssh_config_proxy_command %>
+<% if @canonicalize_fallback_local != nil -%>
+  CanonicalizeFallbackLocal <%= @canonicalize_fallback_local %>
 <% end -%>
-Host *
-#  GSSAPIAuthentication yes
-  GSSAPIAuthentication <%= @ssh_gssapiauthentication %>
-<% if @ssh_gssapidelegatecredentials != nil -%>
-GSSAPIDelegateCredentials <%= @ssh_gssapidelegatecredentials %>
+<% if @canonicalize_hostname != nil -%>
+  CanonicalizeHostname <%= @canonicalize_hostname %>
 <% end -%>
-# If this option is set to yes then remote X11 clients will have full access
-# to the original X11 display. As virtually no X11 client supports the untrusted
-# mode correctly we set this to yes.
-<% if @ssh_config_forward_x11_trusted_real != nil -%>
-  ForwardX11Trusted <%= @ssh_config_forward_x11_trusted_real %>
+<% if @canonicalize_max_dots != nil -%>
+  CanonicalizeMaxDots <%= @canonicalize_max_dots %>
 <% end -%>
-<% if @ssh_config_forward_agent != nil -%>
-  ForwardAgent <%= @ssh_config_forward_agent %>
+<% if @canonicalize_permitted_cnames != nil -%>
+  CanonicalizePermittedCNAMEs <%= @canonicalize_permitted_cnames.join(',') %>
 <% end -%>
-<% if @ssh_config_forward_x11 != nil -%>
-  ForwardX11 <%= @ssh_config_forward_x11 %>
+<% if @ca_signature_algorithms != nil -%>
+  CASignatureAlgorithms <%= @ca_signature_algorithms.join(',') %>
 <% end -%>
-<% if (@ssh_config_use_roaming_real == 'yes') or (@ssh_config_use_roaming_real == 'no') -%>
-  UseRoaming <%= @ssh_config_use_roaming_real %>
+<% if @certificate_file != nil -%>
+<%   @certificate_file.each do |v| -%>
+  CertificateFile <%= v %>
+<%   end -%>
 <% end -%>
-<% if @ssh_config_server_alive_interval != nil -%>
-  ServerAliveInterval <%= @ssh_config_server_alive_interval %>
+<% if @challenge_response_authentication != nil -%>
+  ChallengeResponseAuthentication <%= @challenge_response_authentication %>
 <% end -%>
-<% if @ssh_sendenv_real == true -%>
-# Send locale-related environment variables
-  SendEnv LANG LANGUAGE LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
-  SendEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
-  SendEnv LC_IDENTIFICATION LC_ALL
-<% if @ssh_config_sendenv_xmodifiers_real == true -%>
-  SendEnv XMODIFIERS
+<% if @check_host_ip != nil -%>
+  CheckHostIP <%= @check_host_ip %>
 <% end -%>
+<% if @ciphers != nil -%>
+  Ciphers <%= @ciphers.join(',') %>
 <% end -%>
-<% if @ssh_config_macs -%>
-  MACs <%= @ssh_config_macs.join(',') %>
+<% if @clear_all_forwardings != nil -%>
+  ClearAllForwardings <%= @clear_all_forwardings %>
 <% end -%>
-<% if not @ssh_enable_ssh_keysign.nil? -%>
-# EnableSSHKeysign no
-  EnableSSHKeysign <%= @ssh_enable_ssh_keysign %>
+<% if @compression != nil -%>
+  Compression <%= @compression %>
 <% end -%>
-<% if @ssh_config_user_known_hosts_file -%>
-  UserKnownHostsFile <%= @ssh_config_user_known_hosts_file.join(' ') %>
+<% if @connection_attempts != nil -%>
+  ConnectionAttempts <%= @connection_attempts %>
+<% end -%>
+<% if @connect_timeout != nil -%>
+  ConnectTimeout <%= @connect_timeout %>
+<% end -%>
+<% if @control_master != nil -%>
+  ControlMaster <%= @control_master %>
+<% end -%>
+<% if @control_path != nil -%>
+  ControlPath <%= @control_path %>
+<% end -%>
+<% if @control_persist != nil -%>
+  ControlPersist <%= @control_persist %>
+<% end -%>
+<% if @dynamic_forward != nil -%>
+  DynamicForward <%= @dynamic_forward %>
+<% end -%>
+<% if @enable_ssh_keysign != nil -%>
+  EnableSSHKeysign <%= @enable_ssh_keysign %>
+<% end -%>
+<% if @escape_char != nil -%>
+  EscapeChar <%= @escape_char %>
+<% end -%>
+<% if @exit_on_forward_failure != nil -%>
+  ExitOnForwardFailure <%= @exit_on_forward_failure %>
+<% end -%>
+<% if @fingerprint_hash != nil -%>
+  FingerprintHash  <%= @fingerprint_hash %>
+<% end -%>
+<% if @forward_agent != nil -%>
+  ForwardAgent <%= @forward_agent %>
+<% end -%>
+<% if @forward_x11 != nil -%>
+  ForwardX11 <%= @forward_x11 %>
+<% end -%>
+<% if @forward_x11_timeout != nil -%>
+  ForwardX11Timeout <%= @forward_x11_timeout %>
+<% end -%>
+<% if @forward_x11_trusted != nil -%>
+  ForwardX11Trusted <%= @forward_x11_trusted %>
+<% end -%>
+<% if @gateway_ports != nil -%>
+  GatewayPorts <%= @gateway_ports %>
+<% end -%>
+<% if @global_known_hosts_file != nil -%>
+  GlobalKnownHostsFile <%= @global_known_hosts_file.join(' ') %>
+<% end -%>
+<% if @gss_api_authentication != nil -%>
+  GSSAPIAuthentication <%= @gss_api_authentication %>
+<% end -%>
+<% if @gss_api_delegate_credentials != nil -%>
+  GSSAPIDelegateCredentials <%= @gss_api_delegate_credentials %>
+<% end -%>
+<% if @hash_known_hosts != nil -%>
+  HashKnownHosts <%= @hash_known_hosts %>
+<% end -%>
+<% if @hostbased_authentication != nil -%>
+  HostbasedAuthentication <%= @hostbased_authentication %>
+<% end -%>
+<% if @hostbased_key_types != nil -%>
+  HostbasedKeyTypes <%= @hostbased_key_types.join(',') %>
+<% end -%>
+<% if @host_key_algorithms != nil -%>
+  HostKeyAlgorithms <%= @host_key_algorithms.join(',') %>
+<% end -%>
+<% if @host_key_alias != nil -%>
+  HostKeyAlias <%= @host_key_alias %>
+<% end -%>
+<% if @host_name != nil -%>
+  HostNname <%= @host_name %>
+<% end -%>
+<% if @identities_only != nil -%>
+  IdentitiesOnly <%= @identities_only %>
+<% end -%>
+<% if @identity_agent != nil -%>
+  IdentityAgent <%= @identity_agent %>
+<% end -%>
+<% if @identity_file != nil -%>
+  IdentityFile <%= @identity_file %>
+<% end -%>
+<% if @ignore_unknown != nil -%>
+  IgnoreUnknown <%= @ignore_unknown %>
+<% end -%>
+<% if @include != nil -%>
+  Include <%= @include %>
+<% end -%>
+<% if @ip_qos != nil -%>
+  IPQoS <%= @ip_qos %>
+<% end -%>
+<% if @kbd_interactive_authentication != nil -%>
+  KbdInteractiveAuthentication <%= @kbd_interactive_authentication %>
+<% end -%>
+<% if @kbd_interactive_devices != nil -%>
+  KbdInteractiveDevices <%= @kbd_interactive_devices.join(',') %>
+<% end -%>
+<% if @kex_algorithms != nil -%>
+  KexAlgorithms <%= @kex_algorithms.join(',') %>
+<% end -%>
+<% if @local_command != nil -%>
+  LocalCommand <%= @local_command %>
+<% end -%>
+<% if @local_forward != nil -%>
+  LocalForward <%= @local_forward %>
+<% end -%>
+<% if @log_level != nil -%>
+  LogLevel <%= @log_level %>
+<% end -%>
+<% if @no_host_authentication_for_localhost != nil -%>
+  NoHostAuthenticationForLocalhost <%= @no_host_authentication_for_localhost %>
+<% end -%>
+<% if @number_of_password_prompts != nil -%>
+  NumberOfPasswordPrompts <%= @number_of_password_prompts %>
+<% end -%>
+<% if @password_authentication != nil -%>
+  PasswordAuthentication <%= @password_authentication %>
+<% end -%>
+<% if @permit_local_command != nil -%>
+  PermitLocalCommand <%= @permit_local_command %>
+<% end -%>
+<% if @pkcs11_provider != nil -%>
+  PKCS11Provider <%= @pkcs11_provider %>
+<% end -%>
+<% if @port != nil -%>
+  Port <%= @port %>
+<% end -%>
+<% if @preferred_authentications != nil -%>
+  PreferredAuthentications <%= @preferred_authentications.join(',') %>
+<% end -%>
+<% if @proxy_command != nil -%>
+  ProxyCommand <%= @proxy_command %>
+<% end -%>
+<% if @proxy_jump != nil -%>
+  ProxyJump <%= @proxy_jump.join(',') %>
+<% end -%>
+<% if @proxy_use_fdpass != nil -%>
+  ProxyUseFdpass <%= @proxy_use_fdpass %>
+<% end -%>
+<% if @pubkey_accepted_key_types != nil -%>
+  PubkeyAcceptedKeyTypes <%= @pubkey_accepted_key_types.join(',') %>
+<% end -%>
+<% if @pubkey_authentication != nil -%>
+  PubkeyAuthentication <%= @pubkey_authentication %>
+<% end -%>
+<% if @rekey_limit != nil -%>
+  RekeyLimit <%= @rekey_limit %>
+<% end -%>
+<% if @remote_command != nil -%>
+  RemoteCommand <%= @remote_command %>
+<% end -%>
+<% if @remote_forward != nil -%>
+  RemoteForward <%= @remote_forward %>
+<% end -%>
+<% if @request_tty != nil -%>
+  RequestTTY <%= @request_tty %>
+<% end -%>
+<% if @revoked_host_keys != nil -%>
+  RevokedHostKeys <%= @revoked_host_keys %>
+<% end -%>
+<% if @send_env != nil -%>
+<%   @send_env.each do |v| -%>
+  SendEnv <%= v %>
+<%   end -%>
+<% end -%>
+<% if @server_alive_count_max != nil -%>
+  ServerAliveCountMax <%= @server_alive_count_max %>
+<% end -%>
+<% if @server_alive_interval != nil -%>
+  ServerAliveIAerval <%= @server_alive_interval %>
+<% end -%>
+<% if @set_env != nil -%>
+  SetEnv <%= @set_env.join(' ') %>
+<% end -%>
+<% if @stream_local_bind_mask != nil -%>
+  StreamLocalBindMask <%= @stream_local_bind_mask %>
+<% end -%>
+<% if @stream_local_bind_unlink != nil -%>
+  StreamLocalBindUnlink <%= @stream_local_bind_unlink %>
+<% end -%>
+<% if @strict_host_key_checking != nil -%>
+  StrictHostKeyChecking <%= @strict_host_key_checking %>
+<% end -%>
+<% if @syslog_facility != nil -%>
+  SyslogFacility <%= @syslog_facility %>
+<% end -%>
+<% if @tcp_keep_alive != nil -%>
+  TCPKeepAlive <%= @tcp_keep_alive %>
+<% end -%>
+<% if @tunnel != nil -%>
+  Tunnel <%= @tunnel %>
+<% end -%>
+<% if @tunnel_device != nil -%>
+  TunnelDevice <%= @tunnel_device %>
+<% end -%>
+<% if @update_host_keys != nil -%>
+  UpdateHostKeys <%= @update_host_keys %>
+<% end -%>
+<% if @user != nil -%>
+  User <%= @user %>
+<% end -%>
+<% if @user_known_hosts_file != nil -%>
+  UserKnownHostsFile <%= @user_known_hosts_file.join(' ') %>
+<% end -%>
+<% if @verify_host_key_dns != nil -%>
+ VerifyHostKeyDNS <%= @verify_host_key_dns %>
+<% end -%>
+<% if @visual_host_key != nil -%>
+  VisualHostKey <%= @visual_host_key %>
+<% end -%>
+<% if @xauth_location != nil -%>
+  XAuthLocation <%= @xauth_location %>
+<% end -%>
+<% if @custom != nil -%>
+<%= @custom %>
 <% end -%>

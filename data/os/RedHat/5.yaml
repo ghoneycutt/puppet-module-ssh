@@ -1,0 +1,51 @@
+---
+
+ssh::forward_x11_trusted: 'yes'
+ssh::gss_api_authentication: 'yes'
+
+ssh::send_env:
+  - 'LANG'
+  - 'LANGUAGE'
+  - 'LC_ADDRESS'
+  - 'LC_ALL'
+  - 'LC_COLLATE'
+  - 'LC_CTYPE'
+  - 'LC_IDENTIFICATION'
+  - 'LC_MEASUREMENT'
+  - 'LC_MESSAGES'
+  - 'LC_MONETARY'
+  - 'LC_NAME'
+  - 'LC_NUMERIC'
+  - 'LC_PAPER'
+  - 'LC_TELEPHONE'
+  - 'LC_TIME'
+
+ssh::server::packages: 'openssh-server'
+
+ssh::server::accept_env:
+  - 'LANG'
+  - 'LANGUAGE'
+  - 'LC_ADDRESS'
+  - 'LC_ALL'
+  - 'LC_COLLATE'
+  - 'LC_CTYPE'
+  - 'LC_IDENTIFICATION'
+  - 'LC_MEASUREMENT'
+  - 'LC_MESSAGES'
+  - 'LC_MONETARY'
+  - 'LC_NAME'
+  - 'LC_NUMERIC'
+  - 'LC_PAPER'
+  - 'LC_TELEPHONE'
+  - 'LC_TIME'
+
+ssh::server::challenge_response_authentication: 'no'
+ssh::server::gss_api_authentication: 'yes'
+ssh::server::gss_api_cleanup_credentials: 'yes'
+ssh::server::password_authentication: 'yes'
+ssh::server::subsystem: 'sftp /usr/libexec/openssh/sftp-server'
+ssh::server::syslog_facility: 'AUTHPRIV'
+ssh::server::use_pam: 'yes'
+ssh::server::x11_forwarding: 'yes'
+
+ssh::server::custom: 'Protocol 2'
