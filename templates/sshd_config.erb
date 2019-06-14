@@ -309,14 +309,8 @@ AllowUsers <%= @sshd_config_allowusers_real.join(' ') %>
 <% if @sshd_config_allowgroups_real != [] -%>
 AllowGroups <%= @sshd_config_allowgroups_real.join(' ') %>
 <% end -%>
-<% if @sshd_config_match -%>
-
-<%   @sshd_config_match.sort.each do |key, hash| -%>
-Match <%= key %>
-<%     hash.sort.each do |values| -%>
-  <%= values %>
-<%     end -%>
-<%   end -%>
+<% if @sshd_config_key_revocation_list_real -%>
+RevokedKeys <%= @sshd_config_key_revocation_list_real %>
 <% end -%>
 <% if @sshd_config_hostcertificate_real.class == Array -%>
 <%   @sshd_config_hostcertificate_real.each do |cert| -%>
@@ -330,4 +324,13 @@ TrustedUserCAKeys <%= @sshd_config_trustedusercakeys_real %>
 <% end -%>
 <% if @sshd_config_authorized_principals_file_real -%>
 AuthorizedPrincipalsFile <%= @sshd_config_authorized_principals_file_real %>
+<% end -%>
+<% if @sshd_config_match -%>
+
+<%   @sshd_config_match.sort.each do |key, hash| -%>
+Match <%= key %>
+<%     hash.sort.each do |values| -%>
+  <%= values %>
+<%     end -%>
+<%   end -%>
 <% end -%>

@@ -1,3 +1,27 @@
+### v3.61.0 - 2019-05-01
+  * Support Debian 8
+  * Support Ubuntu 18.04 LTS
+
+### v3.60.1 - 2019-04-29
+  * Fix screwed up metadata
+
+### v3.60.0 - 2019-04-29
+  * Support Debian 9
+  * Add ability for IPv6 addresses to be exported as part of the sshkey
+      for the FQDN.
+
+### v3.59.1 - 2019-02-28
+  * Put Match block at end of sshd_config
+
+### v3.59.0 - 2018-01-03
+  * Support Puppet 6
+
+### v3.58.0 - 2018-10-08
+  * Add RevokedKeys option to `sshd_config`
+
+### v3.57.1 - 2018-07-27
+  * Disable ServerkeyBits on RHEL 7.4 and later
+
 ### v3.57.0 - 2017-12-10
   * Add support for AuthenticationMethods and AllowAgentForwarding
     options in sshd_config

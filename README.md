@@ -23,10 +23,12 @@ Host entries in a personal `~/.ssh/config` file.
 # Compatibility
 
 This module has been tested to work on the following systems with the
-latest Puppet v3, v3 with future parser, v4 and v5.  See `.travis.yml`
+latest Puppet v3, v3 with future parser, v4, v5 and v6.  See `.travis.yml`
 for the exact matrix of supported Puppet and ruby versions.
 
  * Debian 7
+ * Debian 8
+ * Debian 9
  * EL 5
  * EL 6
  * EL 7
@@ -36,6 +38,7 @@ for the exact matrix of supported Puppet and ruby versions.
  * Ubuntu 12.04 LTS
  * Ubuntu 14.04 LTS
  * Ubuntu 16.04 LTS
+ * Ubuntu 18.04 LTS
  * Solaris 9
  * Solaris 10
  * Solaris 11
@@ -667,6 +670,12 @@ An Absolute Path or Array of Absolute Paths to the Host CA Public Key. Each entr
 sshd_config_trustedusercakeys
 -----------------------------
 Absolute path to the OpenSSH User CA Certificate (TrustedUserCAKeys) for use with SSH CA Validation for Users or the string 'none'.
+
+- *Default*: undefined
+
+sshd_config_key_revocation_list
+-----------------------------
+Absolute path to a key revocation list (RevokedKeys) for use with SSH CA Validation for Users or the string 'none'.
 
 - *Default*: undefined
 
