@@ -134,25 +134,7 @@ class ssh (
       $default_ssh_package_source              = undef
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
-      $default_sshd_config_subsystem_sftp      = '/usr/libexec/openssh/sftp-server'
-      $default_sshd_config_mode                = '0600'
-      $default_sshd_config_use_dns             = 'yes'
-      $default_sshd_config_xauth_location      = '/usr/bin/xauth'
-      $default_sshd_use_pam                    = 'yes'
-      $default_sshd_gssapikeyexchange          = undef
-      $default_sshd_pamauthenticationviakbdint = undef
-      $default_sshd_gssapicleanupcredentials   = 'yes'
-      $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
-      if versioncmp($::operatingsystemrelease, '7.4') < 0 {
-        $default_sshd_config_serverkeybits = '1024'
-      } else {
-        $default_sshd_config_serverkeybits = undef
-      }
-      $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
-      $default_sshd_addressfamily              = 'any'
-      $default_sshd_config_tcp_keepalive       = 'yes'
-      $default_sshd_config_permittunnel        = 'no'
     }
     'Suse': {
       $default_packages                        = 'openssh'
@@ -162,35 +144,7 @@ class ssh (
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
       $default_ssh_config_forward_x11_trusted  = 'yes'
-      $default_sshd_config_mode                = '0600'
-      $default_sshd_config_use_dns             = 'yes'
-      $default_sshd_config_xauth_location      = '/usr/bin/xauth'
-      $default_sshd_use_pam                    = 'yes'
-      $default_sshd_gssapikeyexchange          = undef
-      $default_sshd_pamauthenticationviakbdint = undef
-      $default_sshd_gssapicleanupcredentials   = 'yes'
-      $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
-      $default_sshd_config_serverkeybits       = '1024'
-      $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
-      $default_sshd_addressfamily              = 'any'
-      $default_sshd_config_tcp_keepalive       = 'yes'
-      $default_sshd_config_permittunnel        = 'no'
-      case $::architecture {
-        'x86_64': {
-          if ($::operatingsystem == 'SLES') and ($::operatingsystemrelease =~ /^12\./) {
-            $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
-          } else {
-            $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
-          }
-        }
-        'i386' : {
-          $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
-      }
-        default: {
-          fail("ssh supports architectures x86_64 and i386 for Suse. Detected architecture is <${::architecture}>.")
-        }
-      }
     }
     'Debian': {
       # common for debian and ubuntu
@@ -200,106 +154,36 @@ class ssh (
 
       case $::operatingsystemrelease {
         '16.04': {
-          $default_sshd_config_hostkey = [
-            '/etc/ssh/ssh_host_rsa_key',
-            '/etc/ssh/ssh_host_dsa_key',
-            '/etc/ssh/ssh_host_ecdsa_key',
-            '/etc/ssh/ssh_host_ed25519_key',
-          ]
           $default_ssh_config_hash_known_hosts        = 'yes'
-          $default_sshd_config_xauth_location         = undef
           $default_ssh_config_forward_x11_trusted     = 'yes'
           $default_ssh_package_source                 = undef
           $default_ssh_package_adminfile              = undef
           $default_ssh_sendenv                        = true
-          $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
-          $default_sshd_config_mode                   = '0600'
-          $default_sshd_config_use_dns                = 'yes'
-          $default_sshd_use_pam                       = 'yes'
-          $default_sshd_gssapikeyexchange             = undef
-          $default_sshd_pamauthenticationviakbdint    = undef
-          $default_sshd_gssapicleanupcredentials      = 'yes'
-          $default_sshd_acceptenv                     = true
           $default_service_hasstatus                  = true
-          $default_sshd_config_serverkeybits          = '1024'
-          $default_sshd_addressfamily                 = 'any'
-          $default_sshd_config_tcp_keepalive          = 'yes'
-          $default_sshd_config_permittunnel           = 'no'
         }
         '18.04': {
-          $default_sshd_config_hostkey = [
-            '/etc/ssh/ssh_host_rsa_key',
-            '/etc/ssh/ssh_host_dsa_key',
-            '/etc/ssh/ssh_host_ecdsa_key',
-            '/etc/ssh/ssh_host_ed25519_key',
-          ]
           $default_ssh_config_hash_known_hosts        = 'yes'
-          $default_sshd_config_xauth_location         = undef
           $default_ssh_config_forward_x11_trusted     = 'yes'
           $default_ssh_package_source                 = undef
           $default_ssh_package_adminfile              = undef
           $default_ssh_sendenv                        = true
-          $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
-          $default_sshd_config_mode                   = '0600'
-          $default_sshd_config_use_dns                = 'yes'
-          $default_sshd_use_pam                       = 'yes'
-          $default_sshd_gssapikeyexchange             = undef
-          $default_sshd_pamauthenticationviakbdint    = undef
-          $default_sshd_gssapicleanupcredentials      = 'yes'
-          $default_sshd_acceptenv                     = true
           $default_service_hasstatus                  = true
-          $default_sshd_config_serverkeybits          = '1024'
-          $default_sshd_addressfamily                 = 'any'
-          $default_sshd_config_tcp_keepalive          = 'yes'
-          $default_sshd_config_permittunnel           = 'no'
         }
         /^9.*/: {
-          $default_sshd_config_hostkey = [
-            '/etc/ssh/ssh_host_rsa_key',
-            '/etc/ssh/ssh_host_ecdsa_key',
-            '/etc/ssh/ssh_host_ed25519_key',
-          ]
-          $default_sshd_config_mode                = '0600'
-          $default_sshd_use_pam                    = 'yes'
           $default_ssh_config_forward_x11_trusted  = 'yes'
-          $default_sshd_acceptenv                  = true
-          $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
           $default_ssh_config_hash_known_hosts     = 'yes'
           $default_ssh_sendenv                     = true
-          $default_sshd_addressfamily              = undef
-          $default_sshd_config_serverkeybits       = undef
-          $default_sshd_gssapicleanupcredentials   = undef
-          $default_sshd_config_use_dns             = undef
-          $default_sshd_config_xauth_location      = undef
-          $default_sshd_config_permittunnel        = undef
-          $default_sshd_config_tcp_keepalive       = undef
           $default_ssh_package_source              = undef
           $default_ssh_package_adminfile           = undef
-          $default_sshd_gssapikeyexchange          = undef
-          $default_sshd_pamauthenticationviakbdint = undef
           $default_service_hasstatus               = true
         }
         /^7.*/: {
-          $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
           $default_ssh_config_hash_known_hosts     = 'no'
-          $default_sshd_config_xauth_location      = '/usr/bin/xauth'
           $default_ssh_config_forward_x11_trusted  = 'yes'
           $default_ssh_package_source              = undef
           $default_ssh_package_adminfile           = undef
           $default_ssh_sendenv                     = true
-          $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
-          $default_sshd_config_mode                = '0600'
-          $default_sshd_config_use_dns             = 'yes'
-          $default_sshd_use_pam                    = 'yes'
-          $default_sshd_gssapikeyexchange          = undef
-          $default_sshd_pamauthenticationviakbdint = undef
-          $default_sshd_gssapicleanupcredentials   = 'yes'
-          $default_sshd_acceptenv                  = true
           $default_service_hasstatus               = true
-          $default_sshd_config_serverkeybits       = '1024'
-          $default_sshd_addressfamily              = 'any'
-          $default_sshd_config_tcp_keepalive       = 'yes'
-          $default_sshd_config_permittunnel        = 'no'
         }
         /^8.*/: {
 
@@ -308,25 +192,6 @@ class ssh (
           $default_ssh_package_source              = undef
           $default_ssh_package_adminfile           = undef
           $default_ssh_sendenv                     = true
-          $default_sshd_config_hostkey = [
-          '/etc/ssh/ssh_host_rsa_key',
-          '/etc/ssh/ssh_host_dsa_key',
-          '/etc/ssh/ssh_host_ecdsa_key',
-          '/etc/ssh/ssh_host_ed25519_key',
-          ]
-          $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
-          $default_sshd_config_mode                = '0600'
-          $default_sshd_config_use_dns             = 'yes'
-          $default_sshd_use_pam                    = 'yes'
-          $default_sshd_gssapikeyexchange          = undef
-          $default_sshd_pamauthenticationviakbdint = undef
-          $default_sshd_gssapicleanupcredentials   = undef
-          $default_sshd_acceptenv                  = true
-          $default_sshd_config_xauth_location      = undef
-          $default_sshd_config_serverkeybits       = '1024'
-          $default_sshd_addressfamily              = 'any'
-          $default_sshd_config_tcp_keepalive       = 'yes'
-          $default_sshd_config_permittunnel        = 'no'
           $default_service_hasstatus               = true
         }
         default: { fail ("Operating System : ${::operatingsystemrelease} not supported") }
@@ -336,21 +201,7 @@ class ssh (
       $default_ssh_config_hash_known_hosts     = undef
       $default_ssh_sendenv                     = false
       $default_ssh_config_forward_x11_trusted  = undef
-      $default_sshd_config_subsystem_sftp      = '/usr/lib/ssh/sftp-server'
-      $default_sshd_config_mode                = '0644'
-      $default_sshd_config_use_dns             = undef
-      $default_sshd_config_xauth_location      = '/usr/openwin/bin/xauth'
-      $default_sshd_use_pam                    = undef
-      $default_sshd_gssapikeyexchange          = 'yes'
-      $default_sshd_pamauthenticationviakbdint = 'yes'
-      $default_sshd_gssapicleanupcredentials   = undef
-      $default_sshd_acceptenv                  = false
-      $default_sshd_config_serverkeybits       = '768'
       $default_ssh_package_adminfile           = undef
-      $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
-      $default_sshd_addressfamily              = undef
-      $default_sshd_config_tcp_keepalive       = undef
-      $default_sshd_config_permittunnel        = undef
       case $::kernelrelease {
         '5.11': {
           $default_packages                      = ['network/ssh',
@@ -417,34 +268,6 @@ class ssh (
     default:        { $ssh_config_hash_known_hosts_real = $ssh_config_hash_known_hosts }
   }
 
-  if $service_name == 'USE_DEFAULTS' {
-    $service_name_real = $default_service_name
-  } else {
-    $service_name_real = $service_name
-  }
-
-  if $sshd_config_subsystem_sftp == 'USE_DEFAULTS' {
-    $sshd_config_subsystem_sftp_real = $default_sshd_config_subsystem_sftp
-  } else {
-    $sshd_config_subsystem_sftp_real = $sshd_config_subsystem_sftp
-  }
-
-  if $sshd_config_mode    == 'USE_DEFAULTS' {
-    $sshd_config_mode_real = $default_sshd_config_mode
-  } else {
-    $sshd_config_mode_real = $sshd_config_mode
-  }
-
-  if $sshd_config_xauth_location == 'USE_DEFAULTS' {
-    $sshd_config_xauth_location_real = $default_sshd_config_xauth_location
-  } else {
-    $sshd_config_xauth_location_real = $sshd_config_xauth_location
-  }
-
-  if $sshd_config_xauth_location_real != undef {
-    validate_absolute_path($sshd_config_xauth_location_real)
-  }
-
   if $ssh_package_source == 'USE_DEFAULTS' {
     $ssh_package_source_real = $default_ssh_package_source
   } else {
@@ -465,24 +288,6 @@ class ssh (
     validate_absolute_path($ssh_package_adminfile_real)
   }
 
-  if $sshd_config_use_dns == 'USE_DEFAULTS' {
-    $sshd_config_use_dns_real = $default_sshd_config_use_dns
-  } else {
-    $sshd_config_use_dns_real = $sshd_config_use_dns
-  }
-
-  if $sshd_use_pam == 'USE_DEFAULTS' {
-    $sshd_use_pam_real = $default_sshd_use_pam
-  } else {
-    $sshd_use_pam_real = $sshd_use_pam
-  }
-
-  if $sshd_config_serverkeybits == 'USE_DEFAULTS' {
-    $sshd_config_serverkeybits_real = $default_sshd_config_serverkeybits
-  } else {
-    $sshd_config_serverkeybits_real = $sshd_config_serverkeybits
-  }
-
   if $ssh_config_forward_x11_trusted == 'USE_DEFAULTS' {
     $ssh_config_forward_x11_trusted_real = $default_ssh_config_forward_x11_trusted
   } else {
@@ -490,24 +295,6 @@ class ssh (
   }
   if $ssh_config_forward_x11_trusted_real != undef {
     validate_re($ssh_config_forward_x11_trusted_real, '^(yes|no)$', "ssh::ssh_config_forward_x11_trusted may be either 'yes' or 'no' and is set to <${ssh_config_forward_x11_trusted_real}>.")
-  }
-
-  if $sshd_gssapikeyexchange == 'USE_DEFAULTS' {
-    $sshd_gssapikeyexchange_real = $default_sshd_gssapikeyexchange
-  } else {
-    $sshd_gssapikeyexchange_real = $sshd_gssapikeyexchange
-  }
-
-  if $sshd_pamauthenticationviakbdint == 'USE_DEFAULTS' {
-    $sshd_pamauthenticationviakbdint_real = $default_sshd_pamauthenticationviakbdint
-  } else {
-    $sshd_pamauthenticationviakbdint_real = $sshd_pamauthenticationviakbdint
-  }
-
-  if $sshd_gssapicleanupcredentials == 'USE_DEFAULTS' {
-    $sshd_gssapicleanupcredentials_real = $default_sshd_gssapicleanupcredentials
-  } else {
-    $sshd_gssapicleanupcredentials_real = $sshd_gssapicleanupcredentials
   }
 
   if $ssh_config_use_roaming == 'USE_DEFAULTS' {
@@ -533,195 +320,30 @@ class ssh (
     }
   }
 
-  if $sshd_acceptenv == 'USE_DEFAULTS' {
-    $sshd_acceptenv_real = $default_sshd_acceptenv
-  } else {
-    case type3x($sshd_acceptenv) {
-      'string': {
-        validate_re($sshd_acceptenv, '^(true|false)$', "ssh::sshd_acceptenv may be either 'true' or 'false' and is set to <${sshd_acceptenv}>.")
-        $sshd_acceptenv_real = str2bool($sshd_acceptenv)
-      }
-      'boolean': {
-        $sshd_acceptenv_real = $sshd_acceptenv
-      }
-      default: {
-        fail('ssh::sshd_acceptenv type must be true or false.')
-      }
-    }
-  }
-
-  if $sshd_config_hostkey == 'USE_DEFAULTS' {
-    $sshd_config_hostkey_real = $default_sshd_config_hostkey
-  } else {
-    validate_array($sshd_config_hostkey)
-    validate_absolute_path($sshd_config_hostkey)
-    $sshd_config_hostkey_real = $sshd_config_hostkey
-  }
-
-  if $sshd_listen_address {
-    validate_array($sshd_listen_address)
-  }
-
-  if $service_hasstatus == 'USE_DEFAULTS' {
-    $service_hasstatus_real = $default_service_hasstatus
-  } else {
-    case type3x($service_hasstatus) {
-      'string': {
-        validate_re($service_hasstatus, '^(true|false)$', "ssh::service_hasstatus must be 'true' or 'false' and is set to <${service_hasstatus}>.")
-        $service_hasstatus_real = str2bool($service_hasstatus)
-      }
-      'boolean': {
-        $service_hasstatus_real = $service_hasstatus
-      }
-      default: {
-        fail('ssh::service_hasstatus must be true or false.')
-      }
-    }
-  }
-
-  if $sshd_addressfamily == 'USE_DEFAULTS' {
-    $sshd_addressfamily_real = $default_sshd_addressfamily
-  } else {
-    $sshd_addressfamily_real = $sshd_addressfamily
-  }
-
-  case $sshd_config_maxsessions {
-    'unset', undef: { $sshd_config_maxsessions_integer = undef }
-    default:        { $sshd_config_maxsessions_integer = floor($sshd_config_maxsessions) }
-  }
-
-  case $sshd_config_tcp_keepalive {
-    'unset': { $sshd_config_tcp_keepalive_real = undef }
-    undef:   { $sshd_config_tcp_keepalive_real = $default_sshd_config_tcp_keepalive }
-    default: { $sshd_config_tcp_keepalive_real = $sshd_config_tcp_keepalive }
-  }
-
-  case $sshd_config_permittunnel {
-    'unset': { $sshd_config_permittunnel_real = undef }
-    undef:   { $sshd_config_permittunnel_real = $default_sshd_config_permittunnel }
-    default: { $sshd_config_permittunnel_real = $sshd_config_permittunnel }
-  }
-
-  case $sshd_config_hostcertificate {
-    'unset', undef: { $sshd_config_hostcertificate_real = undef }
-    default: { $sshd_config_hostcertificate_real = $sshd_config_hostcertificate }
-  }
-
-  case $sshd_config_trustedusercakeys {
-    'unset', undef: { $sshd_config_trustedusercakeys_real = undef }
-    default: { $sshd_config_trustedusercakeys_real = $sshd_config_trustedusercakeys }
-  }
-
-  case $sshd_config_key_revocation_list {
-    'unset', undef: { $sshd_config_key_revocation_list_real = undef }
-    default: { $sshd_config_key_revocation_list_real = $sshd_config_key_revocation_list }
-  }
-
-  case $sshd_config_authorized_principals_file {
-    'unset', undef: { $sshd_config_authorized_principals_file_real = undef }
-    default: { $sshd_config_authorized_principals_file_real = $sshd_config_authorized_principals_file }
-  }
-
   # validate params
   if $ssh_config_ciphers != undef {
     validate_array($ssh_config_ciphers)
-  }
-
-  if $sshd_config_ciphers != undef {
-    validate_array($sshd_config_ciphers)
   }
 
   if $ssh_config_kexalgorithms != undef {
     validate_array($ssh_config_kexalgorithms)
   }
 
-  if $sshd_config_kexalgorithms != undef {
-    validate_array($sshd_config_kexalgorithms)
-  }
-
   if $ssh_config_macs != undef {
     validate_array($ssh_config_macs)
-  }
-
-  if $sshd_config_macs != undef {
-    validate_array($sshd_config_macs)
   }
 
   if $ssh_config_hash_known_hosts_real != undef {
     validate_re($ssh_config_hash_known_hosts_real, '^(yes|no)$', "ssh::ssh_config_hash_known_hosts may be either 'yes', 'no' or 'unset' and is set to <${ssh_config_hash_known_hosts_real}>.")
   }
-  if $sshd_config_permitemptypasswords != undef {
-    validate_re($sshd_config_permitemptypasswords, '^(yes|no)$', "ssh::sshd_config_permitemptypasswords may be either 'yes' or 'no' and is set to <${sshd_config_permitemptypasswords}>.")
-  }
-  if $sshd_config_permituserenvironment != undef {
-    validate_re($sshd_config_permituserenvironment, '^(yes|no)$', "ssh::sshd_config_permituserenvironment may be either 'yes' or 'no' and is set to <${sshd_config_permituserenvironment}>.")
-  }
-  if $sshd_config_compression != undef {
-    validate_re($sshd_config_compression, '^(yes|no|delayed)$', "ssh::sshd_config_compression may be either 'yes', 'no' or 'delayed' and is set to <${sshd_config_compression}>.")
-  }
-  case type3x($sshd_config_port) {
-    'string': {
-      validate_re($sshd_config_port, '^\d+$', "ssh::sshd_config_port must be a valid number and is set to <${sshd_config_port}>.")
-      $sshd_config_port_array = [ str2num($sshd_config_port) ]
-    }
-    'array': {
-      $sshd_config_port_array = $sshd_config_port
-    }
-    'integer': {
-      $sshd_config_port_array = [ $sshd_config_port ]
-    }
-    default: {
-      fail('ssh:sshd_config_port must be a string, an integer or an array. ')
-    }
-  }
-  validate_numeric($sshd_config_port_array, 65535, 1)
-  if $sshd_kerberos_authentication != undef {
-    validate_re($sshd_kerberos_authentication, '^(yes|no)$', "ssh::sshd_kerberos_authentication may be either 'yes' or 'no' and is set to <${sshd_kerberos_authentication}>.")
-  }
-  validate_re($sshd_password_authentication, '^(yes|no)$', "ssh::sshd_password_authentication may be either 'yes' or 'no' and is set to <${sshd_password_authentication}>.")
-  validate_re($sshd_allow_tcp_forwarding, '^(yes|no)$', "ssh::sshd_allow_tcp_forwarding may be either 'yes' or 'no' and is set to <${sshd_allow_tcp_forwarding}>.")
-  validate_re($sshd_x11_forwarding, '^(yes|no)$', "ssh::sshd_x11_forwarding may be either 'yes' or 'no' and is set to <${sshd_x11_forwarding}>.")
-  validate_re($sshd_x11_use_localhost, '^(yes|no)$', "ssh::sshd_x11_use_localhost may be either 'yes' or 'no' and is set to <${sshd_x11_use_localhost}>.")
-  if $sshd_config_print_last_log != undef {
-    validate_re($sshd_config_print_last_log, '^(yes|no)$', "ssh::sshd_config_print_last_log may be either 'yes' or 'no' and is set to <${sshd_config_print_last_log}>.")
-  }
-  if $sshd_use_pam_real != undef {
-    validate_re($sshd_use_pam_real, '^(yes|no)$', "ssh::sshd_use_pam may be either 'yes' or 'no' and is set to <${sshd_use_pam_real}>.")
-  }
-  if $sshd_config_serverkeybits_real != undef {
-    if is_integer($sshd_config_serverkeybits_real) == false { fail("ssh::sshd_config_serverkeybits must be an integer and is set to <${sshd_config_serverkeybits}>.") }
-  }
   if $ssh_config_use_roaming_real != undef {
     validate_re($ssh_config_use_roaming_real, '^(yes|no|unset)$', "ssh::ssh_config_use_roaming may be either 'yes', 'no' or 'unset' and is set to <${$ssh_config_use_roaming}>.")
-  }
-  if is_integer($sshd_client_alive_interval) == false { fail("ssh::sshd_client_alive_interval must be an integer and is set to <${sshd_client_alive_interval}>.") }
-  if is_integer($sshd_client_alive_count_max) == false { fail("ssh::sshd_client_alive_count_max must be an integer and is set to <${sshd_client_alive_count_max}>.") }
-
-  if $sshd_config_banner != 'none' {
-    validate_absolute_path($sshd_config_banner)
-  }
-  if $sshd_banner_content != undef and $sshd_config_banner == 'none' {
-    fail('ssh::sshd_config_banner must be set to be able to use sshd_banner_content.')
   }
 
   validate_re($ssh_gssapiauthentication, '^(yes|no)$', "ssh::ssh_gssapiauthentication may be either 'yes' or 'no' and is set to <${ssh_gssapiauthentication}>.")
 
   if $ssh_gssapidelegatecredentials != undef {
     validate_re($ssh_gssapidelegatecredentials, '^(yes|no)$', "ssh::ssh_gssapidelegatecredentials may be either 'yes' or 'no' and is set to <${ssh_gssapidelegatecredentials}>.")
-  }
-
-  validate_re($sshd_gssapiauthentication, '^(yes|no)$', "ssh::sshd_gssapiauthentication may be either 'yes' or 'no' and is set to <${sshd_gssapiauthentication}>.")
-
-  if $sshd_gssapikeyexchange_real != undef {
-    validate_re($sshd_gssapikeyexchange_real, '^(yes|no)$', "ssh::sshd_gssapikeyexchange may be either 'yes' or 'no' and is set to <${sshd_gssapikeyexchange_real}>.")
-  }
-
-  if $sshd_pamauthenticationviakbdint_real != undef {
-    validate_re($sshd_pamauthenticationviakbdint_real, '^(yes|no)$', "ssh::sshd_pamauthenticationviakbdint may be either 'yes' or 'no' and is set to <${sshd_pamauthenticationviakbdint_real}>.")
-  }
-
-  if $sshd_gssapicleanupcredentials_real != undef {
-    validate_re($sshd_gssapicleanupcredentials_real, '^(yes|no)$', "ssh::sshd_gssapicleanupcredentials may be either 'yes' or 'no' and is set to <${sshd_gssapicleanupcredentials_real}>.")
   }
 
   if $ssh_strict_host_key_checking != undef {
@@ -736,63 +358,9 @@ class ssh (
     validate_re($ssh_enable_ssh_keysign, '^(yes|no)$', "ssh::ssh_enable_ssh_keysign may be either 'yes' or 'no' and is set to <${ssh_enable_ssh_keysign}>.")
   }
 
-  if $sshd_config_authkey_location != undef {
-    validate_string($sshd_config_authkey_location)
-  }
-
-  if $sshd_config_maxauthtries != undef {
-    if is_integer($sshd_config_maxauthtries) == false {
-      fail("ssh::sshd_config_maxauthtries must be a valid number and is set to <${sshd_config_maxauthtries}>.")
-    }
-  }
-
-  if $sshd_config_maxstartups != undef {
-    validate_re($sshd_config_maxstartups,'^((\d+)|(\d+?:\d+?:\d+)?)$',
-      "ssh::sshd_config_maxstartups may be either an integer or three integers separated with colons, such as 10:30:100. Detected value is <${sshd_config_maxstartups}>.")
-  }
-
-  if $sshd_config_chrootdirectory != undef {
-    validate_absolute_path($sshd_config_chrootdirectory)
-  }
-
-  if $sshd_config_forcecommand != undef {
-    validate_string($sshd_config_forcecommand)
-  }
-
-  if $sshd_authorized_keys_command != undef {
-    validate_absolute_path($sshd_authorized_keys_command)
-  }
-
-  if $sshd_authorized_keys_command_user != undef {
-    validate_string($sshd_authorized_keys_command_user)
-  }
-
-  if $sshd_config_match != undef {
-    validate_hash($sshd_config_match)
-  }
-
-  if $sshd_config_strictmodes != undef {
-    validate_re($sshd_config_strictmodes, '^(yes|no)$', "ssh::sshd_config_strictmodes may be either 'yes' or 'no' and is set to <${sshd_config_strictmodes}>.")
-  }
   if $ssh_hostbasedauthentication != undef {
     validate_re($ssh_hostbasedauthentication, '^(yes|no)$', "ssh::ssh_hostbasedauthentication may be either 'yes' or 'no' and is set to <${ssh_hostbasedauthentication}>.")
   }
-
-  validate_re($sshd_hostbasedauthentication, '^(yes|no)$', "ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to <${sshd_hostbasedauthentication}>.")
-
-  if $sshd_pubkeyacceptedkeytypes != undef {
-    validate_array($sshd_pubkeyacceptedkeytypes)
-  }
-
-  if $sshd_config_authenticationmethods != undef {
-    validate_array($sshd_config_authenticationmethods)
-  }
-
-  validate_re($sshd_pubkeyauthentication, '^(yes|no)$', "ssh::sshd_pubkeyauthentication may be either 'yes' or 'no' and is set to <${sshd_pubkeyauthentication}>.")
-
-  validate_re($sshd_ignoreuserknownhosts, '^(yes|no)$', "ssh::sshd_ignoreuserknownhosts may be either 'yes' or 'no' and is set to <${sshd_ignoreuserknownhosts}>.")
-
-  validate_re($sshd_ignorerhosts, '^(yes|no)$', "ssh::sshd_ignorerhosts may be either 'yes' or 'no' and is set to <${sshd_ignorerhosts}>.")
 
   case type3x($hiera_merge) {
     'string': {
@@ -830,15 +398,6 @@ class ssh (
     }
     default: {
       fail('ssh::ssh_config_sendenv_xmodifiers type must be true or false.')
-    }
-  }
-
-  case $permit_root_login {
-    'no', 'yes', 'without-password', 'forced-commands-only': {
-      # noop
-    }
-    default: {
-      fail("ssh::permit_root_login may be either 'yes', 'without-password', 'forced-commands-only' or 'no' and is set to <${permit_root_login}>.")
     }
   }
 
@@ -891,20 +450,6 @@ class ssh (
   }
   validate_bool($manage_service_real)
 
-  if type3x($service_enable) == 'string' {
-    $service_enable_real = str2bool($service_enable)
-  } else {
-    $service_enable_real = $service_enable
-  }
-  validate_bool($service_enable_real)
-
-  if type3x($service_hasrestart) == 'string' {
-    $service_hasrestart_real = str2bool($service_hasrestart)
-  } else {
-    $service_hasrestart_real = $service_hasrestart
-  }
-  validate_bool($service_hasrestart_real)
-
   if type3x($manage_root_ssh_config) == 'string' {
     $manage_root_ssh_config_real = str2bool($manage_root_ssh_config)
   } else {
@@ -915,85 +460,13 @@ class ssh (
   #ssh_config template
   validate_string($ssh_config_template)
 
-  #sshd_config template
-  validate_string($sshd_config_template)
-
-  #loglevel
-  $supported_loglevel_vals=['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE']
-  validate_re($sshd_config_loglevel, $supported_loglevel_vals)
-
   #enable hiera merging for groups, users, and config_entries
   if $hiera_merge_real == true {
-    $sshd_config_allowgroups_real = hiera_array('ssh::sshd_config_allowgroups',[])
-    $sshd_config_allowusers_real  = hiera_array('ssh::sshd_config_allowusers',[])
-    $sshd_config_denygroups_real  = hiera_array('ssh::sshd_config_denygroups',[])
-    $sshd_config_denyusers_real   = hiera_array('ssh::sshd_config_denyusers',[])
     $config_entries_real          = hiera_hash('ssh::config_entries',{})
   } else {
-    $sshd_config_allowgroups_real = $sshd_config_allowgroups
-    $sshd_config_allowusers_real  = $sshd_config_allowusers
-    $sshd_config_denygroups_real  = $sshd_config_denygroups
-    $sshd_config_denyusers_real   = $sshd_config_denyusers
     $config_entries_real          = $config_entries
   }
   validate_hash($config_entries_real)
-
-  if $sshd_config_denyusers_real != [] {
-    validate_array($sshd_config_denyusers_real)
-  }
-
-  if $sshd_config_denygroups_real != [] {
-    validate_array($sshd_config_denygroups_real)
-  }
-
-  if $sshd_config_allowusers_real != [] {
-    validate_array($sshd_config_allowusers_real)
-  }
-
-  if $sshd_config_allowgroups_real != [] {
-    validate_array($sshd_config_allowgroups_real)
-  }
-
-
-  if $sshd_config_tcp_keepalive_real != undef {
-    validate_re($sshd_config_tcp_keepalive_real, '^(yes|no)$', "ssh::sshd_config_tcp_keepalive may be either 'yes', 'no' or 'unset' and is set to <${sshd_config_tcp_keepalive_real}>.")
-  }
-
-  if $sshd_config_use_privilege_separation != undef {
-    validate_re($sshd_config_use_privilege_separation, '^(yes|no|sandbox)$', "ssh::sshd_config_use_privilege_separation may be either 'yes', 'no' or 'sandbox' and is set to <${sshd_config_use_privilege_separation}>.")
-  }
-
-  if $sshd_config_permittunnel_real != undef {
-    validate_re($sshd_config_permittunnel_real, '^(yes|no|point-to-point|ethernet|unset)$', "ssh::sshd_config_permittunnel may be either 'yes', 'point-to-point', 'ethernet', 'no' or 'unset' and is set to <${sshd_config_permittunnel_real}>.")
-  }
-
-  if $sshd_config_hostcertificate_real != undef {
-    if is_array($sshd_config_hostcertificate_real) {
-      validate_array($sshd_config_hostcertificate_real)
-    }
-    validate_absolute_path($sshd_config_hostcertificate_real)
-  }
-
-  if $sshd_config_trustedusercakeys_real != undef {
-    # TrustedUserCAKeys may be a path to the keys or 'none'
-    if $sshd_config_trustedusercakeys_real != 'none' {
-      validate_absolute_path($sshd_config_trustedusercakeys_real)
-    }
-  }
-  if $sshd_config_key_revocation_list_real != undef {
-    # RevokedKeys may be a path to the key revocation list or 'none'
-    if $sshd_config_key_revocation_list_real != 'none' {
-      validate_absolute_path($sshd_config_key_revocation_list)
-    }
-  }
-
-  if $sshd_config_authorized_principals_file_real != undef {
-    validate_string($sshd_config_authorized_principals_file_real)
-  }
-
-  if $sshd_config_allowagentforwarding != undef {
-    validate_re($sshd_config_allowagentforwarding, '^(yes|no)$', "ssh::sshd_config_allowagentforwarding may be either 'yes' or 'no' and is set to <${sshd_config_allowagentforwarding}>.")
-  }
 
   package { $packages_real:
     ensure    => installed,
@@ -1011,26 +484,78 @@ class ssh (
     require => Package[$packages_real],
   }
 
-  file  { 'sshd_config' :
-    ensure  => file,
-    path    => $sshd_config_path,
-    mode    => $sshd_config_mode_real,
-    owner   => $sshd_config_owner,
-    group   => $sshd_config_group,
-    content => template($sshd_config_template),
-    require => Package[$packages_real],
-  }
-
-  if $sshd_config_banner != 'none' and $sshd_banner_content != undef {
-    file { 'sshd_banner' :
-      ensure  => file,
-      path    => $sshd_config_banner,
-      owner   => $sshd_banner_owner,
-      group   => $sshd_banner_group,
-      mode    => $sshd_banner_mode,
-      content => $sshd_banner_content,
-      require => Package[$packages_real],
-    }
+  ssh::sshd_config{'sshd_config' :
+    sshd_config_path                       => $sshd_config_path,
+    sshd_config_owner                      => $sshd_config_owner,
+    sshd_config_group                      => $sshd_config_group,
+    sshd_config_loglevel                   => $sshd_config_loglevel,
+    sshd_config_mode                       => $sshd_config_mode,
+    sshd_config_permitemptypasswords       => $sshd_config_permitemptypasswords,
+    sshd_config_permituserenvironment      => $sshd_config_permituserenvironment,
+    sshd_config_compression                => $sshd_config_compression,
+    sshd_config_port                       => $sshd_config_port,
+    sshd_config_syslog_facility            => $sshd_config_syslog_facility,
+    sshd_config_template                   => $sshd_config_template,
+    sshd_config_login_grace_time           => $sshd_config_login_grace_time,
+    sshd_config_challenge_resp_auth        => $sshd_config_challenge_resp_auth,
+    sshd_config_print_motd                 => $sshd_config_print_motd,
+    sshd_config_print_last_log             => $sshd_config_print_last_log,
+    sshd_config_use_dns                    => $sshd_config_use_dns,
+    sshd_config_authkey_location           => $sshd_config_authkey_location,
+    sshd_config_strictmodes                => $sshd_config_strictmodes,
+    sshd_config_serverkeybits              => $sshd_config_serverkeybits,
+    sshd_config_banner                     => $sshd_config_banner,
+    sshd_config_ciphers                    => $sshd_config_ciphers,
+    sshd_config_kexalgorithms              => $sshd_config_kexalgorithms,
+    sshd_config_macs                       => $sshd_config_macs,
+    sshd_config_allowgroups                => $sshd_config_allowgroups,
+    sshd_config_allowusers                 => $sshd_config_allowusers,
+    sshd_config_denygroups                 => $sshd_config_denygroups,
+    sshd_config_denyusers                  => $sshd_config_denyusers,
+    sshd_config_maxauthtries               => $sshd_config_maxauthtries,
+    sshd_config_maxstartups                => $sshd_config_maxstartups,
+    sshd_config_maxsessions                => $sshd_config_maxsessions,
+    sshd_config_chrootdirectory            => $sshd_config_chrootdirectory,
+    sshd_config_forcecommand               => $sshd_config_forcecommand,
+    sshd_config_match                      => $sshd_config_match,
+    sshd_authorized_keys_command           => $sshd_authorized_keys_command,
+    sshd_authorized_keys_command_user      => $sshd_authorized_keys_command_user,
+    sshd_banner_content                    => $sshd_banner_content,
+    sshd_banner_owner                      => $sshd_banner_owner,
+    sshd_banner_group                      => $sshd_banner_group,
+    sshd_banner_mode                       => $sshd_banner_mode,
+    sshd_config_xauth_location             => $sshd_config_xauth_location,
+    sshd_config_subsystem_sftp             => $sshd_config_subsystem_sftp,
+    sshd_kerberos_authentication           => $sshd_kerberos_authentication,
+    sshd_password_authentication           => $sshd_password_authentication,
+    sshd_allow_tcp_forwarding              => $sshd_allow_tcp_forwarding,
+    sshd_x11_forwarding                    => $sshd_x11_forwarding,
+    sshd_x11_use_localhost                 => $sshd_x11_use_localhost,
+    sshd_use_pam                           => $sshd_use_pam,
+    sshd_client_alive_count_max            => $sshd_client_alive_count_max,
+    sshd_client_alive_interval             => $sshd_client_alive_interval,
+    sshd_gssapiauthentication              => $sshd_gssapiauthentication,
+    sshd_gssapikeyexchange                 => $sshd_gssapikeyexchange,
+    sshd_pamauthenticationviakbdint        => $sshd_pamauthenticationviakbdint,
+    sshd_gssapicleanupcredentials          => $sshd_gssapicleanupcredentials,
+    sshd_acceptenv                         => $sshd_acceptenv,
+    sshd_config_hostkey                    => $sshd_config_hostkey,
+    sshd_listen_address                    => $sshd_listen_address,
+    sshd_hostbasedauthentication           => $sshd_hostbasedauthentication,
+    sshd_pubkeyacceptedkeytypes            => $sshd_pubkeyacceptedkeytypes,
+    sshd_pubkeyauthentication              => $sshd_pubkeyauthentication,
+    sshd_ignoreuserknownhosts              => $sshd_ignoreuserknownhosts,
+    sshd_ignorerhosts                      => $sshd_ignorerhosts,
+    sshd_config_authenticationmethods      => $sshd_config_authenticationmethods,
+    sshd_config_tcp_keepalive              => $sshd_config_tcp_keepalive,
+    sshd_config_use_privilege_separation   => $sshd_config_use_privilege_separation,
+    sshd_config_permittunnel               => $sshd_config_permittunnel,
+    sshd_config_hostcertificate            => $sshd_config_hostcertificate,
+    sshd_config_trustedusercakeys          => $sshd_config_trustedusercakeys,
+    sshd_config_key_revocation_list        => $sshd_config_key_revocation_list,
+    sshd_config_authorized_principals_file => $sshd_config_authorized_principals_file,
+    sshd_config_allowagentforwarding       => $sshd_config_allowagentforwarding,
+    require                                => Package[$packages_real],
   }
 
   if $manage_root_ssh_config_real == true {
@@ -1059,13 +584,14 @@ class ssh (
   }
 
   if $manage_service_real {
-    service { 'sshd_service' :
-      ensure     => $service_ensure,
-      name       => $service_name_real,
-      enable     => $service_enable_real,
-      hasrestart => $service_hasrestart_real,
-      hasstatus  => $service_hasstatus_real,
-      subscribe  => File['sshd_config'],
+    ssh::service { 'sshd_service':
+      service_ensure     => $service_ensure,
+      service_name       => $service_name,
+      service_enable     => $service_enable,
+      service_hasrestart => $service_hasrestart,
+      service_hasstatus  => $service_hasstatus,
+      service_subscribe  => File['sshd_config'],
+      require            => Ssh::Sshd_config['sshd_config'],
     }
   }
 
@@ -1127,14 +653,5 @@ class ssh (
     }
     validate_hash($keys_real)
     create_resources('ssh_authorized_key', $keys_real)
-  }
-
-  if $sshd_addressfamily_real != undef {
-    if $::osfamily == 'Solaris' {
-      fail("ssh::sshd_addressfamily is not supported on Solaris and is set to <${sshd_addressfamily}>.")
-    } else {
-      validate_re($sshd_addressfamily_real, '^(any|inet|inet6)$',
-        "ssh::sshd_addressfamily can be undef, 'any', 'inet' or 'inet6' and is set to ${sshd_addressfamily_real}.")
-    }
   }
 }
