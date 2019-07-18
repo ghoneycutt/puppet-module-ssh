@@ -126,73 +126,43 @@ class ssh (
 
   case $::osfamily {
     'RedHat': {
-      $default_packages                        = ['openssh-server',
-                                                  'openssh-clients']
-      $default_service_name                    = 'sshd'
       $default_ssh_config_hash_known_hosts     = 'no'
       $default_ssh_config_forward_x11_trusted  = 'yes'
-      $default_ssh_package_source              = undef
-      $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
-      $default_service_hasstatus               = true
     }
     'Suse': {
-      $default_packages                        = 'openssh'
-      $default_service_name                    = 'sshd'
       $default_ssh_config_hash_known_hosts     = 'no'
-      $default_ssh_package_source              = undef
-      $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
       $default_ssh_config_forward_x11_trusted  = 'yes'
-      $default_service_hasstatus               = true
     }
     'Debian': {
       # common for debian and ubuntu
-      $default_packages                        = ['openssh-server',
-                                                  'openssh-client']
-      $default_service_name                    = 'ssh'
-
       case $::operatingsystemrelease {
         '16.04': {
           $default_ssh_config_hash_known_hosts        = 'yes'
           $default_ssh_config_forward_x11_trusted     = 'yes'
-          $default_ssh_package_source                 = undef
-          $default_ssh_package_adminfile              = undef
           $default_ssh_sendenv                        = true
-          $default_service_hasstatus                  = true
         }
         '18.04': {
           $default_ssh_config_hash_known_hosts        = 'yes'
           $default_ssh_config_forward_x11_trusted     = 'yes'
-          $default_ssh_package_source                 = undef
-          $default_ssh_package_adminfile              = undef
           $default_ssh_sendenv                        = true
-          $default_service_hasstatus                  = true
         }
         /^9.*/: {
           $default_ssh_config_forward_x11_trusted  = 'yes'
           $default_ssh_config_hash_known_hosts     = 'yes'
           $default_ssh_sendenv                     = true
-          $default_ssh_package_source              = undef
-          $default_ssh_package_adminfile           = undef
-          $default_service_hasstatus               = true
         }
         /^7.*/: {
           $default_ssh_config_hash_known_hosts     = 'no'
           $default_ssh_config_forward_x11_trusted  = 'yes'
-          $default_ssh_package_source              = undef
-          $default_ssh_package_adminfile           = undef
           $default_ssh_sendenv                     = true
-          $default_service_hasstatus               = true
         }
         /^8.*/: {
 
           $default_ssh_config_hash_known_hosts     = 'yes'
           $default_ssh_config_forward_x11_trusted  = 'yes'
-          $default_ssh_package_source              = undef
-          $default_ssh_package_adminfile           = undef
           $default_ssh_sendenv                     = true
-          $default_service_hasstatus               = true
         }
         default: { fail ("Operating System : ${::operatingsystemrelease} not supported") }
       }
@@ -201,40 +171,6 @@ class ssh (
       $default_ssh_config_hash_known_hosts     = undef
       $default_ssh_sendenv                     = false
       $default_ssh_config_forward_x11_trusted  = undef
-      $default_ssh_package_adminfile           = undef
-      case $::kernelrelease {
-        '5.11': {
-          $default_packages                      = ['network/ssh',
-                                                    'network/ssh/ssh-key',
-                                                    'service/network/ssh']
-          $default_service_name                  = 'ssh'
-          $default_service_hasstatus             = true
-          $default_ssh_package_source            = undef
-        }
-        '5.10': {
-          $default_packages                      = ['SUNWsshcu',
-                                                    'SUNWsshdr',
-                                                    'SUNWsshdu',
-                                                    'SUNWsshr',
-                                                    'SUNWsshu']
-          $default_service_name                  = 'ssh'
-          $default_service_hasstatus             = true
-          $default_ssh_package_source            = '/var/spool/pkg'
-        }
-        '5.9' : {
-          $default_packages                      = ['SUNWsshcu',
-                                                    'SUNWsshdr',
-                                                    'SUNWsshdu',
-                                                    'SUNWsshr',
-                                                    'SUNWsshu']
-          $default_service_name                  = 'sshd'
-          $default_service_hasstatus             = false
-          $default_ssh_package_source            = '/var/spool/pkg'
-        }
-        default: {
-          fail('ssh module supports Solaris kernel release 5.9, 5.10 and 5.11.')
-        }
-      }
     }
     default: {
       fail("ssh supports osfamilies RedHat, Suse, Debian and Solaris. Detected osfamily is <${::osfamily}>.")
@@ -256,36 +192,10 @@ class ssh (
       $default_ssh_config_use_roaming = 'unset'
   }
 
-  if $packages == 'USE_DEFAULTS' {
-    $packages_real = $default_packages
-  } else {
-    $packages_real = $packages
-  }
-
   case $ssh_config_hash_known_hosts {
     'unset':        { $ssh_config_hash_known_hosts_real = undef }
     'USE_DEFAULTS': { $ssh_config_hash_known_hosts_real = $default_ssh_config_hash_known_hosts }
     default:        { $ssh_config_hash_known_hosts_real = $ssh_config_hash_known_hosts }
-  }
-
-  if $ssh_package_source == 'USE_DEFAULTS' {
-    $ssh_package_source_real = $default_ssh_package_source
-  } else {
-    $ssh_package_source_real = $ssh_package_source
-  }
-
-  if $ssh_package_source_real != undef {
-    validate_absolute_path($ssh_package_source_real)
-  }
-
-  if $ssh_package_adminfile == 'USE_DEFAULTS' {
-    $ssh_package_adminfile_real = $default_ssh_package_adminfile
-  } else {
-    $ssh_package_adminfile_real = $ssh_package_adminfile
-  }
-
-  if $ssh_package_adminfile_real != undef {
-    validate_absolute_path($ssh_package_adminfile_real)
   }
 
   if $ssh_config_forward_x11_trusted == 'USE_DEFAULTS' {
@@ -468,10 +378,11 @@ class ssh (
   }
   validate_hash($config_entries_real)
 
-  package { $packages_real:
-    ensure    => installed,
-    source    => $ssh_package_source_real,
-    adminfile => $ssh_package_adminfile_real,
+  class{'ssh::package':
+    packages              => $packages,
+    ssh_package_source    => $ssh_package_source,
+    ssh_package_adminfile => $ssh_package_adminfile,
+
   }
 
   file  { 'ssh_config' :
