@@ -394,8 +394,12 @@ class ssh (
     $ssh_version_array = split($::ssh_version_numeric, '\.')
     $ssh_version_maj_int = 0 + $ssh_version_array[0]
     $ssh_version_min_int = 0 + $ssh_version_array[1]
-    if $ssh_version_maj_int > 5 {
+    if $ssh_version_maj_int > 5 and $ssh_version_maj_int < 7 {
       $default_ssh_config_use_roaming = 'no'
+    } elsif $ssh_version_maj_int == 7 and $ssh_version_min_int < 4 {
+      $default_ssh_config_use_roaming = 'no'
+    } elsif $ssh_version_maj_int == 7 and $ssh_version_min_int >= 4 {
+      $default_ssh_config_use_roaming = 'unset'
     } elsif $ssh_version_maj_int == 5 and $ssh_version_min_int >= 4 {
       $default_ssh_config_use_roaming = 'no'
     } else {

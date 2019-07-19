@@ -50,7 +50,7 @@ describe 'ssh' do
       :osfamily               => 'Debian',
       :operatingsystemrelease => '8',
       :ssh_version            => 'OpenSSH_6.7p1',
-      :ssh_version_numeric    => '8.11',
+      :ssh_version_numeric    => '6.7',
       :ssh_packages           => ['openssh-server', 'openssh-client'],
       :sshd_config_mode       => '0600',
       :sshd_service_name      => 'ssh',
