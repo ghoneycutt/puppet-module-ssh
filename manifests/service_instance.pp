@@ -52,12 +52,8 @@ define ssh::service_instance(
 
   if $ensure == 'present' {
     $file_ensure = 'file'
-    $sf_before   = Service[$service_name]
-    $sf_after    = []
   } else {
     $file_ensure = 'absent'
-    $sf_before   = []
-    $sf_after    = Service[$service_name]
   }
   case $service_type {
     'systemd': {
@@ -76,8 +72,6 @@ define ssh::service_instance(
           Exec["daemon-reload_${service_name}"],
           Service[$service_name],
           ],
-        before      => $sf_before,
-        after       => $sf_after,
       }
       -> exec { "daemon-reload_${service_name}":
         command     => '/bin/systemctl daemon-reload',
