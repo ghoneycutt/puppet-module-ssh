@@ -1,3 +1,4 @@
+# Manages the sshd configuration file
 define ssh::sshd_config(
   $permit_root_login                      = 'yes',
   $sshd_config_path                       = '/etc/ssh/sshd_config',

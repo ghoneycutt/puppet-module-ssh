@@ -1,0 +1,21 @@
+# <%= ${service_file} %>
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+
+[Unit]
+Description=<%= $service_description %>
+Documentation=man:sshd(8) man:sshd_config(5)
+After=network.target sshd-keygen.service
+Wants=sshd-keygen.service
+
+[Service]
+Type=notify
+EnvironmentFile=<%= $service_env_file %>
+ExecStart=/usr/sbin/sshd -D $OPTIONS <%= $service_options %>
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartSec=42s
+
+[Install]
+WantedBy=multi-user.target

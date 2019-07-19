@@ -1,3 +1,4 @@
+# Manages an ssh service
 define ssh::service(
   $service_ensure     = 'running',
   $service_name       = 'USE_DEFAULTS',

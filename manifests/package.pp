@@ -1,3 +1,4 @@
+# Installs the ssh package(s)
 class ssh::package(
   $packages                               = 'USE_DEFAULTS',
   $ssh_package_source                     = 'USE_DEFAULTS',
