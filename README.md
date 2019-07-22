@@ -11,6 +11,16 @@ This module may be used with a simple `include ::ssh`
 The `ssh::config_entry` defined type may be used directly and is used to manage
 Host entries in a personal `~/.ssh/config` file.
 
+If only the sshd_config file should be managed, this can be done by the
+ssh::sshd_config defined type.
+
+The ssh::instance defined type creates an additional systemd service file, 
+sshd_config and service in a convenient way.
+
+The defined types ssh::service and ssh::service_instance as well as the class
+ssh::package are intended for internal use. They handle services, systemd files
+and package installation. 
+
 ===
 
 ### Table of Contents
