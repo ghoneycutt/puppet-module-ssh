@@ -378,24 +378,21 @@ class ssh (
   }
   validate_hash($config_entries_real)
 
-  class{'ssh::package':
+  class{'::ssh::package':
     packages              => $packages,
     ssh_package_source    => $ssh_package_source,
     ssh_package_adminfile => $ssh_package_adminfile,
 
   }
-
-  file  { 'ssh_config' :
+  -> file  { 'ssh_config' :
     ensure  => file,
     path    => $ssh_config_path,
     owner   => $ssh_config_owner,
     group   => $ssh_config_group,
     mode    => $ssh_config_mode,
     content => template($ssh_config_template),
-    require => Package[$packages_real],
   }
-
-  ssh::sshd_config{'sshd_config' :
+  -> ssh::sshd_config{'sshd_config' :
     sshd_config_path                       => $sshd_config_path,
     sshd_config_owner                      => $sshd_config_owner,
     sshd_config_group                      => $sshd_config_group,
@@ -458,6 +455,7 @@ class ssh (
     sshd_ignoreuserknownhosts              => $sshd_ignoreuserknownhosts,
     sshd_ignorerhosts                      => $sshd_ignorerhosts,
     sshd_config_authenticationmethods      => $sshd_config_authenticationmethods,
+    sshd_addressfamily                     => $sshd_addressfamily,
     sshd_config_tcp_keepalive              => $sshd_config_tcp_keepalive,
     sshd_config_use_privilege_separation   => $sshd_config_use_privilege_separation,
     sshd_config_permittunnel               => $sshd_config_permittunnel,
@@ -466,7 +464,6 @@ class ssh (
     sshd_config_key_revocation_list        => $sshd_config_key_revocation_list,
     sshd_config_authorized_principals_file => $sshd_config_authorized_principals_file,
     sshd_config_allowagentforwarding       => $sshd_config_allowagentforwarding,
-    require                                => Package[$packages_real],
   }
 
   if $manage_root_ssh_config_real == true {
@@ -536,7 +533,7 @@ class ssh (
     owner   => $ssh_config_global_known_hosts_owner,
     group   => $ssh_config_global_known_hosts_group,
     mode    => $ssh_config_global_known_hosts_mode,
-    require => Package[$packages_real],
+    require => Class['ssh::package'],
   }
 
   # import all nodes' ssh keys

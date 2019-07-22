@@ -1,5 +1,6 @@
 # Manages the sshd configuration file
 define ssh::sshd_config(
+  $hiera_merge                            = false,
   $permit_root_login                      = 'yes',
   $sshd_config_path                       = '/etc/ssh/sshd_config',
   $sshd_config_owner                      = 'root',
@@ -63,6 +64,7 @@ define ssh::sshd_config(
   $sshd_ignoreuserknownhosts              = 'no',
   $sshd_ignorerhosts                      = 'yes',
   $sshd_config_authenticationmethods      = undef,
+  $sshd_addressfamily                     = 'USE_DEFAULTS',
   $sshd_config_tcp_keepalive              = undef,
   $sshd_config_use_privilege_separation   = undef,
   $sshd_config_permittunnel               = undef,
@@ -250,6 +252,19 @@ define ssh::sshd_config(
     }
     default: {
       fail("ssh supports osfamilies RedHat, Suse, Debian and Solaris. Detected osfamily is <${::osfamily}>.")
+    }
+  }
+
+  case type3x($hiera_merge) {
+    'string': {
+      validate_re($hiera_merge, '^(true|false)$', "ssh::hiera_merge may be either 'true' or 'false' and is set to <${hiera_merge}>.")
+      $hiera_merge_real = str2bool($hiera_merge)
+    }
+    'boolean': {
+      $hiera_merge_real = $hiera_merge
+    }
+    default: {
+      fail('ssh::hiera_merge type must be true or false.')
     }
   }
 
@@ -612,7 +627,7 @@ define ssh::sshd_config(
   }
 
   file  { $title:
-  ensure  => file,
+    ensure  => file,
     path    => $sshd_config_path,
     mode    => $sshd_config_mode_real,
     owner   => $sshd_config_owner,
@@ -628,7 +643,6 @@ define ssh::sshd_config(
       group   => $sshd_banner_group,
       mode    => $sshd_banner_mode,
       content => $sshd_banner_content,
-      require => Package[$packages_real],
     }
   }
 }

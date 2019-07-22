@@ -4,7 +4,9 @@ define ssh::service_instance(
   $service_name        = $title,
   $service_description = 'Additional SSH server',
   $service_env_file    = '/etc/sysconfig/sshd',
+  # lint:ignore:empty_string_assignment
   $service_options     = '',
+  # lint:endignore
 ) {
   case $::osfamily {
     'RedHat': {
@@ -48,7 +50,7 @@ define ssh::service_instance(
       fail("ssh::service_instance supports osfamilies RedHat, Suse, Debian and Solaris. Detected osfamily is <${::osfamily}>.")
     }
   }
-  validate_re($ensure, '^(present|absent)$', "ssh::service_instance::ensure may be either 'present' or 'absent' and is set to <${ssh_sendenv}>.")
+  validate_re($ensure, '^(present|absent)$', "ssh::service_instance::ensure may be either 'present' or 'absent' and is set to <${ensure}>.")
 
   if $ensure == 'present' {
     $file_ensure = 'file'

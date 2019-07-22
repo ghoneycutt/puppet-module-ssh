@@ -2,6 +2,7 @@
 define ssh::instance(
   $sshd_config_port,
   $ensure                                 = 'present',
+  $hiera_merge                            = false,
   $permit_root_login                      = 'yes',
   $sshd_config_path                       = "/etc/ssh/sshd_config.${title}",
   $sshd_config_owner                      = 'root',
@@ -81,9 +82,10 @@ define ssh::instance(
   $service_env_file                       = '/etc/sysconfig/sshd',
   $service_options                        = "-f ${sshd_config_path}",
 ){
-  require ssh::package
+  require ::ssh::package
 
   ssh::sshd_config{"sshd_config.${title}" :
+    hiera_merge                            => $hiera_merge,
     sshd_config_path                       => $sshd_config_path,
     sshd_config_owner                      => $sshd_config_owner,
     sshd_config_group                      => $sshd_config_group,
@@ -170,8 +172,8 @@ define ssh::instance(
       service_enable     => $service_enable,
       service_name       => $service_name,
       service_hasrestart => $service_hasrestart,
-      service_hasstatus  => $service_hasstatus_real,
-      service_subscribe  => File["sshd_config.${title}"]
+      service_hasstatus  => $service_hasstatus,
+      service_subscribe  => File["sshd_config.${title}"],
     }
   } else {
     service{$title:
