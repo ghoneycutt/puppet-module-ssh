@@ -171,6 +171,7 @@ define ssh::instance(
       service_name       => $service_name,
       service_hasrestart => $service_hasrestart,
       service_hasstatus  => $service_hasstatus_real,
+      service_subscribe  => File["sshd_config.${title}"]
     }
   } else {
     service{$title:
