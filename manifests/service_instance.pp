@@ -64,12 +64,7 @@ define ssh::service_instance(
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
-        content => epp("ssh/service/${service_type}.epp",{
-          service_file        => $service_file,
-          service_description => $service_description,
-          service_env_file    => $service_env_file,
-          service_options     => $service_options,
-        }),
+        content => template("ssh/service/${service_type}.erb"),
         notify  => [
           Exec["daemon-reload_${service_name}"],
           Service[$service_name],

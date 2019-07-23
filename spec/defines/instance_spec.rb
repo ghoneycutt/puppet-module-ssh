@@ -33,19 +33,6 @@ describe 'ssh::instance' do
   let(:facts) { default_facts }
 
   osfamily_matrix = {
-      'Debian-7' => {
-          :architecture           => 'x86_64',
-          :osfamily               => 'Debian',
-          :operatingsystemrelease => '7',
-          :ssh_version            => 'OpenSSH_6.0p1',
-          :ssh_version_numeric    => '6.0',
-          :ssh_packages           => ['openssh-server', 'openssh-client'],
-          :sshd_config_mode       => '0600',
-          :sshd_service_name      => 'ssh',
-          :sshd_service_hasstatus => true,
-          :sshd_config_fixture    => 'sshd_config_debian',
-          :ssh_config_fixture     => 'ssh_config_debian',
-      },
       'Debian-8' => {
           :architecture           => 'x86_64',
           :osfamily               => 'Debian',

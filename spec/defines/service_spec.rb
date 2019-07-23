@@ -269,8 +269,6 @@ describe 'ssh::service' do
 
         it { should compile.with_all_deps }
 
-        it { should contain_ssh__service('sshd_service')}
-
         it {
           should contain_service('sshd_service').with({
             'ensure'     => 'running',
@@ -281,8 +279,6 @@ describe 'ssh::service' do
             'subscribe'  => 'File[sshd_config]',
           })
         }
-
-
       end
     end
   end
@@ -294,13 +290,13 @@ describe 'ssh::service' do
 
         it {
           should contain_service('sshd_service').with({
-                                                          'ensure'     => 'running',
-                                                          'name'       => 'sshd',
-                                                          'enable'     => 'true',
-                                                          'hasrestart' => 'true',
-                                                          'hasstatus'  => value,
-                                                          'subscribe'  => 'File[sshd_config]',
-                                                      })
+            'ensure'     => 'running',
+            'name'       => 'sshd',
+            'enable'     => 'true',
+            'hasrestart' => 'true',
+            'hasstatus'  => value,
+            'subscribe'  => 'File[sshd_config]',
+          })
         }
       end
     end
