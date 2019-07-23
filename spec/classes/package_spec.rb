@@ -266,7 +266,7 @@ describe 'ssh::package' do
 
       it { should compile.with_all_deps }
 
-      it { should contain_class('ssh::package')}}
+      it { should contain_class('ssh::package')}
 
       facts[:ssh_packages].each do |pkg|
         it {
