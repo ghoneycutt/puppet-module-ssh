@@ -159,12 +159,12 @@ define ssh::instance(
   }
 
   ssh::service_instance{$title:
-    ensure              => $ensure,
-    service_name        => $service_name,
-    service_description => $service_description,
-    service_env_file    => $service_env_file,
-    service_options     => $service_options,
-    notify              => Service[$title],
+    ensure                  => $ensure,
+    service_name            => $service_name,
+    service_description     => $service_description,
+    service_env_file        => $service_env_file,
+    service_options         => $service_options,
+    service_instance_notify => Service[$title],
   }
 
   if $ensure == 'present' {

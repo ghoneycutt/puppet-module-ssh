@@ -1,13 +1,13 @@
 # Additional instance of an ssh service
 define ssh::service_instance(
-  $ensure              = 'present',
-  $service_name        = $title,
-  $service_description = 'Additional SSH server',
-  $service_env_file    = '/etc/sysconfig/sshd',
+  $ensure                  = 'present',
+  $service_name            = $title,
+  $service_description     = 'Additional SSH server',
+  $service_env_file        = '/etc/sysconfig/sshd',
   # lint:ignore:empty_string_assignment
-  $service_options     = '',
+  $service_options         = '',
   # lint:endignore
-  $notify              = [],
+  $service_instance_notify = [],
 ) {
   case $::osfamily {
     'RedHat': {
@@ -60,7 +60,7 @@ define ssh::service_instance(
   }
   case $service_type {
     'systemd': {
-      $real_notify = concat($notify, [Exec["daemon-reload_${service_name}"]])
+      $real_notify = concat($service_instance_notify, [Exec["daemon-reload_${service_name}"]])
       file{$service_file:
         ensure  => $file_ensure,
         owner   => 'root',
