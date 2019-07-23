@@ -233,7 +233,7 @@ describe 'ssh::service_instance' do
       it {
         should contain_file('/etc/systemd/system/additional_instance.service').with({
           'ensure' => 'file',
-          'path'   => '/etc/ssh/ssh_known_hosts',
+          'path'   => '/etc/systemd/system/additional_instance.service',
           'owner'  => 'root',
           'group'  => 'root',
           'mode'   => '0644',

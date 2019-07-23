@@ -164,6 +164,7 @@ define ssh::instance(
     service_description => $service_description,
     service_env_file    => $service_env_file,
     service_options     => $service_options,
+    notify              => Service[$title],
   }
 
   if $ensure == 'present' {

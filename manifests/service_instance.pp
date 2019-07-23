@@ -7,6 +7,7 @@ define ssh::service_instance(
   # lint:ignore:empty_string_assignment
   $service_options     = '',
   # lint:endignore
+  $notify              = [],
 ) {
   case $::osfamily {
     'RedHat': {
@@ -59,16 +60,14 @@ define ssh::service_instance(
   }
   case $service_type {
     'systemd': {
+      $real_notify = concat($notify, [Exec["daemon-reload_${service_name}"]])
       file{$service_file:
         ensure  => $file_ensure,
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
         content => template("ssh/service/${service_type}.erb"),
-        notify  => [
-          Exec["daemon-reload_${service_name}"],
-          Service[$service_name],
-          ],
+        notify  => $real_notify,
       }
       -> exec { "daemon-reload_${service_name}":
         command     => '/bin/systemctl daemon-reload',

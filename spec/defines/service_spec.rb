@@ -1,6 +1,6 @@
 require 'spec_helper'
 describe 'ssh::service' do
-  let(:title) { 'sshd_config'}
+  let(:title) { 'sshd_service'}
 
   default_facts = {
       :fqdn                   => 'monkey.example.com',
@@ -289,7 +289,7 @@ describe 'ssh::service' do
         let(:params) { { :service_hasstatus => value } }
 
         it {
-          should contain_service('sshd_service').with({
+          should contain_service(facts[:sshd_service_name]).with({
             'ensure'     => 'running',
             'name'       => 'sshd',
             'enable'     => 'true',

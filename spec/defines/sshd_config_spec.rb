@@ -282,16 +282,6 @@ describe 'ssh::sshd_config' do
         sshd_config_fixture = File.read(fixtures(facts[:sshd_config_fixture]))
         it { should contain_file('sshd_config').with_content(sshd_config_fixture) }
 
-        it {
-          should contain_service('sshd_service').with({
-            'ensure'     => 'running',
-            'name'       => facts[:sshd_service_name],
-            'enable'     => 'true',
-            'hasrestart' => 'true',
-            'hasstatus'  => facts[:sshd_service_hasstatus],
-            'subscribe'  => 'File[sshd_config]',
-          })
-        }
       end
     end
   end
@@ -466,7 +456,6 @@ describe 'ssh::sshd_config' do
         'group'   => 'root',
         'mode'    => '0644',
         'content' => 'textinbanner',
-        'require' => ['Package[openssh-server]', 'Package[openssh-clients]'],
       })
     }
   end
