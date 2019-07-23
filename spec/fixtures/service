@@ -1,0 +1,21 @@
+# /etc/systemd/system/additional_instance.service
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+
+[Unit]
+Description=Additional SSH server
+Documentation=man:sshd(8) man:sshd_config(5)
+After=network.target sshd-keygen.service
+Wants=sshd-keygen.service
+
+[Service]
+Type=notify
+EnvironmentFile=/etc/sysconfig/sshd
+ExecStart=/usr/sbin/sshd -D $OPTIONS
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartSec=42s
+
+[Install]
+WantedBy=multi-user.target
