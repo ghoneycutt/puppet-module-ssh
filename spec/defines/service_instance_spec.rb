@@ -243,13 +243,15 @@ describe 'ssh::service_instance' do
 
       it { should contain_ssh__service_instance('additional_instance')}
 
-      it should contain_file('/etc/systemd/system/additional_instance.service').with({
+      it {
+        should contain_file('/etc/systemd/system/additional_instance.service').with({
           'ensure' => 'file',
           'path'   => '/etc/ssh/ssh_known_hosts',
           'owner'  => 'root',
           'group'  => 'root',
           'mode'   => '0644',
-      })
+        })
+      }
 
       service_fixture = File.read(fixtures('service'))
       it { should contain_file('/etc/systemd/system/additional_instance.service').with_content(service_fixture) }
