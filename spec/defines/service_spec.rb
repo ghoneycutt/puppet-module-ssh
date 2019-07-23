@@ -276,7 +276,7 @@ describe 'ssh::service' do
             'enable'     => 'true',
             'hasrestart' => 'true',
             'hasstatus'  => facts[:sshd_service_hasstatus],
-            'subscribe'  => 'File[sshd_config]',
+            'subscribe'  => [],
           })
         }
       end
@@ -289,13 +289,13 @@ describe 'ssh::service' do
         let(:params) { { :service_hasstatus => value } }
 
         it {
-          should contain_service(facts[:sshd_service_name]).with({
+          should contain_service('sshd_service').with({
             'ensure'     => 'running',
             'name'       => 'sshd',
             'enable'     => 'true',
             'hasrestart' => 'true',
             'hasstatus'  => value,
-            'subscribe'  => 'File[sshd_config]',
+            'subscribe'  => [],
           })
         }
       end
@@ -321,6 +321,5 @@ describe 'ssh::service' do
       end
     end
   end
-
 
 end
