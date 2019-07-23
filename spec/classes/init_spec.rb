@@ -442,9 +442,9 @@ describe 'ssh' do
       end
     end
     context 'and that value is valid' do
-      let(:params) { {'ssh_config_template' => 'ssh/sshd_config.erb'} }
+      let(:params) { {'ssh_config_template' => 'ssh/rspec/dummy.erb'} }
       it 'should lay down the ssh_config file from the specified template' do
-        should contain_file('ssh_config').with_content(/OpenBSD: sshd_config/)
+        should contain_file('ssh_config').with_content(/Testing alternative template/)
       end
     end
   end

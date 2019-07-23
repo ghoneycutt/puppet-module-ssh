@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'ssh::service_instance' do
+describe 'ssh::instance' do
   let(:title) { 'additional_instance'}
 
   default_facts = {

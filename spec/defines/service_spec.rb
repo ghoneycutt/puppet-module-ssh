@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe 'ssh::config_entry' do
+describe 'ssh::service' do
   let(:title) { 'sshd_config'}
 
   default_facts = {
