@@ -15,7 +15,6 @@ describe 'ssh::service_instance' do
       :ssh_version            => 'OpenSSH_6.6p1',
       :ssh_version_numeric    => '6.6',
       :sshrsakey              => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==',
-      :instance_fixture       => 'service',
   }
 
   default_solaris_facts = {
@@ -46,6 +45,7 @@ describe 'ssh::service_instance' do
           :sshd_service_hasstatus => true,
           :sshd_config_fixture    => 'sshd_config_debian8',
           :ssh_config_fixture     => 'ssh_config_debian8',
+          :instance_fixture       => 'service',
       },
       'Debian-9' => {
           :architecture           => 'x86_64',
@@ -59,6 +59,7 @@ describe 'ssh::service_instance' do
           :sshd_service_hasstatus => true,
           :sshd_config_fixture    => 'sshd_config_debian9',
           :ssh_config_fixture     => 'ssh_config_debian9',
+          :instance_fixture       => 'service',
       },
       'Debian-10' => {
           :architecture           => 'x86_64',
@@ -72,6 +73,7 @@ describe 'ssh::service_instance' do
           :sshd_service_hasstatus => true,
           :sshd_config_fixture    => 'sshd_config_debian9',
           :ssh_config_fixture     => 'ssh_config_debian9',
+          :instance_fixture       => 'service',
       },
       'RedHat-5' => {
           :architecture           => 'x86_64',
@@ -85,6 +87,7 @@ describe 'ssh::service_instance' do
           :sshd_service_hasstatus => true,
           :sshd_config_fixture    => 'sshd_config_rhel',
           :ssh_config_fixture     => 'ssh_config_rhel_old',
+          :instance_fixture       => 'service',
       },
       'RedHat-6' => {
           :architecture           => 'x86_64',
@@ -98,6 +101,7 @@ describe 'ssh::service_instance' do
           :sshd_service_hasstatus => true,
           :sshd_config_fixture    => 'sshd_config_rhel',
           :ssh_config_fixture     => 'ssh_config_rhel_old',
+          :instance_fixture       => 'service',
       },
       'RedHat-7' => {
           :architecture           => 'x86_64',
@@ -111,6 +115,7 @@ describe 'ssh::service_instance' do
           :sshd_service_hasstatus => true,
           :sshd_config_fixture    => 'sshd_config_rhel',
           :ssh_config_fixture     => 'ssh_config_rhel',
+          :instance_fixture       => 'service',
       },
       'RedHat-7.4' => {
           :architecture           => 'x86_64',
@@ -124,6 +129,7 @@ describe 'ssh::service_instance' do
           :sshd_service_hasstatus => true,
           :sshd_config_fixture    => 'sshd_config_rhel7',
           :ssh_config_fixture     => 'ssh_config_rhel',
+          :instance_fixture       => 'service',
       },
       'Suse-10-x86_64' => {
           :architecture           => 'x86_64',
@@ -138,6 +144,7 @@ describe 'ssh::service_instance' do
           :sshd_service_hasstatus => true,
           :sshd_config_fixture    => 'sshd_config_suse_x86_64',
           :ssh_config_fixture     => 'ssh_config_suse_old',
+          :instance_fixture       => 'service',
       },
       'Suse-10-i386' => {
           :architecture           => 'i386',
@@ -152,6 +159,7 @@ describe 'ssh::service_instance' do
           :sshd_service_hasstatus => true,
           :sshd_config_fixture    => 'sshd_config_suse_i386',
           :ssh_config_fixture     => 'ssh_config_suse_old',
+          :instance_fixture       => 'service',
       },
       'Suse-11-x86_64' => {
           :architecture           => 'x86_64',
@@ -166,6 +174,7 @@ describe 'ssh::service_instance' do
           :sshd_service_hasstatus => true,
           :sshd_config_fixture    => 'sshd_config_suse_x86_64',
           :ssh_config_fixture     => 'ssh_config_suse',
+          :instance_fixture       => 'service',
       },
       'Suse-11-i386' => {
           :architecture           => 'i386',
@@ -180,6 +189,7 @@ describe 'ssh::service_instance' do
           :sshd_service_hasstatus => true,
           :sshd_config_fixture    => 'sshd_config_suse_i386',
           :ssh_config_fixture     => 'ssh_config_suse',
+          :instance_fixture       => 'service',
       },
       'Suse-12-x86_64' => {
           :architecture           => 'x86_64',
@@ -194,6 +204,7 @@ describe 'ssh::service_instance' do
           :sshd_service_hasstatus => true,
           :sshd_config_fixture    => 'sshd_config_sles_12_x86_64',
           :ssh_config_fixture     => 'ssh_config_suse',
+          :instance_fixture       => 'service',
       },
       'Ubuntu-1604' => {
           :architecture           => 'x86_64',
@@ -207,6 +218,7 @@ describe 'ssh::service_instance' do
           :sshd_service_hasstatus => true,
           :sshd_config_fixture    => 'sshd_config_ubuntu1604',
           :ssh_config_fixture     => 'ssh_config_ubuntu1604',
+          :instance_fixture       => 'service',
       },
       'Ubuntu-1804' => {
           :architecture           => 'x86_64',
@@ -220,6 +232,7 @@ describe 'ssh::service_instance' do
           :sshd_service_hasstatus => true,
           :sshd_config_fixture    => 'sshd_config_ubuntu1804',
           :ssh_config_fixture     => 'ssh_config_ubuntu1804',
+          :instance_fixture       => 'service',
       },
   }
 
