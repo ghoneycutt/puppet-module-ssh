@@ -60,7 +60,7 @@ define ssh::service_instance(
   }
   case $service_type {
     'systemd': {
-      $real_notify = concat($service_instance_notify, [Exec["daemon-reload_${service_name}"]])
+      $real_notify = concat([$service_instance_notify], [Exec["daemon-reload_${service_name}"]])
       file{$service_file:
         ensure  => $file_ensure,
         owner   => 'root',
