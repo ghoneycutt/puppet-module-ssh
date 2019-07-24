@@ -9,16 +9,18 @@ class ssh::package(
     'RedHat': {
       $default_packages                        = ['openssh-server', 'openssh-clients']
       $default_ssh_package_source              = undef
+      $default_ssh_package_adminfile           = undef
     }
     'Suse': {
       $default_packages                        = 'openssh'
       $default_ssh_package_source              = undef
+      $default_ssh_package_adminfile           = undef
     }
     'Debian': {
       # common for debian and ubuntu
       $default_packages                        = ['openssh-server', 'openssh-client']
-      $default_ssh_package_source                 = undef
-      $default_ssh_package_adminfile              = undef
+      $default_ssh_package_source              = undef
+      $default_ssh_package_adminfile           = undef
     }
     'Solaris': {
       $default_ssh_config_hash_known_hosts     = undef
@@ -30,6 +32,7 @@ class ssh::package(
             'network/ssh/ssh-key',
             'service/network/ssh']
           $default_ssh_package_source            = undef
+          $default_ssh_package_adminfile         = undef
         }
         '5.10': {
           $default_packages                      = ['SUNWsshcu',
@@ -38,6 +41,7 @@ class ssh::package(
             'SUNWsshr',
             'SUNWsshu']
           $default_ssh_package_source            = '/var/spool/pkg'
+          $default_ssh_package_adminfile         = undef
         }
         '5.9' : {
           $default_packages                      = ['SUNWsshcu',
@@ -46,6 +50,7 @@ class ssh::package(
             'SUNWsshr',
             'SUNWsshu']
           $default_ssh_package_source            = '/var/spool/pkg'
+          $default_ssh_package_adminfile         = undef
         }
         default: {
           fail('ssh module supports Solaris kernel release 5.9, 5.10 and 5.11.')
