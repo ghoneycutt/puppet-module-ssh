@@ -9,37 +9,20 @@ class ssh::package(
     'RedHat': {
       $default_packages                        = ['openssh-server',
         'openssh-clients']
+      $default_ssh_package_source              = undef
     }
     'Suse': {
       $default_packages                        = 'openssh'
+      $default_ssh_package_source              = undef
     }
     'Debian': {
       # common for debian and ubuntu
-      $default_packages                        = ['openssh-server',
-        'openssh-client']
-      case $::operatingsystemrelease {
-        '16.04': {
-          $default_ssh_package_source                 = undef
-          $default_ssh_package_adminfile              = undef
-        }
-        '18.04': {
-          $default_ssh_package_source                 = undef
-          $default_ssh_package_adminfile              = undef
-        }
-        /^9.*/: {
-          $default_ssh_package_source              = undef
-          $default_ssh_package_adminfile           = undef
-        }
-        /^7.*/: {
-          $default_ssh_package_source              = undef
-          $default_ssh_package_adminfile           = undef
-        }
-        /^8.*/: {
-          $default_ssh_package_source              = undef
-          $default_ssh_package_adminfile           = undef
-        }
-        default: { fail ("Operating System : ${::operatingsystemrelease} not supported") }
-      }
+      $default_packages                        = [
+        'openssh-server',
+        'openssh-client'
+      ]
+      $default_ssh_package_source                 = undef
+      $default_ssh_package_adminfile              = undef
     }
     'Solaris': {
       $default_ssh_config_hash_known_hosts     = undef
