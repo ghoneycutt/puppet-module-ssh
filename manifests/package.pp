@@ -7,8 +7,7 @@ class ssh::package(
 
   case $::osfamily {
     'RedHat': {
-      $default_packages                        = ['openssh-server',
-        'openssh-clients']
+      $default_packages                        = ['openssh-server', 'openssh-clients']
       $default_ssh_package_source              = undef
     }
     'Suse': {
@@ -17,10 +16,7 @@ class ssh::package(
     }
     'Debian': {
       # common for debian and ubuntu
-      $default_packages                        = [
-        'openssh-server',
-        'openssh-client'
-      ]
+      $default_packages                        = ['openssh-server', 'openssh-client']
       $default_ssh_package_source                 = undef
       $default_ssh_package_adminfile              = undef
     }
