@@ -267,7 +267,7 @@ class ssh (
           $default_ssh_config_hash_known_hosts     = 'yes'
           $default_ssh_sendenv                     = true
           $default_sshd_addressfamily              = undef
-          $default_sshd_config_use_dns             = undef
+          $default_sshd_config_serverkeybits       = undef
           $default_sshd_gssapicleanupcredentials   = undef
           $default_sshd_config_use_dns             = undef
           $default_sshd_config_xauth_location      = undef
