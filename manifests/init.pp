@@ -248,7 +248,7 @@ class ssh (
           $default_sshd_gssapicleanupcredentials      = 'yes'
           $default_sshd_acceptenv                     = true
           $default_service_hasstatus                  = true
-          $          = undef
+          $default_sshd_config_serverkeybits          = undef
           $default_sshd_addressfamily                 = 'any'
           $default_sshd_config_tcp_keepalive          = 'yes'
           $default_sshd_config_permittunnel           = 'no'
@@ -267,9 +267,9 @@ class ssh (
           $default_ssh_config_hash_known_hosts     = 'yes'
           $default_ssh_sendenv                     = true
           $default_sshd_addressfamily              = undef
-          $default_sshd_config_serverkeybits       = undef
+          $default_sshd_config_use_dns             = undef
           $default_sshd_gssapicleanupcredentials   = undef
-          $default_default_sshd_config_serverkeybitssshd_config_use_dns             = undef
+          $default_sshd_config_use_dns             = undef
           $default_sshd_config_xauth_location      = undef
           $default_sshd_config_permittunnel        = undef
           $default_sshd_config_tcp_keepalive       = undef
