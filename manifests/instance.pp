@@ -158,17 +158,16 @@ define ssh::instance(
     sshd_config_allowagentforwarding       => $sshd_config_allowagentforwarding,
   }
 
-  ssh::service_instance{$title:
-    ensure                  => $ensure,
-    service_name            => $service_name,
-    service_description     => $service_description,
-    service_env_file        => $service_env_file,
-    service_options         => $service_options,
-    service_instance_notify => Service[$title],
-  }
-
   if $ensure == 'present' {
-    ssh::service{$title:
+    ssh::service_instance{$title:
+      ensure                  => $ensure,
+      service_name            => $service_name,
+      service_description     => $service_description,
+      service_env_file        => $service_env_file,
+      service_options         => $service_options,
+      service_instance_notify => Service[$title],
+    }
+    -> ssh::service{$title:
       service_ensure     => $service_ensure,
       service_enable     => $service_enable,
       service_name       => $service_name,
@@ -180,6 +179,14 @@ define ssh::instance(
     service{$title:
       ensure => 'stopped',
       enable => false,
+    }
+    -> ssh::service_instance{$title:
+      ensure                  => $ensure,
+      service_name            => $service_name,
+      service_description     => $service_description,
+      service_env_file        => $service_env_file,
+      service_options         => $service_options,
+      service_instance_notify => Service[$title],
     }
   }
 }
