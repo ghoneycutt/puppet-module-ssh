@@ -285,6 +285,9 @@ TrustedUserCAKeys <%= @sshd_config_trustedusercakeys_real %>
 <% if @sshd_config_authorized_principals_file_real -%>
 AuthorizedPrincipalsFile <%= @sshd_config_authorized_principals_file_real %>
 <% end -%>
+<% if @sshd_config_stream_local_bind_unlink != nil -%>
+StreamLocalBindUnlink <%= @sshd_config_stream_local_bind_unlink %>
+<% end -%>
 <% if @sshd_config_match -%>
 
 <%   @sshd_config_match.sort.each do |key, hash| -%>
