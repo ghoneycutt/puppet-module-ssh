@@ -580,6 +580,7 @@ describe 'ssh' do
   :sshd_config_use_privilege_separation => 'no',
         :sshd_config_permittunnel             => 'no',
         :sshd_config_allowagentforwarding     => 'no',
+        :sshd_config_stream_local_bind_unlink => 'no',
         :sshd_config_key_revocation_list      => '/path/to/revocation_list',
       }
     end
@@ -1426,6 +1427,25 @@ describe 'sshd_config_print_last_log param' do
     end
   end
 
+  describe 'with sshd_config_stream_local_bind_unlink' do
+    ['yes','no'].each do |value|
+      context "set to #{value}" do
+        let(:params) { { 'sshd_config_stream_local_bind_unlink' => value } }
+
+        it { should contain_file('sshd_config').with_content(/^StreamLocalBindUnlink #{value}$/) }
+      end
+    end
+
+    context 'set to invalid value on valid osfamily' do
+      let(:params) { { :sshd_config_stream_local_bind_unlink => 'invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_stream_local_bind_unlink may be either \'yes\' or \'no\' and is set to <invalid>\./)
+      end
+    end
+  end
 
   context 'with sshd_config_strictmodes set to invalid value on valid osfamily' do
     let(:params) { { :sshd_config_strictmodes => 'invalid' } }
