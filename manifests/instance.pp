@@ -86,6 +86,7 @@ define ssh::instance(
 
   ssh::sshd_config{"sshd_config.${title}" :
     hiera_merge                            => $hiera_merge,
+    permit_root_login                      => $permit_root_login,
     sshd_config_path                       => $sshd_config_path,
     sshd_config_owner                      => $sshd_config_owner,
     sshd_config_group                      => $sshd_config_group,
