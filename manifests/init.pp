@@ -393,7 +393,8 @@ class ssh (
     content => template($ssh_config_template),
   }
   -> ssh::sshd_config{'sshd_config' :
-    permit_root_login                      =>  $permit_root_login,
+    hiera_merge                            => $hiera_merge,
+    permit_root_login                      => $permit_root_login,
     sshd_config_path                       => $sshd_config_path,
     sshd_config_owner                      => $sshd_config_owner,
     sshd_config_group                      => $sshd_config_group,
