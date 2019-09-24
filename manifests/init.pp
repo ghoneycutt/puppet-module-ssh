@@ -122,6 +122,7 @@ class ssh (
   $sshd_config_key_revocation_list        = undef,
   $sshd_config_authorized_principals_file = undef,
   $sshd_config_allowagentforwarding       = undef,
+  Optional[Array[Stdlib::Host]] $host_aliases = undef,
 ) {
 
   case $::osfamily {
@@ -1081,14 +1082,18 @@ class ssh (
   # corresponding $::ipaddress(6)? fact is not present. So, we cannot assume
   # these variables are defined. Getvar (Stdlib 4.13+, ruby 1.8.7+) handles
   # this correctly.
-  if getvar('::ipaddress') and getvar('::ipaddress6') { $host_aliases = [$::hostname, $::ipaddress, $::ipaddress6] }
-  elsif getvar('::ipaddress6') { $host_aliases = [$::hostname, $::ipaddress6] }
-  else { $host_aliases = [$::hostname, $::ipaddress] }
+  if $host_aliases == undef {
+    if getvar('::ipaddress') and getvar('::ipaddress6') { $real_host_aliases = [$::hostname, $::ipaddress, $::ipaddress6] }
+    elsif getvar('::ipaddress6') { $real_host_aliases = [$::hostname, $::ipaddress6] }
+    else { $real_host_aliases = [$::hostname, $::ipaddress] }
+  } else {
+    $real_host_aliases = $host_aliases
+  }
 
   # export each node's ssh key
   @@sshkey { $::fqdn :
     ensure       => $ssh_key_ensure,
-    host_aliases => $host_aliases,
+    host_aliases => $real_host_aliases,
     type         => $ssh_key_type,
     key          => $key,
   }
