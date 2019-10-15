@@ -8,6 +8,7 @@ class ssh (
   $permit_root_login                          = 'yes',
   $purge_keys                                 = true,
   $manage_firewall                            = false,
+  $ssh_package_ensure                         = 'installed',
   $ssh_package_source                         = 'USE_DEFAULTS',
   $ssh_package_adminfile                      = 'USE_DEFAULTS',
   $ssh_config_hash_known_hosts                = 'USE_DEFAULTS',
@@ -1104,7 +1105,7 @@ class ssh (
   }
 
   package { $packages_real:
-    ensure    => installed,
+    ensure    => $ssh_package_ensure,
     source    => $ssh_package_source_real,
     adminfile => $ssh_package_adminfile_real,
   }
