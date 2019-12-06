@@ -122,7 +122,7 @@ class ssh (
   $sshd_config_key_revocation_list        = undef,
   $sshd_config_authorized_principals_file = undef,
   $sshd_config_allowagentforwarding       = undef,
-  Optional[Array[Stdlib::Host]] $host_aliases = undef,
+  $host_aliases                           = undef,
 ) {
 
   case $::osfamily {
