@@ -82,6 +82,7 @@ define ssh::instance(
   $service_description                    = 'Additional SSH server',
   $service_env_file                       = '/etc/sysconfig/sshd',
   $service_options                        = "-f ${sshd_config_path}",
+  $service_binary                         = '/sbin/sshd',
 ){
   require ::ssh::package
 
@@ -174,6 +175,7 @@ define ssh::instance(
       service_ensure     => $service_ensure,
       service_enable     => $service_enable,
       service_name       => $service_name,
+      service_binary     => $service_binary,
       service_hasrestart => $service_hasrestart,
       service_hasstatus  => $service_hasstatus,
       service_subscribe  => File["sshd_config.${title}"],
@@ -186,6 +188,7 @@ define ssh::instance(
     -> ssh::service_instance{$title:
       ensure                  => $ensure,
       service_name            => $service_name,
+      service_binary          => $service_binary,
       service_description     => $service_description,
       service_env_file        => $service_env_file,
       service_options         => $service_options,

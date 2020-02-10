@@ -4,6 +4,7 @@ define ssh::service_instance(
   $service_name            = $title,
   $service_description     = 'Additional SSH server',
   $service_env_file        = '/etc/sysconfig/sshd',
+  $service_binary          = '/sbin/sshd',
   # lint:ignore:empty_string_assignment
   $service_options         = '',
   # lint:endignore

@@ -11,7 +11,7 @@ Wants=sshd-keygen.service
 [Service]
 Type=notify
 EnvironmentFile=<%= @service_env_file %>
-ExecStart=/usr/sbin/sshd -D $OPTIONS <%= @service_options %>
+ExecStart=<%= @service_binary %> -D $OPTIONS <%= @service_options %>
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 Restart=on-failure
