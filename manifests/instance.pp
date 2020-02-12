@@ -170,12 +170,12 @@ define ssh::instance(
       service_env_file        => $service_env_file,
       service_options         => $service_options,
       service_instance_notify => Service[$title],
+      service_binary          => $service_binary,
     }
     -> ssh::service{$title:
       service_ensure     => $service_ensure,
       service_enable     => $service_enable,
       service_name       => $service_name,
-      service_binary     => $service_binary,
       service_hasrestart => $service_hasrestart,
       service_hasstatus  => $service_hasstatus,
       service_subscribe  => File["sshd_config.${title}"],
