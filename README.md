@@ -637,6 +637,16 @@ forwarding is permitted. Valid values are 'yes' and 'no'.
 
 - *Default*: undef
 
+host_aliases
+------------
+Add custom host aliases. When none is provided, the host_alias will be:
+```
+FQDN,SHORT_HOSTNAME,IPADDRESS
+```
+
+- *Default*: undef
+
+
 config_entries
 --------------
 Hash of config entries for a specific user's ~/.ssh/config. Please check the docs for ssd::config_entry for a list and details of the parameters usable here.
