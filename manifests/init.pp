@@ -90,6 +90,7 @@ class ssh (
   $sshd_config_hostkey                    = 'USE_DEFAULTS',
   $sshd_listen_address                    = undef,
   $sshd_hostbasedauthentication           = 'no',
+  $sshd_hostbasedusesnamefrompacketonly   = undef,
   $sshd_pubkeyacceptedkeytypes            = undef,
   $sshd_pubkeyauthentication              = 'yes',
   $sshd_ignoreuserknownhosts              = 'no',
@@ -892,6 +893,9 @@ class ssh (
   }
 
   validate_re($sshd_hostbasedauthentication, '^(yes|no)$', "ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to <${sshd_hostbasedauthentication}>.")
+  if $sshd_hostbasedusesnamefrompacketonly != undef {
+    validate_re($sshd_hostbasedusesnamefrompacketonly, '^(yes|no)$', "ssh::sshd_hostbasedusesnamefrompacketonly may be either 'yes' or 'no' and is set to <${ssh_hostbasedusesnamefrompacketonly}>.")
+  }
 
   if $sshd_pubkeyacceptedkeytypes != undef {
     validate_array($sshd_pubkeyacceptedkeytypes)

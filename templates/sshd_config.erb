@@ -98,6 +98,9 @@ AuthorizedKeysCommandUser <%= @sshd_authorized_keys_command_user %>
 # similar for protocol version 2
 #HostbasedAuthentication no
 HostbasedAuthentication <%= @sshd_hostbasedauthentication %>
+<% if @sshd_hostbasedusesnamefrompacketonly -%>
+HostbasedUsesNameFromPacketOnly <%= @sshd_hostbasedusesnamefrompacketonly %>
+<% end -%>
 # Change to yes if you don't trust ~/.ssh/known_hosts for
 # RhostsRSAAuthentication and HostbasedAuthentication
 #IgnoreUserKnownHosts no
