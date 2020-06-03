@@ -6,6 +6,7 @@ describe 'ssh' do
     :fqdn                   => 'monkey.example.com',
     :hostname               => 'monkey',
     :ipaddress              => '127.0.0.1',
+    :ipaddress6             => nil,
     :lsbmajdistrelease      => '6',
     :operatingsystemrelease => '6.7',
     :osfamily               => 'RedHat',
