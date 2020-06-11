@@ -29,6 +29,7 @@ for the exact matrix of supported Puppet and ruby versions.
  * Debian 7
  * Debian 8
  * Debian 9
+ * Debian 10
  * EL 5
  * EL 6
  * EL 7
@@ -427,7 +428,7 @@ X11Forwarding in sshd_config. Specifies whether X11 forwarding is permitted.
 
 sshd_x11_use_localhost
 ----------------------
-X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding server 
+X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding server
 to the loopback address or to the wildcard address.
 
 - *Default*: 'yes'
