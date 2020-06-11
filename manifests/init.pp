@@ -278,6 +278,7 @@ class ssh (
           $default_sshd_config_serverkeybits          = '1024'
           $default_sshd_addressfamily                 = 'any'
           $default_sshd_config_tcp_keepalive          = 'yes'
+        }
         /^10.*/: {
           $default_sshd_config_hostkey = [
             '/etc/ssh/ssh_host_rsa_key',
