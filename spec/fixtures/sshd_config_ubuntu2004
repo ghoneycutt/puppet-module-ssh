@@ -13,6 +13,8 @@
 # possible, but leave them commented.  Uncommented options change a
 # default value.
 
+Include /etc/ssh/sshd_config.d/*.conf
+
 #Port 22
 Port 22
 #Protocol 2,1
@@ -25,15 +27,10 @@ AddressFamily any
 # HostKeys for protocol version 2
 #HostKey /etc/ssh/ssh_host_rsa_key
 #HostKey /etc/ssh/ssh_host_dsa_key
-HostKey /etc/ssh/ssh_host_rsa_key
-HostKey /etc/ssh/ssh_host_dsa_key
-HostKey /etc/ssh/ssh_host_ecdsa_key
-HostKey /etc/ssh/ssh_host_ed25519_key
 
 # Lifetime and size of ephemeral version 1 server key
 #KeyRegenerationInterval 1h
 #ServerKeyBits 1024
-ServerKeyBits 1024
 # Logging
 # obsoletes QuietMode and FascistLogging
 #SyslogFacility AUTH
@@ -115,7 +112,6 @@ X11UseLocalhost yes
 PrintMotd yes
 #PrintLastLog yes
 #TCPKeepAlive yes
-TCPKeepAlive yes
 #UseLogin no
 #UsePrivilegeSeparation yes
 #PermitUserEnvironment no
@@ -131,7 +127,6 @@ UseDNS yes
 #MaxSessions 10
 
 #PermitTunnel no
-PermitTunnel no
 #ChrootDirectory none
 
 # no default banner path
