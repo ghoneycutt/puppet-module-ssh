@@ -39,6 +39,7 @@ for the exact matrix of supported Puppet and ruby versions.
  * Ubuntu 14.04 LTS
  * Ubuntu 16.04 LTS
  * Ubuntu 18.04 LTS
+ * Ubuntu 20.04 LTS
  * Solaris 9
  * Solaris 10
  * Solaris 11

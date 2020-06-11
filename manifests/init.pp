@@ -253,6 +253,33 @@ class ssh (
           $default_sshd_config_tcp_keepalive          = 'yes'
           $default_sshd_config_permittunnel           = 'no'
         }
+        '20.04': {
+          $default_sshd_config_hostkey = [
+            '/etc/ssh/ssh_host_rsa_key',
+            '/etc/ssh/ssh_host_dsa_key',
+            '/etc/ssh/ssh_host_ecdsa_key',
+            '/etc/ssh/ssh_host_ed25519_key',
+          ]
+          $default_ssh_config_hash_known_hosts        = 'yes'
+          $default_sshd_config_xauth_location         = undef
+          $default_ssh_config_forward_x11_trusted     = 'yes'
+          $default_ssh_package_source                 = undef
+          $default_ssh_package_adminfile              = undef
+          $default_ssh_sendenv                        = true
+          $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
+          $default_sshd_config_mode                   = '0600'
+          $default_sshd_config_use_dns                = 'yes'
+          $default_sshd_use_pam                       = 'yes'
+          $default_sshd_gssapikeyexchange             = undef
+          $default_sshd_pamauthenticationviakbdint    = undef
+          $default_sshd_gssapicleanupcredentials      = 'yes'
+          $default_sshd_acceptenv                     = true
+          $default_service_hasstatus                  = true
+          $default_sshd_config_serverkeybits          = '1024'
+          $default_sshd_addressfamily                 = 'any'
+          $default_sshd_config_tcp_keepalive          = 'yes'
+          $default_sshd_config_permittunnel           = 'no'
+        }
         /^9.*/: {
           $default_sshd_config_hostkey = [
             '/etc/ssh/ssh_host_rsa_key',
