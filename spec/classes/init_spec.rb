@@ -413,6 +413,9 @@ describe 'ssh' do
         :ssh_config_use_roaming             => 'yes',
         :ssh_config_server_alive_interval   => '300',
         :ssh_config_sendenv_xmodifiers      => true,
+        :ssh_config_identityfiles           => [ '~/.ssh/id_dsa',
+                                                 '~/.ssh/id_rsa',
+                                                 ],
         :ssh_config_ciphers                 => [ 'aes128-cbc',
                                                  '3des-cbc',
                                                  'blowfish-cbc',
@@ -471,6 +474,8 @@ describe 'ssh' do
     it { should contain_file('ssh_config').with_content(/^  ServerAliveInterval 300$/) }
     it { should contain_file('ssh_config').with_content(/^  SendEnv XMODIFIERS$/) }
     it { should contain_file('ssh_config').with_content(/^\s*Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc$/) }
+    it { should contain_file('ssh_config').with_content(/^\s*IdentityFile ~\/.ssh\/id_dsa/) }
+    it { should contain_file('ssh_config').with_content(/^\s*IdentityFile ~\/.ssh\/id_rsa/) }
     it { should contain_file('ssh_config').with_content(/^\s*KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,diffie-hellman-group1-sha1$/) }
     it { should contain_file('ssh_config').with_content(/^\s*MACs hmac-md5-etm@openssh.com,hmac-sha1-etm@openssh.com$/) }
     it { should contain_file('ssh_config').with_content(/^\s*ProxyCommand ssh -W %h:%p firewall\.example\.org$/) }
