@@ -110,6 +110,7 @@ class ssh (
   $ssh_config_global_known_hosts_group    = 'root',
   $ssh_config_global_known_hosts_mode     = '0644',
   $ssh_config_user_known_hosts_file       = undef,
+  $ssh_config_extralines                  = [],
   $config_entries                         = {},
   $keys                                   = undef,
   $manage_root_ssh_config                 = false,
@@ -122,6 +123,7 @@ class ssh (
   $sshd_config_key_revocation_list        = undef,
   $sshd_config_authorized_principals_file = undef,
   $sshd_config_allowagentforwarding       = undef,
+  $sshd_config_extralines                 = [],
 ) {
 
   case $::osfamily {
