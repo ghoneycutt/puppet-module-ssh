@@ -568,6 +568,7 @@ describe 'ssh' do
         :sshd_config_permittunnel             => 'no',
         :sshd_config_allowagentforwarding     => 'no',
         :sshd_config_key_revocation_list      => '/path/to/revocation_list',
+        :sshd_config_x11_display_offset       => '999',
       }
     end
 
@@ -643,6 +644,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^UsePrivilegeSeparation no$/) }
     it { should contain_file('sshd_config').with_content(/^PermitTunnel no$/) }
     it { should contain_file('sshd_config').with_content(/^RevokedKeys \/path\/to\/revocation_list$/) }
+    it { should contain_file('sshd_config').with_content(/^X11DisplayOffset 999$/) }
 
     it {
       should contain_file('sshd_banner').with({
@@ -1189,6 +1191,30 @@ describe 'sshd_config_print_last_log param' do
         expect {
           should contain_class('ssh')
         }.to raise_error(Puppet::Error,/while evaluating a Function Call|is not an absolute path/)
+      end
+    end
+  end
+
+  describe 'sshd_config_x11_display_offset param' do
+    ['999','unset'].each do |value|
+      context "set to #{value}" do
+        let (:params) { { :sshd_config_x11_display_offset => value } }
+
+        if value == 'unset'
+          it { should contain_file('sshd_config').without_content(/^\s*X11DisplayOffset/) }
+        else
+          it { should contain_file('sshd_config').with_content(/^X11DisplayOffset #{value}$/) }
+        end
+      end
+    end
+
+    context 'when not set to a valid number' do
+      let(:params) { {'sshd_config_x11_display_offset' => '999invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/.*Expected first argument to be an Integer or Array, got String.*/)
       end
     end
   end

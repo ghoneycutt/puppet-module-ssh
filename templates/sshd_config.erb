@@ -166,6 +166,9 @@ AllowTcpForwarding <%= @sshd_allow_tcp_forwarding %>
 #X11Forwarding no
 X11Forwarding <%= @sshd_x11_forwarding %>
 #X11DisplayOffset 10
+<% if @sshd_config_x11_display_offset_real != nil -%>
+X11DisplayOffset <%= @sshd_config_x11_display_offset_real %>
+<% end -%>
 #X11UseLocalhost yes
 X11UseLocalhost <%= @sshd_x11_use_localhost %>
 #PrintMotd yes
