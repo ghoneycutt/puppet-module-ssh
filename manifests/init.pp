@@ -110,7 +110,11 @@ class ssh (
   $ssh_config_global_known_hosts_group        = 'root',
   $ssh_config_global_known_hosts_mode         = '0644',
   $ssh_config_user_known_hosts_file           = undef,
+<<<<<<< HEAD
   $ssh_config_include                         = 'USE_DEFAULTS',
+=======
+  Optional[Ssh::Include] $ssh_config_include  = 'USE_DEFAULTS',
+>>>>>>> 7aa838a... Align fixtures with defaults
   $config_entries                             = {},
   $keys                                       = undef,
   $manage_root_ssh_config                     = false,
@@ -123,7 +127,11 @@ class ssh (
   $sshd_config_key_revocation_list            = undef,
   $sshd_config_authorized_principals_file     = undef,
   $sshd_config_allowagentforwarding           = undef,
+<<<<<<< HEAD
   $sshd_config_include                        = 'USE_DEFAULTS',
+=======
+  Optional[Ssh::Include] $sshd_config_include = 'USE_DEFAULTS',
+>>>>>>> 7aa838a... Align fixtures with defaults
 ) {
 
   case $::osfamily {
@@ -291,6 +299,12 @@ class ssh (
           $default_sshd_use_pam                       = 'yes'
           $default_sshd_x11_forwarding                = 'yes'
           $default_sshd_config_include                = '/etc/ssh/sshd_config.d/*.conf'
+          $default_sshd_gssapicleanupcredentials      = 'yes'
+          $default_sshd_acceptenv                     = true
+          $default_service_hasstatus                  = true
+          $default_sshd_config_serverkeybits          = '1024'
+          $default_sshd_addressfamily                 = 'any'
+          $default_sshd_config_tcp_keepalive          = 'yes'
         }
         /^10.*/: {
           $default_sshd_config_hostkey = [
