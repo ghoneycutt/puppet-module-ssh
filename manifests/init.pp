@@ -111,10 +111,14 @@ class ssh (
   $ssh_config_global_known_hosts_mode         = '0644',
   $ssh_config_user_known_hosts_file           = undef,
 <<<<<<< HEAD
+<<<<<<< HEAD
   $ssh_config_include                         = 'USE_DEFAULTS',
 =======
   Optional[Ssh::Include] $ssh_config_include  = 'USE_DEFAULTS',
 >>>>>>> 7aa838a... Align fixtures with defaults
+=======
+  $ssh_config_include                         = 'USE_DEFAULTS',
+>>>>>>> bedb2727907d794c61ebfaaf552890096db3381b
   $config_entries                             = {},
   $keys                                       = undef,
   $manage_root_ssh_config                     = false,
@@ -128,10 +132,14 @@ class ssh (
   $sshd_config_authorized_principals_file     = undef,
   $sshd_config_allowagentforwarding           = undef,
 <<<<<<< HEAD
+<<<<<<< HEAD
   $sshd_config_include                        = 'USE_DEFAULTS',
 =======
   Optional[Ssh::Include] $sshd_config_include = 'USE_DEFAULTS',
 >>>>>>> 7aa838a... Align fixtures with defaults
+=======
+  $sshd_config_include                        = 'USE_DEFAULTS',
+>>>>>>> bedb2727907d794c61ebfaaf552890096db3381b
 ) {
 
   case $::osfamily {
