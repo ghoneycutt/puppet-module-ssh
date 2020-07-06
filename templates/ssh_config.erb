@@ -20,6 +20,14 @@
 # list of available options, their meanings and defaults, please see the
 # ssh_config(5) man page.
 
+<% if defined?(@ssh_config_include_real) -%>
+<% if @ssh_config_include_real.is_a? Array -%>
+Include <%= @ssh_config_include_real.join(' ') %>
+<% else -%>
+Include <%= @ssh_config_include_real %>
+<% end -%>
+
+<% end -%>
 # Host *
 #   ForwardAgent no
 #   ForwardX11 no
@@ -75,7 +83,7 @@ GSSAPIDelegateCredentials <%= @ssh_gssapidelegatecredentials %>
 # If this option is set to yes then remote X11 clients will have full access
 # to the original X11 display. As virtually no X11 client supports the untrusted
 # mode correctly we set this to yes.
-<% if @ssh_config_forward_x11_trusted_real != nil -%>
+<% if defined?(@ssh_config_forward_x11_trusted_real) -%>
   ForwardX11Trusted <%= @ssh_config_forward_x11_trusted_real %>
 <% end -%>
 <% if @ssh_config_forward_agent != nil -%>

@@ -3,125 +3,127 @@
 # Manage ssh client and server
 #
 class ssh (
-  $hiera_merge                            = false,
-  $packages                               = 'USE_DEFAULTS',
-  $permit_root_login                      = 'yes',
-  $purge_keys                             = true,
-  $manage_firewall                        = false,
-  $ssh_package_source                     = 'USE_DEFAULTS',
-  $ssh_package_adminfile                  = 'USE_DEFAULTS',
-  $ssh_config_hash_known_hosts            = 'USE_DEFAULTS',
-  $ssh_config_path                        = '/etc/ssh/ssh_config',
-  $ssh_config_owner                       = 'root',
-  $ssh_config_group                       = 'root',
-  $ssh_config_mode                        = '0644',
-  $ssh_config_forward_x11                 = undef,
-  $ssh_config_forward_x11_trusted         = 'USE_DEFAULTS',
-  $ssh_config_forward_agent               = undef,
-  $ssh_config_server_alive_interval       = undef,
-  $ssh_config_sendenv_xmodifiers          = false,
-  $ssh_hostbasedauthentication            = undef,
-  $ssh_config_proxy_command               = undef,
-  $ssh_strict_host_key_checking           = undef,
-  $ssh_config_ciphers                     = undef,
-  $ssh_config_kexalgorithms               = undef,
-  $ssh_config_macs                        = undef,
-  $ssh_config_use_roaming                 = 'USE_DEFAULTS',
-  $ssh_config_template                    = 'ssh/ssh_config.erb',
-  $ssh_sendenv                            = 'USE_DEFAULTS',
-  $ssh_gssapiauthentication               = 'yes',
-  $ssh_gssapidelegatecredentials          = undef,
-  $sshd_config_path                       = '/etc/ssh/sshd_config',
-  $sshd_config_owner                      = 'root',
-  $sshd_config_group                      = 'root',
-  $sshd_config_loglevel                   = 'INFO',
-  $sshd_config_mode                       = 'USE_DEFAULTS',
-  $sshd_config_permitemptypasswords       = undef,
-  $sshd_config_permituserenvironment      = undef,
-  $sshd_config_compression                = undef,
-  $sshd_config_port                       = '22',
-  $sshd_config_syslog_facility            = 'AUTH',
-  $sshd_config_template                   = 'ssh/sshd_config.erb',
-  $sshd_config_login_grace_time           = '120',
-  $sshd_config_challenge_resp_auth        = 'yes',
-  $sshd_config_print_motd                 = 'yes',
-  $sshd_config_print_last_log             = undef,
-  $sshd_config_use_dns                    = 'USE_DEFAULTS',
-  $sshd_config_authkey_location           = undef,
-  $sshd_config_strictmodes                = undef,
-  $sshd_config_serverkeybits              = 'USE_DEFAULTS',
-  $sshd_config_banner                     = 'none',
-  $sshd_config_ciphers                    = undef,
-  $sshd_config_kexalgorithms              = undef,
-  $sshd_config_macs                       = undef,
-  $ssh_enable_ssh_keysign                 = undef,
-  $sshd_config_allowgroups                = [],
-  $sshd_config_allowusers                 = [],
-  $sshd_config_denygroups                 = [],
-  $sshd_config_denyusers                  = [],
-  $sshd_config_maxauthtries               = undef,
-  $sshd_config_maxstartups                = undef,
-  $sshd_config_maxsessions                = undef,
-  $sshd_config_chrootdirectory            = undef,
-  $sshd_config_forcecommand               = undef,
-  $sshd_config_match                      = undef,
-  $sshd_authorized_keys_command           = undef,
-  $sshd_authorized_keys_command_user      = undef,
-  $sshd_banner_content                    = undef,
-  $sshd_banner_owner                      = 'root',
-  $sshd_banner_group                      = 'root',
-  $sshd_banner_mode                       = '0644',
-  $sshd_config_xauth_location             = 'USE_DEFAULTS',
-  $sshd_config_subsystem_sftp             = 'USE_DEFAULTS',
-  $sshd_kerberos_authentication           = undef,
-  $sshd_password_authentication           = 'yes',
-  $sshd_allow_tcp_forwarding              = 'yes',
-  $sshd_x11_forwarding                    = 'yes',
-  $sshd_x11_use_localhost                 = 'yes',
-  $sshd_use_pam                           = 'USE_DEFAULTS',
-  $sshd_client_alive_count_max            = '3',
-  $sshd_client_alive_interval             = '0',
-  $sshd_gssapiauthentication              = 'yes',
-  $sshd_gssapikeyexchange                 = 'USE_DEFAULTS',
-  $sshd_pamauthenticationviakbdint        = 'USE_DEFAULTS',
-  $sshd_gssapicleanupcredentials          = 'USE_DEFAULTS',
-  $sshd_acceptenv                         = 'USE_DEFAULTS',
-  $sshd_config_hostkey                    = 'USE_DEFAULTS',
-  $sshd_listen_address                    = undef,
-  $sshd_hostbasedauthentication           = 'no',
-  $sshd_pubkeyacceptedkeytypes            = undef,
-  $sshd_pubkeyauthentication              = 'yes',
-  $sshd_ignoreuserknownhosts              = 'no',
-  $sshd_ignorerhosts                      = 'yes',
-  $sshd_config_authenticationmethods      = undef,
-  $manage_service                         = true,
-  $sshd_addressfamily                     = 'USE_DEFAULTS',
-  $service_ensure                         = 'running',
-  $service_name                           = 'USE_DEFAULTS',
-  $service_enable                         = true,
-  $service_hasrestart                     = true,
-  $service_hasstatus                      = 'USE_DEFAULTS',
-  $ssh_key_ensure                         = 'present',
-  $ssh_key_import                         = true,
-  $ssh_key_type                           = 'ssh-rsa',
-  $ssh_config_global_known_hosts_file     = '/etc/ssh/ssh_known_hosts',
-  $ssh_config_global_known_hosts_list     = undef,
-  $ssh_config_global_known_hosts_owner    = 'root',
-  $ssh_config_global_known_hosts_group    = 'root',
-  $ssh_config_global_known_hosts_mode     = '0644',
-  $ssh_config_user_known_hosts_file       = undef,
-  $config_entries                         = {},
-  $keys                                   = undef,
-  $manage_root_ssh_config                 = false,
-  $root_ssh_config_content                = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
-  $sshd_config_tcp_keepalive              = undef,
-  $sshd_config_use_privilege_separation   = undef,
-  $sshd_config_permittunnel               = undef,
-  $sshd_config_hostcertificate            = undef,
-  $sshd_config_trustedusercakeys          = undef,
-  $sshd_config_key_revocation_list        = undef,
-  $sshd_config_authorized_principals_file = undef,
-  $sshd_config_allowagentforwarding       = undef,
+  $hiera_merge                                = false,
+  $packages                                   = 'USE_DEFAULTS',
+  $permit_root_login                          = 'yes',
+  $purge_keys                                 = true,
+  $manage_firewall                            = false,
+  $ssh_package_source                         = 'USE_DEFAULTS',
+  $ssh_package_adminfile                      = 'USE_DEFAULTS',
+  $ssh_config_hash_known_hosts                = 'USE_DEFAULTS',
+  $ssh_config_path                            = '/etc/ssh/ssh_config',
+  $ssh_config_owner                           = 'root',
+  $ssh_config_group                           = 'root',
+  $ssh_config_mode                            = '0644',
+  $ssh_config_forward_x11                     = undef,
+  $ssh_config_forward_x11_trusted             = 'USE_DEFAULTS',
+  $ssh_config_forward_agent                   = undef,
+  $ssh_config_server_alive_interval           = undef,
+  $ssh_config_sendenv_xmodifiers              = false,
+  $ssh_hostbasedauthentication                = undef,
+  $ssh_config_proxy_command                   = undef,
+  $ssh_strict_host_key_checking               = undef,
+  $ssh_config_ciphers                         = undef,
+  $ssh_config_kexalgorithms                   = undef,
+  $ssh_config_macs                            = undef,
+  $ssh_config_use_roaming                     = 'USE_DEFAULTS',
+  $ssh_config_template                        = 'ssh/ssh_config.erb',
+  $ssh_sendenv                                = 'USE_DEFAULTS',
+  $ssh_gssapiauthentication                   = 'yes',
+  $ssh_gssapidelegatecredentials              = undef,
+  $sshd_config_path                           = '/etc/ssh/sshd_config',
+  $sshd_config_owner                          = 'root',
+  $sshd_config_group                          = 'root',
+  $sshd_config_loglevel                       = 'INFO',
+  $sshd_config_mode                           = 'USE_DEFAULTS',
+  $sshd_config_permitemptypasswords           = undef,
+  $sshd_config_permituserenvironment          = undef,
+  $sshd_config_compression                    = undef,
+  $sshd_config_port                           = '22',
+  $sshd_config_syslog_facility                = 'AUTH',
+  $sshd_config_template                       = 'ssh/sshd_config.erb',
+  $sshd_config_login_grace_time               = '120',
+  $sshd_config_challenge_resp_auth            = 'yes',
+  $sshd_config_print_motd                     = 'yes',
+  $sshd_config_print_last_log                 = undef,
+  $sshd_config_use_dns                        = 'USE_DEFAULTS',
+  $sshd_config_authkey_location               = undef,
+  $sshd_config_strictmodes                    = undef,
+  $sshd_config_serverkeybits                  = 'USE_DEFAULTS',
+  $sshd_config_banner                         = 'none',
+  $sshd_config_ciphers                        = undef,
+  $sshd_config_kexalgorithms                  = undef,
+  $sshd_config_macs                           = undef,
+  $ssh_enable_ssh_keysign                     = undef,
+  $sshd_config_allowgroups                    = [],
+  $sshd_config_allowusers                     = [],
+  $sshd_config_denygroups                     = [],
+  $sshd_config_denyusers                      = [],
+  $sshd_config_maxauthtries                   = undef,
+  $sshd_config_maxstartups                    = undef,
+  $sshd_config_maxsessions                    = undef,
+  $sshd_config_chrootdirectory                = undef,
+  $sshd_config_forcecommand                   = undef,
+  $sshd_config_match                          = undef,
+  $sshd_authorized_keys_command               = undef,
+  $sshd_authorized_keys_command_user          = undef,
+  $sshd_banner_content                        = undef,
+  $sshd_banner_owner                          = 'root',
+  $sshd_banner_group                          = 'root',
+  $sshd_banner_mode                           = '0644',
+  $sshd_config_xauth_location                 = 'USE_DEFAULTS',
+  $sshd_config_subsystem_sftp                 = 'USE_DEFAULTS',
+  $sshd_kerberos_authentication               = undef,
+  $sshd_password_authentication               = 'yes',
+  $sshd_allow_tcp_forwarding                  = 'yes',
+  $sshd_x11_forwarding                        = 'yes',
+  $sshd_x11_use_localhost                     = 'yes',
+  $sshd_use_pam                               = 'USE_DEFAULTS',
+  $sshd_client_alive_count_max                = '3',
+  $sshd_client_alive_interval                 = '0',
+  $sshd_gssapiauthentication                  = 'yes',
+  $sshd_gssapikeyexchange                     = 'USE_DEFAULTS',
+  $sshd_pamauthenticationviakbdint            = 'USE_DEFAULTS',
+  $sshd_gssapicleanupcredentials              = 'USE_DEFAULTS',
+  $sshd_acceptenv                             = 'USE_DEFAULTS',
+  $sshd_config_hostkey                        = 'USE_DEFAULTS',
+  $sshd_listen_address                        = undef,
+  $sshd_hostbasedauthentication               = 'no',
+  $sshd_pubkeyacceptedkeytypes                = undef,
+  $sshd_pubkeyauthentication                  = 'yes',
+  $sshd_ignoreuserknownhosts                  = 'no',
+  $sshd_ignorerhosts                          = 'yes',
+  $sshd_config_authenticationmethods          = undef,
+  $manage_service                             = true,
+  $sshd_addressfamily                         = 'USE_DEFAULTS',
+  $service_ensure                             = 'running',
+  $service_name                               = 'USE_DEFAULTS',
+  $service_enable                             = true,
+  $service_hasrestart                         = true,
+  $service_hasstatus                          = 'USE_DEFAULTS',
+  $ssh_key_ensure                             = 'present',
+  $ssh_key_import                             = true,
+  $ssh_key_type                               = 'ssh-rsa',
+  $ssh_config_global_known_hosts_file         = '/etc/ssh/ssh_known_hosts',
+  $ssh_config_global_known_hosts_list         = undef,
+  $ssh_config_global_known_hosts_owner        = 'root',
+  $ssh_config_global_known_hosts_group        = 'root',
+  $ssh_config_global_known_hosts_mode         = '0644',
+  $ssh_config_user_known_hosts_file           = undef,
+  Optional[Ssh::Include] $ssh_config_include  = 'USE_DEFAULTS',
+  $config_entries                             = {},
+  $keys                                       = undef,
+  $manage_root_ssh_config                     = false,
+  $root_ssh_config_content                    = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
+  $sshd_config_tcp_keepalive                  = undef,
+  $sshd_config_use_privilege_separation       = undef,
+  $sshd_config_permittunnel                   = undef,
+  $sshd_config_hostcertificate                = undef,
+  $sshd_config_trustedusercakeys              = undef,
+  $sshd_config_key_revocation_list            = undef,
+  $sshd_config_authorized_principals_file     = undef,
+  $sshd_config_allowagentforwarding           = undef,
+  Optional[Ssh::Include] $sshd_config_include = 'USE_DEFAULTS',
 ) {
 
   case $::osfamily {
@@ -134,6 +136,7 @@ class ssh (
       $default_ssh_package_source              = undef
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
+      $default_ssh_config_include              = undef
       $default_sshd_config_subsystem_sftp      = '/usr/libexec/openssh/sftp-server'
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
@@ -153,6 +156,7 @@ class ssh (
       $default_sshd_addressfamily              = 'any'
       $default_sshd_config_tcp_keepalive       = 'yes'
       $default_sshd_config_permittunnel        = 'no'
+      $default_sshd_config_include             = undef
     }
     'Suse': {
       $default_packages                        = 'openssh'
@@ -162,6 +166,7 @@ class ssh (
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
       $default_ssh_config_forward_x11_trusted  = 'yes'
+      $default_ssh_config_include              = undef
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
       $default_sshd_config_xauth_location      = '/usr/bin/xauth'
@@ -176,6 +181,7 @@ class ssh (
       $default_sshd_addressfamily              = 'any'
       $default_sshd_config_tcp_keepalive       = 'yes'
       $default_sshd_config_permittunnel        = 'no'
+      $default_sshd_config_include             = undef
       case $::architecture {
         'x86_64': {
           if ($::operatingsystem == 'SLES') and ($::operatingsystemrelease =~ /^12\./) {
@@ -212,6 +218,7 @@ class ssh (
           $default_ssh_package_source                 = undef
           $default_ssh_package_adminfile              = undef
           $default_ssh_sendenv                        = true
+          $default_ssh_config_include                 = undef
           $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
           $default_sshd_config_mode                   = '0600'
           $default_sshd_config_use_dns                = 'yes'
@@ -225,6 +232,7 @@ class ssh (
           $default_sshd_addressfamily                 = 'any'
           $default_sshd_config_tcp_keepalive          = 'yes'
           $default_sshd_config_permittunnel           = 'no'
+          $default_sshd_config_include                = undef
         }
         '18.04': {
           $default_sshd_config_hostkey = [
@@ -239,6 +247,7 @@ class ssh (
           $default_ssh_package_source                 = undef
           $default_ssh_package_adminfile              = undef
           $default_ssh_sendenv                        = true
+          $default_ssh_config_include                 = undef
           $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
           $default_sshd_config_mode                   = '0600'
           $default_sshd_config_use_dns                = 'yes'
@@ -252,32 +261,36 @@ class ssh (
           $default_sshd_addressfamily                 = 'any'
           $default_sshd_config_tcp_keepalive          = 'yes'
           $default_sshd_config_permittunnel           = 'no'
+          $default_sshd_config_include                = undef
         }
         '20.04': {
-          $default_sshd_config_hostkey = [
-            '/etc/ssh/ssh_host_rsa_key',
-            '/etc/ssh/ssh_host_dsa_key',
-            '/etc/ssh/ssh_host_ecdsa_key',
-            '/etc/ssh/ssh_host_ed25519_key',
-          ]
-          $default_ssh_config_hash_known_hosts        = 'yes'
-          $default_sshd_config_xauth_location         = undef
-          $default_ssh_config_forward_x11_trusted     = 'yes'
-          $default_ssh_package_source                 = undef
+          $default_service_hasstatus                  = true
           $default_ssh_package_adminfile              = undef
+          $default_ssh_package_source                 = undef
+          $default_ssh_config_hash_known_hosts        = 'yes'
+          $default_ssh_gssapiauthentication           = 'yes'
           $default_ssh_sendenv                        = true
-          $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
+          $default_ssh_config_forward_x11_trusted     = 'yes'
+          $default_ssh_config_include                 = '/etc/ssh/ssh_config.d/*.conf'
+          $default_sshd_acceptenv                     = true
+          $default_sshd_addressfamily                 = 'any'
+          #$default_sshd_config_challenge_resp_auth    = 'no'
+          $default_sshd_config_hostkey                = []
           $default_sshd_config_mode                   = '0600'
+          $default_sshd_config_permittunnel           = undef
+          $default_sshd_config_print_motd             = 'no'
+          $default_sshd_config_serverkeybits          = undef
+          $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
+          $default_sshd_config_tcp_keepalive          = undef
           $default_sshd_config_use_dns                = 'yes'
-          $default_sshd_use_pam                       = 'yes'
+          $default_sshd_config_xauth_location         = undef
+          $default_sshd_gssapiauthentication          = 'yes'
+          $default_sshd_gssapicleanupcredentials      = 'yes'
           $default_sshd_gssapikeyexchange             = undef
           $default_sshd_pamauthenticationviakbdint    = undef
-          $default_sshd_gssapicleanupcredentials      = 'yes'
-          $default_sshd_acceptenv                     = true
-          $default_service_hasstatus                  = true
-          $default_sshd_config_serverkeybits          = '1024'
-          $default_sshd_addressfamily                 = 'any'
-          $default_sshd_config_tcp_keepalive          = 'yes'
+          $default_sshd_use_pam                       = 'yes'
+          $default_sshd_x11_forwarding                = 'yes'
+          $default_sshd_config_include                = '/etc/ssh/sshd_config.d/*.conf'
         }
         /^10.*/: {
           $default_sshd_config_hostkey = [
@@ -288,6 +301,7 @@ class ssh (
           $default_sshd_config_mode                = '0600'
           $default_sshd_use_pam                    = 'yes'
           $default_ssh_config_forward_x11_trusted  = 'yes'
+          $default_ssh_config_include              = undef
           $default_sshd_acceptenv                  = true
           $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
           $default_ssh_config_hash_known_hosts     = 'yes'
@@ -304,6 +318,7 @@ class ssh (
           $default_sshd_gssapikeyexchange          = undef
           $default_sshd_pamauthenticationviakbdint = undef
           $default_service_hasstatus               = true
+          $default_sshd_config_include             = undef
         }
         /^9.*/: {
           $default_sshd_config_hostkey = [
@@ -318,6 +333,7 @@ class ssh (
           $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
           $default_ssh_config_hash_known_hosts     = 'yes'
           $default_ssh_sendenv                     = true
+          $default_ssh_config_include              = undef
           $default_sshd_addressfamily              = undef
           $default_sshd_config_serverkeybits       = undef
           $default_sshd_gssapicleanupcredentials   = undef
@@ -329,6 +345,7 @@ class ssh (
           $default_ssh_package_adminfile           = undef
           $default_sshd_gssapikeyexchange          = undef
           $default_sshd_pamauthenticationviakbdint = undef
+          $default_sshd_config_include             = undef
           $default_service_hasstatus               = true
         }
         /^7.*/: {
@@ -339,6 +356,7 @@ class ssh (
           $default_ssh_package_source              = undef
           $default_ssh_package_adminfile           = undef
           $default_ssh_sendenv                     = true
+          $default_ssh_config_include              = undef
           $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
           $default_sshd_config_mode                = '0600'
           $default_sshd_config_use_dns             = 'yes'
@@ -352,6 +370,7 @@ class ssh (
           $default_sshd_addressfamily              = 'any'
           $default_sshd_config_tcp_keepalive       = 'yes'
           $default_sshd_config_permittunnel        = 'no'
+          $default_sshd_config_include             = undef
         }
         /^8.*/: {
 
@@ -360,6 +379,7 @@ class ssh (
           $default_ssh_package_source              = undef
           $default_ssh_package_adminfile           = undef
           $default_ssh_sendenv                     = true
+          $default_ssh_config_include              = undef
           $default_sshd_config_hostkey = [
           '/etc/ssh/ssh_host_rsa_key',
           '/etc/ssh/ssh_host_dsa_key',
@@ -380,6 +400,7 @@ class ssh (
           $default_sshd_config_tcp_keepalive       = 'yes'
           $default_sshd_config_permittunnel        = 'no'
           $default_service_hasstatus               = true
+          $default_sshd_config_include             = undef
         }
         default: { fail ("Operating System : ${::operatingsystemrelease} not supported") }
       }
@@ -388,6 +409,7 @@ class ssh (
       $default_ssh_config_hash_known_hosts     = undef
       $default_ssh_sendenv                     = false
       $default_ssh_config_forward_x11_trusted  = undef
+      $default_ssh_config_include              = undef
       $default_sshd_config_subsystem_sftp      = '/usr/lib/ssh/sftp-server'
       $default_sshd_config_mode                = '0644'
       $default_sshd_config_use_dns             = undef
@@ -403,6 +425,7 @@ class ssh (
       $default_sshd_addressfamily              = undef
       $default_sshd_config_tcp_keepalive       = undef
       $default_sshd_config_permittunnel        = undef
+      $default_sshd_config_include             = undef
       case $::kernelrelease {
         '5.11': {
           $default_packages                      = ['network/ssh',
@@ -568,6 +591,12 @@ class ssh (
     $ssh_config_use_roaming_real = $ssh_config_use_roaming
   }
 
+  if $ssh_config_include == 'USE_DEFAULTS' {
+    $ssh_config_include_real = $default_ssh_config_include
+  } else {
+    $ssh_config_include_real = $ssh_config_include
+  }
+
   if $ssh_sendenv == 'USE_DEFAULTS' {
     $ssh_sendenv_real = $default_ssh_sendenv
   } else {
@@ -635,6 +664,12 @@ class ssh (
     $sshd_addressfamily_real = $default_sshd_addressfamily
   } else {
     $sshd_addressfamily_real = $sshd_addressfamily
+  }
+
+  if $sshd_config_include == 'USE_DEFAULTS' {
+    $sshd_config_include_real = $default_sshd_config_include
+  } else {
+    $sshd_config_include_real = $sshd_config_include
   }
 
   case $sshd_config_maxsessions {

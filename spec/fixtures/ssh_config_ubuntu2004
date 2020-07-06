@@ -20,6 +20,8 @@
 # list of available options, their meanings and defaults, please see the
 # ssh_config(5) man page.
 
+Include /etc/ssh/ssh_config.d/*.conf
+
 # Host *
 #   ForwardAgent no
 #   ForwardX11 no
