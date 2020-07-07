@@ -265,23 +265,23 @@ class ssh (
         }
         '20.04': {
           $default_service_hasstatus                  = true
+          $default_ssh_config_forward_x11_trusted     = 'yes'
+          $default_ssh_config_hash_known_hosts        = 'yes'
+          $default_ssh_config_include                 = '/etc/ssh/ssh_config.d/*.conf'
+          $default_ssh_gssapiauthentication           = 'yes'
           $default_ssh_package_adminfile              = undef
           $default_ssh_package_source                 = undef
-          $default_ssh_config_hash_known_hosts        = 'yes'
-          $default_ssh_gssapiauthentication           = 'yes'
           $default_ssh_sendenv                        = true
-          $default_ssh_config_forward_x11_trusted     = 'yes'
-          $default_ssh_config_include                 = '/etc/ssh/ssh_config.d/*.conf'
           $default_sshd_acceptenv                     = true
           $default_sshd_addressfamily                 = 'any'
-          #$default_sshd_config_challenge_resp_auth    = 'no'
           $default_sshd_config_hostkey                = []
+          $default_sshd_config_include                = '/etc/ssh/sshd_config.d/*.conf'
           $default_sshd_config_mode                   = '0600'
           $default_sshd_config_permittunnel           = undef
           $default_sshd_config_print_motd             = 'no'
           $default_sshd_config_serverkeybits          = undef
           $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
-          $default_sshd_config_tcp_keepalive          = undef
+          $default_sshd_config_tcp_keepalive          = 'yes'
           $default_sshd_config_use_dns                = 'yes'
           $default_sshd_config_xauth_location         = undef
           $default_sshd_gssapiauthentication          = 'yes'
@@ -290,13 +290,6 @@ class ssh (
           $default_sshd_pamauthenticationviakbdint    = undef
           $default_sshd_use_pam                       = 'yes'
           $default_sshd_x11_forwarding                = 'yes'
-          $default_sshd_config_include                = '/etc/ssh/sshd_config.d/*.conf'
-          $default_sshd_gssapicleanupcredentials      = 'yes'
-          $default_sshd_acceptenv                     = true
-          $default_service_hasstatus                  = true
-          $default_sshd_config_serverkeybits          = '1024'
-          $default_sshd_addressfamily                 = 'any'
-          $default_sshd_config_tcp_keepalive          = 'yes'
         }
         /^10.*/: {
           $default_sshd_config_hostkey = [
