@@ -281,7 +281,7 @@ class ssh (
           $default_sshd_config_print_motd             = 'no'
           $default_sshd_config_serverkeybits          = undef
           $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
-          $default_sshd_config_tcp_keepalive          = 'yes'
+          $default_sshd_config_tcp_keepalive          = undef
           $default_sshd_config_use_dns                = 'yes'
           $default_sshd_config_xauth_location         = undef
           $default_sshd_gssapiauthentication          = 'yes'
