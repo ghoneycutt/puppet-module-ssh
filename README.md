@@ -8,6 +8,9 @@ ssh_key_ensure and purge_keys.
 
 This module may be used with a simple `include ::ssh`
 
+The `ssh::config_entry` defined type may be used directly and is used to manage
+Host entries in a personal `~/.ssh/config` file.
+
 ===
 
 ### Table of Contents
@@ -20,11 +23,13 @@ This module may be used with a simple `include ::ssh`
 # Compatibility
 
 This module has been tested to work on the following systems with the
-latest Puppet v3, v3 with future parser, last few releases of v4 and
-Puppet v5. See .travis.yml for the exact matrix of supported Puppet and
-ruby versions.
+latest Puppet v3, v3 with future parser, v4, v5 and v6.  See `.travis.yml`
+for the exact matrix of supported Puppet and ruby versions.
 
  * Debian 7
+ * Debian 8
+ * Debian 9
+ * Debian 10
  * EL 5
  * EL 6
  * EL 7
@@ -34,6 +39,7 @@ ruby versions.
  * Ubuntu 12.04 LTS
  * Ubuntu 14.04 LTS
  * Ubuntu 16.04 LTS
+ * Ubuntu 18.04 LTS
  * Solaris 9
  * Solaris 10
  * Solaris 11
@@ -54,8 +60,9 @@ A value of `'USE_DEFAULTS'` will use the defaults specified by the module.
 
 hiera_merge
 -----------
-Boolean to merges all found instances of ssh::keys in Hiera. This is useful for specifying
-SSH keys at different levels of the hierarchy and having them all included in the catalog.
+Boolean to merges all found instances of ssh::keys and ssh::config_entries in Hiera.
+This is useful for specifying SSH keys at different levels of the hierarchy and having
+them all included in the catalog.
 
 This will default to 'true' in future versions.
 
@@ -308,7 +315,7 @@ PrintMotd option in sshd_config.
 
 - *Default*: 'yes'
 
-sshd_config_print_lastlog
+sshd_config_print_last_log
 ----------------------
 PrintLastLog option in sshd_config.
 Verify SSH provides users with feedback on when account accesses last occurred.
@@ -420,7 +427,7 @@ X11Forwarding in sshd_config. Specifies whether X11 forwarding is permitted.
 
 sshd_x11_use_localhost
 ----------------------
-X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding server 
+X11UseLocalhost in sshd_config. Specifies if sshd should bind the X11 forwarding server
 to the loopback address or to the wildcard address.
 
 - *Default*: 'yes'
@@ -553,9 +560,11 @@ Array of users for the AllowUsers setting in sshd_config.
 
 - *Default*: undef
 
-sshd_config_maxstartups
+sshd_config_maxstartups (string)
 -----------------------
-Specifies the maximum number of concurrent unauthenticated connections to the SSH daemon.
+Specifies the maximum number of concurrent unauthenticated connections
+to the SSH daemon. Must be a stringified integer or a string with three
+integers separated by colons, such as '10:30:100'.
 
 - *Default*: undef
 
@@ -608,6 +617,12 @@ Absolute path to the OpenSSH User CA Certificate (TrustedUserCAKeys) for use wit
 
 - *Default*: undefined
 
+sshd_config_key_revocation_list
+-----------------------------
+Absolute path to a key revocation list (RevokedKeys) for use with SSH CA Validation for Users or the string 'none'.
+
+- *Default*: undefined
+
 sshd_config_authorized_principals_file
 --------------------------------------
 String path (relative or absolute) to the `authorized_principals` file. Sets the `AuthorizedPrincipalsFile` setting in `sshd_config`
@@ -615,6 +630,31 @@ String path (relative or absolute) to the `authorized_principals` file. Sets the
 See `sshd_config(5)` for more details
 
 - *Default*: undefined
+
+sshd_config_allowagentforwarding
+--------------------------------
+AllowAgentForwarding option in sshd_config. Specifies if ssh-agent(1)
+forwarding is permitted. Valid values are 'yes' and 'no'.
+
+- *Default*: undef
+
+config_entries
+--------------
+Hash of config entries for a specific user's ~/.ssh/config. Please check the docs for ssd::config_entry for a list and details of the parameters usable here.
+Setting hiera_merge to true will activate merging entries through all levels of hiera.
+
+- *Hiera example*:
+
+``` yaml
+ssh::config_entries:
+  'root':
+    owner: 'root'
+    group: 'root'
+    path:  '/root/.ssh/config'
+    host:  'host.example.local'
+```
+
+- *Default*: {}
 
 keys
 ----
@@ -705,6 +745,12 @@ sshd_ignoreuserknownhosts
 String for IgnoreUserKnownHosts option in sshd_config. Valid values are 'yes' and 'no'. Specifies whether sshd(8) should ignore the user's ~/.ssh/known_hosts during RhostsRSAAuthentication or HostbasedAuthentication.
 
 - *Default*: 'no'
+
+sshd_config_authenticationmethods
+-------------------------
+Array of AuthenticationMethods in sshd_config.
+
+- *Default*: undef
 
 sshd_ignorerhosts
 -------------------------
@@ -851,4 +897,31 @@ ssh::keys:
   root_for_userY:
     ensure: absent
     user: root
+```
+
+Manage config entries in a personal ssh/config file.
+
+```
+Ssh::Config_entry {
+  ensure => present,
+  path   => '/home/jenkins/.ssh/config',
+  owner  => 'jenkins',
+  group  => 'jenkins',
+}
+
+
+ssh::config_entry { 'jenkins *':
+  host  => '*',
+  lines => [
+    '  ForwardX11 no',
+    '  StrictHostKeyChecking no',
+  ],
+  order => '10',
+}
+
+ssh::config_entry { 'jenkins github.com':
+  host  => 'github.com',
+  lines => ["  IdentityFile /home/jenkins/.ssh/jenkins-gihub.key"],
+  order => '20',
+}
 ```

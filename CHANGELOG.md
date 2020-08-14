@@ -1,3 +1,42 @@
+### v3.61.0 - 2019-05-01
+  * Support Debian 8
+  * Support Ubuntu 18.04 LTS
+
+### v3.60.1 - 2019-04-29
+  * Fix screwed up metadata
+
+### v3.60.0 - 2019-04-29
+  * Support Debian 9
+  * Add ability for IPv6 addresses to be exported as part of the sshkey
+      for the FQDN.
+
+### v3.59.1 - 2019-02-28
+  * Put Match block at end of sshd_config
+
+### v3.59.0 - 2018-01-03
+  * Support Puppet 6
+
+### v3.58.0 - 2018-10-08
+  * Add RevokedKeys option to `sshd_config`
+
+### v3.57.1 - 2018-07-27
+  * Disable ServerkeyBits on RHEL 7.4 and later
+
+### v3.57.0 - 2017-12-10
+  * Add support for AuthenticationMethods and AllowAgentForwarding
+    options in sshd_config
+
+### v3.56.1 - 2017-11-20
+  * Fix regex bug with `sshd_config_maxstartups`
+
+### v3.56.0 - 2017-10-27
+  * Support puppetlabs/concat v3 and v4
+
+### v3.55.0 - 2017-09-26
+  * Add `ssh::config_entry` defined type to manage `~/.ssh/config`
+  * Add `config_entries` parameter to ssh class to allow specifying a
+    hash of multiple entries for `ssh::config_entry`.
+
 ### v3.54.0 - 2017-07-24
   * Allow sshd_config_hostcertificate to be an array. This fixes a bug
     where you could have specified one cert and multiple HostKey's since

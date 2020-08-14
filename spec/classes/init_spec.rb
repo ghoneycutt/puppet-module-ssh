@@ -3,16 +3,18 @@ require 'spec_helper'
 describe 'ssh' do
 
   default_facts = {
-    :fqdn                => 'monkey.example.com',
-    :hostname            => 'monkey',
-    :ipaddress           => '127.0.0.1',
-    :lsbmajdistrelease   => '6',
-    :osfamily            => 'RedHat',
-    :root_home           => '/root',
-    :specific            => 'dummy',
-    :ssh_version         => 'OpenSSH_6.6p1',
-    :ssh_version_numeric => '6.6',
-    :sshrsakey           => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==',
+    :fqdn                   => 'monkey.example.com',
+    :hostname               => 'monkey',
+    :ipaddress              => '127.0.0.1',
+    :ipaddress6             => nil,
+    :lsbmajdistrelease      => '6',
+    :operatingsystemrelease => '6.7',
+    :osfamily               => 'RedHat',
+    :root_home              => '/root',
+    :specific               => 'dummy',
+    :ssh_version            => 'OpenSSH_6.6p1',
+    :ssh_version_numeric    => '6.6',
+    :sshrsakey              => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==',
   }
 
   default_solaris_facts = {
@@ -43,6 +45,45 @@ describe 'ssh' do
       :sshd_service_hasstatus => true,
       :sshd_config_fixture    => 'sshd_config_debian',
       :ssh_config_fixture     => 'ssh_config_debian',
+    },
+    'Debian-8' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'Debian',
+      :operatingsystemrelease => '8',
+      :ssh_version            => 'OpenSSH_6.7p1',
+      :ssh_version_numeric    => '8.11',
+      :ssh_packages           => ['openssh-server', 'openssh-client'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'ssh',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_debian8',
+      :ssh_config_fixture     => 'ssh_config_debian8',
+    },
+    'Debian-9' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'Debian',
+      :operatingsystemrelease => '9',
+      :ssh_version            => 'OpenSSH_7.4p1',
+      :ssh_version_numeric    => '7.4',
+      :ssh_packages           => ['openssh-server', 'openssh-client'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'ssh',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_debian9',
+      :ssh_config_fixture     => 'ssh_config_debian9',
+    },
+    'Debian-10' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'Debian',
+      :operatingsystemrelease => '10',
+      :ssh_version            => 'OpenSSH_7.9p1',
+      :ssh_version_numeric    => '7.9',
+      :ssh_packages           => ['openssh-server', 'openssh-client'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'ssh',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_debian10',
+      :ssh_config_fixture     => 'ssh_config_debian10',
     },
     'RedHat-5' => {
       :architecture           => 'x86_64',
@@ -81,6 +122,19 @@ describe 'ssh' do
       :sshd_service_name      => 'sshd',
       :sshd_service_hasstatus => true,
       :sshd_config_fixture    => 'sshd_config_rhel',
+      :ssh_config_fixture     => 'ssh_config_rhel',
+    },
+    'RedHat-7.4' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'RedHat',
+      :operatingsystemrelease => '7.4',
+      :ssh_version            => 'OpenSSH_6.6p1',
+      :ssh_version_numeric    => '6.6',
+      :ssh_packages           => ['openssh-server', 'openssh-clients'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'sshd',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_rhel7',
       :ssh_config_fixture     => 'ssh_config_rhel',
     },
     'Suse-10-x86_64' => {
@@ -205,6 +259,19 @@ describe 'ssh' do
       :sshd_config_fixture    => 'sshd_config_ubuntu1604',
       :ssh_config_fixture     => 'ssh_config_ubuntu1604',
     },
+    'Ubuntu-1804' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'Debian',
+      :operatingsystemrelease => '18.04',
+      :ssh_version            => 'OpenSSH_7.6p1',
+      :ssh_version_numeric    => '7.6',
+      :ssh_packages           => ['openssh-server', 'openssh-client'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'ssh',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_ubuntu1804',
+      :ssh_config_fixture     => 'ssh_config_ubuntu1804',
+    },
   }
 
   osfamily_matrix.each do |os, facts|
@@ -295,6 +362,34 @@ describe 'ssh' do
           'purge' => 'true',
         })
       }
+
+      it { should have_ssh__config_entry_resource_count(0) }
+
+      context 'with exported sshkey resources' do
+        subject { exported_resources}
+        context 'With only IPv4 address' do
+          let(:facts) { default_facts.merge( facts )}
+          it { should contain_sshkey('monkey.example.com').with(
+            'ensure' => 'present',
+            'host_aliases' => ['monkey', '127.0.0.1']
+          )}
+        end
+        context 'With dual stack IP' do
+          let(:facts) { default_facts.merge({ :ipaddress6 => 'dead:beef::1/64' }) }
+          it { should contain_sshkey('monkey.example.com').with(
+            'ensure' => 'present',
+            'host_aliases' => ['monkey', '127.0.0.1', 'dead:beef::1/64']
+          )}
+        end
+        context 'With only IPv6 address' do
+          let(:facts) { default_facts.merge({ :ipaddress6 => 'dead:beef::1/64', :ipaddress => nil }) }
+          it { should contain_sshkey('monkey.example.com').with(
+            'ensure' => 'present',
+            'host_aliases' => ['monkey', 'dead:beef::1/64']
+          )}
+        end
+      end
+
     end
   end
 
@@ -417,6 +512,9 @@ describe 'ssh' do
                                                    'ssh-ed25519',
                                                    'ssh-rsa',
         ],
+        :sshd_config_authenticationmethods    => [ 'publickey',
+                                                   'keyboard-interactive',
+        ],
         :sshd_pubkeyauthentication            => 'no',
         :sshd_allow_tcp_forwarding            => 'no',
         :sshd_x11_forwarding                  => 'no',
@@ -468,6 +566,8 @@ describe 'ssh' do
         :sshd_config_tcp_keepalive            => 'yes',
   :sshd_config_use_privilege_separation => 'no',
         :sshd_config_permittunnel             => 'no',
+        :sshd_config_allowagentforwarding     => 'no',
+        :sshd_config_key_revocation_list      => '/path/to/revocation_list',
       }
     end
 
@@ -524,6 +624,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^AuthorizedKeysCommandUser asdf$/) }
     it { should contain_file('sshd_config').with_content(/^HostbasedAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^PubkeyAcceptedKeyTypes ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,ssh-ed25519,ssh-rsa$/) }
+    it { should contain_file('sshd_config').with_content(/^AuthenticationMethods publickey,keyboard-interactive$/) }
     it { should contain_file('sshd_config').with_content(/^PubkeyAuthentication no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreUserKnownHosts no$/) }
     it { should contain_file('sshd_config').with_content(/^IgnoreRhosts yes$/) }
@@ -541,6 +642,7 @@ describe 'ssh' do
     it { should contain_file('sshd_config').with_content(/^TCPKeepAlive yes$/) }
     it { should contain_file('sshd_config').with_content(/^UsePrivilegeSeparation no$/) }
     it { should contain_file('sshd_config').with_content(/^PermitTunnel no$/) }
+    it { should contain_file('sshd_config').with_content(/^RevokedKeys \/path\/to\/revocation_list$/) }
 
     it {
       should contain_file('sshd_banner').with({
@@ -1067,6 +1169,30 @@ describe 'sshd_config_print_last_log param' do
     end
   end
 
+  describe 'sshd_config_key_revocation_list param' do
+    ['/path/to','unset'].each do |value|
+      context "set to #{value}" do
+        let (:params) { { :sshd_config_key_revocation_list => value } }
+
+        if value == 'unset'
+          it { should contain_file('sshd_config').without_content(/^\s*RevokedKeys/) }
+        else
+          it { should contain_file('sshd_config').with_content(/^RevokedKeys #{value}$/) }
+        end
+      end
+    end
+
+    context 'when set to an invalid value' do
+      let (:params) { { :sshd_config_key_revocation_list => 'invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/while evaluating a Function Call|is not an absolute path/)
+      end
+    end
+  end
+
   describe 'sshd_config_hostcertificate param' do
     context 'unset value' do
       let(:params) { { :sshd_config_hostcertificate => 'unset' } }
@@ -1267,6 +1393,26 @@ describe 'sshd_config_print_last_log param' do
     end
   end
 
+  describe 'with sshd_config_allowagentforwarding' do
+    ['yes','no'].each do |value|
+      context "set to #{value}" do
+        let(:params) { { 'sshd_config_allowagentforwarding' => value } }
+
+        it { should contain_file('sshd_config').with_content(/^AllowAgentForwarding #{value}$/) }
+      end
+    end
+
+    context 'set to invalid value on valid osfamily' do
+      let(:params) { { :sshd_config_allowagentforwarding => 'invalid' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/ssh::sshd_config_allowagentforwarding may be either \'yes\' or \'no\' and is set to <invalid>\./)
+      end
+    end
+  end
+
 
   context 'with sshd_config_strictmodes set to invalid value on valid osfamily' do
     let(:params) { { :sshd_config_strictmodes => 'invalid' } }
@@ -1343,6 +1489,71 @@ describe 'sshd_config_print_last_log param' do
         'proto'  => 'tcp',
       })
     }
+  end
+
+  context 'with config_entries defined on valid osfamily' do
+    let(:params) do
+      {
+        :config_entries => {
+          'root' => {
+            'owner' => 'root',
+            'group' => 'root',
+            'path'  => '/root/.ssh/config',
+            'host'  => 'test_host1',
+          },
+          'user' => {
+            'owner' => 'user',
+            'group' => 'group',
+            'path'  => '/home/user/.ssh/config',
+            'host'  => 'test_host2',
+            'order' => '242',
+            'lines' => [ 'ForwardX11 no', 'StrictHostKeyChecking no' ],
+          },
+        }
+      }
+    end
+
+    it { should compile.with_all_deps }
+    it { should have_ssh__config_entry_resource_count(2) }
+    it do
+      should contain_ssh__config_entry('root').with({
+        'owner' => 'root',
+        'group' => 'root',
+        'path'  => '/root/.ssh/config',
+        'host'  => 'test_host1',
+      })
+    end
+    it do
+      should contain_ssh__config_entry('user').with({
+        'owner' => 'user',
+        'group' => 'group',
+        'path'  => '/home/user/.ssh/config',
+        'host'  => 'test_host2',
+        'order' => '242',
+        'lines' => [ 'ForwardX11 no', 'StrictHostKeyChecking no' ],
+      })
+    end
+  end
+
+  describe 'with hiera providing data from multiple levels' do
+    let(:facts) do
+      default_facts.merge({
+        :fqdn     => 'hieramerge.example.com',
+        :specific => 'test_hiera_merge',
+      })
+    end
+
+    context 'with defaults for all parameters' do
+      it { should have_ssh__config_entry_resource_count(1) }
+      it { should contain_ssh__config_entry('user_from_fqdn') }
+    end
+
+    context 'with hiera_merge set to valid <true>' do
+      let(:params) { { :hiera_merge => true } }
+      it { should have_ssh__config_entry_resource_count(2) }
+      it { should contain_ssh__config_entry('user_from_fqdn') }
+      it { should contain_ssh__config_entry('user_from_fact') }
+    end
   end
 
   context 'with keys defined on valid osfamily' do
@@ -2334,6 +2545,18 @@ describe 'sshd_config_print_last_log param' do
     end
   end
 
+  [true,'invalid'].each do |authenticationmethods|
+    context "with sshd_config_authenticationmethods set to invalid value #{authenticationmethods}" do
+      let(:params) { { :sshd_config_authenticationmethods => authenticationmethods } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error,/is not/)
+      end
+    end
+  end
+
   describe 'with parameter sshd_pubkeyauthentication' do
     ['yes','no'].each do |value|
       context "specified as valid #{value} (as #{value.class})" do
@@ -2514,14 +2737,15 @@ describe 'sshd_config_print_last_log param' do
   end
 
   describe 'variable type and content validations' do
-    # set needed custom facts and variables
-    let(:mandatory_params) do
-      {
-        #:param => 'value',
-      }
-    end
+    mandatory_params = {} if mandatory_params.nil?
 
     validations = {
+      'hash' => {
+        :name    => %w[config_entries],
+        :valid   => [], # valid hashes are to complex to block test them here. types::mount should have its own spec tests anyway.
+        :invalid => ['string', %w[array], 3, 2.42, true],
+        :message => 'is not a Hash',
+      },
       'regex (yes|no|unset)' => {
         :name    => %w(ssh_config_use_roaming),
         :valid   => ['yes', 'no', 'unset'],
@@ -2543,9 +2767,7 @@ describe 'sshd_config_print_last_log param' do
         var[:invalid].each do |invalid|
           context "when #{var_name} (#{type}) is set to invalid #{invalid} (as #{invalid.class})" do
             let(:params) { [mandatory_params, var[:params], { :"#{var_name}" => invalid, }].reduce(:merge) }
-            it 'should fail' do
-              expect { should contain_class(subject) }.to raise_error(Puppet::Error, /#{var[:message]}/)
-            end
+            it { is_expected.to compile.and_raise_error(/#{var[:message]}/) }
           end
         end
       end # var[:name].each

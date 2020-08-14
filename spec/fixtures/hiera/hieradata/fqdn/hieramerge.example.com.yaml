@@ -7,3 +7,9 @@ ssh::sshd_config_denygroups:
   - denygroup_from_fqdn
 ssh::sshd_config_denyusers:
   - denyuser_from_fqdn
+ssh::config_entries:
+  'user_from_fqdn':
+    owner: 'fqdn_user'
+    group: 'fqdn_user'
+    path:  '/home/fqdn_user/.ssh/config'
+    host:  'fqdn_host.example.local'
