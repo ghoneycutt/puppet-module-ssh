@@ -2786,4 +2786,61 @@ describe 'sshd_config_print_last_log param' do
       end # var[:name].each
     end # validations.sort.each
   end # describe 'variable type and content validations'
+
+  describe 'sshd_config_include' do
+    context 'when set to an array' do
+      let(:params) { {'sshd_config_include' => ['file1','file2'] } }
+
+      it { should contain_file('sshd_config').with_content(/^Include file1 file2$/) }
+    end
+
+    context 'when set to a string' do
+      let(:params) { {'sshd_config_include' => 'file1' } }
+
+      it { should contain_file('sshd_config').with_content(/^Include file1$/) }
+    end
+
+    context 'when not set' do
+      it { should_not contain_file('sshd_config').with_content(/^\s*Include/) }
+    end
+
+    context 'when set to an invalid type (not string or array)' do
+      let(:params) { {'sshd_config_include' => true } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
+  describe 'ssh_config_include' do
+    context 'when set to an array' do
+      let(:params) { {'ssh_config_include' => ['file1','file2'] } }
+
+      it { should contain_file('ssh_config').with_content(/^Include file1 file2$/) }
+    end
+
+    context 'when set to a string' do
+      let(:params) { {'ssh_config_include' => 'file1' } }
+
+      it { should contain_file('ssh_config').with_content(/^Include file1$/) }
+    end
+
+    context 'when not set' do
+      it { should_not contain_file('ssh_config').with_content(/^\s*Include/) }
+    end
+
+    context 'when set to an invalid type (not string or array)' do
+      let(:params) { {'ssh_config_include' => true } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
 end

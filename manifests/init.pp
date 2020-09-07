@@ -593,6 +593,17 @@ class ssh (
   if $ssh_config_include == 'USE_DEFAULTS' {
     $ssh_config_include_real = $default_ssh_config_include
   } else {
+    case type3x($ssh_config_include) {
+      'array': {
+        validate_array($ssh_config_include)
+      }
+      'string': {
+        validate_string($ssh_config_include)
+      }
+      default: {
+        fail('ssh::ssh_config_include type must be a strting or array.')
+      }
+    }
     $ssh_config_include_real = $ssh_config_include
   }
 
@@ -668,6 +679,17 @@ class ssh (
   if $sshd_config_include == 'USE_DEFAULTS' {
     $sshd_config_include_real = $default_sshd_config_include
   } else {
+    case type3x($sshd_config_include) {
+      'array': {
+        validate_array($sshd_config_include)
+      }
+      'string': {
+        validate_string($sshd_config_include)
+      }
+      default: {
+        fail('ssh::sshd_config_include type must be a strting or array.')
+      }
+    }
     $sshd_config_include_real = $sshd_config_include
   }
 
