@@ -257,7 +257,7 @@ class ssh (
           $default_sshd_gssapicleanupcredentials      = 'yes'
           $default_sshd_acceptenv                     = true
           $default_service_hasstatus                  = true
-          $default_sshd_config_serverkeybits          = '1024'
+          $default_sshd_config_serverkeybits          = undef
           $default_sshd_addressfamily                 = 'any'
           $default_sshd_config_tcp_keepalive          = 'yes'
           $default_sshd_config_permittunnel           = 'no'
