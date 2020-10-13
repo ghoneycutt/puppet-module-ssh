@@ -72,6 +72,7 @@ class ssh (
   $sshd_banner_group                          = 'root',
   $sshd_banner_mode                           = '0644',
   $sshd_config_xauth_location                 = 'USE_DEFAULTS',
+  $sshd_enable_subsystem_sftp                 = true,
   $sshd_config_subsystem_sftp                 = 'USE_DEFAULTS',
   $sshd_kerberos_authentication               = undef,
   $sshd_password_authentication               = 'yes',
