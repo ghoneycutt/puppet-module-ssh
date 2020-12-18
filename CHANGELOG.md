@@ -1,3 +1,6 @@
+### v3.62.0 - 2020-09-07
+  * Support Ubuntu 20.04 LTS
+
 ### v3.61.0 - 2019-05-01
   * Support Debian 8
   * Support Ubuntu 18.04 LTS

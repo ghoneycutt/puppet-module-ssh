@@ -13,13 +13,21 @@
 # possible, but leave them commented.  Uncommented options change a
 # default value.
 
+<% if defined?(@sshd_config_include_real) -%>
+<% if @sshd_config_include_real.is_a? Array -%>
+Include <%= @sshd_config_include_real.join(' ') %>
+<% else -%>
+Include <%= @sshd_config_include_real %>
+<% end -%>
+
+<% end -%>
 #Port 22
 <% @sshd_config_port_array.each do |p| -%>
 <%= "Port #{p}" %>
 <% end -%>
 #Protocol 2,1
 Protocol 2
-<% if @sshd_addressfamily_real != nil -%>
+<% if defined?(@sshd_addressfamily_real) -%>
 #AddressFamily any
 AddressFamily <%= @sshd_addressfamily_real %>
 <% end -%>
