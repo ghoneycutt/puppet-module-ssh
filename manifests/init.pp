@@ -205,7 +205,7 @@ class ssh (
       $default_service_name                    = 'ssh'
 
       case $::operatingsystemrelease {
-        /^1[24].04$/: {
+        /^1[24]\.04$/: {
           $default_sshd_config_hostkey                = [ '/etc/ssh/ssh_host_rsa_key' ]
           $default_ssh_config_hash_known_hosts        = 'no'
           $default_sshd_config_xauth_location         = '/usr/bin/xauth'
