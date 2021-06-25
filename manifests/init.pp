@@ -5,6 +5,7 @@
 class ssh (
   $hiera_merge                                = false,
   $packages                                   = 'USE_DEFAULTS',
+  $manage_packages                            = true,
   $permit_root_login                          = 'yes',
   $purge_keys                                 = true,
   $manage_firewall                            = false,
@@ -1103,10 +1104,16 @@ class ssh (
     validate_re($sshd_config_allowagentforwarding, '^(yes|no)$', "ssh::sshd_config_allowagentforwarding may be either 'yes' or 'no' and is set to <${sshd_config_allowagentforwarding}>.")
   }
 
-  package { $packages_real:
-    ensure    => installed,
-    source    => $ssh_package_source_real,
-    adminfile => $ssh_package_adminfile_real,
+  if $manage_packages {
+    $package_require = Package[$packages_real]
+
+    package { $packages_real:
+      ensure    => installed,
+      source    => $ssh_package_source_real,
+      adminfile => $ssh_package_adminfile_real,
+    }
+  } else {
+    $package_require = undef
   }
 
   file  { 'ssh_config' :
@@ -1116,7 +1123,7 @@ class ssh (
     group   => $ssh_config_group,
     mode    => $ssh_config_mode,
     content => template($ssh_config_template),
-    require => Package[$packages_real],
+    require => $package_require,
   }
 
   file  { 'sshd_config' :
@@ -1126,7 +1133,7 @@ class ssh (
     owner   => $sshd_config_owner,
     group   => $sshd_config_group,
     content => template($sshd_config_template),
-    require => Package[$packages_real],
+    require => $package_require,
   }
 
   if $sshd_config_banner != 'none' and $sshd_banner_content != undef {
@@ -1137,7 +1144,7 @@ class ssh (
       group   => $sshd_banner_group,
       mode    => $sshd_banner_mode,
       content => $sshd_banner_content,
-      require => Package[$packages_real],
+      require => $package_require,
     }
   }
 
@@ -1207,7 +1214,7 @@ class ssh (
     owner   => $ssh_config_global_known_hosts_owner,
     group   => $ssh_config_global_known_hosts_group,
     mode    => $ssh_config_global_known_hosts_mode,
-    require => Package[$packages_real],
+    require => $package_require,
   }
 
   # import all nodes' ssh keys
