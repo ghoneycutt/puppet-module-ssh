@@ -111,6 +111,7 @@ class ssh (
   $ssh_config_global_known_hosts_mode         = '0644',
   $ssh_config_user_known_hosts_file           = undef,
   $ssh_config_include                         = 'USE_DEFAULTS',
+  $ssh_config_hostkeyalgorithms               = undef,
   $config_entries                             = {},
   $keys                                       = undef,
   $manage_root_ssh_config                     = false,
@@ -124,6 +125,7 @@ class ssh (
   $sshd_config_authorized_principals_file     = undef,
   $sshd_config_allowagentforwarding           = undef,
   $sshd_config_include                        = 'USE_DEFAULTS',
+  $sshd_config_hostkeyalgorithms              = undef,
 ) {
 
   case $::osfamily {
@@ -607,6 +609,10 @@ class ssh (
     $ssh_config_include_real = $ssh_config_include
   }
 
+  if $ssh_config_hostkeyalgorithms != undef {
+    validate_array($ssh_config_hostkeyalgorithms)
+  }
+
   if $ssh_sendenv == 'USE_DEFAULTS' {
     $ssh_sendenv_real = $default_ssh_sendenv
   } else {
@@ -691,6 +697,10 @@ class ssh (
       }
     }
     $sshd_config_include_real = $sshd_config_include
+  }
+
+  if $sshd_config_hostkeyalgorithms != undef {
+    validate_array($sshd_config_hostkeyalgorithms)
   }
 
   case $sshd_config_maxsessions {

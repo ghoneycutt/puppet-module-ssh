@@ -639,6 +639,12 @@ forwarding is permitted. Valid values are 'yes' and 'no'.
 
 - *Default*: undef
 
+sshd_config_hostkeyalgorithms
+-----------------------------
+Array of hostkey algorithms to be used with the HostKeyAlgorithms option in sshd_config.
+
+- *Default*: undef
+
 config_entries
 --------------
 Hash of config entries for a specific user's ~/.ssh/config. Please check the docs for ssd::config_entry for a list and details of the parameters usable here.
@@ -874,6 +880,12 @@ manage_service
 Manage the sshd service through this module or not.  Valid values are 'true' and 'false'.
 
 - *Default*: 'true'
+
+ssh_config_hostkeyalgorithms
+----------------------------
+Array of hostkey algorithms to be used with the HostKeyAlgorithms option in ssh_config.
+
+- *Default*: undef
 
 ===
 # Manage user's ssh_authorized_keys
