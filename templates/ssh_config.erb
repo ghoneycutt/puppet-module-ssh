@@ -117,3 +117,6 @@ GSSAPIDelegateCredentials <%= @ssh_gssapidelegatecredentials %>
 <% if @ssh_config_user_known_hosts_file -%>
   UserKnownHostsFile <%= @ssh_config_user_known_hosts_file.join(' ') %>
 <% end -%>
+<% if @ssh_config_hostkeyalgorithms -%>
+  HostKeyAlgorithms <%= @ssh_config_hostkeyalgorithms.join(',') %>
+<% end -%>

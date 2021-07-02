@@ -294,3 +294,7 @@ Match <%= key %>
 <%     end -%>
 <%   end -%>
 <% end -%>
+
+<% if @sshd_config_hostkeyalgorithms -%>
+HostKeyAlgorithms <%= @sshd_config_hostkeyalgorithms.join(',') %>
+<% end -%>
