@@ -287,7 +287,7 @@ AuthorizedPrincipalsFile <%= @sshd_config_authorized_principals_file_real %>
 <% end -%>
 <% if @sshd_config_match -%>
 
-<%   @sshd_config_match.sort.each do |key, hash| -%>
+<%   @sshd_config_match.each do |key, hash| -%>
 Match <%= key %>
 <%     hash.sort.each do |values| -%>
   <%= values %>
