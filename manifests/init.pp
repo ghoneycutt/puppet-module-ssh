@@ -21,6 +21,7 @@ class ssh (
   $ssh_config_server_alive_interval           = undef,
   $ssh_config_sendenv_xmodifiers              = false,
   $ssh_hostbasedauthentication                = undef,
+  $sshd_hostbasedusesnamefrompacketonly       = undef,
   $ssh_config_proxy_command                   = undef,
   $ssh_strict_host_key_checking               = undef,
   $ssh_config_ciphers                         = undef,
@@ -887,6 +888,9 @@ class ssh (
   }
 
   validate_re($sshd_hostbasedauthentication, '^(yes|no)$', "ssh::sshd_hostbasedauthentication may be either 'yes' or 'no' and is set to <${sshd_hostbasedauthentication}>.")
+  if $sshd_hostbasedusesnamefrompacketonly != undef {
+    validate_re($sshd_hostbasedusesnamefrompacketonly, '^(yes|no)$', "ssh::sshd_hostbasedusesnamefrompacketonly may be either 'yes' or 'no' and is set to <${ssh_hostbasedusesnamefrompacketonly}>.")
+  }
 
   if $sshd_pubkeyacceptedkeytypes != undef {
     validate_array($sshd_pubkeyacceptedkeytypes)
