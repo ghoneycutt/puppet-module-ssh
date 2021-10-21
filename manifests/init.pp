@@ -185,10 +185,6 @@ class ssh (
         'x86_64': {
           if ($::operatingsystem == 'SLES') {
             case $::operatingsystemrelease {
-              /12\./: {
-                $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
-                $default_sshd_config_serverkeybits  = '1024'
-              }
               /15\./: {
                 $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
                 $default_sshd_config_serverkeybits  = undef
