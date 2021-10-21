@@ -6,6 +6,7 @@ describe 'ssh' do
     :fqdn                   => 'monkey.example.com',
     :hostname               => 'monkey',
     :ipaddress              => '127.0.0.1',
+    :ipaddress6             => nil,
     :lsbmajdistrelease      => '6',
     :operatingsystemrelease => '6.7',
     :osfamily               => 'RedHat',
@@ -70,6 +71,19 @@ describe 'ssh' do
       :sshd_service_hasstatus => true,
       :sshd_config_fixture    => 'sshd_config_debian9',
       :ssh_config_fixture     => 'ssh_config_debian9',
+    },
+    'Debian-10' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'Debian',
+      :operatingsystemrelease => '10',
+      :ssh_version            => 'OpenSSH_7.9p1',
+      :ssh_version_numeric    => '7.9',
+      :ssh_packages           => ['openssh-server', 'openssh-client'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'ssh',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_debian10',
+      :ssh_config_fixture     => 'ssh_config_debian10',
     },
     'RedHat-5' => {
       :architecture           => 'x86_64',
@@ -271,6 +285,19 @@ describe 'ssh' do
       :sshd_service_hasstatus => true,
       :sshd_config_fixture    => 'sshd_config_ubuntu1804',
       :ssh_config_fixture     => 'ssh_config_ubuntu1804',
+    },
+    'Ubuntu-2004' => {
+      :architecture           => 'x86_64',
+      :osfamily               => 'Debian',
+      :operatingsystemrelease => '20.04',
+      :ssh_version            => 'OpenSSH_7.6p1',
+      :ssh_version_numeric    => '7.6',
+      :ssh_packages           => ['openssh-server', 'openssh-client'],
+      :sshd_config_mode       => '0600',
+      :sshd_service_name      => 'ssh',
+      :sshd_service_hasstatus => true,
+      :sshd_config_fixture    => 'sshd_config_ubuntu2004',
+      :ssh_config_fixture     => 'ssh_config_ubuntu2004',
     },
   }
 
@@ -2773,4 +2800,61 @@ describe 'sshd_config_print_last_log param' do
       end # var[:name].each
     end # validations.sort.each
   end # describe 'variable type and content validations'
+
+  describe 'sshd_config_include' do
+    context 'when set to an array' do
+      let(:params) { {'sshd_config_include' => ['file1','file2'] } }
+
+      it { should contain_file('sshd_config').with_content(/^Include file1 file2$/) }
+    end
+
+    context 'when set to a string' do
+      let(:params) { {'sshd_config_include' => 'file1' } }
+
+      it { should contain_file('sshd_config').with_content(/^Include file1$/) }
+    end
+
+    context 'when not set' do
+      it { should_not contain_file('sshd_config').with_content(/^\s*Include/) }
+    end
+
+    context 'when set to an invalid type (not string or array)' do
+      let(:params) { {'sshd_config_include' => true } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
+  describe 'ssh_config_include' do
+    context 'when set to an array' do
+      let(:params) { {'ssh_config_include' => ['file1','file2'] } }
+
+      it { should contain_file('ssh_config').with_content(/^Include file1 file2$/) }
+    end
+
+    context 'when set to a string' do
+      let(:params) { {'ssh_config_include' => 'file1' } }
+
+      it { should contain_file('ssh_config').with_content(/^Include file1$/) }
+    end
+
+    context 'when not set' do
+      it { should_not contain_file('ssh_config').with_content(/^\s*Include/) }
+    end
+
+    context 'when set to an invalid type (not string or array)' do
+      let(:params) { {'ssh_config_include' => true } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('ssh')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
 end
