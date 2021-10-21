@@ -36,6 +36,7 @@ for the exact matrix of supported Puppet and ruby versions.
  * SLES 10
  * SLES 11
  * SLES 12
+ * SLES 15
  * Ubuntu 12.04 LTS
  * Ubuntu 14.04 LTS
  * Ubuntu 16.04 LTS

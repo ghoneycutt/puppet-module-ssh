@@ -176,7 +176,6 @@ class ssh (
       $default_sshd_gssapicleanupcredentials   = 'yes'
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
-      $default_sshd_config_serverkeybits       = '1024'
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
       $default_sshd_addressfamily              = 'any'
       $default_sshd_config_tcp_keepalive       = 'yes'
@@ -184,10 +183,17 @@ class ssh (
       $default_sshd_config_include             = undef
       case $::architecture {
         'x86_64': {
-          if ($::operatingsystem == 'SLES') and ($::operatingsystemrelease =~ /^12\./) {
-            $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
-          } else {
-            $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
+          if ($::operatingsystem == 'SLES') {
+            case $::operatingsystemrelease {
+              /15\./: {
+                $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
+                $default_sshd_config_serverkeybits  = undef
+              }
+              default: {
+                $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
+                $default_sshd_config_serverkeybits  = '1024'
+              }
+            }
           }
         }
         'i386' : {
