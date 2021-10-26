@@ -30,6 +30,7 @@ for the exact matrix of supported Puppet and ruby versions.
  * Debian 8
  * Debian 9
  * Debian 10
+ * Debian 11
  * EL 5
  * EL 6
  * EL 7
