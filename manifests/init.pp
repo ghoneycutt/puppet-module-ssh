@@ -147,7 +147,7 @@ class ssh (
       $default_sshd_gssapicleanupcredentials   = 'yes'
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
-      if versioncmp($::operatingsystemrelease, '7.4') < 0 {
+      if versioncmp($::operatingsystemrelease, '7.4') <= 0 {
         $default_sshd_config_serverkeybits = '1024'
       } else {
         $default_sshd_config_serverkeybits = undef
