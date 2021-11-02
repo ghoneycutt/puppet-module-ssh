@@ -147,10 +147,14 @@ class ssh (
       $default_sshd_gssapicleanupcredentials   = 'yes'
       $default_sshd_acceptenv                  = true
       $default_service_hasstatus               = true
-      if versioncmp($::operatingsystemrelease, '7.4') < 0 {
-        $default_sshd_config_serverkeybits = '1024'
-      } else {
-        $default_sshd_config_serverkeybits = undef
+      if $::ssh_version =~ /^OpenSSH_/ {
+        if versioncmp($::ssh_version_numeric, '7.6') < 0 {
+          $default_sshd_config_serverkeybits = '1024'
+        } elsif $::ssh_version == "OpenSSH_7.6" {
+          $default_sshd_config_serverkeybits = '1024'
+        } else {
+          $default_sshd_config_serverkeybits = undef
+        }
       }
       $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
       $default_sshd_addressfamily              = 'any'
