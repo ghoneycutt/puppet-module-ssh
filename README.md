@@ -808,9 +808,19 @@ Export node SSH key. Valid values are 'present' and 'absent'.
 
 - *Default*: 'present'
 
+ssh_key_export
+--------------
+
+Export this hosts' SSH key. If you don't use storeconfigs turn this to false to
+silence some useless warnings.
+
+- *Default*: true
+
 ssh_key_import
 --------------
-Import all exported node SSH keys. Valid values are 'true' and 'false'.
+
+Import all exported node SSH keys. Valid values are 'true' and 'false'. If you
+don't use storeconfigs set this to 'false' to silence some useless warnings.
 
 - *Default*: 'true'
 
