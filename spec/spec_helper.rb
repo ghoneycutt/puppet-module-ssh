@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.configure do |c|
-  c.mock_with :rspec
+  c.mock_with :mocha
 end
 
 require 'puppetlabs_spec_helper/module_spec_helper'
@@ -38,6 +38,7 @@ end
 
 RSpec.configure do |c|
   c.default_facts = default_facts
+  c.hiera_config = 'spec/fixtures/hiera/hiera.yaml'
   c.before :each do
     # set to strictest setting for testing
     # by default Puppet runs at warning level
@@ -46,6 +47,7 @@ RSpec.configure do |c|
   end
   c.filter_run_excluding(bolt: true) unless ENV['GEM_BOLT']
   c.after(:suite) do
+    RSpec::Puppet::Coverage.report!(65)
   end
 
   # Filter backtrace noise
