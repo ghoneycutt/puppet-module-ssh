@@ -184,15 +184,15 @@ class ssh (
       case $::architecture {
         'x86_64': {
           if ($::operatingsystem == 'SLES') {
-            case $::operatingsystemrelease {
-              /15\./: {
-                $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
-                $default_sshd_config_serverkeybits  = undef
-              }
-              default: {
-                $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
-                $default_sshd_config_serverkeybits  = '1024'
-              }
+            if versioncmp($::operatingsystemrelease, '15') >= 0 {
+              $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
+              $default_sshd_config_serverkeybits  = undef
+            } elsif versioncmp($::operatingsystemrelease, '12') >= 0 {
+              $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
+              $default_sshd_config_serverkeybits  = '1024'
+            } else  {
+              $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
+              $default_sshd_config_serverkeybits  = '1024'
             }
           }
         }
