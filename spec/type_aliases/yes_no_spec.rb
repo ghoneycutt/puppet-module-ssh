@@ -29,7 +29,7 @@ describe 'Ssh::Yes_no' do
         '55555',
         '0x123',
         'yess',
-        'nooo'
+        'nooo',
       ].each do |value|
         describe value.inspect do
           it { is_expected.not_to allow_value(value) }
