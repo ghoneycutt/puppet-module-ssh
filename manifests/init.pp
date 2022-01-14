@@ -102,6 +102,7 @@ class ssh (
   $service_hasrestart                         = true,
   $service_hasstatus                          = 'USE_DEFAULTS',
   $ssh_key_ensure                             = 'present',
+  $ssh_key_export                             = true,
   $ssh_key_import                             = true,
   $ssh_key_type                               = 'ssh-rsa',
   $ssh_config_global_known_hosts_file         = '/etc/ssh/ssh_known_hosts',
@@ -1228,11 +1229,13 @@ class ssh (
   else { $host_aliases = [$::hostname, $::ipaddress] }
 
   # export each node's ssh key
-  @@sshkey { $::fqdn :
-    ensure       => $ssh_key_ensure,
-    host_aliases => $host_aliases,
-    type         => $ssh_key_type,
-    key          => $key,
+  if $ssh_key_export {
+    @@sshkey { $::fqdn :
+      ensure       => $ssh_key_ensure,
+      host_aliases => $host_aliases,
+      type         => $ssh_key_type,
+      key          => $key,
+    }
   }
 
   file { 'ssh_known_hosts':
