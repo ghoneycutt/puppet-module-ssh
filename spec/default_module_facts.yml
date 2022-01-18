@@ -1,0 +1,4 @@
+# Facts specified here will override the values provided by rspec-puppet-facts.
+---
+ssh_version: 'OpenSSH_6.6p1'
+ssh_version_numeric: '6.6'
