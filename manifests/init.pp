@@ -578,6 +578,12 @@ class ssh (
     }
   }
 
+  case type_of($global_known_hosts_file) {
+    string:  { $global_known_hosts_file_array = [ $global_known_hosts_file ] }
+    default: { $global_known_hosts_file_array = $global_known_hosts_file }
+  }
+
+
   if "${::ssh_version}" =~ /^OpenSSH/  { # lint:ignore:only_variable_string
     $ssh_version_array = split($::ssh_version_numeric, '\.')
     $ssh_version_maj_int = 0 + $ssh_version_array[0]
