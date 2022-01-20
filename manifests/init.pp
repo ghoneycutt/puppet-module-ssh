@@ -127,7 +127,7 @@
 #
 # @param host_key_alias
 #
-# @param host_name
+# @param hostname
 #
 # @param identities_only
 #
@@ -287,7 +287,7 @@ class ssh (
   Optional[Array[String[1]]] $hostbased_key_types = undef,
   Optional[Array[String[1]]] $host_key_algorithms = undef,
   Optional[String[1]] $host_key_alias = undef,
-  Optional[String[1]] $host_name = undef,
+  Optional[String[1]] $hostname = undef,
   Optional[Ssh::Yes_no] $identities_only = undef,
   Optional[String[1]] $identity_agent = undef,
   Optional[Array[String[1]]] $identity_file = undef,
