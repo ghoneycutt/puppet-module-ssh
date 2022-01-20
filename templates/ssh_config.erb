@@ -225,7 +225,7 @@ Host <%= @host %>
   ServerAliveCountMax <%= @server_alive_count_max %>
 <% end -%>
 <% if @server_alive_interval != nil -%>
-  ServerAliveIAerval <%= @server_alive_interval %>
+  ServerAliveInterval <%= @server_alive_interval %>
 <% end -%>
 <% if @set_env != nil -%>
   SetEnv <%= @set_env.join(' ') %>
@@ -261,7 +261,7 @@ Host <%= @host %>
   UserKnownHostsFile <%= @user_known_hosts_file.join(' ') %>
 <% end -%>
 <% if @verify_host_key_dns != nil -%>
- VerifyHostKeyDNS <%= @verify_host_key_dns %>
+  VerifyHostKeyDNS <%= @verify_host_key_dns %>
 <% end -%>
 <% if @visual_host_key != nil -%>
   VisualHostKey <%= @visual_host_key %>
