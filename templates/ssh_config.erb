@@ -139,7 +139,7 @@ Host <%= @host %>
   IdentityFile <%= @identity_file.join(',') %>
 <% end -%>
 <% if @ignore_unknown != nil -%>
-  IgnoreUnknown <%= @ignore_unknown %>
+  IgnoreUnknown <%= @ignore_unknown.join(',') %>
 <% end -%>
 <% if @include != nil -%>
   Include <%= @include %>
