@@ -18,6 +18,7 @@ describe 'ssh' do
     |Host *
   END
 
+=begin
   rh_default_content = <<-END.gsub(%r{^\s+\|}, '')
     |  ForwardX11Trusted yes
     |  GSSAPIAuthentication yes
@@ -112,284 +113,77 @@ describe 'ssh' do
       it { is_expected.to contain_service('sshd_service') }
     end
   end
+=end
 
   # test parameters
   # they aren't OS dependent, no need to test with each OS
   on_supported_os(debian).sort.each do |os, os_facts|
     let(:facts) { os_facts }
 
-    ['yes', 'no', 'ask', 'confirm'].each do |value|
-      context "on #{os} with add_keys_to_agent set to valid #{value}" do
-        let(:params) { { add_keys_to_agent: value } }
+    parameters = {
+=begin
+      'add_keys_to_agent'                    => { str: 'AddKeysToAgent',                    val: ['yes', 'no', 'ask', 'confirm'], },
+      'address_family'                       => { str: 'AddressFamily',                     val: ['any', 'inet', 'inet6'], },
+      'batch_mode'                           => { str: 'BatchMode',                         val: ['yes', 'no'], },
+      'bind_address'                         => { str: 'BindAddress',                       val: ['10.11.12.13', '192.168.3.3'], },
+      'bind_interface'                       => { str: 'BindInterface',                     val: ['eth0', 'eth1'], },
+      'canonical_domains'                    => { str: 'CanonicalDomains',                  val: [['unit.test.ing'], ['h1.test.ing', 'h2.test.ing']], sep: ' ', },
+      'canonicalize_fallback_local'          => { str: 'CanonicalizeFallbackLocal',         val: ['yes', 'no'], },
+      'canonicalize_hostname'                => { str: 'CanonicalizeHostname',              val: ['yes', 'no', 'always'], },
+      'canonicalize_max_dots'                => { str: 'CanonicalizeMaxDots',               val: [3, 242], },
+      'canonicalize_permitted_cnames'        => { str: 'CanonicalizePermittedCNAMEs',       val: [['*.test.ing:*.spec.ing'], ['*.test1.ing:*.spec.ing', '*.test2.ing:*.spec.ing']], sep: ',' },
+      'ca_signature_algorithms'              => { str: 'CASignatureAlgorithms',             val: [['test-242'], ['-rsa-sha2-256', '+rsa-sha2-242']], sep: ',' },
+      'certificate_file'                     => { str: 'CertificateFile',                   val: [['/test/ing'], ['/test/ing1', '/test/ing2']], sep: "\n  CertificateFile " },
+      'challenge_response_authentication'    => { str: 'ChallengeResponseAuthentication',   val: ['yes', 'no'], },
+      'check_host_ip'                        => { str: 'CheckHostIP',                       val: ['yes', 'no'], },
+      'ciphers'                              => { str: 'Ciphers',                           val: [['test242-ctr'], ['test242-ctr', 'test512-ctr']], sep: ',' },
+      'clear_all_forwardings'                => { str: 'ClearAllForwardings',               val: ['yes', 'no'], },
+      'compression'                          => { str: 'Compression',                       val: ['yes', 'no'], },
+      'connect_timeout'                      => { str: 'ConnectTimeout',                    val: [3, 242], },
+      'connection_attempts'                  => { str: 'ConnectionAttempts',                val: [3, 242], },
+      'control_master'                       => { str: 'ControlMaster',                     val: ['yes', 'no', 'ask', 'auto', 'autoask'], },
+      'control_path'                         => { str: 'ControlPath',                       val: ['/test/ing', '~/.ssh/testing/%r@%h-%p'], },
+      'control_persist'                      => { str: 'ControlPersist',                    val: ['3h', '242h'], },
+      'dynamic_forward'                      => { str: 'DynamicForward',                    val: ['3', '242', '2300'], },
+      'enable_ssh_keysign'                   => { str: 'EnableSSHKeysign',                  val: ['yes', 'no'], },
+      'escape_char'                          => { str: 'EscapeChar',                        val: ['~.', '~B'], },
+      'exit_on_forward_failure'              => { str: 'ExitOnForwardFailure',              val: ['yes', 'no'], },
+      'fingerprint_hash'                     => { str: 'FingerprintHash',                   val: ['sha256', 'md5'], },
+      'forward_agent'                        => { str: 'ForwardAgent',                      val: ['yes', 'no'], },
+      'forward_x11'                          => { str: 'ForwardX11',                        val: ['yes', 'no'], },
+      'forward_x11_timeout'                  => { str: 'ForwardX11Timeout',                 val: ['3h', '242m', '2300s'], },
+      'forward_x11_trusted'                  => { str: 'ForwardX11Trusted',                 val: ['yes', 'no'], },
+      'gateway_ports'                        => { str: 'GatewayPorts',                      val: ['yes', 'no'], },
+      'global_known_hosts_file'              => { str: 'GlobalKnownHostsFile',              val: [['/test/ing'], ['/test/ing', '/unit/test']], sep: ' ', },
+      'gss_api_authentication'               => { str: 'GSSAPIAuthentication',              val: ['yes', 'no'], },
+      'gss_api_delegate_credentials'         => { str: 'GSSAPIDelegateCredentials',         val: ['yes', 'no'], },
+=end
+      'hash_known_hosts'                     => { str: 'HashKnownHosts',                    val: ['yes', 'no'], },
+      'hostbased_authentication'             => { str: 'HostbasedAuthentication',           val: ['yes', 'no'], },
+      'hostbased_key_types'                  => { str: 'HostbasedKeyTypes',                 val: [['^ssh-test'], ['-ssh-rsa', '+ssh-test']], sep: ',', },
+      'host_key_algorithms'                  => { str: 'HostKeyAlgorithms',                 val: [['^ssh-test'], ['-ssh-rsa', '+ssh-test']], sep: ',', },
+      'host_key_alias'                       => { str: 'HostKeyAlias',                      val: ['testhost', 'test242'], },
+      'hostname'                             => { str: 'Hostname',                          val: ['testhost', '242.242.242.242'], },
+      'identities_only'                      => { str: 'IdentitiesOnly',                    val: ['yes', 'no'], },
+      'identity_agent'                       => { str: 'IdentityAgent',                     val: ['/test/ing', '~/test/ing'], },
+      'identity_file'                        => { str: 'IdentityFile',                      val: [['~/.ssh/id_dsa']], }, # TODO: make multiline ?
 
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  AddKeysToAgent ' + value + "\n") }
+#      ''    => { str: '',      val: },
+#      'no_host_authentication_for_localhost' => { str: 'NoHostAuthenticationForLocalhost', val: ['yes', 'no'], },
+    }
+    parameters.each do |param, data|
+      data[:val].each do |value|
+        context "on #{os} with #{param} set to valid #{value} (as #{value.class})" do
+          let(:params) { { "#{param}": value } }
+
+          if value.class == Array
+            it { is_expected.to contain_file('ssh_config').with_content(header + "  #{data[:str]} #{value.join(data[:sep])}" + "\n") }
+          else
+            it { is_expected.to contain_file('ssh_config').with_content(header + "  #{data[:str]} #{value}\n") }
+          end
+        end
       end
     end
 
-    ['any', 'inet', 'inet6'].each do |value|
-      context "on #{os} with address_family set to valid #{value}" do
-        let(:params) { { address_family: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  AddressFamily ' + value + "\n") }
-      end
-    end
-
-    ['yes', 'no'].each do |value|
-      context "on #{os} with batch_mode set to valid #{value}" do
-        let(:params) { { batch_mode: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  BatchMode ' + value + "\n") }
-      end
-    end
-
-    ['10.11.12.13', '192.168.3.3'].each do |value|
-      context "on #{os} with bind_address set to valid #{value}" do
-        let(:params) { { bind_address: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  BindAddress ' + value + "\n") }
-      end
-    end
-
-    ['10.11.12.13', '192.168.3.3'].each do |value|
-      context "on #{os} with bind_interface set to valid #{value}" do
-        let(:params) { { bind_interface: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  BindInterface ' + value + "\n") }
-      end
-    end
-
-    ['10.11.12.13', '192.168.3.3'].each do |value|
-      context "on #{os} with bind_interface set to valid #{value}" do
-        let(:params) { { bind_interface: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  BindInterface ' + value + "\n") }
-      end
-    end
-
-    [['unit.test.ing'], ['host1.test.ing', 'host2.test.ing']].each do |value|
-      context "on #{os} with canonical_domains set to valid #{value}" do
-        let(:params) { { canonical_domains: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  CanonicalDomains ' + value.join(' ') + "\n") }
-      end
-    end
-
-    ['yes', 'no'].each do |value|
-      context "on #{os} with canonicalize_fallback_local set to valid #{value}" do
-        let(:params) { { canonicalize_fallback_local: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  CanonicalizeFallbackLocal ' + value + "\n") }
-      end
-    end
-
-    ['yes', 'no', 'always'].each do |value|
-      context "on #{os} with canonicalize_hostname set to valid #{value}" do
-        let(:params) { { canonicalize_hostname: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  CanonicalizeHostname ' + value + "\n") }
-      end
-    end
-
-    [3, 242].each do |value|
-      context "on #{os} with canonicalize_max_dots set to valid #{value}" do
-        let(:params) { { canonicalize_max_dots: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  CanonicalizeMaxDots ' + value.to_s + "\n") }
-      end
-    end
-
-    [['unit.test.ing'], ['host1.test.ing', 'host2.test.ing']].each do |value|
-      context "on #{os} with canonicalize_permitted_cnames set to valid #{value}" do
-        let(:params) { { canonicalize_permitted_cnames: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  CanonicalizePermittedCNAMEs ' + value.join(',') + "\n") }
-      end
-    end
-
-    [['unit.test.ing'], ['host1.test.ing', 'host2.test.ing']].each do |value|
-      context "on #{os} with ca_signature_algorithms set to valid #{value}" do
-        let(:params) { { ca_signature_algorithms: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  CASignatureAlgorithms ' + value.join(',') + "\n") }
-      end
-    end
-
-    [['unit.test.ing'], ['host1.test.ing', 'host2.test.ing']].each do |value|
-      context "on #{os} with certificate_file set to valid #{value}" do
-        let(:params) { { certificate_file: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  CertificateFile ' + value.join("\n  CertificateFile ") + "\n") }
-      end
-    end
-
-    ['yes', 'no'].each do |value|
-      context "on #{os} with challenge_response_authentication set to valid #{value}" do
-        let(:params) { { challenge_response_authentication: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  ChallengeResponseAuthentication ' + value + "\n") }
-      end
-    end
-
-    ['yes', 'no'].each do |value|
-      context "on #{os} with check_host_ip set to valid #{value}" do
-        let(:params) { { check_host_ip: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  CheckHostIP ' + value + "\n") }
-      end
-    end
-
-    [['test242-ctr'], ['test242-ctr', 'test512-ctr']].each do |value|
-      context "on #{os} with ciphers set to valid #{value}" do
-        let(:params) { { ciphers: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  Ciphers ' + value.join(',') + "\n") }
-      end
-    end
-
-    ['yes', 'no'].each do |value|
-      context "on #{os} with clear_all_forwardings set to valid #{value}" do
-        let(:params) { { clear_all_forwardings: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  ClearAllForwardings ' + value + "\n") }
-      end
-    end
-
-    ['yes', 'no'].each do |value|
-      context "on #{os} with compression set to valid #{value}" do
-        let(:params) { { compression: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  Compression ' + value + "\n") }
-      end
-    end
-
-    [3, 242].each do |value|
-      context "on #{os} with connect_timeout set to valid #{value}" do
-        let(:params) { { connect_timeout: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  ConnectTimeout ' + value.to_s + "\n") }
-      end
-    end
-
-    [3, 242].each do |value|
-      context "on #{os} with connection_attempts set to valid #{value}" do
-        let(:params) { { connection_attempts: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  ConnectionAttempts ' + value.to_s + "\n") }
-      end
-    end
-
-    ['yes', 'no', 'ask', 'auto', 'autoask'].each do |value|
-      context "on #{os} with control_master set to valid #{value}" do
-        let(:params) { { control_master: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  ControlMaster ' + value + "\n") }
-      end
-    end
-
-    ['/test/ing', '~/.ssh/testing/%r@%h-%p'].each do |value|
-      context "on #{os} with control_path set to valid #{value}" do
-        let(:params) { { control_path: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  ControlPath ' + value + "\n") }
-      end
-    end
-
-    ['3h', '242h'].each do |value|
-      context "on #{os} with control_persist set to valid #{value}" do
-        let(:params) { { control_persist: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  ControlPersist ' + value + "\n") }
-      end
-    end
-
-    ['3', '242', '2300'].each do |value|
-      context "on #{os} with dynamic_forward set to valid #{value}" do
-        let(:params) { { dynamic_forward: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  DynamicForward ' + value + "\n") }
-      end
-    end
-
-    ['yes', 'no'].each do |value|
-      context "on #{os} with enable_ssh_keysign set to valid #{value}" do
-        let(:params) { { enable_ssh_keysign: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  EnableSSHKeysign ' + value + "\n") }
-      end
-    end
-
-    ['~.', '~B'].each do |value|
-      context "on #{os} with escape_char set to valid #{value}" do
-        let(:params) { { escape_char: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  EscapeChar ' + value + "\n") }
-      end
-    end
-
-    ['yes', 'no'].each do |value|
-      context "on #{os} with exit_on_forward_failure set to valid #{value}" do
-        let(:params) { { exit_on_forward_failure: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  ExitOnForwardFailure ' + value + "\n") }
-      end
-    end
-
-    ['sha256', 'md5'].each do |value|
-      context "on #{os} with fingerprint_hash set to valid #{value}" do
-        let(:params) { { fingerprint_hash: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  FingerprintHash ' + value + "\n") }
-      end
-    end
-
-    ['yes', 'no'].each do |value|
-      context "on #{os} with forward_agent set to valid #{value}" do
-        let(:params) { { forward_agent: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  ForwardAgent ' + value + "\n") }
-      end
-    end
-
-    ['yes', 'no'].each do |value|
-      context "on #{os} with forward_x11 set to valid #{value}" do
-        let(:params) { { forward_x11: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  ForwardX11 ' + value + "\n") }
-      end
-    end
-
-    ['3', '242', '2300'].each do |value|
-      context "on #{os} with forward_x11_timeout set to valid #{value}" do
-        let(:params) { { forward_x11_timeout: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  ForwardX11Timeout ' + value + "\n") }
-      end
-    end
-
-    ['yes', 'no'].each do |value|
-      context "on #{os} with forward_x11_trusted set to valid #{value}" do
-        let(:params) { { forward_x11_trusted: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  ForwardX11Trusted ' + value + "\n") }
-      end
-    end
-
-    ['yes', 'no'].each do |value|
-      context "on #{os} with gateway_ports set to valid #{value}" do
-        let(:params) { { gateway_ports: value } }
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  GatewayPorts ' + value + "\n") }
-      end
-    end
-
-    ['/test/ing', ['/test/ing', '/unit/test']].each do |value|
-      context "on #{os} with global_known_hosts_file set to valid #{value}" do
-        let(:params) { { global_known_hosts_file: value } }
-
-        value = value.split if value.is_a?(String)
-
-        it { is_expected.to contain_file('ssh_config').with_content(header + '  GlobalKnownHostsFile ' + value.join(' ') + "\n") }
-      end
-    end
   end
 end
