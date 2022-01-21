@@ -228,7 +228,9 @@ Host <%= @host %>
   ServerAliveInterval <%= @server_alive_interval %>
 <% end -%>
 <% if @set_env != nil -%>
-  SetEnv <%= @set_env.join(' ') %>
+<%   @set_env.each do |v| -%>
+  SetEnv <%= v %>
+<%   end -%>
 <% end -%>
 <% if @stream_local_bind_mask != nil -%>
   StreamLocalBindMask <%= @stream_local_bind_mask %>
