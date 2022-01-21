@@ -18,7 +18,6 @@ describe 'ssh' do
     |Host *
   END
 
-=begin
   rh_default_content = <<-END.gsub(%r{^\s+\|}, '')
     |  ForwardX11Trusted yes
     |  GSSAPIAuthentication yes
@@ -113,7 +112,6 @@ describe 'ssh' do
       it { is_expected.to contain_service('sshd_service') }
     end
   end
-=end
 
   # test parameters
   # they aren't OS dependent, no need to test with each OS
@@ -121,7 +119,6 @@ describe 'ssh' do
     let(:facts) { os_facts }
 
     parameters = {
-=begin
       'add_keys_to_agent'                    => { str: 'AddKeysToAgent',                    val: ['yes', 'no', 'ask', 'confirm'], },
       'address_family'                       => { str: 'AddressFamily',                     val: ['any', 'inet', 'inet6'], },
       'batch_mode'                           => { str: 'BatchMode',                         val: ['yes', 'no'], },
@@ -157,7 +154,6 @@ describe 'ssh' do
       'global_known_hosts_file'              => { str: 'GlobalKnownHostsFile',              val: [['/test/ing'], ['/test/ing', '/unit/test']], sep: ' ', },
       'gss_api_authentication'               => { str: 'GSSAPIAuthentication',              val: ['yes', 'no'], },
       'gss_api_delegate_credentials'         => { str: 'GSSAPIDelegateCredentials',         val: ['yes', 'no'], },
-=end
       'hash_known_hosts'                     => { str: 'HashKnownHosts',                    val: ['yes', 'no'], },
       'hostbased_authentication'             => { str: 'HostbasedAuthentication',           val: ['yes', 'no'], },
       'hostbased_key_types'                  => { str: 'HostbasedKeyTypes',                 val: [['^ssh-test'], ['-ssh-rsa', '+ssh-test']], sep: ',', },
@@ -166,11 +162,52 @@ describe 'ssh' do
       'hostname'                             => { str: 'Hostname',                          val: ['testhost', '242.242.242.242'], },
       'identities_only'                      => { str: 'IdentitiesOnly',                    val: ['yes', 'no'], },
       'identity_agent'                       => { str: 'IdentityAgent',                     val: ['/test/ing', '~/test/ing'], },
-      'identity_file'                        => { str: 'IdentityFile',                      val: [['~/.ssh/id_dsa']], }, # TODO: make multiline ?
-
-#      ''    => { str: '',      val: },
-#      'no_host_authentication_for_localhost' => { str: 'NoHostAuthenticationForLocalhost', val: ['yes', 'no'], },
+      'identity_file'                        => { str: 'IdentityFile',                      val: [['~/.ssh/id_dsa'], ['/test/ing1', '/test/ing2']], sep: ',', },
+      'ignore_unknown'                       => { str: 'IgnoreUnknown',                     val: [['AddKeysToAgent'], ['AddKeysToAgent', 'UseKeychain']], sep: ',', },
+      'include'                              => { str: 'Include',                           val: ['/test/ing', '~/test/ing'], },
+      'ip_qos'                               => { str: 'IPQoS',                             val: ['af42', 'af42 cs3'], },
+      'kbd_interactive_authentication'       => { str: 'KbdInteractiveAuthentication',      val: ['yes', 'no'], },
+      'kbd_interactive_devices'              => { str: 'KbdInteractiveDevices',             val: [['pam'], ['bsdauth', 'pam']], sep: ',', },
+      'kex_algorithms'                       => { str: 'KexAlgorithms',                     val: [['^test-242'], ['-diffie-hellman-group14-sha256', '+test-242']], sep: ',', },
+      'local_command'                        => { str: 'LocalCommand',                      val: ['/test/ing', '~/test/ing'], },
+      'local_forward'                        => { str: 'LocalForward',                      val: ['242 localhost:242', '8080 127.0.0.1:8080'], },
+      'log_level'                            => { str: 'LogLevel',                          val: ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE', 'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3'], },
+      'no_host_authentication_for_localhost' => { str: 'NoHostAuthenticationForLocalhost',  val: ['yes', 'no'], },
+      'number_of_password_prompts'           => { str: 'NumberOfPasswordPrompts',           val: [3, 242], },
+      'password_authentication'              => { str: 'PasswordAuthentication',            val: ['yes', 'no'], },
+      'permit_local_command'                 => { str: 'PermitLocalCommand',                val: ['yes', 'no'], },
+      'pkcs11_provider'                      => { str: 'PKCS11Provider',                    val: ['/test/ing.so'], },
+      'port'                                 => { str: 'Port',                              val: [3, 242], },
+      'preferred_authentications'            => { str: 'PreferredAuthentications',          val: [['publickey'], ['gssapi-with-mic', 'hostbased']], sep: ',', },
+      'proxy_command'                        => { str: 'ProxyCommand',                      val: ['/usr/bin/nc -X connect -x 192.0.2.0:8080 %h %p'], },
+      'proxy_jump'                           => { str: 'ProxyJump',                         val: [['/test/ing connect -x 127.2.4.2'], ['/test/ing1', '/test/ing2']], sep: ',', },
+      'proxy_use_fdpass'                     => { str: 'ProxyUseFdpass',                    val: ['yes', 'no'], },
+      'pubkey_accepted_key_types'            => { str: 'PubkeyAcceptedKeyTypes',            val: [['+ssh-dss'], ['ssh-test', 'ssh-ed242']], sep: ',', },
+      'pubkey_authentication'                => { str: 'PubkeyAuthentication',              val: ['yes', 'no'], },
+      'rekey_limit'                          => { str: 'RekeyLimit',                        val: ['242G', 'default none'], },
+      'remote_command'                       => { str: 'RemoteCommand',                     val: ['/test/ing', '~/.ssh/testing/%r@%h-%p'], },
+      'remote_forward'                       => { str: 'RemoteForward',                     val: ['242 localhost:242'], },
+      'request_tty'                          => { str: 'RequestTTY',                        val: ['no', 'yes', 'force', 'auto'], },
+      'revoked_host_keys'                    => { str: 'RevokedHostKeys',                   val: ['/test/ing', '~/test/ing'], },
+      'send_env'                             => { str: 'SendEnv',                           val: [['LANG'], ['TEST', 'ING']], sep: "\n  SendEnv " },
+      'server_alive_count_max'               => { str: 'ServerAliveCountMax',               val: [3, 242], },
+      'server_alive_interval'                => { str: 'ServerAliveInterval',               val: [3, 242], },
+      'set_env'                              => { str: 'SetEnv',                            val: [['LANG'], ['TEST', 'ING']], sep: "\n  SetEnv " },
+      'stream_local_bind_mask'               => { str: 'StreamLocalBindMask',               val: ['0177', '0242'], },
+      'stream_local_bind_unlink'             => { str: 'StreamLocalBindUnlink',             val: ['yes', 'no'], },
+      'strict_host_key_checking'             => { str: 'StrictHostKeyChecking',             val: ['yes', 'no', 'accept-new', 'off', 'ask'], },
+      'syslog_facility'                      => { str: 'SyslogFacility',                    val: ['DAEMON', 'USER', 'AUTH', 'LOCAL0', 'LOCAL1', 'LOCAL2', 'LOCAL3', 'LOCAL4', 'LOCAL5', 'LOCAL6', 'LOCAL7', 'AUTHPRIV'], }, # rubocop:disable Layout/LineLength
+      'tcp_keep_alive'                       => { str: 'TCPKeepAlive',                      val: ['yes', 'no'], },
+      'tunnel'                               => { str: 'Tunnel',                            val: ['yes', 'no', 'point-to-point', 'ethernet'], },
+      'tunnel_device'                        => { str: 'TunnelDevice',                      val: ['tun0', 'tun1' ], },
+      'update_host_keys'                     => { str: 'UpdateHostKeys',                    val: ['yes', 'no', 'ask'], },
+      'user'                                 => { str: 'User',                              val: ['unit', 'testing'], },
+      'user_known_hosts_file'                => { str: 'UserKnownHostsFile',                val: [['/test/ing'], ['/test', '/ing']], sep: ' ', },
+      'verify_host_key_dns'                  => { str: 'VerifyHostKeyDNS',                  val: ['yes', 'no', 'ask'], },
+      'visual_host_key'                      => { str: 'VisualHostKey',                     val: ['yes', 'no'], },
+      'xauth_location'                       => { str: 'XAuthLocation',                     val: ['/test/ing', '~/test/ing'], },
     }
+
     parameters.each do |param, data|
       data[:val].each do |value|
         context "on #{os} with #{param} set to valid #{value} (as #{value.class})" do
@@ -184,6 +221,5 @@ describe 'ssh' do
         end
       end
     end
-
   end
 end
