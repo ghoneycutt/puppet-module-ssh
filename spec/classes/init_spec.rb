@@ -420,6 +420,7 @@ describe 'ssh' do
     end
   end
 
+<<<<<<< HEAD
   context 'with default params on invalid osfamily' do
     let(:facts) { default_facts.merge({ :osfamily => 'C64' }) }
     let(:params) { { :manage_root_ssh_config => 'invalid' } }
@@ -430,6 +431,19 @@ describe 'ssh' do
       }.to raise_error(Puppet::Error,/ssh supports osfamilies RedHat, Suse, Debian and Solaris\. Detected osfamily is <C64>\./)
     end
   end
+=======
+  # TODO: FIXME: access facts hash incorrectly?
+  #
+  #  context 'with default params on invalid osfamily' do
+  #    let(:facts) { default_facts.merge({ :os['family'] => 'C64' }) }
+  #
+  #    it 'should fail' do
+  #      expect {
+  #        is_expected.to contain_class('ssh')
+  #      }.to raise_error(Puppet::Error, /ssh supports osfamilies RedHat, Suse, Debian and Solaris\. Detected os family is <C64>\./)
+  #    end
+  #  end
+>>>>>>> 88c28a8 (Remove export/import functionality for SSH keys)
 
   context 'with optional params used in ssh_config set on valid osfamily' do
     let(:params) do
@@ -2407,6 +2421,7 @@ describe 'sshd_config_print_last_log param' do
     context 'specified as an invalid type [non-string]' do
       let(:params) { { :ssh_config_global_known_hosts_owner => ['invalid','type'] } }
 
+<<<<<<< HEAD
       it 'should fail' do
         expect {
           should contain_class('ssh')
@@ -2857,4 +2872,38 @@ describe 'sshd_config_print_last_log param' do
     end
   end
 
+=======
+    it {
+      is_expected.to contain_ssh_authorized_key('root_for_userX').with(
+        {
+          'ensure' => 'present',
+          'user'   => 'root',
+          'type'   => 'dsa',
+          'key'    => 'AAAA==',
+        },
+      )
+    }
+
+    it {
+      is_expected.to contain_ssh_authorized_key('apache_hup').with(
+        {
+          'ensure'  => 'present',
+          'user'    => 'apachehup',
+          'type'    => 'dsa',
+          'key'     => 'AAAA==',
+          'options' => 'command="/sbin/service httpd restart"',
+        },
+      )
+    }
+
+    it {
+      is_expected.to contain_ssh_authorized_key('root_for_userY').with(
+        {
+          'ensure' => 'absent',
+          'user'   => 'root',
+        },
+      )
+    }
+  end
+>>>>>>> 88c28a8 (Remove export/import functionality for SSH keys)
 end
