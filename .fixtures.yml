@@ -8,5 +8,5 @@ fixtures:
       ref: 'v7.1.1'
     sshkeys:
       repo: 'https://github.com/puppetlabs/puppetlabs-sshkeys_core.git'
-      ref: '1.0.2'
+      ref: 'v2.3.0'
       puppet_version: '>= 6.0.0'
