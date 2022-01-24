@@ -31,13 +31,9 @@
 #
 # @param manage_server
 #
-# @param key_export
-#
 # @param purge_keys
 #
 # @param ssh_key_ensure
-#
-# @param ssh_key_import
 #
 # @param ssh_key_type
 #
@@ -238,10 +234,8 @@ class ssh (
   Boolean $manage_root_ssh_config = false,
   String[1] $root_ssh_config_content = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
   Boolean $manage_server = true,
-  Boolean $key_export = false,
   Boolean $purge_keys = true,
   Enum['present', 'absent'] $ssh_key_ensure = 'present',
-  Boolean $ssh_key_import = false,
   Ssh::Key::Type $ssh_key_type = 'ssh-rsa',
   Hash $keys = {},
   Hash $config_entries = {},
@@ -650,20 +644,6 @@ class ssh (
   elsif getvar('::ipaddress6') { $host_aliases = [$::hostname, $::ipaddress6] }
   else { $host_aliases = [$::hostname, $::ipaddress] }
 
-  # export each node's ssh key
-  if $key_export == true {
-    # ssh_key_type might start with 'ssh-' though facter stores them without
-    # the 'ssh-' prefix.
-    #$key_type = delete_regex($ssh_key_type, '^ssh-')
-    $key_type = 'rsa'
-    @@sshkey { $::fqdn :
-      ensure       => $ssh_key_ensure,
-      host_aliases => $host_aliases,
-      type         => $ssh_key_type,
-      key          => $facts['ssh'][$key_type]['key'],
-    }
-  }
-
   file { 'ssh_known_hosts':
     ensure  => file,
     path    => $global_known_hosts,
@@ -671,13 +651,6 @@ class ssh (
     group   => $global_known_hosts_group,
     mode    => $global_known_hosts_mode,
     require => Package[$packages],
-  }
-
-  # import all nodes' ssh keys
-  if $ssh_key_import == true {
-    Sshkey <<||>> {
-      target => $global_known_hosts,
-    }
   }
 
   # remove ssh key's not managed by puppet

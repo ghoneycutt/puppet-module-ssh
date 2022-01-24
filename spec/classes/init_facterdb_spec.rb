@@ -95,11 +95,6 @@ describe 'ssh' do
         )
       end
 
-      # FIXME: add test for
-      # Sshkey <<||>> {
-      #   target => $global_known_hosts,
-      # }
-
       it { is_expected.to contain_resources('sshkey').with_purge('true') }
       it { is_expected.to have_ssh__config_entry_resource_count(0) }
       it { is_expected.to have_ssh_authorized_key_resource_count(0) }
