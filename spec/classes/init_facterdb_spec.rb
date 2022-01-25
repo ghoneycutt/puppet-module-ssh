@@ -216,5 +216,17 @@ describe 'ssh' do
         end
       end
     end
+
+    context "on #{os} with custom set to valid [\"keyword value\"] (as Array)" do
+      let(:params) { { custom: ['KeyWord value'] } }
+
+      it { is_expected.to contain_file('ssh_config').with_content(header + "  KeyWord value\n") }
+    end
+
+    context "on #{os} with custom set to valid [\"keyword value\", \"test ing\"] (as Array)" do
+      let(:params) { { custom: ['KeyWord value', 'Test ing'] } }
+
+      it { is_expected.to contain_file('ssh_config').with_content(header + "  KeyWord value\n  Test ing\n") }
+    end
   end
 end

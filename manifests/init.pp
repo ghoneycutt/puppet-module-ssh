@@ -330,7 +330,7 @@ class ssh (
   Optional[String[1]] $xauth_location = undef,
   # custom is a string that allows for multiple lines to be appended to end of
   # the sshd_config file.
-  Optional[String[1]] $custom = undef,
+  Optional[Array[String[1]]] $custom = undef
 ) {
 
   # TODO: This huge case statement is getting transitioned to hiera

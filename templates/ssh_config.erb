@@ -272,5 +272,7 @@ Host <%= @host %>
   XAuthLocation <%= @xauth_location %>
 <% end -%>
 <% if @custom != nil -%>
-<%= @custom %>
+<%   @custom.each do |line| -%>
+  <%= line %>
+<%   end -%>
 <% end -%>
