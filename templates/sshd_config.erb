@@ -294,3 +294,301 @@ Match <%= key %>
 <%     end -%>
 <%   end -%>
 <% end -%>
+<<<<<<< HEAD
+=======
+<% if @address_family != nil -%>
+AddressFamily <%= @address_family %>
+<% end -%>
+<% if @allow_agent_forwarding != nil -%>
+AllowAgentForwarding <%= @allow_agent_forwarding %>
+<% end -%>
+<% if @allow_groups != nil -%>
+<%   if @allow_groups.class == Array -%>
+AllowGroups <%= @allow_groups.join(' ') %>
+<%   elsif @allow_groups.class == String -%>
+AllowGroups <%= @allow_groups %>
+<%   end -%>
+<% end -%>
+<% if @allow_stream_local_forwarding != nil -%>
+AllowStreamLocalForwarding <%= @allow_stream_local_forwarding %>
+<% end -%>
+<% if @allow_tcp_forwarding != nil -%>
+AllowTcpForwarding <%= @allow_tcp_forwarding %>
+<% end -%>
+<% if @allow_users != nil -%>
+<%   if @allow_users.class == Array -%>
+AllowUsers <%= @allow_users.join(' ') %>
+<%   elsif @allow_users.class == String -%>
+AllowUsers <%= @allow_users %>
+<%   end -%>
+<% end -%>
+<% if @authentication_methods != nil -%>
+AuthenticationMethods <%= @authentication_methods.join(',') %>
+<% end -%>
+<% if @authorized_keys_command != nil -%>
+AuthorizedKeysCommand <%= @authorized_keys_command %>
+<% end -%>
+<% if @authorized_keys_command_user != nil -%>
+AuthorizedKeysCommandUser <%= @authorized_keys_command_user %>
+<% end -%>
+<% if @authorized_keys_file != nil -%>
+<%   if @authorized_keys_file.class == Array -%>
+AuthorizedKeysFile <%= @authorized_keys_file.join(' ') %>
+<%   elsif @authorized_keys_file.class == String -%>
+AuthorizedKeysFile <%= @authorized_keys_file %>
+<%   end -%>
+<% end -%>
+<% if @authorized_principals_command != nil -%>
+AuthorizedPrincipalsCommand <%= @authorized_principals_command %>
+<% end -%>
+<% if @authorized_principals_command_user != nil -%>
+AuthorizedPrincipalsCommandUser <%= @authorized_principals_command_user %>
+<% end -%>
+<% if @authorized_principals_file != nil -%>
+AuthorizedPrincipalsFile <%= @authorized_principals_file %>
+<% end -%>
+<% if @banner != nil -%>
+Banner <%= @banner %>
+<% end -%>
+<% if @ca_signature_algorithms != nil -%>
+CASignatureAlgorithms <%= @ca_signature_algorithms.join(',') %>
+<% end -%>
+<% if @challenge_response_authentication != nil -%>
+ChallengeResponseAuthentication <%= @challenge_response_authentication %>
+<% end -%>
+<% if @chroot_directory != nil -%>
+ChrootDirectory <%= @chroot_directory %>
+<% end -%>
+<% if @ciphers != nil -%>
+Ciphers <%= @ciphers.join(',') %>
+<% end -%>
+<% if @client_alive_count_max != nil -%>
+ClientAliveCountMax <%= @client_alive_count_max %>
+<% end -%>
+<% if @client_alive_interval != nil -%>
+ClientAliveInterval <%= @client_alive_interval %>
+<% end -%>
+<% if @compression != nil -%>
+Compression <%= @compression %>
+<% end -%>
+<% if @deny_groups != nil -%>
+<%   if @deny_groups.class == Array -%>
+DenyGroups <%= @deny_groups.join(' ') %>
+<%   elsif @deny_groups.class == String -%>
+DenyGroups <%= @deny_groups %>
+<%   end -%>
+<% end -%>
+<% if @deny_users != nil -%>
+<%   if @deny_users.class == Array -%>
+DenyUsers <%= @deny_users.join(' ') %>
+<%   elsif @deny_users.class == String -%>
+DenyUsers <%= @deny_users %>
+<%   end -%>
+<% end -%>
+<% if @disable_forwarding != nil -%>
+DisableForwarding <%= @disable_forwarding %>
+<% end -%>
+<% if @expose_auth_info != nil -%>
+ExposeAuthInfo <%= @expose_auth_info %>
+<% end -%>
+<% if @fingerprint_hash != nil -%>
+FingerprintHash <%= @fingerprint_hash %>
+<% end -%>
+<% if @force_command != nil -%>
+ForceCommand <%= @force_command %>
+<% end -%>
+<% if @gateway_ports != nil -%>
+GatewayPorts <%= @gateway_ports %>
+<% end -%>
+<% if @gss_api_authentication != nil -%>
+GSSAPIAuthentication <%= @gss_api_authentication %>
+<% end -%>
+<% if @gss_api_cleanup_credentials != nil -%>
+GSSAPICleanupCredentials <%= @gss_api_cleanup_credentials %>
+<% end -%>
+<% if @gss_api_strict_acceptor_check != nil -%>
+GSSAPIStrictAcceptorCheck <%= @gss_api_strict_acceptor_check %>
+<% end -%>
+<% if @hostbased_accepted_key_types != nil -%>
+HostbasedAcceptedKeyTypes <%= @hostbased_accepted_key_types.join(',') %>
+<% end -%>
+<% if @hostbased_authentication != nil -%>
+HostbasedAuthentication <%= @hostbased_authentication %>
+<% end -%>
+<% if @hostbased_uses_name_from_packet_only != nil -%>
+HostbasedUsesNameFromPacketOnly <%= @hostbased_uses_name_from_packet_only %>
+<% end -%>
+<% if @host_certificate != nil -%>
+HostCertificate <%= @host_certificate %>
+<% end -%>
+<% if @host_key != nil -%>
+<%   @host_key.each do |v| -%>
+HostKey <%= v %>
+<%   end -%>
+<% end -%>
+<% if @host_key_agent != nil -%>
+HostKeyAgent <%= @host_key_agent %>
+<% end -%>
+<% if @host_key_algorithms != nil -%>
+HostKeyAlgorithms <%= @host_key_algorithms.join(',') %>
+<% end -%>
+<% if @ignore_rhosts != nil -%>
+IgnoreRhosts <%= @ignore_rhosts %>
+<% end -%>
+<% if @ignore_user_known_hosts != nil -%>
+IgnoreUserKnownHosts <%= @ignore_user_known_hosts %>
+<% end -%>
+<% if @ip_qos != nil -%>
+IPQoS <%= @ip_qos %>
+<% end -%>
+<% if @kbd_interactive_authentication != nil -%>
+KbdInteractiveAuthentication <%= @kbd_interactive_authentication %>
+<% end -%>
+<% if @kerberos_authentication != nil -%>
+KerberosAuthentication <%= @kerberos_authentication %>
+<% end -%>
+<% if @kerberos_get_afs_token != nil -%>
+KerberosGetAFSToken <%= @kerberos_get_afs_token %>
+<% end -%>
+<% if @kerberos_or_local_passwd != nil -%>
+KerberosOrLocalPasswd <%= @kerberos_or_local_passwd %>
+<% end -%>
+<% if @kerberos_ticket_cleanup != nil -%>
+KerberosTicketCleanup <%= @kerberos_ticket_cleanup %>
+<% end -%>
+<% if @kex_algorithms != nil -%>
+KexAlgorithms <%= @kex_algorithms.join(',') %>
+<% end -%>
+<% if @listen_address != nil -%>
+<%   @listen_address.each do |v| -%>
+ListenAddress <%= v %>
+<%   end -%>
+<% end -%>
+<% if @login_grace_time != nil -%>
+LoginGraceTime <%= @login_grace_time %>
+<% end -%>
+<% if @log_level != nil -%>
+LogLevel <%= @log_level %>
+<% end -%>
+<% if @macs != nil -%>
+MACs <%= @macs.join(',') %>
+<% end -%>
+<% if @max_auth_tries != nil -%>
+MaxAuthTries <%= @max_auth_tries %>
+<% end -%>
+<% if @max_sessions != nil -%>
+MaxSessions <%= @max_sessions %>
+<% end -%>
+<% if @max_startups != nil -%>
+MaxStartups <%= @max_startups %>
+<% end -%>
+<% if @password_authentication != nil -%>
+PasswordAuthentication <%= @password_authentication %>
+<% end -%>
+<% if @permit_empty_passwords != nil -%>
+PermitEmptyPasswords <%= @permit_empty_passwords %>
+<% end -%>
+<% if @permit_listen != nil -%>
+<%   if @permit_listen.class == Array -%>
+PermitListen <%= @permit_listen.join(' ') %>
+<%   elsif @permit_listen.class == String -%>
+PermitListen <%= @permit_listen %>
+<%   end -%>
+<% end -%>
+<% if @permit_root_login != nil -%>
+PermitRootLogin <%= @permit_root_login %>
+<% end -%>
+<% if @permit_tty != nil -%>
+PermitTTY <%= @permit_tty %>
+<% end -%>
+<% if @permit_tunnel != nil -%>
+PermitTunnel <%= @permit_tunnel %>
+<% end -%>
+<% if @permit_user_environment != nil -%>
+PermitUserEnvironment <%= @permit_user_environment %>
+<% end -%>
+<% if @permit_user_rc != nil -%>
+PermitUserRC <%= @permit_user_rc %>
+<% end -%>
+<% if @pid_file != nil -%>
+PidFile <%= @pid_file %>
+<% end -%>
+<% if @port != nil -%>
+<%   @port.each do |v| -%>
+Port <%= v %>
+<%   end -%>
+<% end -%>
+<% if @print_last_log != nil -%>
+PrintLastLog <%= @print_last_log %>
+<% end -%>
+<% if @print_motd != nil -%>
+PrintMotd <%= @print_motd %>
+<% end -%>
+<% if @pubkey_accepted_key_types != nil -%>
+PubkeyAcceptedKeyTypes <%= @pubkey_accepted_key_types.join(',') %>
+<% end -%>
+<% if @pubkey_authentication != nil -%>
+PubkeyAuthentication <%= @pubkey_authentication %>
+<% end -%>
+<% if @rekey_limit != nil -%>
+RekeyLimit <%= @rekey_limit %>
+<% end -%>
+<% if @revoked_keys != nil -%>
+RevokedKeys <%= @revoked_keys %>
+<% end -%>
+<% if @rdomain != nil -%>
+RDomain <%= @rdomain %>
+<% end -%>
+<% if @set_env != nil -%>
+<%   @set_env.each do |v| -%>
+SetEnv <%= v %>
+<%   end -%>
+<% end -%>
+<% if @stream_local_bind_mask != nil -%>
+StreamLocalBindMask <%= @stream_local_bind_mask %>
+<% end -%>
+<% if @stream_local_bind_unlink != nil -%>
+StreamLocalBindUnlink <%= @stream_local_bind_unlink %>
+<% end -%>
+<% if @strict_modes != nil -%>
+StrictModes <%= @strict_modes %>
+<% end -%>
+<% if @subsystem != nil -%>
+Subsystem <%= @subsystem %>
+<% end -%>
+<% if @syslog_facility != nil -%>
+SyslogFacility <%= @syslog_facility %>
+<% end -%>
+<% if @tcp_keep_alive != nil -%>
+TCPKeepAlive <%= @tcp_keep_alive %>
+<% end -%>
+<% if @trusted_user_ca_keys != nil -%>
+TrustedUserCAKeys <%= @trusted_user_ca_keys %>
+<% end -%>
+<% if @use_dns != nil -%>
+UseDNS <%= @use_dns %>
+<% end -%>
+<% if @use_pam != nil -%>
+UsePAM <%= @use_pam %>
+<% end -%>
+<% if @version_addendum != nil -%>
+VersionAddendum <%= @version_addendum %>
+<% end -%>
+<% if @x11_display_offset != nil -%>
+X11DisplayOffset <%= @x11_display_offset %>
+<% end -%>
+<% if @x11_forwarding != nil -%>
+X11Forwarding <%= @x11_forwarding %>
+<% end -%>
+<% if @x11_use_localhost != nil -%>
+X11UseLocalhost <%= @x11_use_localhost %>
+<% end -%>
+<% if @xauth_location != nil -%>
+XAuthLocation <%= @xauth_location %>
+<% end -%>
+<% if @custom != nil -%>
+<%   @custom.each do |line| -%>
+<%= line %>
+<%   end -%>
+<% end -%>
+>>>>>>> 39ee6b9 (Change data type for several parameters in server class)

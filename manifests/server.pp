@@ -251,7 +251,7 @@ class ssh::server (
   Optional[String[1]] $authorized_principals_file = undef,
   Optional[String[1]] $banner = undef,
   Optional[Array[String[1]]] $ca_signature_algorithms = undef,
-  Optional[String[1]] $challenge_response_authentication = undef,
+  Optional[Ssh::Yes_no] $challenge_response_authentication = undef,
   Optional[String[1]] $chroot_directory = undef,
   Optional[Array[String[1]]] $ciphers = undef,
   Optional[Integer[0]] $client_alive_count_max = undef,
@@ -299,7 +299,7 @@ class ssh::server (
   Optional[String[1]] $permit_user_environment = undef,
   Optional[Ssh::Yes_no] $permit_user_rc = undef,
   Optional[String[1]] $pid_file = undef,
-  Optional[Stdlib::Port] $port = undef, #TODO, this can be specified multiple times
+  Optional[Array[Stdlib::Port]] $port = undef,
   Optional[Ssh::Yes_no] $print_last_log = undef,
   Optional[Ssh::Yes_no] $print_motd = undef,
   Optional[Array[String[1]]] $pubkey_accepted_key_types = undef,
@@ -307,7 +307,7 @@ class ssh::server (
   Optional[String[1]] $rekey_limit = undef,
   Optional[String[1]] $revoked_keys = undef,
   Optional[String[1]] $rdomain = undef,
-  Optional[String[1]] $set_env = undef,
+  Optional[Array[String[1]]] $set_env = undef,
   Optional[Pattern[/^[0-7]{4}$/]] $stream_local_bind_mask = undef,
   Optional[Ssh::Yes_no] $stream_local_bind_unlink = undef,
   Optional[Ssh::Yes_no] $strict_modes = undef,
@@ -324,7 +324,7 @@ class ssh::server (
   Optional[String[1]] $xauth_location = undef,
   # custom is a string that allows for multiple lines to be appended to end of
   # the sshd_config file.
-  Optional[String[1]] $custom = undef,
+  Optional[Array[String[1]]] $custom = undef,
 ) {
 
 # lint:ignore:140chars
