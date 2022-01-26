@@ -48,4 +48,5 @@ ssh::server::syslog_facility: 'AUTHPRIV'
 ssh::server::use_pam: 'yes'
 ssh::server::x11_forwarding: 'yes'
 
-ssh::server::custom: 'Protocol 2'
+ssh::server::custom:
+  - 'Protocol 2'

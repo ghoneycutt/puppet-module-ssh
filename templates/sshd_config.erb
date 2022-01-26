@@ -208,6 +208,7 @@ PermitListen <%= @permit_listen %>
 <%   end -%>
 <% end -%>
 <% if @permit_root_login != nil -%>
+PermitRootLogin <%= @permit_root_login %>
 <% end -%>
 <% if @permit_tty != nil -%>
 PermitTTY <%= @permit_tty %>
@@ -225,6 +226,9 @@ PermitUserRC <%= @permit_user_rc %>
 PidFile <%= @pid_file %>
 <% end -%>
 <% if @port != nil -%>
+<%   @port.each do |v| -%>
+Port <%= v %>
+<%   end -%>
 <% end -%>
 <% if @print_last_log != nil -%>
 PrintLastLog <%= @print_last_log %>
@@ -248,7 +252,9 @@ RevokedKeys <%= @revoked_keys %>
 RDomain <%= @rdomain %>
 <% end -%>
 <% if @set_env != nil -%>
-SetEnv <%= @set_env %>
+<%   @set_env.each do |v| -%>
+SetEnv <%= v %>
+<%   end -%>
 <% end -%>
 <% if @stream_local_bind_mask != nil -%>
 StreamLocalBindMask <%= @stream_local_bind_mask %>
@@ -293,5 +299,7 @@ X11UseLocalhost <%= @x11_use_localhost %>
 XAuthLocation <%= @xauth_location %>
 <% end -%>
 <% if @custom != nil -%>
-<%= @custom %>
+<%   @custom.each do |line| -%>
+<%= line %>
+<%   end -%>
 <% end -%>
