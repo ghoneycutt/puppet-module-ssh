@@ -18,128 +18,7 @@ describe 'ssh::server' do
   END
 
   content = {
-    'centos-6-x86_64' => <<-END.gsub(%r{^\s+\|}, ''),
-      |AcceptEnv LANG
-      |AcceptEnv LANGUAGE
-      |AcceptEnv LC_ADDRESS
-      |AcceptEnv LC_ALL
-      |AcceptEnv LC_COLLATE
-      |AcceptEnv LC_CTYPE
-      |AcceptEnv LC_IDENTIFICATION
-      |AcceptEnv LC_MEASUREMENT
-      |AcceptEnv LC_MESSAGES
-      |AcceptEnv LC_MONETARY
-      |AcceptEnv LC_NAME
-      |AcceptEnv LC_NUMERIC
-      |AcceptEnv LC_PAPER
-      |AcceptEnv LC_TELEPHONE
-      |AcceptEnv LC_TIME
-      |AcceptEnv XMODIFIERS
-      |ChallengeResponseAuthentication no
-      |GSSAPIAuthentication yes
-      |GSSAPICleanupCredentials yes
-      |PasswordAuthentication no
-      |Subsystem sftp /usr/libexec/openssh/sftp-server
-      |SyslogFacility AUTHPRIV
-      |UseDNS no
-      |UsePAM yes
-      |X11Forwarding yes
-      |Protocol 2
-    END
-    'centos-7-x86_64' => <<-END.gsub(%r{^\s+\|}, ''),
-      |AcceptEnv LANG
-      |AcceptEnv LANGUAGE
-      |AcceptEnv LC_ADDRESS
-      |AcceptEnv LC_ALL
-      |AcceptEnv LC_COLLATE
-      |AcceptEnv LC_CTYPE
-      |AcceptEnv LC_IDENTIFICATION
-      |AcceptEnv LC_MEASUREMENT
-      |AcceptEnv LC_MESSAGES
-      |AcceptEnv LC_MONETARY
-      |AcceptEnv LC_NAME
-      |AcceptEnv LC_NUMERIC
-      |AcceptEnv LC_PAPER
-      |AcceptEnv LC_TELEPHONE
-      |AcceptEnv LC_TIME
-      |AcceptEnv XMODIFIERS
-      |AuthorizedKeysFile .ssh/authorized_keys
-      |ChallengeResponseAuthentication no
-      |GSSAPIAuthentication yes
-      |GSSAPICleanupCredentials no
-      |HostKey /etc/ssh/ssh_host_ecdsa_key
-      |HostKey /etc/ssh/ssh_host_ed25519_key
-      |HostKey /etc/ssh/ssh_host_rsa_key
-      |PasswordAuthentication no
-      |Subsystem sftp /usr/libexec/openssh/sftp-server
-      |SyslogFacility AUTHPRIV
-      |UseDNS no
-      |UsePAM yes
-      |X11Forwarding yes
-    END
-    'debian-7-x86_64' => '',
-    'debian-8-x86_64' => '',
-    'debian-9-x86_64' => '',
-    'oraclelinux-6-x86_64' => <<-END.gsub(%r{^\s+\|}, ''),
-      |AcceptEnv LANG
-      |AcceptEnv LANGUAGE
-      |AcceptEnv LC_ADDRESS
-      |AcceptEnv LC_ALL
-      |AcceptEnv LC_COLLATE
-      |AcceptEnv LC_CTYPE
-      |AcceptEnv LC_IDENTIFICATION
-      |AcceptEnv LC_MEASUREMENT
-      |AcceptEnv LC_MESSAGES
-      |AcceptEnv LC_MONETARY
-      |AcceptEnv LC_NAME
-      |AcceptEnv LC_NUMERIC
-      |AcceptEnv LC_PAPER
-      |AcceptEnv LC_TELEPHONE
-      |AcceptEnv LC_TIME
-      |AcceptEnv XMODIFIERS
-      |ChallengeResponseAuthentication no
-      |GSSAPIAuthentication yes
-      |GSSAPICleanupCredentials yes
-      |PasswordAuthentication no
-      |Subsystem sftp /usr/libexec/openssh/sftp-server
-      |SyslogFacility AUTHPRIV
-      |UseDNS no
-      |UsePAM yes
-      |X11Forwarding yes
-      |Protocol 2
-    END
-    'oraclelinux-7-x86_64' => <<-END.gsub(%r{^\s+\|}, ''),
-      |AcceptEnv LANG
-      |AcceptEnv LANGUAGE
-      |AcceptEnv LC_ADDRESS
-      |AcceptEnv LC_ALL
-      |AcceptEnv LC_COLLATE
-      |AcceptEnv LC_CTYPE
-      |AcceptEnv LC_IDENTIFICATION
-      |AcceptEnv LC_MEASUREMENT
-      |AcceptEnv LC_MESSAGES
-      |AcceptEnv LC_MONETARY
-      |AcceptEnv LC_NAME
-      |AcceptEnv LC_NUMERIC
-      |AcceptEnv LC_PAPER
-      |AcceptEnv LC_TELEPHONE
-      |AcceptEnv LC_TIME
-      |AcceptEnv XMODIFIERS
-      |AuthorizedKeysFile .ssh/authorized_keys
-      |ChallengeResponseAuthentication no
-      |GSSAPIAuthentication yes
-      |GSSAPICleanupCredentials no
-      |HostKey /etc/ssh/ssh_host_ecdsa_key
-      |HostKey /etc/ssh/ssh_host_ed25519_key
-      |HostKey /etc/ssh/ssh_host_rsa_key
-      |PasswordAuthentication no
-      |Subsystem sftp /usr/libexec/openssh/sftp-server
-      |SyslogFacility AUTHPRIV
-      |UseDNS no
-      |UsePAM yes
-      |X11Forwarding yes
-    END
-    'redhat-5-x86_64' => <<-END.gsub(%r{^\s+\|}, ''),
+    'RedHat-5' => <<-END.gsub(%r{^\s+\|}, ''),
       |AcceptEnv LANG
       |AcceptEnv LANGUAGE
       |AcceptEnv LC_ADDRESS
@@ -165,7 +44,7 @@ describe 'ssh::server' do
       |X11Forwarding yes
       |Protocol 2
     END
-    'redhat-6-x86_64' => <<-END.gsub(%r{^\s+\|}, ''),
+    'RedHat-6' => <<-END.gsub(%r{^\s+\|}, ''),
       |AcceptEnv LANG
       |AcceptEnv LANGUAGE
       |AcceptEnv LC_ADDRESS
@@ -193,7 +72,7 @@ describe 'ssh::server' do
       |X11Forwarding yes
       |Protocol 2
     END
-  'redhat-7-x86_64' => <<-END.gsub(%r{^\s+\|}, ''),
+    'RedHat-7' => <<-END.gsub(%r{^\s+\|}, ''),
       |AcceptEnv LANG
       |AcceptEnv LANGUAGE
       |AcceptEnv LC_ADDRESS
@@ -224,73 +103,30 @@ describe 'ssh::server' do
       |UsePAM yes
       |X11Forwarding yes
     END
-    'scientific-6-x86_64' => <<-END.gsub(%r{^\s+\|}, ''),
-      |AcceptEnv LANG
-      |AcceptEnv LANGUAGE
-      |AcceptEnv LC_ADDRESS
-      |AcceptEnv LC_ALL
-      |AcceptEnv LC_COLLATE
-      |AcceptEnv LC_CTYPE
-      |AcceptEnv LC_IDENTIFICATION
-      |AcceptEnv LC_MEASUREMENT
-      |AcceptEnv LC_MESSAGES
-      |AcceptEnv LC_MONETARY
-      |AcceptEnv LC_NAME
-      |AcceptEnv LC_NUMERIC
-      |AcceptEnv LC_PAPER
-      |AcceptEnv LC_TELEPHONE
-      |AcceptEnv LC_TIME
-      |AcceptEnv XMODIFIERS
-      |ChallengeResponseAuthentication no
-      |GSSAPIAuthentication yes
-      |GSSAPICleanupCredentials yes
-      |PasswordAuthentication no
-      |Subsystem sftp /usr/libexec/openssh/sftp-server
-      |SyslogFacility AUTHPRIV
-      |UseDNS no
-      |UsePAM yes
-      |X11Forwarding yes
-      |Protocol 2
+    'Suse-10' => <<-END.gsub(%r{^\s+\|}, ''),
     END
-    'scientific-7-x86_64' => <<-END.gsub(%r{^\s+\|}, ''),
-      |AcceptEnv LANG
-      |AcceptEnv LANGUAGE
-      |AcceptEnv LC_ADDRESS
-      |AcceptEnv LC_ALL
-      |AcceptEnv LC_COLLATE
-      |AcceptEnv LC_CTYPE
-      |AcceptEnv LC_IDENTIFICATION
-      |AcceptEnv LC_MEASUREMENT
-      |AcceptEnv LC_MESSAGES
-      |AcceptEnv LC_MONETARY
-      |AcceptEnv LC_NAME
-      |AcceptEnv LC_NUMERIC
-      |AcceptEnv LC_PAPER
-      |AcceptEnv LC_TELEPHONE
-      |AcceptEnv LC_TIME
-      |AcceptEnv XMODIFIERS
-      |AuthorizedKeysFile .ssh/authorized_keys
-      |ChallengeResponseAuthentication no
-      |GSSAPIAuthentication yes
-      |GSSAPICleanupCredentials no
-      |HostKey /etc/ssh/ssh_host_ecdsa_key
-      |HostKey /etc/ssh/ssh_host_ed25519_key
-      |HostKey /etc/ssh/ssh_host_rsa_key
-      |PasswordAuthentication no
-      |Subsystem sftp /usr/libexec/openssh/sftp-server
-      |SyslogFacility AUTHPRIV
-      |UseDNS no
-      |UsePAM yes
-      |X11Forwarding yes
+    'Suse-11' => <<-END.gsub(%r{^\s+\|}, ''),
     END
-    'sles-11-x86_64' => '',
-    'sles-12-x86_64' => '',
-    'solaris-10-i86pc' => '',
-    'solaris-11-i86pc' => '',
-    'ubuntu-16.04-x86_64' => '',
-    'ubuntu-18.04-x86_64' => '',
+    'Suse-12' => <<-END.gsub(%r{^\s+\|}, ''),
+    END
+    'Solaris-10' => <<-END.gsub(%r{^\s+\|}, ''),
+    END
+    'Solaris-11' => <<-END.gsub(%r{^\s+\|}, ''),
+    END
+    'Debian-7' => <<-END.gsub(%r{^\s+\|}, ''),
+    END
+    'Debian-8' => <<-END.gsub(%r{^\s+\|}, ''),
+    END
+    'Debian-9' => <<-END.gsub(%r{^\s+\|}, ''),
+    END
+    # Ubuntus
+    'Debian-14.04' => <<-END.gsub(%r{^\s+\|}, ''),
+    END
+    'Debian-16.04' => <<-END.gsub(%r{^\s+\|}, ''),
+    END
+    'Debian-18.04' => <<-END.gsub(%r{^\s+\|}, ''),
+    END
   }
-
 
   on_supported_os.sort.each do |os, os_facts|
     context "on #{os} with default values for parameters" do
@@ -317,7 +153,7 @@ describe 'ssh::server' do
             'owner'   => 'root',
             'group'   => 'root',
             'mode'    => '0600',
-            'content' => header + content[os],
+            'content' => header + content["#{os_facts[:os]['family']}-#{os_facts[:os]['release']['major']}"],
             'require' => 'Package[openssh-server]',
           },
         )
@@ -339,100 +175,100 @@ describe 'ssh::server' do
       end
     end
   end
-=begin
+
   # test parameters
   # they aren't OS dependent, no need to test with each OS
   on_supported_os(debian).sort.each do |os, os_facts|
     let(:facts) { os_facts }
 
     parameters = {
-      'add_keys_to_agent'                    => { str: 'AddKeysToAgent',                    val: ['yes', 'no', 'ask', 'confirm'], },
-      'address_family'                       => { str: 'AddressFamily',                     val: ['any', 'inet', 'inet6'], },
-      'batch_mode'                           => { str: 'BatchMode',                         val: ['yes', 'no'], },
-      'bind_address'                         => { str: 'BindAddress',                       val: ['10.11.12.13', '192.168.3.3'], },
-      'bind_interface'                       => { str: 'BindInterface',                     val: ['eth0', 'eth1'], },
-      'canonical_domains'                    => { str: 'CanonicalDomains',                  val: [['unit.test.ing'], ['h1.test.ing', 'h2.test.ing']], sep: ' ', },
-      'canonicalize_fallback_local'          => { str: 'CanonicalizeFallbackLocal',         val: ['yes', 'no'], },
-      'canonicalize_hostname'                => { str: 'CanonicalizeHostname',              val: ['yes', 'no', 'always'], },
-      'canonicalize_max_dots'                => { str: 'CanonicalizeMaxDots',               val: [3, 242], },
-      'canonicalize_permitted_cnames'        => { str: 'CanonicalizePermittedCNAMEs',       val: [['*.test.ing:*.spec.ing'], ['*.test1.ing:*.spec.ing', '*.test2.ing:*.spec.ing']], sep: ',' },
-      'ca_signature_algorithms'              => { str: 'CASignatureAlgorithms',             val: [['test-242'], ['-rsa-sha2-256', '+rsa-sha2-242']], sep: ',' },
-      'certificate_file'                     => { str: 'CertificateFile',                   val: [['/test/ing'], ['/test/ing1', '/test/ing2']], sep: "\n  CertificateFile " },
-      'challenge_response_authentication'    => { str: 'ChallengeResponseAuthentication',   val: ['yes', 'no'], },
-      'check_host_ip'                        => { str: 'CheckHostIP',                       val: ['yes', 'no'], },
-      'ciphers'                              => { str: 'Ciphers',                           val: [['test242-ctr'], ['test242-ctr', 'test512-ctr']], sep: ',' },
-      'clear_all_forwardings'                => { str: 'ClearAllForwardings',               val: ['yes', 'no'], },
-      'compression'                          => { str: 'Compression',                       val: ['yes', 'no'], },
-      'connect_timeout'                      => { str: 'ConnectTimeout',                    val: [3, 242], },
-      'connection_attempts'                  => { str: 'ConnectionAttempts',                val: [3, 242], },
-      'control_master'                       => { str: 'ControlMaster',                     val: ['yes', 'no', 'ask', 'auto', 'autoask'], },
-      'control_path'                         => { str: 'ControlPath',                       val: ['/test/ing', '~/.ssh/testing/%r@%h-%p'], },
-      'control_persist'                      => { str: 'ControlPersist',                    val: ['3h', '242h'], },
-      'dynamic_forward'                      => { str: 'DynamicForward',                    val: ['3', '242', '2300'], },
-      'enable_ssh_keysign'                   => { str: 'EnableSSHKeysign',                  val: ['yes', 'no'], },
-      'escape_char'                          => { str: 'EscapeChar',                        val: ['~.', '~B'], },
-      'exit_on_forward_failure'              => { str: 'ExitOnForwardFailure',              val: ['yes', 'no'], },
-      'fingerprint_hash'                     => { str: 'FingerprintHash',                   val: ['sha256', 'md5'], },
-      'forward_agent'                        => { str: 'ForwardAgent',                      val: ['yes', 'no'], },
-      'forward_x11'                          => { str: 'ForwardX11',                        val: ['yes', 'no'], },
-      'forward_x11_timeout'                  => { str: 'ForwardX11Timeout',                 val: ['3h', '242m', '2300s'], },
-      'forward_x11_trusted'                  => { str: 'ForwardX11Trusted',                 val: ['yes', 'no'], },
-      'gateway_ports'                        => { str: 'GatewayPorts',                      val: ['yes', 'no'], },
-      'global_known_hosts_file'              => { str: 'GlobalKnownHostsFile',              val: [['/test/ing'], ['/test/ing', '/unit/test']], sep: ' ', },
-      'gss_api_authentication'               => { str: 'GSSAPIAuthentication',              val: ['yes', 'no'], },
-      'gss_api_delegate_credentials'         => { str: 'GSSAPIDelegateCredentials',         val: ['yes', 'no'], },
-      'hash_known_hosts'                     => { str: 'HashKnownHosts',                    val: ['yes', 'no'], },
-      'hostbased_authentication'             => { str: 'HostbasedAuthentication',           val: ['yes', 'no'], },
-      'hostbased_key_types'                  => { str: 'HostbasedKeyTypes',                 val: [['^ssh-test'], ['-ssh-rsa', '+ssh-test']], sep: ',', },
-      'host_key_algorithms'                  => { str: 'HostKeyAlgorithms',                 val: [['^ssh-test'], ['-ssh-rsa', '+ssh-test']], sep: ',', },
-      'host_key_alias'                       => { str: 'HostKeyAlias',                      val: ['testhost', 'test242'], },
-      'hostname'                             => { str: 'Hostname',                          val: ['testhost', '242.242.242.242'], },
-      'identities_only'                      => { str: 'IdentitiesOnly',                    val: ['yes', 'no'], },
-      'identity_agent'                       => { str: 'IdentityAgent',                     val: ['/test/ing', '~/test/ing'], },
-      'identity_file'                        => { str: 'IdentityFile',                      val: [['~/.ssh/id_dsa'], ['/test/ing1', '/test/ing2']], sep: ',', },
-      'ignore_unknown'                       => { str: 'IgnoreUnknown',                     val: [['AddKeysToAgent'], ['AddKeysToAgent', 'UseKeychain']], sep: ',', },
-      'include'                              => { str: 'Include',                           val: ['/test/ing', '~/test/ing'], },
-      'ip_qos'                               => { str: 'IPQoS',                             val: ['af42', 'af42 cs3'], },
-      'kbd_interactive_authentication'       => { str: 'KbdInteractiveAuthentication',      val: ['yes', 'no'], },
-      'kbd_interactive_devices'              => { str: 'KbdInteractiveDevices',             val: [['pam'], ['bsdauth', 'pam']], sep: ',', },
-      'kex_algorithms'                       => { str: 'KexAlgorithms',                     val: [['^test-242'], ['-diffie-hellman-group14-sha256', '+test-242']], sep: ',', },
-      'local_command'                        => { str: 'LocalCommand',                      val: ['/test/ing', '~/test/ing'], },
-      'local_forward'                        => { str: 'LocalForward',                      val: ['242 localhost:242', '8080 127.0.0.1:8080'], },
-      'log_level'                            => { str: 'LogLevel',                          val: ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE', 'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3'], },
-      'no_host_authentication_for_localhost' => { str: 'NoHostAuthenticationForLocalhost',  val: ['yes', 'no'], },
-      'number_of_password_prompts'           => { str: 'NumberOfPasswordPrompts',           val: [3, 242], },
-      'password_authentication'              => { str: 'PasswordAuthentication',            val: ['yes', 'no'], },
-      'permit_local_command'                 => { str: 'PermitLocalCommand',                val: ['yes', 'no'], },
-      'pkcs11_provider'                      => { str: 'PKCS11Provider',                    val: ['/test/ing.so'], },
-      'port'                                 => { str: 'Port',                              val: [3, 242], },
-      'preferred_authentications'            => { str: 'PreferredAuthentications',          val: [['publickey'], ['gssapi-with-mic', 'hostbased']], sep: ',', },
-      'proxy_command'                        => { str: 'ProxyCommand',                      val: ['/usr/bin/nc -X connect -x 192.0.2.0:8080 %h %p'], },
-      'proxy_jump'                           => { str: 'ProxyJump',                         val: [['/test/ing connect -x 127.2.4.2'], ['/test/ing1', '/test/ing2']], sep: ',', },
-      'proxy_use_fdpass'                     => { str: 'ProxyUseFdpass',                    val: ['yes', 'no'], },
-      'pubkey_accepted_key_types'            => { str: 'PubkeyAcceptedKeyTypes',            val: [['+ssh-dss'], ['ssh-test', 'ssh-ed242']], sep: ',', },
-      'pubkey_authentication'                => { str: 'PubkeyAuthentication',              val: ['yes', 'no'], },
-      'rekey_limit'                          => { str: 'RekeyLimit',                        val: ['242G', 'default none'], },
-      'remote_command'                       => { str: 'RemoteCommand',                     val: ['/test/ing', '~/.ssh/testing/%r@%h-%p'], },
-      'remote_forward'                       => { str: 'RemoteForward',                     val: ['242 localhost:242'], },
-      'request_tty'                          => { str: 'RequestTTY',                        val: ['no', 'yes', 'force', 'auto'], },
-      'revoked_host_keys'                    => { str: 'RevokedHostKeys',                   val: ['/test/ing', '~/test/ing'], },
-      'send_env'                             => { str: 'SendEnv',                           val: [['LANG'], ['TEST', 'ING']], sep: "\n  SendEnv " },
-      'server_alive_count_max'               => { str: 'ServerAliveCountMax',               val: [3, 242], },
-      'server_alive_interval'                => { str: 'ServerAliveInterval',               val: [3, 242], },
-      'set_env'                              => { str: 'SetEnv',                            val: [['LANG'], ['TEST', 'ING']], sep: "\n  SetEnv " },
-      'stream_local_bind_mask'               => { str: 'StreamLocalBindMask',               val: ['0177', '0242'], },
-      'stream_local_bind_unlink'             => { str: 'StreamLocalBindUnlink',             val: ['yes', 'no'], },
-      'strict_host_key_checking'             => { str: 'StrictHostKeyChecking',             val: ['yes', 'no', 'accept-new', 'off', 'ask'], },
-      'syslog_facility'                      => { str: 'SyslogFacility',                    val: ['DAEMON', 'USER', 'AUTH', 'LOCAL0', 'LOCAL1', 'LOCAL2', 'LOCAL3', 'LOCAL4', 'LOCAL5', 'LOCAL6', 'LOCAL7', 'AUTHPRIV'], }, # rubocop:disable Layout/LineLength
-      'tcp_keep_alive'                       => { str: 'TCPKeepAlive',                      val: ['yes', 'no'], },
-      'tunnel'                               => { str: 'Tunnel',                            val: ['yes', 'no', 'point-to-point', 'ethernet'], },
-      'tunnel_device'                        => { str: 'TunnelDevice',                      val: ['tun0', 'tun1' ], },
-      'update_host_keys'                     => { str: 'UpdateHostKeys',                    val: ['yes', 'no', 'ask'], },
-      'user'                                 => { str: 'User',                              val: ['unit', 'testing'], },
-      'user_known_hosts_file'                => { str: 'UserKnownHostsFile',                val: [['/test/ing'], ['/test', '/ing']], sep: ' ', },
-      'verify_host_key_dns'                  => { str: 'VerifyHostKeyDNS',                  val: ['yes', 'no', 'ask'], },
-      'visual_host_key'                      => { str: 'VisualHostKey',                     val: ['yes', 'no'], },
-      'xauth_location'                       => { str: 'XAuthLocation',                     val: ['/test/ing', '~/test/ing'], },
+      'accept_env'                           => { str: 'AcceptEnv',                        val: [['LANG'], ['TEST', 'ING']], sep: "\nAcceptEnv ", },
+      'address_family'                       => { str: 'AddressFamily',                    val: ['any', 'inet', 'inet6'], },
+      'allow_agent_forwarding'               => { str: 'AllowAgentForwarding',             val: ['yes', 'no'], },
+      'allow_groups'                         => { str: 'AllowGroups',                      val: [['test'], ['test', 'ing']], sep: ' ', },
+      'allow_stream_local_forwarding'        => { str: 'AllowStreamLocalForwarding',       val: ['yes', 'all', 'no', 'local', 'remote'], },
+      'allow_tcp_forwarding'                 => { str: 'AllowTcpForwarding',               val: ['yes', 'no', 'local', 'remote'], },
+      'allow_users'                          => { str: 'AllowUsers',                       val: [['test'], ['test', 'ing']], sep: ' ', },
+      'authentication_methods'               => { str: 'AuthenticationMethods',            val: [['publickey'], ['publickey', 'keyboard-interactive']], sep: ',', },
+      'authorized_keys_command'              => { str: 'AuthorizedKeysCommand',            val: ['/test/ing', '/test/ing/%u-%U'], },
+      'authorized_keys_command_user'         => { str: 'AuthorizedKeysCommandUser',        val: ['test', 'ing'], },
+      'authorized_keys_file'                 => { str: 'AuthorizedKeysFile',               val: [['ssh-ed25519'], ['ssh-ed25519', 'ssh-rsa']], sep: ' ', },
+      'authorized_principals_command'        => { str: 'AuthorizedPrincipalsCommand',      val: ['/test/ing', '/test/ing/%u-%U'], },
+      'authorized_principals_command_user'   => { str: 'AuthorizedPrincipalsCommandUser',  val: ['test', 'ing'], },
+      'authorized_principals_file'           => { str: 'AuthorizedPrincipalsFile',         val: ['/test/ing', '/test/ing/%u-%U'], },
+      'banner'                               => { str: 'Banner',                           val: ['Hello', 'Test'], },
+      'ca_signature_algorithms'              => { str: 'CASignatureAlgorithms',            val: [['ssh-ed25519'], ['ssh-ed25519', 'rsa-sha2-512']], sep: ',', },
+      'challenge_response_authentication'    => { str: 'ChallengeResponseAuthentication',  val: ['yes', 'no'], },
+      'chroot_directory'                     => { str: 'ChrootDirectory',                  val: ['none', '/test/ing'], },
+      'ciphers'                              => { str: 'Ciphers',                          val: [['3des-cbc'], ['3des-cbc', 'aes256-cbc']], sep: ',', },
+      'client_alive_count_max'               => { str: 'ClientAliveCountMax',              val: [3, 242], },
+      'client_alive_interval'                => { str: 'ClientAliveInterval',              val: [3, 242], },
+      'compression'                          => { str: 'Compression',                      val: ['yes', 'delayed', 'no'], },
+      'deny_groups'                          => { str: 'DenyGroups',                       val: [['test'], ['test', 'ing']], sep: ' ', },
+      'deny_users'                           => { str: 'DenyUsers',                        val: [['test'], ['test', 'ing']], sep: ' ', },
+      'disable_forwarding'                   => { str: 'DisableForwarding',                val: ['yes', 'no'], },
+      'expose_auth_info'                     => { str: 'ExposeAuthInfo',                   val: ['yes', 'no'], },
+      'fingerprint_hash'                     => { str: 'FingerprintHash',                  val: ['md5', 'sha256'], },
+      'force_command'                        => { str: 'ForceCommand',                     val: ['none', '/test/ing'], },
+      'gateway_ports'                        => { str: 'GatewayPorts',                     val: ['no', 'yes', 'clientspecified'], },
+      'gss_api_authentication'               => { str: 'GSSAPIAuthentication',             val: ['yes', 'no'], },
+      'gss_api_cleanup_credentials'          => { str: 'GSSAPICleanupCredentials',         val: ['yes', 'no'], },
+      'gss_api_strict_acceptor_check'        => { str: 'GSSAPIStrictAcceptorCheck',        val: ['yes', 'no'], },
+      'hostbased_accepted_key_types'         => { str: 'HostbasedAcceptedKeyTypes',        val: [['ssh-ed25519'], ['ssh-ed25519', 'rsa-sha2-512']], sep: ',', },
+      'hostbased_authentication'             => { str: 'HostbasedAuthentication',          val: ['yes', 'no'], },
+      'hostbased_uses_name_from_packet_only' => { str: 'HostbasedUsesNameFromPacketOnly',  val: ['yes', 'no'], },
+      'host_certificate'                     => { str: 'HostCertificate',                  val: ['/test/ing', '/test/ing2'], },
+      'host_key'                             => { str: 'HostKey',                          val: [['/test/ing'], ['/test/ing1', '/test/ing2']], sep: "\nHostKey ", },
+      'host_key_agent'                       => { str: 'HostKeyAgent',                     val: ['/test/ing', '/test/ing2'], },
+      'host_key_algorithms'                  => { str: 'HostKeyAlgorithms',                val: [['ssh-ed25519'], ['ssh-ed25519', 'rsa-sha2-512']], sep: ',', },
+      'ignore_rhosts'                        => { str: 'IgnoreRhosts',                     val: ['yes', 'no'], },
+      'ignore_user_known_hosts'              => { str: 'IgnoreUserKnownHosts',             val: ['yes', 'no'], },
+      'ip_qos'                               => { str: 'IPQoS',                            val: ['af42', 'af42 cs3'], },
+      'kbd_interactive_authentication'       => { str: 'KbdInteractiveAuthentication',     val: ['yes', 'no'], },
+      'kerberos_authentication'              => { str: 'KerberosAuthentication',           val: ['yes', 'no'], },
+      'kerberos_get_afs_token'               => { str: 'KerberosGetAFSToken',              val: ['yes', 'no'], },
+      'kerberos_or_local_passwd'             => { str: 'KerberosOrLocalPasswd',            val: ['yes', 'no'], },
+      'kerberos_ticket_cleanup'              => { str: 'KerberosTicketCleanup',            val: ['yes', 'no'], },
+      'kex_algorithms'                       => { str: 'KexAlgorithms',                    val: [['^test-242'], ['-diffie-hellman-group14-sha256', '+test-242']], sep: ',', },
+      'listen_address'                       => { str: 'ListenAddress',                    val: [['3.3.3.3:242'], ['3.3.3.3', '242.242.242.242']], sep: "\nListenAddress ", },
+      'login_grace_time'                     => { str: 'LoginGraceTime',                   val: [3, 242], },
+      'log_level'                            => { str: 'LogLevel',                         val: ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE', 'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3'], },
+      'macs'                                 => { str: 'MACs',                             val: [['hmac-sha2-512'], ['hmac-sha2-512', 'hmac-sha2-256']], sep: ',', },
+      'max_auth_tries'                       => { str: 'MaxAuthTries',                     val: [3, 242], },
+      'max_sessions'                         => { str: 'MaxSessions',                      val: [3, 242], },
+      'max_startups'                         => { str: 'MaxStartups',                      val: ['10:30:100', '2:4:2'], },
+      'password_authentication'              => { str: 'PasswordAuthentication',           val: ['yes', 'no'], },
+      'permit_empty_passwords'               => { str: 'PermitEmptyPasswords',             val: ['yes', 'no'], },
+      'permit_listen'                        => { str: 'PermitListen',                     val: [['242'], ['242', 'localhost:242']], sep: ' ', },
+      'permit_root_login'                    => { str: 'PermitRootLogin',                  val: ['yes', 'no', 'prohibit-password', 'without-password', 'forced-commands-only'], },
+      'permit_tty'                           => { str: 'PermitTTY',                        val: ['yes', 'no'], },
+      'permit_tunnel'                        => { str: 'PermitTunnel',                     val: ['yes', 'point-to-point', 'ethernet', 'no'], },
+      'permit_user_environment'              => { str: 'PermitUserEnvironment',            val: ['yes', 'no', 'LANG,LC_*'], },
+      'permit_user_rc'                       => { str: 'PermitUserRC',                     val: ['yes', 'no'], },
+      'pid_file'                             => { str: 'PidFile',                          val: ['/test/ing.pid', 'none'], },
+      'port'                                 => { str: 'Port',                             val: [[3], [3, 242]], sep: "\nPort ", },
+      'print_last_log'                       => { str: 'PrintLastLog',                     val: ['yes', 'no'], },
+      'print_motd'                           => { str: 'PrintMotd',                        val: ['yes', 'no'], },
+      'pubkey_accepted_key_types'            => { str: 'PubkeyAcceptedKeyTypes',           val: [['+ssh-dss'], ['ssh-test', 'ssh-ed242']], sep: ',', },
+      'pubkey_authentication'                => { str: 'PubkeyAuthentication',             val: ['yes', 'no'], },
+      'rekey_limit'                          => { str: 'RekeyLimit',                       val: ['242G', 'default none'], },
+      'revoked_keys'                         => { str: 'RevokedKeys',                      val: ['/test/ing', 'default none'], },
+      'rdomain'                              => { str: 'RDomain',                          val: ['%D', 'test'], },
+      'set_env'                              => { str: 'SetEnv',                           val: [['LANG'], ['TEST', 'ING']], sep: "\nSetEnv " },
+      'stream_local_bind_mask'               => { str: 'StreamLocalBindMask',              val: ['0177', '0242'], },
+      'stream_local_bind_unlink'             => { str: 'StreamLocalBindUnlink',            val: ['yes', 'no'], },
+      'strict_modes'                         => { str: 'StrictModes',                      val: ['yes', 'no'], },
+      'subsystem'                            => { str: 'Subsystem',                        val: ['sftp /test/ing', 'sftp internal-sftp'], },
+      'syslog_facility'                      => { str: 'SyslogFacility',                   val: ['DAEMON', 'USER', 'AUTH', 'LOCAL0', 'LOCAL1', 'LOCAL2', 'LOCAL3', 'LOCAL4', 'LOCAL5', 'LOCAL6', 'LOCAL7', 'AUTHPRIV'], }, # rubocop:disable Layout/LineLength
+      'tcp_keep_alive'                       => { str: 'TCPKeepAlive',                     val: ['yes', 'no'], },
+      'trusted_user_ca_keys'                 => { str: 'TrustedUserCAKeys',                val: ['/test/ing', 'default none'], },
+      'use_dns'                              => { str: 'UseDNS',                           val: ['yes', 'no'], },
+      'use_pam'                              => { str: 'UsePAM',                           val: ['yes', 'no'], },
+      'version_addendum'                     => { str: 'VersionAddendum',                  val: ['test', 'none'], },
+      'x11_display_offset'                   => { str: 'X11DisplayOffset',                 val: [3, 242], },
+      'x11_forwarding'                       => { str: 'X11Forwarding',                    val: ['yes', 'no'], },
+      'x11_use_localhost'                    => { str: 'X11UseLocalhost',                  val: ['yes', 'no'], },
+      'xauth_location'                       => { str: 'XAuthLocation',                    val: ['/test/ing', '~/test/ing'], },
     }
 
     parameters.each do |param, data|
@@ -441,9 +277,9 @@ describe 'ssh::server' do
           let(:params) { { "#{param}": value } }
 
           if value.class == Array
-            it { is_expected.to contain_file('ssh_config').with_content(header + "  #{data[:str]} #{value.join(data[:sep])}" + "\n") }
+            it { is_expected.to contain_file('sshd_config').with_content(header + "#{data[:str]} #{value.join(data[:sep])}" + "\n") }
           else
-            it { is_expected.to contain_file('ssh_config').with_content(header + "  #{data[:str]} #{value}\n") }
+            it { is_expected.to contain_file('sshd_config').with_content(header + "#{data[:str]} #{value}\n") }
           end
         end
       end
@@ -452,14 +288,13 @@ describe 'ssh::server' do
     context "on #{os} with custom set to valid [\"keyword value\"] (as Array)" do
       let(:params) { { custom: ['KeyWord value'] } }
 
-      it { is_expected.to contain_file('ssh_config').with_content(header + "  KeyWord value\n") }
+      it { is_expected.to contain_file('sshd_config').with_content(header + "KeyWord value\n") }
     end
 
     context "on #{os} with custom set to valid [\"keyword value\", \"test ing\"] (as Array)" do
       let(:params) { { custom: ['KeyWord value', 'Test ing'] } }
 
-      it { is_expected.to contain_file('ssh_config').with_content(header + "  KeyWord value\n  Test ing\n") }
+      it { is_expected.to contain_file('sshd_config').with_content(header + "KeyWord value\nTest ing\n") }
     end
   end
-=end
 end
