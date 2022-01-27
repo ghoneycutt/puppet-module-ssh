@@ -150,6 +150,9 @@ IgnoreRhosts <%= @ignore_rhosts %>
 <% if @ignore_user_known_hosts != nil -%>
 IgnoreUserKnownHosts <%= @ignore_user_known_hosts %>
 <% end -%>
+<% if @include != nil -%>
+Include <%= @include %>
+<% end -%>
 <% if @ip_qos != nil -%>
 IPQoS <%= @ip_qos %>
 <% end -%>

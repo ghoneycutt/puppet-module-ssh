@@ -121,6 +121,8 @@
 #
 # @param ignore_user_known_hosts
 #
+# @param include
+#
 # @param ip_qos
 #
 # @param kbd_interactive_authentication
@@ -276,6 +278,7 @@ class ssh::server (
   Optional[Array[String[1]]] $host_key_algorithms = undef,
   Optional[Ssh::Yes_no] $ignore_rhosts = undef,
   Optional[Ssh::Yes_no] $ignore_user_known_hosts = undef,
+  Optional[String[1]] $include = undef,
   Optional[String[1]] $ip_qos = undef,
   Optional[Ssh::Yes_no] $kbd_interactive_authentication = undef,
   Optional[Ssh::Yes_no] $kerberos_authentication = undef,
