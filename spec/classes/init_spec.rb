@@ -285,50 +285,6 @@ describe 'ssh' do
 
   # TODO: FIXME: access facts hash incorrectly?
   #
-  #  describe 'with exported sshkey resources' do
-  #    subject { exported_resources }
-  #
-  #    let(:params) { { key_export: true } }
-  #
-  #    context 'With only IPv4 address' do
-  #      let(:facts) { default_facts.merge( facts ) }
-  #      it {
-  #        is_expected.to contain_sshkey('monkey.example.com').with(
-  #          'ensure' => 'present',
-  #          'host_aliases' => ['monkey', '127.0.0.1'],
-  #          'type' => 'ssh-rsa',
-  #          'key' => facts[:ssh['rsa']['key']],
-  #        )
-  #      }
-  #    end
-  #    context 'With dual stack IP' do
-  #      let(:facts) { default_facts.merge({ ipaddress6: 'dead:beef::1/64' }) }
-  #
-  #      it {
-  #        is_expected.to contain_sshkey('monkey.example.com').with(
-  #          'ensure' => 'present',
-  #          'host_aliases' => ['monkey', '127.0.0.1', 'dead:beef::1/64'],
-  #          'type' => 'ssh-rsa',
-  #          'key' => facts[:ssh[:rsa][:key]],
-  #        )
-  #      }
-  #    end
-  #
-  #    context 'With only IPv6 address' do
-  #      let(:facts) { default_facts.merge({ ipaddress6: 'dead:beef::1/64', ipaddress: nil }) }
-  #      it {
-  #        is_expected.to contain_sshkey('monkey.example.com').with(
-  #          'ensure' => 'present',
-  #          'host_aliases' => ['monkey', 'dead:beef::1/64'],
-  #          'type' => 'ssh-rsa',
-  #          'key' => facts[:ssh[:rsa][:key]],
-  #        )
-  #      }
-  #    end
-  #  end
-
-  # TODO: FIXME: access facts hash incorrectly?
-  #
   #  context 'with default params on invalid osfamily' do
   #    let(:facts) { default_facts.merge({ :os['family'] => 'C64' }) }
   #
@@ -445,20 +401,5 @@ describe 'ssh' do
         },
       )
     }
-  end
-
-  describe 'with ssh_key_import parameter set to' do
-    # TODO: FIXME: problem related to other commented out block. See 'with exported sshkey resources'
-    #    context 'as true' do
-    #      let(:params) { { ssh_key_import: true } }
-    #
-    #      it { is_expected.to have_sshkey_resource_count(1) }
-    #    end
-
-    context 'as false' do
-      let(:params) { { ssh_key_import: false } }
-
-      it { is_expected.to have_sshkey_resource_count(0) }
-    end
   end
 end

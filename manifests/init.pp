@@ -31,13 +31,9 @@
 #
 # @param manage_server
 #
-# @param key_export
-#
 # @param purge_keys
 #
 # @param ssh_key_ensure
-#
-# @param ssh_key_import
 #
 # @param ssh_key_type
 #
@@ -127,7 +123,7 @@
 #
 # @param host_key_alias
 #
-# @param host_name
+# @param hostname
 #
 # @param identities_only
 #
@@ -238,10 +234,8 @@ class ssh (
   Boolean $manage_root_ssh_config = false,
   String[1] $root_ssh_config_content = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
   Boolean $manage_server = true,
-  Boolean $key_export = false,
   Boolean $purge_keys = true,
   Enum['present', 'absent'] $ssh_key_ensure = 'present',
-  Boolean $ssh_key_import = false,
   Ssh::Key::Type $ssh_key_type = 'ssh-rsa',
   Hash $keys = {},
   Hash $config_entries = {},
@@ -287,7 +281,7 @@ class ssh (
   Optional[Array[String[1]]] $hostbased_key_types = undef,
   Optional[Array[String[1]]] $host_key_algorithms = undef,
   Optional[String[1]] $host_key_alias = undef,
-  Optional[String[1]] $host_name = undef,
+  Optional[String[1]] $hostname = undef,
   Optional[Ssh::Yes_no] $identities_only = undef,
   Optional[String[1]] $identity_agent = undef,
   Optional[Array[String[1]]] $identity_file = undef,
@@ -336,7 +330,7 @@ class ssh (
   Optional[String[1]] $xauth_location = undef,
   # custom is a string that allows for multiple lines to be appended to end of
   # the sshd_config file.
-  Optional[String[1]] $custom = undef,
+  Optional[Array[String[1]]] $custom = undef
 ) {
 
   # TODO: This huge case statement is getting transitioned to hiera
@@ -387,6 +381,30 @@ class ssh (
       $default_service_name                    = 'ssh'
 
       case $::operatingsystemrelease {
+        '14.04': {
+          $default_sshd_config_hostkey = [
+            '/etc/ssh/ssh_host_rsa_key',
+          ]
+          $default_ssh_config_hash_known_hosts        = 'no'
+          $default_sshd_config_xauth_location         = '/usr/bin/xauth'
+          $default_ssh_config_forward_x11_trusted     = 'yes'
+          $default_ssh_package_source                 = undef
+          $default_ssh_package_adminfile              = undef
+          $default_ssh_sendenv                        = true
+          $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
+          $default_sshd_config_mode                   = '0600'
+          $default_sshd_config_use_dns                = 'yes'
+          $default_sshd_use_pam                       = 'yes'
+          $default_sshd_gssapikeyexchange             = undef
+          $default_sshd_pamauthenticationviakbdint    = undef
+          $default_sshd_gssapicleanupcredentials      = 'yes'
+          $default_sshd_acceptenv                     = true
+          $default_service_hasstatus                  = true
+          $default_sshd_config_serverkeybits          = '1024'
+          $default_sshd_addressfamily                 = 'any'
+          $default_sshd_config_tcp_keepalive          = 'yes'
+          $default_sshd_config_permittunnel           = 'no'
+        }
         '16.04': {
           $default_sshd_config_hostkey = [
             '/etc/ssh/ssh_host_rsa_key',
@@ -578,6 +596,12 @@ class ssh (
     }
   }
 
+  case type_of($global_known_hosts_file) {
+    string:  { $global_known_hosts_file_array = [ $global_known_hosts_file ] }
+    default: { $global_known_hosts_file_array = $global_known_hosts_file }
+  }
+
+
   if "${::ssh_version}" =~ /^OpenSSH/  { # lint:ignore:only_variable_string
     $ssh_version_array = split($::ssh_version_numeric, '\.')
     $ssh_version_maj_int = 0 + $ssh_version_array[0]
@@ -644,20 +668,6 @@ class ssh (
   elsif getvar('::ipaddress6') { $host_aliases = [$::hostname, $::ipaddress6] }
   else { $host_aliases = [$::hostname, $::ipaddress] }
 
-  # export each node's ssh key
-  if $key_export == true {
-    # ssh_key_type might start with 'ssh-' though facter stores them without
-    # the 'ssh-' prefix.
-    #$key_type = delete_regex($ssh_key_type, '^ssh-')
-    $key_type = 'rsa'
-    @@sshkey { $::fqdn :
-      ensure       => $ssh_key_ensure,
-      host_aliases => $host_aliases,
-      type         => $ssh_key_type,
-      key          => $facts['ssh'][$key_type]['key'],
-    }
-  }
-
   file { 'ssh_known_hosts':
     ensure  => file,
     path    => $global_known_hosts,
@@ -665,13 +675,6 @@ class ssh (
     group   => $global_known_hosts_group,
     mode    => $global_known_hosts_mode,
     require => Package[$packages],
-  }
-
-  # import all nodes' ssh keys
-  if $ssh_key_import == true {
-    Sshkey <<||>> {
-      target => $global_known_hosts,
-    }
   }
 
   # remove ssh key's not managed by puppet

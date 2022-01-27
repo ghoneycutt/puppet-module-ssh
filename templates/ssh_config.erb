@@ -85,7 +85,7 @@ Host <%= @host %>
   ExitOnForwardFailure <%= @exit_on_forward_failure %>
 <% end -%>
 <% if @fingerprint_hash != nil -%>
-  FingerprintHash  <%= @fingerprint_hash %>
+  FingerprintHash <%= @fingerprint_hash %>
 <% end -%>
 <% if @forward_agent != nil -%>
   ForwardAgent <%= @forward_agent %>
@@ -102,8 +102,8 @@ Host <%= @host %>
 <% if @gateway_ports != nil -%>
   GatewayPorts <%= @gateway_ports %>
 <% end -%>
-<% if @global_known_hosts_file != nil -%>
-  GlobalKnownHostsFile <%= @global_known_hosts_file.join(' ') %>
+<% if @global_known_hosts_file_array != nil -%>
+  GlobalKnownHostsFile <%= @global_known_hosts_file_array.join(' ') %>
 <% end -%>
 <% if @gss_api_authentication != nil -%>
   GSSAPIAuthentication <%= @gss_api_authentication %>
@@ -126,8 +126,8 @@ Host <%= @host %>
 <% if @host_key_alias != nil -%>
   HostKeyAlias <%= @host_key_alias %>
 <% end -%>
-<% if @host_name != nil -%>
-  HostNname <%= @host_name %>
+<% if @hostname != nil -%>
+  Hostname <%= @hostname %>
 <% end -%>
 <% if @identities_only != nil -%>
   IdentitiesOnly <%= @identities_only %>
@@ -136,10 +136,10 @@ Host <%= @host %>
   IdentityAgent <%= @identity_agent %>
 <% end -%>
 <% if @identity_file != nil -%>
-  IdentityFile <%= @identity_file %>
+  IdentityFile <%= @identity_file.join(',') %>
 <% end -%>
 <% if @ignore_unknown != nil -%>
-  IgnoreUnknown <%= @ignore_unknown %>
+  IgnoreUnknown <%= @ignore_unknown.join(',') %>
 <% end -%>
 <% if @include != nil -%>
   Include <%= @include %>
@@ -225,10 +225,12 @@ Host <%= @host %>
   ServerAliveCountMax <%= @server_alive_count_max %>
 <% end -%>
 <% if @server_alive_interval != nil -%>
-  ServerAliveIAerval <%= @server_alive_interval %>
+  ServerAliveInterval <%= @server_alive_interval %>
 <% end -%>
 <% if @set_env != nil -%>
-  SetEnv <%= @set_env.join(' ') %>
+<%   @set_env.each do |v| -%>
+  SetEnv <%= v %>
+<%   end -%>
 <% end -%>
 <% if @stream_local_bind_mask != nil -%>
   StreamLocalBindMask <%= @stream_local_bind_mask %>
@@ -261,7 +263,7 @@ Host <%= @host %>
   UserKnownHostsFile <%= @user_known_hosts_file.join(' ') %>
 <% end -%>
 <% if @verify_host_key_dns != nil -%>
- VerifyHostKeyDNS <%= @verify_host_key_dns %>
+  VerifyHostKeyDNS <%= @verify_host_key_dns %>
 <% end -%>
 <% if @visual_host_key != nil -%>
   VisualHostKey <%= @visual_host_key %>
@@ -270,5 +272,7 @@ Host <%= @host %>
   XAuthLocation <%= @xauth_location %>
 <% end -%>
 <% if @custom != nil -%>
-<%= @custom %>
+<%   @custom.each do |line| -%>
+  <%= line %>
+<%   end -%>
 <% end -%>
