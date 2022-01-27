@@ -223,6 +223,7 @@ describe 'ssh::server' do
       'host_key_algorithms'                  => { str: 'HostKeyAlgorithms',                val: [['ssh-ed25519'], ['ssh-ed25519', 'rsa-sha2-512']], sep: ',', },
       'ignore_rhosts'                        => { str: 'IgnoreRhosts',                     val: ['yes', 'no'], },
       'ignore_user_known_hosts'              => { str: 'IgnoreUserKnownHosts',             val: ['yes', 'no'], },
+      'include'                              => { str: 'Include',                          val: ['/test/ing', '~/test/ing'], },
       'ip_qos'                               => { str: 'IPQoS',                            val: ['af42', 'af42 cs3'], },
       'kbd_interactive_authentication'       => { str: 'KbdInteractiveAuthentication',     val: ['yes', 'no'], },
       'kerberos_authentication'              => { str: 'KerberosAuthentication',           val: ['yes', 'no'], },
