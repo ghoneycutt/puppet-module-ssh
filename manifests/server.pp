@@ -471,6 +471,7 @@ class ssh::server (
         }
       }
     }
+    'UnitTesting': {} # fake OS for easier testing only
     default: {
       fail("ssh supports osfamilies RedHat, Suse, Debian and Solaris. Detected os.family is <${facts['os']['family']}>.")
     }
