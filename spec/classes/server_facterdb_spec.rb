@@ -110,12 +110,16 @@ describe 'ssh::server' do
     END
     'Debian-9' => <<-END.gsub(%r{^\s+\|}, ''),
     END
+    'Debian-10' => <<-END.gsub(%r{^\s+\|}, ''),
+    END
     # Ubuntus
     'Debian-14.04' => <<-END.gsub(%r{^\s+\|}, ''),
     END
     'Debian-16.04' => <<-END.gsub(%r{^\s+\|}, ''),
     END
     'Debian-18.04' => <<-END.gsub(%r{^\s+\|}, ''),
+    END
+    'Debian-20.04' => <<-END.gsub(%r{^\s+\|}, ''),
     END
   }
 
