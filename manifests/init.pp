@@ -241,7 +241,12 @@ class ssh (
 >>>>>>> f9cb674 (Change data type for $custom to array in main class)
 ) {
 
+<<<<<<< HEAD
   case $::osfamily {
+=======
+  # TODO: This huge case statement is getting transitioned to hiera
+  case $facts['os']['family'] {
+>>>>>>> 879e814 (Adopt default settings from release 3.62.0)
     'RedHat': {
       $default_packages                        = ['openssh-server',
                                                   'openssh-clients']
@@ -407,6 +412,37 @@ class ssh (
           $default_sshd_config_tcp_keepalive          = 'yes'
           $default_sshd_config_permittunnel           = 'no'
           $default_sshd_config_include                = undef
+<<<<<<< HEAD
+=======
+        }
+        '20.04': {
+          $default_service_hasstatus                  = true
+          $default_ssh_config_forward_x11_trusted     = 'yes'
+          $default_ssh_config_hash_known_hosts        = 'yes'
+          $default_ssh_config_include                 = '/etc/ssh/ssh_config.d/*.conf'
+          $default_ssh_gssapiauthentication           = 'yes'
+          $default_ssh_package_adminfile              = undef
+          $default_ssh_package_source                 = undef
+          $default_ssh_sendenv                        = true
+          $default_sshd_acceptenv                     = true
+          $default_sshd_addressfamily                 = 'any'
+          $default_sshd_config_hostkey                = []
+          $default_sshd_config_include                = '/etc/ssh/sshd_config.d/*.conf'
+          $default_sshd_config_mode                   = '0600'
+          $default_sshd_config_permittunnel           = undef
+          $default_sshd_config_print_motd             = 'no'
+          $default_sshd_config_serverkeybits          = undef
+          $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
+          $default_sshd_config_tcp_keepalive          = undef
+          $default_sshd_config_use_dns                = 'yes'
+          $default_sshd_config_xauth_location         = undef
+          $default_sshd_gssapiauthentication          = 'yes'
+          $default_sshd_gssapicleanupcredentials      = 'yes'
+          $default_sshd_gssapikeyexchange             = undef
+          $default_sshd_pamauthenticationviakbdint    = undef
+          $default_sshd_use_pam                       = 'yes'
+          $default_sshd_x11_forwarding                = 'yes'
+>>>>>>> 879e814 (Adopt default settings from release 3.62.0)
         }
         '20.04': {
           $default_service_hasstatus                  = true
@@ -450,6 +486,7 @@ class ssh (
           $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
           $default_ssh_config_hash_known_hosts     = 'yes'
           $default_ssh_sendenv                     = true
+          $default_ssh_config_include              = undef
           $default_sshd_addressfamily              = undef
           $default_sshd_config_serverkeybits       = undef
           $default_sshd_gssapicleanupcredentials   = undef
@@ -461,6 +498,7 @@ class ssh (
           $default_ssh_package_adminfile           = undef
           $default_sshd_gssapikeyexchange          = undef
           $default_sshd_pamauthenticationviakbdint = undef
+          $default_sshd_config_include             = undef
           $default_service_hasstatus               = true
           $default_sshd_config_include             = undef
         }

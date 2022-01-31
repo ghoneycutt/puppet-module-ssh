@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'ssh' do
 
   default_facts = {
+<<<<<<< HEAD
     :fqdn                   => 'monkey.example.com',
     :hostname               => 'monkey',
     :ipaddress              => '127.0.0.1',
@@ -15,6 +16,28 @@ describe 'ssh' do
     :ssh_version            => 'OpenSSH_6.6p1',
     :ssh_version_numeric    => '6.6',
     :sshrsakey              => 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==',
+=======
+    fqdn: 'monkey.example.com',
+    hostname: 'monkey',
+    ipaddress: '127.0.0.1',
+    os: {
+      family: 'RedHat',
+      release: {
+        major: '7',
+      },
+    },
+    operatingsystemrelease: '7.0',
+    root_home: '/root',
+    specific: 'dummy',
+    ssh_version: 'OpenSSH_6.6p1',
+    ssh_version_numeric: '6.6',
+    sshrsakey: 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==', # rubocop:disable Layout/LineLength
+    ssh: {
+      rsa: {
+        key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1  AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==', # rubocop:disable Layout/LineLength
+      }
+    }
+>>>>>>> 879e814 (Adopt default settings from release 3.62.0)
   }
 
   default_solaris_facts = {
@@ -86,6 +109,7 @@ describe 'ssh' do
       :ssh_config_fixture     => 'ssh_config_debian10',
     },
     'RedHat-5' => {
+<<<<<<< HEAD
       :architecture           => 'x86_64',
       :osfamily               => 'RedHat',
       :operatingsystemrelease => '5.11',
@@ -298,6 +322,48 @@ describe 'ssh' do
       :sshd_service_hasstatus => true,
       :sshd_config_fixture    => 'sshd_config_ubuntu2004',
       :ssh_config_fixture     => 'ssh_config_ubuntu2004',
+=======
+      architecture: 'x86_64',
+      os: {
+        family: 'RedHat',
+        release: {
+          major: '5',
+        },
+      },
+      operatingsystemrelease: '5.0',
+      ssh_version: 'OpenSSH_4.3p2',
+      ssh_version_numeric: '4.3',
+      ssh_packages: ['openssh-clients'],
+      ssh_config_fixture: 'ssh_config_el5',
+    },
+    'EL-6' => {
+      architecture: 'x86_64',
+      os: {
+        family: 'RedHat',
+        release: {
+          major: '6',
+        },
+      },
+      operatingsystemrelease: '6.0',
+      ssh_version: 'OpenSSH_5.3p1',
+      ssh_version_numeric: '5.3',
+      ssh_packages: ['openssh-clients'],
+      ssh_config_fixture: 'ssh_config_el6',
+    },
+    'EL-7' => {
+      architecture: 'x86_64',
+      os: {
+        family: 'RedHat',
+        release: {
+          major: '7',
+        },
+      },
+      operatingsystemrelease: '7.0',
+      ssh_version: 'OpenSSH_7.4p1',
+      ssh_version_numeric: '7.4',
+      ssh_packages: ['openssh-clients'],
+      ssh_config_fixture: 'ssh_config_el7',
+>>>>>>> 879e814 (Adopt default settings from release 3.62.0)
     },
   }
 
