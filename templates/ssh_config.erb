@@ -211,8 +211,8 @@ Host <%= @host %>
 <% if @forward_x11_timeout != nil -%>
   ForwardX11Timeout <%= @forward_x11_timeout %>
 <% end -%>
-<% if @forward_x11_trusted != nil -%>
-  ForwardX11Trusted <%= @forward_x11_trusted %>
+<% if @forward_x11_trusted_real != '' -%>
+  ForwardX11Trusted <%= @forward_x11_trusted_real %>
 <% end -%>
 <% if @gateway_ports != nil -%>
   GatewayPorts <%= @gateway_ports %>
@@ -226,8 +226,8 @@ Host <%= @host %>
 <% if @gss_api_delegate_credentials != nil -%>
   GSSAPIDelegateCredentials <%= @gss_api_delegate_credentials %>
 <% end -%>
-<% if @hash_known_hosts != nil -%>
-  HashKnownHosts <%= @hash_known_hosts %>
+<% if @hash_known_hosts_real != '' -%>
+  HashKnownHosts <%= @hash_known_hosts_real %>
 <% end -%>
 <% if @hostbased_authentication != nil -%>
   HostbasedAuthentication <%= @hostbased_authentication %>
@@ -256,8 +256,8 @@ Host <%= @host %>
 <% if @ignore_unknown != nil -%>
   IgnoreUnknown <%= @ignore_unknown.join(',') %>
 <% end -%>
-<% if @include != nil -%>
-  Include <%= @include %>
+<% if @include_real != '' -%>
+  Include <%= @include_real %>
 <% end -%>
 <% if @ip_qos != nil -%>
   IPQoS <%= @ip_qos %>
@@ -376,6 +376,9 @@ Host <%= @host %>
 <% end -%>
 <% if @user_known_hosts_file != nil -%>
   UserKnownHostsFile <%= @user_known_hosts_file.join(' ') %>
+<% end -%>
+<% if @use_roaming_real != '' -%>
+  UseRoaming <%= @use_roaming_real %>
 <% end -%>
 <% if @verify_host_key_dns != nil -%>
   VerifyHostKeyDNS <%= @verify_host_key_dns %>

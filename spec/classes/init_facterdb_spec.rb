@@ -9,27 +9,6 @@ describe 'ssh' do
     |Host *
   END
 
-  rh_default_content = <<-END.gsub(%r{^\s+\|}, '')
-    |  ForwardX11Trusted yes
-    |  GSSAPIAuthentication yes
-    |  SendEnv LANG
-    |  SendEnv LANGUAGE
-    |  SendEnv LC_ADDRESS
-    |  SendEnv LC_ALL
-    |  SendEnv LC_COLLATE
-    |  SendEnv LC_CTYPE
-    |  SendEnv LC_IDENTIFICATION
-    |  SendEnv LC_MEASUREMENT
-    |  SendEnv LC_MESSAGES
-    |  SendEnv LC_MONETARY
-    |  SendEnv LC_NAME
-    |  SendEnv LC_NUMERIC
-    |  SendEnv LC_PAPER
-    |  SendEnv LC_TELEPHONE
-    |  SendEnv LC_TIME
-    |  SendEnv XMODIFIERS
-  END
-
   on_supported_os.sort.each do |os, os_facts|
     context "on #{os} with default values for parameters" do
       let(:facts) { os_facts }
@@ -47,11 +26,7 @@ describe 'ssh' do
         )
       end
 
-      content = if os_facts[:os]['family'] == 'RedHat'
-                  rh_default_content
-                else
-                  ''
-                end
+      content_fixture = File.read(fixtures("#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_ssh_config"))
 
       it do
         is_expected.to contain_file('ssh_config').only_with(
@@ -61,7 +36,7 @@ describe 'ssh' do
             'owner'   => 'root',
             'group'   => 'root',
             'mode'    => '0644',
-            'content' => header + content,
+            'content' => content_fixture,
             'require' => 'Package[openssh-clients]',
           },
         )
