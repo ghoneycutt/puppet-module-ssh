@@ -211,6 +211,8 @@
 #
 # @param user_known_hosts_file
 #
+# @param use_roaming
+#
 # @param verify_host_key_dns
 #
 # @param visual_host_key
@@ -325,6 +327,7 @@ class ssh (
   Optional[Enum['yes', 'no', 'ask']] $update_host_keys = undef,
   Optional[String[1]] $user = undef,
   Optional[Array[String[1]]] $user_known_hosts_file = undef,
+  Optional[Ssh::Yes_no] $use_roaming = undef,
   Optional[Enum['yes', 'no', 'ask']] $verify_host_key_dns = undef,
   Optional[Ssh::Yes_no] $visual_host_key = undef,
   Optional[String[1]] $xauth_location = undef,
@@ -339,12 +342,12 @@ class ssh (
       $default_packages                        = ['openssh-server',
                                                   'openssh-clients']
       $default_service_name                    = 'sshd'
-      $default_ssh_config_hash_known_hosts     = 'no'
-      $default_ssh_config_forward_x11_trusted  = 'yes'
+      $hash_known_hosts_default     = 'no'
+      $forward_x11_trusted_default  = 'yes'
       $default_ssh_package_source              = undef
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
-      $default_ssh_config_include              = undef
+      $include_default              = undef
       $default_sshd_config_subsystem_sftp      = '/usr/libexec/openssh/sftp-server'
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
@@ -369,12 +372,12 @@ class ssh (
     'Suse': {
       $default_packages                        = 'openssh'
       $default_service_name                    = 'sshd'
-      $default_ssh_config_hash_known_hosts     = 'no'
+      $hash_known_hosts_default     = 'no'
       $default_ssh_package_source              = undef
       $default_ssh_package_adminfile           = undef
       $default_ssh_sendenv                     = true
-      $default_ssh_config_forward_x11_trusted  = 'yes'
-      $default_ssh_config_include              = undef
+      $forward_x11_trusted_default  = 'yes'
+      $include_default              = undef
       $default_sshd_config_mode                = '0600'
       $default_sshd_config_use_dns             = 'yes'
       $default_sshd_config_xauth_location      = '/usr/bin/xauth'
@@ -423,9 +426,10 @@ class ssh (
           $default_sshd_config_hostkey = [
             '/etc/ssh/ssh_host_rsa_key',
           ]
-          $default_ssh_config_hash_known_hosts        = 'no'
+          $hash_known_hosts_default        = 'no'
           $default_sshd_config_xauth_location         = '/usr/bin/xauth'
-          $default_ssh_config_forward_x11_trusted     = 'yes'
+          $forward_x11_trusted_default     = 'yes'
+          $include_default                 = undef
           $default_ssh_package_source                 = undef
           $default_ssh_package_adminfile              = undef
           $default_ssh_sendenv                        = true
@@ -450,13 +454,13 @@ class ssh (
             '/etc/ssh/ssh_host_ecdsa_key',
             '/etc/ssh/ssh_host_ed25519_key',
           ]
-          $default_ssh_config_hash_known_hosts        = 'yes'
+          $hash_known_hosts_default        = 'yes'
           $default_sshd_config_xauth_location         = undef
-          $default_ssh_config_forward_x11_trusted     = 'yes'
+          $forward_x11_trusted_default     = 'yes'
           $default_ssh_package_source                 = undef
           $default_ssh_package_adminfile              = undef
           $default_ssh_sendenv                        = true
-          $default_ssh_config_include                 = undef
+          $include_default                 = undef
           $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
           $default_sshd_config_mode                   = '0600'
           $default_sshd_config_use_dns                = 'yes'
@@ -479,13 +483,13 @@ class ssh (
             '/etc/ssh/ssh_host_ecdsa_key',
             '/etc/ssh/ssh_host_ed25519_key',
           ]
-          $default_ssh_config_hash_known_hosts        = 'yes'
+          $hash_known_hosts_default        = 'yes'
           $default_sshd_config_xauth_location         = undef
-          $default_ssh_config_forward_x11_trusted     = 'yes'
+          $forward_x11_trusted_default     = 'yes'
           $default_ssh_package_source                 = undef
           $default_ssh_package_adminfile              = undef
           $default_ssh_sendenv                        = true
-          $default_ssh_config_include                 = undef
+          $include_default                 = undef
           $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
           $default_sshd_config_mode                   = '0600'
           $default_sshd_config_use_dns                = 'yes'
@@ -503,9 +507,9 @@ class ssh (
         }
         '20.04': {
           $default_service_hasstatus                  = true
-          $default_ssh_config_forward_x11_trusted     = 'yes'
-          $default_ssh_config_hash_known_hosts        = 'yes'
-          $default_ssh_config_include                 = '/etc/ssh/ssh_config.d/*.conf'
+          $forward_x11_trusted_default     = 'yes'
+          $hash_known_hosts_default        = 'yes'
+          $include_default                 = '/etc/ssh/ssh_config.d/*.conf'
           $default_ssh_gssapiauthentication           = 'yes'
           $default_ssh_package_adminfile              = undef
           $default_ssh_package_source                 = undef
@@ -531,13 +535,13 @@ class ssh (
         }
         /^7.*/: {
           $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
-          $default_ssh_config_hash_known_hosts     = 'no'
+          $hash_known_hosts_default     = 'no'
           $default_sshd_config_xauth_location      = '/usr/bin/xauth'
-          $default_ssh_config_forward_x11_trusted  = 'yes'
+          $forward_x11_trusted_default  = 'yes'
           $default_ssh_package_source              = undef
           $default_ssh_package_adminfile           = undef
           $default_ssh_sendenv                     = true
-          $default_ssh_config_include              = undef
+          $include_default              = undef
           $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
           $default_sshd_config_mode                = '0600'
           $default_sshd_config_use_dns             = 'yes'
@@ -555,12 +559,12 @@ class ssh (
         }
         /^8.*/: {
 
-          $default_ssh_config_hash_known_hosts     = 'yes'
-          $default_ssh_config_forward_x11_trusted  = 'yes'
+          $hash_known_hosts_default     = 'yes'
+          $forward_x11_trusted_default  = 'yes'
           $default_ssh_package_source              = undef
           $default_ssh_package_adminfile           = undef
           $default_ssh_sendenv                     = true
-          $default_ssh_config_include              = undef
+          $include_default              = undef
           $default_sshd_config_hostkey = [
           '/etc/ssh/ssh_host_rsa_key',
           '/etc/ssh/ssh_host_dsa_key',
@@ -591,12 +595,12 @@ class ssh (
           ]
           $default_sshd_config_mode                = '0600'
           $default_sshd_use_pam                    = 'yes'
-          $default_ssh_config_forward_x11_trusted  = 'yes'
+          $forward_x11_trusted_default  = 'yes'
           $default_sshd_acceptenv                  = true
           $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
-          $default_ssh_config_hash_known_hosts     = 'yes'
+          $hash_known_hosts_default     = 'yes'
           $default_ssh_sendenv                     = true
-          $default_ssh_config_include              = undef
+          $include_default              = undef
           $default_sshd_addressfamily              = undef
           $default_sshd_config_serverkeybits       = undef
           $default_sshd_gssapicleanupcredentials   = undef
@@ -619,11 +623,11 @@ class ssh (
           ]
           $default_sshd_config_mode                = '0600'
           $default_sshd_use_pam                    = 'yes'
-          $default_ssh_config_forward_x11_trusted  = 'yes'
-          $default_ssh_config_include              = undef
+          $forward_x11_trusted_default  = 'yes'
+          $include_default              = undef
           $default_sshd_acceptenv                  = true
           $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
-          $default_ssh_config_hash_known_hosts     = 'yes'
+          $hash_known_hosts_default     = 'yes'
           $default_ssh_sendenv                     = true
           $default_sshd_addressfamily              = undef
           $default_sshd_config_serverkeybits       = undef
@@ -643,10 +647,10 @@ class ssh (
       }
     }
     'Solaris': {
-      $default_ssh_config_hash_known_hosts     = undef
+      $hash_known_hosts_default     = undef
       $default_ssh_sendenv                     = false
-      $default_ssh_config_forward_x11_trusted  = undef
-      $default_ssh_config_include              = undef
+      $forward_x11_trusted_default  = undef
+      $include_default              = undef
       $default_sshd_config_subsystem_sftp      = '/usr/lib/ssh/sftp-server'
       $default_sshd_config_mode                = '0644'
       $default_sshd_config_use_dns             = undef
@@ -697,31 +701,42 @@ class ssh (
         }
       }
     }
-    'UnitTesting': {} # fake OS for easier testing only
+    'UnitTesting': { # fake OS for easier testing only
+      # TODO: These default values should only be needed while transitioning data to v4
+      $hash_known_hosts_default = undef
+      $forward_x11_trusted_default = undef
+      $include_default = undef
+    }
     default: {
       fail("ssh supports osfamilies RedHat, Suse, Debian and Solaris. Detected os family is <${facts['os']['family']}>.")
     }
   }
-
-  case type_of($global_known_hosts_file) {
-    string:  { $global_known_hosts_file_array = [ $global_known_hosts_file ] }
-    default: { $global_known_hosts_file_array = $global_known_hosts_file }
-  }
-
 
   if "${::ssh_version}" =~ /^OpenSSH/  { # lint:ignore:only_variable_string
     $ssh_version_array = split($::ssh_version_numeric, '\.')
     $ssh_version_maj_int = 0 + $ssh_version_array[0]
     $ssh_version_min_int = 0 + $ssh_version_array[1]
     if $ssh_version_maj_int > 5 {
-      $default_ssh_config_use_roaming = 'no'
+      $use_roaming_default = 'no'
     } elsif $ssh_version_maj_int == 5 and $ssh_version_min_int >= 4 {
-      $default_ssh_config_use_roaming = 'no'
+      $use_roaming_default = 'no'
     } else {
-      $default_ssh_config_use_roaming = 'unset'
+      $use_roaming_default = undef
     }
   } else {
-      $default_ssh_config_use_roaming = 'unset'
+      $use_roaming_default = undef
+  }
+
+  # pick_default() will return an empty string instead of undef
+  # https://tickets.puppetlabs.com/browse/MODULES-6534
+  $hash_known_hosts_real = pick_default($hash_known_hosts, $hash_known_hosts_default, undef)
+  $forward_x11_trusted_real = pick_default($forward_x11_trusted, $forward_x11_trusted_default, undef)
+  $include_real = pick_default($include, $include_default, undef)
+  $use_roaming_real = pick_default($use_roaming, $use_roaming_default)
+
+  case type_of($global_known_hosts_file) {
+    string:  { $global_known_hosts_file_array = [ $global_known_hosts_file ] }
+    default: { $global_known_hosts_file_array = $global_known_hosts_file }
   }
 
   package { $packages:

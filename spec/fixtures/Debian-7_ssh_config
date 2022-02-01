@@ -1,0 +1,8 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+#
+# See https://man.openbsd.org/sshd_config for more info
+
+Host *
+  ForwardX11Trusted yes
+  HashKnownHosts no
