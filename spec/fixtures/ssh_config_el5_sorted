@@ -6,6 +6,7 @@
 Host *
   ForwardX11Trusted yes
   GSSAPIAuthentication yes
+  HashKnownHosts no
   SendEnv LANG
   SendEnv LANGUAGE
   SendEnv LC_ADDRESS
