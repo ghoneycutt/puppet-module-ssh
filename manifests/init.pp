@@ -472,9 +472,7 @@ class ssh (
   case $facts['os']['family'] {
 >>>>>>> 879e814 (Adopt default settings from release 3.62.0)
     'RedHat': {
-      $default_packages                        = ['openssh-server',
-                                                  'openssh-clients']
-      $default_service_name                    = 'sshd'
+      $default_packages                        = ['openssh-clients']
       $hash_known_hosts_default     = 'no'
       $forward_x11_trusted_default  = 'yes'
       $gss_api_authentication_default = 'yes'
@@ -483,26 +481,6 @@ class ssh (
       $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                             'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
       $include_default              = undef
-      $default_sshd_config_subsystem_sftp      = '/usr/libexec/openssh/sftp-server'
-      $default_sshd_config_mode                = '0600'
-      $default_sshd_config_use_dns             = 'yes'
-      $default_sshd_config_xauth_location      = '/usr/bin/xauth'
-      $default_sshd_use_pam                    = 'yes'
-      $default_sshd_gssapikeyexchange          = undef
-      $default_sshd_pamauthenticationviakbdint = undef
-      $default_sshd_gssapicleanupcredentials   = 'yes'
-      $default_sshd_acceptenv                  = true
-      $default_service_hasstatus               = true
-      if versioncmp($::operatingsystemrelease, '7.4') < 0 {
-        $default_sshd_config_serverkeybits = '1024'
-      } else {
-        $default_sshd_config_serverkeybits = undef
-      }
-      $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
-      $default_sshd_addressfamily              = 'any'
-      $default_sshd_config_tcp_keepalive       = 'yes'
-      $default_sshd_config_permittunnel        = 'no'
-      $default_sshd_config_include             = undef
     }
     'Suse': {
       $default_packages                        = 'openssh'
