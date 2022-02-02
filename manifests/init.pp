@@ -493,56 +493,14 @@ class ssh (
                             'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
       $forward_x11_trusted_default  = 'yes'
       $include_default              = undef
-      $default_sshd_config_mode                = '0600'
-      $default_sshd_config_use_dns             = 'yes'
-      $default_sshd_config_xauth_location      = '/usr/bin/xauth'
-      $default_sshd_use_pam                    = 'yes'
-      $default_sshd_gssapikeyexchange          = undef
-      $default_sshd_pamauthenticationviakbdint = undef
-      $default_sshd_gssapicleanupcredentials   = 'yes'
-      $default_sshd_acceptenv                  = true
-      $default_service_hasstatus               = true
-      $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
-      $default_sshd_addressfamily              = 'any'
-      $default_sshd_config_tcp_keepalive       = 'yes'
-      $default_sshd_config_permittunnel        = 'no'
-      $default_sshd_config_include             = undef
-      case $::architecture {
-        'x86_64': {
-          if ($::operatingsystem == 'SLES') {
-            case $::operatingsystemrelease {
-              /15\./: {
-                $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
-                $default_sshd_config_serverkeybits  = undef
-              }
-              default: {
-                $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
-                $default_sshd_config_serverkeybits  = '1024'
-              }
-            }
-          }
-        }
-        'i386' : {
-          $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
-      }
-        default: {
-          fail("ssh supports architectures x86_64 and i386 for Suse. Detected architecture is <${::architecture}>.")
-        }
-      }
     }
     'Debian': {
       # common for debian and ubuntu
-      $default_packages                        = ['openssh-server',
-                                                  'openssh-client']
-      $default_service_name                    = 'ssh'
+      $default_packages                        = ['openssh-client']
 
       case $::operatingsystemrelease {
         '14.04': {
-          $default_sshd_config_hostkey = [
-            '/etc/ssh/ssh_host_rsa_key',
-          ]
           $hash_known_hosts_default        = 'no'
-          $default_sshd_config_xauth_location         = '/usr/bin/xauth'
           $forward_x11_trusted_default     = 'yes'
           $include_default                 = undef
           $gss_api_authentication_default = 'yes'
@@ -550,67 +508,27 @@ class ssh (
           $default_ssh_package_adminfile              = undef
           $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                                 'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
-          $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
-          $default_sshd_config_mode                   = '0600'
-          $default_sshd_config_use_dns                = 'yes'
-          $default_sshd_use_pam                       = 'yes'
-          $default_sshd_gssapikeyexchange             = undef
-          $default_sshd_pamauthenticationviakbdint    = undef
-          $default_sshd_gssapicleanupcredentials      = 'yes'
-          $default_sshd_acceptenv                     = true
-          $default_service_hasstatus                  = true
-          $default_sshd_config_serverkeybits          = '1024'
-          $default_sshd_addressfamily                 = 'any'
-          $default_sshd_config_tcp_keepalive          = 'yes'
-          $default_sshd_config_permittunnel           = 'no'
         }
         '16.04': {
-          $default_sshd_config_hostkey = [
-            '/etc/ssh/ssh_host_rsa_key',
-            '/etc/ssh/ssh_host_dsa_key',
-            '/etc/ssh/ssh_host_ecdsa_key',
-            '/etc/ssh/ssh_host_ed25519_key',
-          ]
           $hash_known_hosts_default        = 'yes'
           $gss_api_authentication_default = 'yes'
-          $default_sshd_config_xauth_location         = undef
           $forward_x11_trusted_default     = 'yes'
           $default_ssh_package_source                 = undef
           $default_ssh_package_adminfile              = undef
           $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                                 'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
           $include_default                 = undef
-          $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
-          $default_sshd_config_mode                   = '0600'
-          $default_sshd_config_use_dns                = 'yes'
-          $default_sshd_use_pam                       = 'yes'
-          $default_sshd_gssapikeyexchange             = undef
-          $default_sshd_pamauthenticationviakbdint    = undef
-          $default_sshd_gssapicleanupcredentials      = 'yes'
-          $default_sshd_acceptenv                     = true
-          $default_service_hasstatus                  = true
-          $default_sshd_config_serverkeybits          = '1024'
-          $default_sshd_addressfamily                 = 'any'
-          $default_sshd_config_tcp_keepalive          = 'yes'
-          $default_sshd_config_permittunnel           = 'no'
-          $default_sshd_config_include                = undef
         }
         '18.04': {
-          $default_sshd_config_hostkey = [
-            '/etc/ssh/ssh_host_rsa_key',
-            '/etc/ssh/ssh_host_dsa_key',
-            '/etc/ssh/ssh_host_ecdsa_key',
-            '/etc/ssh/ssh_host_ed25519_key',
-          ]
           $hash_known_hosts_default        = 'yes'
           $gss_api_authentication_default = 'yes'
-          $default_sshd_config_xauth_location         = undef
           $forward_x11_trusted_default     = 'yes'
           $default_ssh_package_source                 = undef
           $default_ssh_package_adminfile              = undef
           $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                                 'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
           $include_default                 = undef
+<<<<<<< HEAD
           $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
           $default_sshd_config_mode                   = '0600'
           $default_sshd_config_use_dns                = 'yes'
@@ -627,9 +545,10 @@ class ssh (
           $default_sshd_config_include                = undef
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> 4ae8446 (Remove server related data from main class)
         }
         '20.04': {
-          $default_service_hasstatus                  = true
           $forward_x11_trusted_default     = 'yes'
           $gss_api_authentication_default = 'yes'
           $hash_known_hosts_default        = 'yes'
@@ -638,6 +557,7 @@ class ssh (
           $default_ssh_package_source                 = undef
           $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                                 'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
+<<<<<<< HEAD
           $default_sshd_acceptenv                     = true
           $default_sshd_addressfamily                 = 'any'
           $default_sshd_config_hostkey                = []
@@ -715,32 +635,18 @@ class ssh (
           $default_sshd_config_include             = undef
           $default_service_hasstatus               = true
           $default_sshd_config_include             = undef
+=======
+>>>>>>> 4ae8446 (Remove server related data from main class)
         }
         /^7.*/: {
-          $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
           $gss_api_authentication_default = 'yes'
           $hash_known_hosts_default     = 'no'
-          $default_sshd_config_xauth_location      = '/usr/bin/xauth'
           $forward_x11_trusted_default  = 'yes'
           $default_ssh_package_source              = undef
           $default_ssh_package_adminfile           = undef
           $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                                 'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
           $include_default              = undef
-          $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
-          $default_sshd_config_mode                = '0600'
-          $default_sshd_config_use_dns             = 'yes'
-          $default_sshd_use_pam                    = 'yes'
-          $default_sshd_gssapikeyexchange          = undef
-          $default_sshd_pamauthenticationviakbdint = undef
-          $default_sshd_gssapicleanupcredentials   = 'yes'
-          $default_sshd_acceptenv                  = true
-          $default_service_hasstatus               = true
-          $default_sshd_config_serverkeybits       = '1024'
-          $default_sshd_addressfamily              = 'any'
-          $default_sshd_config_tcp_keepalive       = 'yes'
-          $default_sshd_config_permittunnel        = 'no'
-          $default_sshd_config_include             = undef
         }
         /^8.*/: {
 
@@ -752,87 +658,22 @@ class ssh (
           $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                                 'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
           $include_default              = undef
-          $default_sshd_config_hostkey = [
-          '/etc/ssh/ssh_host_rsa_key',
-          '/etc/ssh/ssh_host_dsa_key',
-          '/etc/ssh/ssh_host_ecdsa_key',
-          '/etc/ssh/ssh_host_ed25519_key',
-          ]
-          $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
-          $default_sshd_config_mode                = '0600'
-          $default_sshd_config_use_dns             = 'yes'
-          $default_sshd_use_pam                    = 'yes'
-          $default_sshd_gssapikeyexchange          = undef
-          $default_sshd_pamauthenticationviakbdint = undef
-          $default_sshd_gssapicleanupcredentials   = undef
-          $default_sshd_acceptenv                  = true
-          $default_sshd_config_xauth_location      = undef
-          $default_sshd_config_serverkeybits       = '1024'
-          $default_sshd_addressfamily              = 'any'
-          $default_sshd_config_tcp_keepalive       = 'yes'
-          $default_sshd_config_permittunnel        = 'no'
-          $default_service_hasstatus               = true
-          $default_sshd_config_include             = undef
         }
         /^9.*/: {
-          $default_sshd_config_hostkey = [
-            '/etc/ssh/ssh_host_rsa_key',
-            '/etc/ssh/ssh_host_ecdsa_key',
-            '/etc/ssh/ssh_host_ed25519_key',
-          ]
-          $default_sshd_config_mode                = '0600'
-          $default_sshd_use_pam                    = 'yes'
           $forward_x11_trusted_default  = 'yes'
-          $default_sshd_acceptenv                  = true
-          $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
           $gss_api_authentication_default = 'yes'
           $hash_known_hosts_default     = 'yes'
           $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                                 'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
           $include_default              = undef
-          $default_sshd_addressfamily              = undef
-          $default_sshd_config_serverkeybits       = undef
-          $default_sshd_gssapicleanupcredentials   = undef
-          $default_sshd_config_use_dns             = undef
-          $default_sshd_config_xauth_location      = undef
-          $default_sshd_config_permittunnel        = undef
-          $default_sshd_config_tcp_keepalive       = undef
-          $default_ssh_package_source              = undef
-          $default_ssh_package_adminfile           = undef
-          $default_sshd_gssapikeyexchange          = undef
-          $default_sshd_pamauthenticationviakbdint = undef
-          $default_sshd_config_include             = undef
-          $default_service_hasstatus               = true
         }
         /^10.*/: {
-          $default_sshd_config_hostkey = [
-            '/etc/ssh/ssh_host_rsa_key',
-            '/etc/ssh/ssh_host_ecdsa_key',
-            '/etc/ssh/ssh_host_ed25519_key',
-          ]
-          $default_sshd_config_mode                = '0600'
-          $default_sshd_use_pam                    = 'yes'
           $forward_x11_trusted_default  = 'yes'
           $include_default              = undef
-          $default_sshd_acceptenv                  = true
-          $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
           $gss_api_authentication_default = 'yes'
           $hash_known_hosts_default     = 'yes'
           $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                                 'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
-          $default_sshd_addressfamily              = undef
-          $default_sshd_config_serverkeybits       = undef
-          $default_sshd_gssapicleanupcredentials   = undef
-          $default_sshd_config_use_dns             = undef
-          $default_sshd_config_xauth_location      = undef
-          $default_sshd_config_permittunnel        = undef
-          $default_sshd_config_tcp_keepalive       = undef
-          $default_ssh_package_source              = undef
-          $default_ssh_package_adminfile           = undef
-          $default_sshd_gssapikeyexchange          = undef
-          $default_sshd_pamauthenticationviakbdint = undef
-          $default_service_hasstatus               = true
-          $default_sshd_config_include             = undef
         }
         default: { fail ("Operating System : ${::operatingsystemrelease} not supported") }
       }
@@ -843,29 +684,11 @@ class ssh (
       $send_env_default             = undef
       $forward_x11_trusted_default  = undef
       $include_default              = undef
-      $default_sshd_config_subsystem_sftp      = '/usr/lib/ssh/sftp-server'
-      $default_sshd_config_mode                = '0644'
-      $default_sshd_config_use_dns             = undef
-      $default_sshd_config_xauth_location      = '/usr/openwin/bin/xauth'
-      $default_sshd_use_pam                    = undef
-      $default_sshd_gssapikeyexchange          = 'yes'
-      $default_sshd_pamauthenticationviakbdint = 'yes'
-      $default_sshd_gssapicleanupcredentials   = undef
-      $default_sshd_acceptenv                  = false
-      $default_sshd_config_serverkeybits       = '768'
-      $default_ssh_package_adminfile           = undef
-      $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
-      $default_sshd_addressfamily              = undef
-      $default_sshd_config_tcp_keepalive       = undef
-      $default_sshd_config_permittunnel        = undef
-      $default_sshd_config_include             = undef
       case $::kernelrelease {
         '5.11': {
           $default_packages                      = ['network/ssh',
                                                     'network/ssh/ssh-key',
                                                     'service/network/ssh']
-          $default_service_name                  = 'ssh'
-          $default_service_hasstatus             = true
           $default_ssh_package_source            = undef
         }
         '5.10': {
@@ -874,8 +697,6 @@ class ssh (
                                                     'SUNWsshdu',
                                                     'SUNWsshr',
                                                     'SUNWsshu']
-          $default_service_name                  = 'ssh'
-          $default_service_hasstatus             = true
           $default_ssh_package_source            = '/var/spool/pkg'
         }
         '5.9' : {
@@ -884,8 +705,6 @@ class ssh (
                                                     'SUNWsshdu',
                                                     'SUNWsshr',
                                                     'SUNWsshu']
-          $default_service_name                  = 'sshd'
-          $default_service_hasstatus             = false
           $default_ssh_package_source            = '/var/spool/pkg'
         }
         default: {
