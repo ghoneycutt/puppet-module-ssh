@@ -3,29 +3,3 @@
 #
 # See https://man.openbsd.org/sshd_config for more info
 
-AcceptEnv LANG
-AcceptEnv LANGUAGE
-AcceptEnv LC_ADDRESS
-AcceptEnv LC_ALL
-AcceptEnv LC_COLLATE
-AcceptEnv LC_CTYPE
-AcceptEnv LC_IDENTIFICATION
-AcceptEnv LC_MEASUREMENT
-AcceptEnv LC_MESSAGES
-AcceptEnv LC_MONETARY
-AcceptEnv LC_NAME
-AcceptEnv LC_NUMERIC
-AcceptEnv LC_PAPER
-AcceptEnv LC_TELEPHONE
-AcceptEnv LC_TIME
-AcceptEnv XMODIFIERS
-ChallengeResponseAuthentication no
-GSSAPIAuthentication yes
-GSSAPICleanupCredentials yes
-PasswordAuthentication no
-Subsystem sftp /usr/libexec/openssh/sftp-server
-SyslogFacility AUTHPRIV
-UseDNS no
-UsePAM yes
-X11Forwarding yes
-Protocol 2

@@ -10,89 +10,10 @@ describe 'ssh::server' do
 
   content = {
     'RedHat-5' => <<-END.gsub(%r{^\s+\|}, ''),
-      |AcceptEnv LANG
-      |AcceptEnv LANGUAGE
-      |AcceptEnv LC_ADDRESS
-      |AcceptEnv LC_ALL
-      |AcceptEnv LC_COLLATE
-      |AcceptEnv LC_CTYPE
-      |AcceptEnv LC_IDENTIFICATION
-      |AcceptEnv LC_MEASUREMENT
-      |AcceptEnv LC_MESSAGES
-      |AcceptEnv LC_MONETARY
-      |AcceptEnv LC_NAME
-      |AcceptEnv LC_NUMERIC
-      |AcceptEnv LC_PAPER
-      |AcceptEnv LC_TELEPHONE
-      |AcceptEnv LC_TIME
-      |ChallengeResponseAuthentication no
-      |GSSAPIAuthentication yes
-      |GSSAPICleanupCredentials yes
-      |PasswordAuthentication yes
-      |Subsystem sftp /usr/libexec/openssh/sftp-server
-      |SyslogFacility AUTHPRIV
-      |UsePAM yes
-      |X11Forwarding yes
-      |Protocol 2
     END
     'RedHat-6' => <<-END.gsub(%r{^\s+\|}, ''),
-      |AcceptEnv LANG
-      |AcceptEnv LANGUAGE
-      |AcceptEnv LC_ADDRESS
-      |AcceptEnv LC_ALL
-      |AcceptEnv LC_COLLATE
-      |AcceptEnv LC_CTYPE
-      |AcceptEnv LC_IDENTIFICATION
-      |AcceptEnv LC_MEASUREMENT
-      |AcceptEnv LC_MESSAGES
-      |AcceptEnv LC_MONETARY
-      |AcceptEnv LC_NAME
-      |AcceptEnv LC_NUMERIC
-      |AcceptEnv LC_PAPER
-      |AcceptEnv LC_TELEPHONE
-      |AcceptEnv LC_TIME
-      |AcceptEnv XMODIFIERS
-      |ChallengeResponseAuthentication no
-      |GSSAPIAuthentication yes
-      |GSSAPICleanupCredentials yes
-      |PasswordAuthentication no
-      |Subsystem sftp /usr/libexec/openssh/sftp-server
-      |SyslogFacility AUTHPRIV
-      |UseDNS no
-      |UsePAM yes
-      |X11Forwarding yes
-      |Protocol 2
     END
     'RedHat-7' => <<-END.gsub(%r{^\s+\|}, ''),
-      |AcceptEnv LANG
-      |AcceptEnv LANGUAGE
-      |AcceptEnv LC_ADDRESS
-      |AcceptEnv LC_ALL
-      |AcceptEnv LC_COLLATE
-      |AcceptEnv LC_CTYPE
-      |AcceptEnv LC_IDENTIFICATION
-      |AcceptEnv LC_MEASUREMENT
-      |AcceptEnv LC_MESSAGES
-      |AcceptEnv LC_MONETARY
-      |AcceptEnv LC_NAME
-      |AcceptEnv LC_NUMERIC
-      |AcceptEnv LC_PAPER
-      |AcceptEnv LC_TELEPHONE
-      |AcceptEnv LC_TIME
-      |AcceptEnv XMODIFIERS
-      |AuthorizedKeysFile .ssh/authorized_keys
-      |ChallengeResponseAuthentication no
-      |GSSAPIAuthentication yes
-      |GSSAPICleanupCredentials no
-      |HostKey /etc/ssh/ssh_host_ecdsa_key
-      |HostKey /etc/ssh/ssh_host_ed25519_key
-      |HostKey /etc/ssh/ssh_host_rsa_key
-      |PasswordAuthentication no
-      |Subsystem sftp /usr/libexec/openssh/sftp-server
-      |SyslogFacility AUTHPRIV
-      |UseDNS no
-      |UsePAM yes
-      |X11Forwarding yes
     END
     'Suse-10' => <<-END.gsub(%r{^\s+\|}, ''),
     END
