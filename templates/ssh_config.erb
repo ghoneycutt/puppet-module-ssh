@@ -220,8 +220,8 @@ Host <%= @host %>
 <% if @global_known_hosts_file_array != nil -%>
   GlobalKnownHostsFile <%= @global_known_hosts_file_array.join(' ') %>
 <% end -%>
-<% if @gss_api_authentication != nil -%>
-  GSSAPIAuthentication <%= @gss_api_authentication %>
+<% if @gss_api_authentication_real != '' -%>
+  GSSAPIAuthentication <%= @gss_api_authentication_real %>
 <% end -%>
 <% if @gss_api_delegate_credentials != nil -%>
   GSSAPIDelegateCredentials <%= @gss_api_delegate_credentials %>
@@ -331,8 +331,8 @@ Host <%= @host %>
 <% if @revoked_host_keys != nil -%>
   RevokedHostKeys <%= @revoked_host_keys %>
 <% end -%>
-<% if @send_env != nil -%>
-<%   @send_env.each do |v| -%>
+<% if @send_env_real != '' -%>
+<%   @send_env_real.each do |v| -%>
   SendEnv <%= v %>
 <%   end -%>
 <% end -%>
