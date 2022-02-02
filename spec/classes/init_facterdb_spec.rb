@@ -13,17 +13,42 @@ describe 'ssh' do
     context "on #{os} with default values for parameters" do
       let(:facts) { os_facts }
 
+      # OS specific defaults
+      case os_facts[:os]['family']
+      when 'RedHat'
+        packages_default = ['openssh-clients']
+      when 'Suse'
+        packages_default = ['openssh']
+      when 'Debian'
+        packages_default = ['openssh-client']
+      when 'Solaris'
+        case os_facts[:kernelrelease]
+        when '5.9'
+          packages_default    = ['SUNWsshcu', 'SUNWsshr', 'SUNWsshu']
+          packages_ssh_source = '/var/spool/pkg'
+        when '5.10'
+          packages_default    = ['SUNWsshcu', 'SUNWsshr', 'SUNWsshu']
+          packages_ssh_source = '/var/spool/pkg'
+        when '5.11'
+          packages_default    = ['network/ssh', 'network/ssh/ssh-key']
+          packages_ssh_source = nil
+        end
+      end
+
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to contain_class('ssh') }
 
-      it do
-        is_expected.to contain_package('openssh-clients').only_with(
-          {
-            'ensure'    => 'installed',
-            'source'    => nil,
-            'adminfile' => nil,
-          },
-        )
+      packages_default.each do |package|
+        it do
+          is_expected.to contain_package(package).only_with(
+            {
+              'ensure'    => 'installed',
+              'source'    => packages_ssh_source,
+              'adminfile' => nil,
+              'before'    => ['File[ssh_config]', 'File[ssh_known_hosts]'],
+            },
+          )
+        end
       end
 
       content_fixture = File.read(fixtures("#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_ssh_config"))
@@ -37,7 +62,6 @@ describe 'ssh' do
             'group'   => 'root',
             'mode'    => '0644',
             'content' => content_fixture,
-            'require' => 'Package[openssh-clients]',
           },
         )
       end
@@ -56,7 +80,6 @@ describe 'ssh' do
             'owner'   => 'root',
             'group'   => 'root',
             'mode'    => '0644',
-            'require' => 'Package[openssh-clients]',
           },
         )
       end

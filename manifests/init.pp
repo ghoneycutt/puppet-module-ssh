@@ -227,6 +227,7 @@
 #
 class ssh (
 <<<<<<< HEAD
+<<<<<<< HEAD
   $hiera_merge                                = false,
   $packages                                   = 'USE_DEFAULTS',
   $permit_root_login                          = 'yes',
@@ -351,6 +352,9 @@ class ssh (
   $sshd_config_include                        = 'USE_DEFAULTS',
 =======
   Variant[String[1], Array[String[1]]] $packages = 'openssh-clients',
+=======
+  Optional[Array[String[1]]] $packages = undef,
+>>>>>>> c2b2b69 (Refactor package related params in main class)
   Optional[Stdlib::Absolutepath] $package_source = undef,
   Optional[Stdlib::Absolutepath] $package_adminfile = undef,
   Stdlib::Absolutepath $config_path = '/etc/ssh/ssh_config',
@@ -472,59 +476,54 @@ class ssh (
   case $facts['os']['family'] {
 >>>>>>> 879e814 (Adopt default settings from release 3.62.0)
     'RedHat': {
-      $default_packages                        = ['openssh-clients']
+      $packages_default             = ['openssh-clients']
+      $package_source_default       = undef
       $hash_known_hosts_default     = 'no'
       $forward_x11_trusted_default  = 'yes'
       $gss_api_authentication_default = 'yes'
-      $default_ssh_package_source              = undef
-      $default_ssh_package_adminfile           = undef
       $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                             'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
       $include_default              = undef
     }
     'Suse': {
-      $default_packages                        = 'openssh'
+      $packages_default                        = ['openssh']
+      $package_source_default                  = undef
       $default_service_name                    = 'sshd'
       $hash_known_hosts_default     = 'no'
       $gss_api_authentication_default = 'yes'
-      $default_ssh_package_source              = undef
-      $default_ssh_package_adminfile           = undef
       $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                             'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
       $forward_x11_trusted_default  = 'yes'
       $include_default              = undef
     }
     'Debian': {
-      # common for debian and ubuntu
-      $default_packages                        = ['openssh-client']
-
       case $::operatingsystemrelease {
         '14.04': {
+          $packages_default                 = ['openssh-client']
+          $package_source_default           = undef
           $hash_known_hosts_default        = 'no'
           $forward_x11_trusted_default     = 'yes'
           $include_default                 = undef
           $gss_api_authentication_default = 'yes'
-          $default_ssh_package_source                 = undef
-          $default_ssh_package_adminfile              = undef
           $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                                 'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
         }
         '16.04': {
+          $packages_default                 = ['openssh-client']
+          $package_source_default           = undef
           $hash_known_hosts_default        = 'yes'
           $gss_api_authentication_default = 'yes'
           $forward_x11_trusted_default     = 'yes'
-          $default_ssh_package_source                 = undef
-          $default_ssh_package_adminfile              = undef
           $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                                 'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
           $include_default                 = undef
         }
         '18.04': {
+          $packages_default             = ['openssh-client']
+          $package_source_default       = undef
           $hash_known_hosts_default        = 'yes'
           $gss_api_authentication_default = 'yes'
           $forward_x11_trusted_default     = 'yes'
-          $default_ssh_package_source                 = undef
-          $default_ssh_package_adminfile              = undef
           $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                                 'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
           $include_default                 = undef
@@ -549,12 +548,12 @@ class ssh (
 >>>>>>> 4ae8446 (Remove server related data from main class)
         }
         '20.04': {
+          $packages_default             = ['openssh-client']
+          $package_source_default       = undef
           $forward_x11_trusted_default     = 'yes'
           $gss_api_authentication_default = 'yes'
           $hash_known_hosts_default        = 'yes'
           $include_default                 = '/etc/ssh/ssh_config.d/*.conf'
-          $default_ssh_package_adminfile              = undef
-          $default_ssh_package_source                 = undef
           $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                                 'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
 <<<<<<< HEAD
@@ -639,27 +638,28 @@ class ssh (
 >>>>>>> 4ae8446 (Remove server related data from main class)
         }
         /^7.*/: {
+          $packages_default             = ['openssh-client']
+          $package_source_default       = undef
           $gss_api_authentication_default = 'yes'
           $hash_known_hosts_default     = 'no'
           $forward_x11_trusted_default  = 'yes'
-          $default_ssh_package_source              = undef
-          $default_ssh_package_adminfile           = undef
           $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                                 'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
           $include_default              = undef
         }
         /^8.*/: {
-
+          $packages_default             = ['openssh-client']
+          $package_source_default       = undef
           $gss_api_authentication_default = 'yes'
           $hash_known_hosts_default     = 'yes'
           $forward_x11_trusted_default  = 'yes'
-          $default_ssh_package_source              = undef
-          $default_ssh_package_adminfile           = undef
           $send_env_default = ['LANG', 'LANGUAGE', 'LC_ADDRESS', 'LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_IDENTIFICATION', 'LC_MEASUREMENT',
                                 'LC_MESSAGES', 'LC_MONETARY', 'LC_NAME', 'LC_NUMERIC', 'LC_PAPER', 'LC_TELEPHONE', 'LC_TIME']
           $include_default              = undef
         }
         /^9.*/: {
+          $packages_default             = ['openssh-client']
+          $package_source_default       = undef
           $forward_x11_trusted_default  = 'yes'
           $gss_api_authentication_default = 'yes'
           $hash_known_hosts_default     = 'yes'
@@ -668,6 +668,8 @@ class ssh (
           $include_default              = undef
         }
         /^10.*/: {
+          $packages_default             = ['openssh-client']
+          $package_source_default       = undef
           $forward_x11_trusted_default  = 'yes'
           $include_default              = undef
           $gss_api_authentication_default = 'yes'
@@ -686,26 +688,16 @@ class ssh (
       $include_default              = undef
       case $::kernelrelease {
         '5.11': {
-          $default_packages                      = ['network/ssh',
-                                                    'network/ssh/ssh-key',
-                                                    'service/network/ssh']
-          $default_ssh_package_source            = undef
+          $packages_default         = ['network/ssh', 'network/ssh/ssh-key']
+          $package_source_default   = undef
         }
         '5.10': {
-          $default_packages                      = ['SUNWsshcu',
-                                                    'SUNWsshdr',
-                                                    'SUNWsshdu',
-                                                    'SUNWsshr',
-                                                    'SUNWsshu']
-          $default_ssh_package_source            = '/var/spool/pkg'
+          $packages_default         = ['SUNWsshcu', 'SUNWsshr', 'SUNWsshu']
+          $package_source_default   = '/var/spool/pkg'
         }
         '5.9' : {
-          $default_packages                      = ['SUNWsshcu',
-                                                    'SUNWsshdr',
-                                                    'SUNWsshdu',
-                                                    'SUNWsshr',
-                                                    'SUNWsshu']
-          $default_ssh_package_source            = '/var/spool/pkg'
+          $packages_default         = ['SUNWsshcu', 'SUNWsshr', 'SUNWsshu']
+          $package_source_default   = '/var/spool/pkg'
         }
         default: {
           fail('ssh module supports Solaris kernel release 5.9, 5.10 and 5.11.')
@@ -719,6 +711,8 @@ class ssh (
       $include_default = undef
       $send_env_default = undef
       $gss_api_authentication_default = undef
+      $packages_default = []
+      $package_source_default = undef
     }
     default: {
       fail("ssh supports osfamilies RedHat, Suse, Debian and Solaris. Detected osfamily is <${::osfamily}>.")
@@ -748,12 +742,20 @@ class ssh (
   $use_roaming_real = pick_default($use_roaming, $use_roaming_default, undef)
   $send_env_real = pick_default($send_env, $send_env_default, undef)
   $gss_api_authentication_real = pick_default($gss_api_authentication, $gss_api_authentication_default, undef)
+  $packages_real = pick_default($packages, $packages_default, undef)
+
+  if $package_source != undef {
+    $package_source_real = $package_source
+  } else {
+    $package_source_real = $package_source_default
+  }
 
   case type_of($global_known_hosts_file) {
     string:  { $global_known_hosts_file_array = [ $global_known_hosts_file ] }
     default: { $global_known_hosts_file_array = $global_known_hosts_file }
   }
 
+<<<<<<< HEAD
   if $packages == 'USE_DEFAULTS' {
     $packages_real = $default_packages
   } else {
@@ -1382,16 +1384,31 @@ class ssh (
     ensure    => installed,
     source    => $ssh_package_source_real,
     adminfile => $ssh_package_adminfile_real,
+=======
+  package { $packages_real:
+    ensure    => installed,
+    source    => $package_source_real,
+    adminfile => $package_adminfile,
+    before    => ['File[ssh_config]', 'File[ssh_known_hosts]'],
+>>>>>>> c2b2b69 (Refactor package related params in main class)
   }
 
   file  { 'ssh_config' :
     ensure  => file,
+<<<<<<< HEAD
     path    => $ssh_config_path,
     owner   => $ssh_config_owner,
     group   => $ssh_config_group,
     mode    => $ssh_config_mode,
     content => template($ssh_config_template),
     require => Package[$packages_real],
+=======
+    path    => $config_path,
+    owner   => $config_owner,
+    group   => $config_group,
+    mode    => $config_mode,
+    content => template('ssh/ssh_config.erb'),
+>>>>>>> c2b2b69 (Refactor package related params in main class)
   }
 
   file  { 'sshd_config' :
@@ -1479,6 +1496,7 @@ class ssh (
   }
 
   file { 'ssh_known_hosts':
+<<<<<<< HEAD
     ensure  => file,
     path    => $ssh_config_global_known_hosts_file,
     owner   => $ssh_config_global_known_hosts_owner,
@@ -1492,6 +1510,13 @@ class ssh (
     Sshkey <<||>> {
       target => $ssh_config_global_known_hosts_file,
     }
+=======
+    ensure => file,
+    path   => $global_known_hosts,
+    owner  => $global_known_hosts_owner,
+    group  => $global_known_hosts_group,
+    mode   => $global_known_hosts_mode,
+>>>>>>> c2b2b69 (Refactor package related params in main class)
   }
 
   # remove ssh key's not managed by puppet

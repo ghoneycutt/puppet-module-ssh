@@ -626,29 +626,19 @@ class ssh::server (
       $default_sshd_config_include             = undef
       case $::kernelrelease {
         '5.11': {
-          $default_packages                      = ['network/ssh',
-                                                    'network/ssh/ssh-key',
-                                                    'service/network/ssh']
+          $default_packages                      = ['service/network/ssh']
           $default_service_name                  = 'ssh'
           $default_service_hasstatus             = true
           $default_ssh_package_source            = undef
         }
         '5.10': {
-          $default_packages                      = ['SUNWsshcu',
-                                                    'SUNWsshdr',
-                                                    'SUNWsshdu',
-                                                    'SUNWsshr',
-                                                    'SUNWsshu']
+          $default_packages                      = ['SUNWsshdr', 'SUNWsshdu']
           $default_service_name                  = 'ssh'
           $default_service_hasstatus             = true
           $default_ssh_package_source            = '/var/spool/pkg'
         }
         '5.9' : {
-          $default_packages                      = ['SUNWsshcu',
-                                                    'SUNWsshdr',
-                                                    'SUNWsshdu',
-                                                    'SUNWsshr',
-                                                    'SUNWsshu']
+          $default_packages                      = ['SUNWsshdr', 'SUNWsshdu']
           $default_service_name                  = 'sshd'
           $default_service_hasstatus             = false
           $default_ssh_package_source            = '/var/spool/pkg'
