@@ -1,0 +1,8 @@
+---
+# Solaris 9 defaults in alphabetical order
+ssh::gss_api_authentication: 'yes'
+ssh::packages:
+  - 'SUNWsshcu'
+  - 'SUNWsshr'
+  - 'SUNWsshu'
+ssh::package_source: '/var/spool/pkg'

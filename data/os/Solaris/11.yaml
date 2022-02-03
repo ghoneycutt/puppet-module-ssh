@@ -1,0 +1,6 @@
+---
+# Solaris 11 defaults in alphabetical order
+ssh::gss_api_authentication: 'yes'
+ssh::packages:
+  - 'network/ssh'
+  - 'network/ssh/ssh-key'

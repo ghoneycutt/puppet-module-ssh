@@ -1,5 +1,5 @@
 ---
-# RedHat 7 defaults in alphabetical order
+# OracleLinux 5 defaults in alphabetical order
 ssh::forward_x11_trusted: 'yes'
 ssh::gss_api_authentication: 'yes'
 ssh::hash_known_hosts: 'no'

@@ -1,12 +1,10 @@
 ---
-# RedHat 7 defaults in alphabetical order
+# (Suse) SLES 10 defaults in alphabetical order
 ssh::forward_x11_trusted: 'yes'
 ssh::gss_api_authentication: 'yes'
 ssh::hash_known_hosts: 'no'
-ssh::include: null
 ssh::packages:
-  - 'openssh-clients'
-ssh::package_source: null
+  - 'openssh'
 ssh::send_env:
   - 'LANG'
   - 'LANGUAGE'
