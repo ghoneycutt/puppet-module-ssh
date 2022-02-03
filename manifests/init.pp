@@ -475,6 +475,7 @@ class ssh (
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   case $::osfamily {
 =======
   # TODO: This huge case statement is getting transitioned to hiera
@@ -737,13 +738,17 @@ class ssh (
     } else {
       $use_roaming_default = undef
     }
+=======
+  if $use_roaming != undef {
+    $use_roaming_real = $use_roaming
+>>>>>>> 5dd4eed (Refactor handling of $use_roaming)
   } else {
-      $use_roaming_default = undef
+    if $::ssh_version =~ /^OpenSSH/ and versioncmp($::ssh_version_numeric, '5.3') == 1 {
+      $use_roaming_real = 'no'
+    } else {
+      $use_roaming_real = undef
+    }
   }
-
-  # pick_default() will return an empty string instead of undef
-  # https://tickets.puppetlabs.com/browse/MODULES-6534
-  $use_roaming_real = pick_default($use_roaming, $use_roaming_default)
 
   case type_of($global_known_hosts_file) {
     string:  { $global_known_hosts_file_array = [ $global_known_hosts_file ] }
