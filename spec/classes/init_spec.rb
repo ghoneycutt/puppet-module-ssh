@@ -326,6 +326,7 @@ describe 'ssh' do
       architecture: 'x86_64',
       os: {
         family: 'RedHat',
+        name:   'RedHat',
         release: {
           major: '5',
         },
@@ -340,6 +341,7 @@ describe 'ssh' do
       architecture: 'x86_64',
       os: {
         family: 'RedHat',
+        name:   'RedHat',
         release: {
           major: '6',
         },
@@ -354,6 +356,7 @@ describe 'ssh' do
       architecture: 'x86_64',
       os: {
         family: 'RedHat',
+        name:   'RedHat',
         release: {
           major: '7',
         },

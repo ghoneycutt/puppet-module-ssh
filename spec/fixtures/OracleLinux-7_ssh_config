@@ -22,3 +22,4 @@ Host *
   SendEnv LC_PAPER
   SendEnv LC_TELEPHONE
   SendEnv LC_TIME
+  UseRoaming no

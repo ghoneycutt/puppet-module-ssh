@@ -228,6 +228,7 @@
 class ssh (
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   $hiera_merge                                = false,
   $packages                                   = 'USE_DEFAULTS',
   $permit_root_login                          = 'yes',
@@ -355,6 +356,9 @@ class ssh (
 =======
   Optional[Array[String[1]]] $packages = undef,
 >>>>>>> c2b2b69 (Refactor package related params in main class)
+=======
+  Optional[Array[String[1]]] $packages = [],
+>>>>>>> db859ce (Move data from main class to hiera)
   Optional[Stdlib::Absolutepath] $package_source = undef,
   Optional[Stdlib::Absolutepath] $package_adminfile = undef,
   Stdlib::Absolutepath $config_path = '/etc/ssh/ssh_config',
@@ -469,6 +473,7 @@ class ssh (
 >>>>>>> f9cb674 (Change data type for $custom to array in main class)
 ) {
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   case $::osfamily {
 =======
@@ -719,6 +724,8 @@ class ssh (
     }
   }
 
+=======
+>>>>>>> db859ce (Move data from main class to hiera)
   if "${::ssh_version}" =~ /^OpenSSH/  { # lint:ignore:only_variable_string
     $ssh_version_array = split($::ssh_version_numeric, '\.')
     $ssh_version_maj_int = 0 + $ssh_version_array[0]
@@ -736,25 +743,14 @@ class ssh (
 
   # pick_default() will return an empty string instead of undef
   # https://tickets.puppetlabs.com/browse/MODULES-6534
-  $hash_known_hosts_real = pick_default($hash_known_hosts, $hash_known_hosts_default, undef)
-  $forward_x11_trusted_real = pick_default($forward_x11_trusted, $forward_x11_trusted_default, undef)
-  $include_real = pick_default($include, $include_default, undef)
-  $use_roaming_real = pick_default($use_roaming, $use_roaming_default, undef)
-  $send_env_real = pick_default($send_env, $send_env_default, undef)
-  $gss_api_authentication_real = pick_default($gss_api_authentication, $gss_api_authentication_default, undef)
-  $packages_real = pick_default($packages, $packages_default, undef)
-
-  if $package_source != undef {
-    $package_source_real = $package_source
-  } else {
-    $package_source_real = $package_source_default
-  }
+  $use_roaming_real = pick_default($use_roaming, $use_roaming_default)
 
   case type_of($global_known_hosts_file) {
     string:  { $global_known_hosts_file_array = [ $global_known_hosts_file ] }
     default: { $global_known_hosts_file_array = $global_known_hosts_file }
   }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   if $packages == 'USE_DEFAULTS' {
     $packages_real = $default_packages
@@ -1386,8 +1382,11 @@ class ssh (
     adminfile => $ssh_package_adminfile_real,
 =======
   package { $packages_real:
+=======
+  package { $packages:
+>>>>>>> db859ce (Move data from main class to hiera)
     ensure    => installed,
-    source    => $package_source_real,
+    source    => $package_source,
     adminfile => $package_adminfile,
     before    => ['File[ssh_config]', 'File[ssh_known_hosts]'],
 >>>>>>> c2b2b69 (Refactor package related params in main class)

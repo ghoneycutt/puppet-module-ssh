@@ -211,8 +211,8 @@ Host <%= @host %>
 <% if @forward_x11_timeout != nil -%>
   ForwardX11Timeout <%= @forward_x11_timeout %>
 <% end -%>
-<% if @forward_x11_trusted_real != '' -%>
-  ForwardX11Trusted <%= @forward_x11_trusted_real %>
+<% if @forward_x11_trusted != nil -%>
+  ForwardX11Trusted <%= @forward_x11_trusted %>
 <% end -%>
 <% if @gateway_ports != nil -%>
   GatewayPorts <%= @gateway_ports %>
@@ -220,14 +220,14 @@ Host <%= @host %>
 <% if @global_known_hosts_file_array != nil -%>
   GlobalKnownHostsFile <%= @global_known_hosts_file_array.join(' ') %>
 <% end -%>
-<% if @gss_api_authentication_real != '' -%>
-  GSSAPIAuthentication <%= @gss_api_authentication_real %>
+<% if @gss_api_authentication != nil -%>
+  GSSAPIAuthentication <%= @gss_api_authentication %>
 <% end -%>
 <% if @gss_api_delegate_credentials != nil -%>
   GSSAPIDelegateCredentials <%= @gss_api_delegate_credentials %>
 <% end -%>
-<% if @hash_known_hosts_real != '' -%>
-  HashKnownHosts <%= @hash_known_hosts_real %>
+<% if @hash_known_hosts != nil -%>
+  HashKnownHosts <%= @hash_known_hosts %>
 <% end -%>
 <% if @hostbased_authentication != nil -%>
   HostbasedAuthentication <%= @hostbased_authentication %>
@@ -256,8 +256,8 @@ Host <%= @host %>
 <% if @ignore_unknown != nil -%>
   IgnoreUnknown <%= @ignore_unknown.join(',') %>
 <% end -%>
-<% if @include_real != '' -%>
-  Include <%= @include_real %>
+<% if @include != nil -%>
+  Include <%= @include %>
 <% end -%>
 <% if @ip_qos != nil -%>
   IPQoS <%= @ip_qos %>
@@ -331,8 +331,8 @@ Host <%= @host %>
 <% if @revoked_host_keys != nil -%>
   RevokedHostKeys <%= @revoked_host_keys %>
 <% end -%>
-<% if @send_env_real != '' -%>
-<%   @send_env_real.each do |v| -%>
+<% if @send_env != nil -%>
+<%   @send_env.each do |v| -%>
   SendEnv <%= v %>
 <%   end -%>
 <% end -%>

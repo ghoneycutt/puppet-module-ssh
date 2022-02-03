@@ -1,2 +1,25 @@
 ---
-
+# RedHat 6 defaults in alphabetical order
+ssh::forward_x11_trusted: 'yes'
+ssh::gss_api_authentication: 'yes'
+ssh::hash_known_hosts: 'no'
+ssh::include: null
+ssh::packages:
+  - 'openssh-clients'
+ssh::package_source: null
+ssh::send_env:
+  - 'LANG'
+  - 'LANGUAGE'
+  - 'LC_ADDRESS'
+  - 'LC_ALL'
+  - 'LC_COLLATE'
+  - 'LC_CTYPE'
+  - 'LC_IDENTIFICATION'
+  - 'LC_MEASUREMENT'
+  - 'LC_MESSAGES'
+  - 'LC_MONETARY'
+  - 'LC_NAME'
+  - 'LC_NUMERIC'
+  - 'LC_PAPER'
+  - 'LC_TELEPHONE'
+  - 'LC_TIME'
