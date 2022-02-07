@@ -19,10 +19,9 @@ AcceptEnv LC_TELEPHONE
 AcceptEnv LC_TIME
 AddressFamily any
 GSSAPICleanupCredentials yes
-HostKey /etc/ssh/ssh_host_rsa_key
-PermitTunnel no
-Subsystem sftp /usr/libexec/openssh/sftp-server
-TCPKeepAlive yes
+Include /etc/ssh/sshd_config.d/*.conf
+PrintMotd no
+Subsystem sftp /usr/lib/openssh/sftp-server
 UseDNS yes
 UsePAM yes
-XAuthLocation /usr/bin/xauth
+X11Forwarding yes

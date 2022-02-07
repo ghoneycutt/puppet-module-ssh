@@ -140,13 +140,7 @@ describe 'ssh' do
       it { is_expected.to contain_resources('sshkey').with_purge('true') }
       it { is_expected.to have_ssh__config_entry_resource_count(0) }
       it { is_expected.to have_ssh_authorized_key_resource_count(0) }
-
       it { is_expected.to contain_class('ssh::server') }
-
-      # only needed to reach 100% resource coverage
-      it { is_expected.to contain_file('sshd_config') }
-      it { is_expected.to contain_package('openssh-server') }
-      it { is_expected.to contain_service('sshd_service') }
     end
   end
 

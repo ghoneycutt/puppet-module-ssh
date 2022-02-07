@@ -19,6 +19,7 @@ describe 'ssh::server' do
       architecture: 'x86_64',
       os: {
         family: 'RedHat',
+        name: 'RedHat',
         release: {
           major: '5',
         },
@@ -36,6 +37,7 @@ describe 'ssh::server' do
       architecture: 'x86_64',
       os: {
         family: 'RedHat',
+        name: 'RedHat',
         release: {
           major: '6',
         },
@@ -53,6 +55,7 @@ describe 'ssh::server' do
       architecture: 'x86_64',
       os: {
         family: 'RedHat',
+        name: 'RedHat',
         release: {
           major: '7',
         },
@@ -233,6 +236,7 @@ describe 'ssh::server' do
           is_expected.to contain_package(pkg).with(
             {
               'ensure' => 'installed',
+              'before' => 'File[sshd_config]',
             },
           )
         }
@@ -249,12 +253,6 @@ describe 'ssh::server' do
           },
         )
       }
-
-      facts[:sshd_packages].each do |pkg|
-        it {
-          is_expected.to contain_file('sshd_config').that_requires("Package[#{pkg}]")
-        }
-      end
 
       sshd_config_fixture = File.read(fixtures("#{facts[:sshd_config_fixture]}_sorted"))
       it { is_expected.to contain_file('sshd_config').with_content(sshd_config_fixture) }

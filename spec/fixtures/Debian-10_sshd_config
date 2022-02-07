@@ -17,12 +17,8 @@ AcceptEnv LC_NUMERIC
 AcceptEnv LC_PAPER
 AcceptEnv LC_TELEPHONE
 AcceptEnv LC_TIME
-AddressFamily any
-GSSAPICleanupCredentials yes
 HostKey /etc/ssh/ssh_host_rsa_key
-PermitTunnel no
-Subsystem sftp /usr/libexec/openssh/sftp-server
-TCPKeepAlive yes
-UseDNS yes
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+Subsystem sftp /usr/lib/openssh/sftp-server
 UsePAM yes
-XAuthLocation /usr/bin/xauth

@@ -1,5 +1,5 @@
 ---
-# (Suse) SLES 11 defaults in alphabetical order
+# (Suse) SLES 11 defaults in alphabetical order per class
 ssh::forward_x11_trusted: 'yes'
 ssh::gss_api_authentication: 'yes'
 ssh::hash_known_hosts: 'no'
@@ -21,3 +21,32 @@ ssh::send_env:
   - 'LC_PAPER'
   - 'LC_TELEPHONE'
   - 'LC_TIME'
+
+ssh::server::accept_env:
+  - 'LANG'
+  - 'LC_ADDRESS'
+  - 'LC_ALL'
+  - 'LC_COLLATE'
+  - 'LC_CTYPE'
+  - 'LC_IDENTIFICATION'
+  - 'LC_MEASUREMENT'
+  - 'LC_MESSAGES'
+  - 'LC_MONETARY'
+  - 'LC_NAME'
+  - 'LC_NUMERIC'
+  - 'LC_PAPER'
+  - 'LC_TELEPHONE'
+  - 'LC_TIME'
+
+ssh::server::address_family: 'any'
+ssh::server::gss_api_cleanup_credentials: 'yes'
+ssh::server::host_key:
+  - '/etc/ssh/ssh_host_rsa_key'
+#ssh::server::packages:
+#  - 'openssh'
+ssh::server::permit_tunnel: 'no'
+ssh::server::subsystem: 'sftp /usr/lib64/ssh/sftp-server'
+ssh::server::tcp_keep_alive: 'yes'
+ssh::server::use_dns: 'yes'
+ssh::server::use_pam: 'yes'
+ssh::server::xauth_location: '/usr/bin/xauth'
