@@ -8,58 +8,63 @@ describe 'ssh::server' do
     |
   END
 
-  content = {
-    'RedHat-5' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-    'RedHat-6' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-    'RedHat-7' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-    'Suse-10' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-    'Suse-11' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-    'Suse-12' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-    'Solaris-10' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-    'Solaris-11' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-    'Debian-7' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-    'Debian-8' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-    'Debian-9' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-    'Debian-10' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-    # Ubuntus
-    'Debian-14.04' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-    'Debian-16.04' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-    'Debian-18.04' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-    'Debian-20.04' => <<-END.gsub(%r{^\s+\|}, ''),
-    END
-  }
-
   on_supported_os.sort.each do |os, os_facts|
     context "on #{os} with default values for parameters" do
       let(:facts) { os_facts }
 
+      # OS specific defaults
+      case "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['full']}"
+      when %r{CentOS.*}, %r{OracleLinux.*}, %r{RedHat.*}, %r{Scientific.*}
+        config_mode       = '0600'
+        packages          = ['openssh-server']
+        service_hasstatus = true
+        service_name      = 'sshd'
+      when %r{SLED.*}, %r{SLES.*}
+        config_mode       = '0600'
+        packages          = []
+        service_name      = 'sshd'
+        service_hasstatus = true
+      when %r{Debian.*}, %r{Ubuntu.*}
+        config_mode       = '0600'
+        packages          = ['openssh-server']
+        service_hasstatus = true
+        service_name      = 'ssh'
+      when %r{Solaris-9.*}
+        config_mode       = '0644'
+        packages          = 'SUNWsshdr', 'SUNWsshdu'
+        packages_source   = '/var/spool/pkg'
+        service_hasstatus = false
+        service_name      = 'sshd'
+      when %r{Solaris-10.*}
+        config_mode       = '0644'
+        packages          = 'SUNWsshdr', 'SUNWsshdu'
+        packages_source   = '/var/spool/pkg'
+        service_hasstatus = true
+        service_name      = 'ssh'
+      when %r{Solaris-11.*}
+        config_mode       = '0644'
+        packages          = ['service/network/ssh']
+        service_hasstatus = true
+        service_name      = 'ssh'
+      end
+
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to contain_class('ssh::server') }
 
-      it do
-        is_expected.to contain_package('openssh-server').only_with(
-          {
-            'ensure'    => 'installed',
-            'source'    => nil,
-            'adminfile' => nil,
-          },
-        )
+      packages.each do |package|
+        it do
+          is_expected.to contain_package(package).only_with(
+            {
+              'ensure'    => 'installed',
+              'source'    => packages_source,
+              'adminfile' => nil,
+              'before'    => 'File[sshd_config]',
+            },
+          )
+        end
       end
+
+      content_fixture = File.read(fixtures("#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_sshd_config"))
 
       it do
         is_expected.to contain_file('sshd_config').only_with(
@@ -68,9 +73,8 @@ describe 'ssh::server' do
             'path'    => '/etc/ssh/sshd_config',
             'owner'   => 'root',
             'group'   => 'root',
-            'mode'    => '0600',
-            'content' => header + content["#{os_facts[:os]['family']}-#{os_facts[:os]['release']['major']}"],
-            'require' => 'Package[openssh-server]',
+            'mode'    => config_mode,
+            'content' => content_fixture,
           },
         )
       end
@@ -81,9 +85,9 @@ describe 'ssh::server' do
         is_expected.to contain_service('sshd_service').only_with(
           {
             'ensure'     => 'running',
-            'name'       => 'sshd',
+            'name'       => service_name,
             'enable'     => true,
-            'hasrestart' => true,
+            'hasrestart' => service_hasstatus,
             'hasstatus'  => true,
             'subscribe'  => 'File[sshd_config]',
           },
@@ -211,5 +215,25 @@ describe 'ssh::server' do
     let(:params) { { custom: ['KeyWord value', 'Test ing'] } }
 
     it { is_expected.to contain_file('sshd_config').with_content(header + "KeyWord value\nTest ing\n") }
+  end
+
+  ['SLED', 'SLES'].each do |name|
+    ['10', '11', '12'].each do |major|
+      context "on #{name} #{major} with i386 architecture path for sftp subsystem is /usr/lib/ssh/sftp-server" do
+        let(:facts) do
+          {
+            os: {
+              architecture: 'i386',
+              name: name,
+              release: {
+                major: major,
+              },
+            },
+          }
+        end
+
+        it { is_expected.to contain_file('sshd_config').with_content(%r{^Subsystem sftp \/usr\/lib\/ssh\/sftp-server$}) }
+      end
+    end
   end
 end
