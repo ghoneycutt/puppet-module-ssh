@@ -19,10 +19,12 @@ describe 'ssh::server' do
       architecture: 'x86_64',
       os: {
         family: 'RedHat',
+        name: 'RedHat',
         release: {
           major: '5',
         },
       },
+      operatingsystemrelease: '5.0',
       ssh_version: 'OpenSSH_4.3p2',
       ssh_version_numeric: '4.3',
       sshd_packages: ['openssh-server'],
@@ -35,10 +37,12 @@ describe 'ssh::server' do
       architecture: 'x86_64',
       os: {
         family: 'RedHat',
+        name: 'RedHat',
         release: {
           major: '6',
         },
       },
+      operatingsystemrelease: '6.0',
       ssh_version: 'OpenSSH_5.3p1',
       ssh_version_numeric: '5.3',
       sshd_packages: ['openssh-server'],
@@ -51,10 +55,12 @@ describe 'ssh::server' do
       architecture: 'x86_64',
       os: {
         family: 'RedHat',
+        name: 'RedHat',
         release: {
           major: '7',
         },
       },
+      operatingsystemrelease: '7.0',
       ssh_version: 'OpenSSH_7.4p1',
       ssh_version_numeric: '7.4',
       sshd_config_mode: '0600',
@@ -230,6 +236,7 @@ describe 'ssh::server' do
           is_expected.to contain_package(pkg).with(
             {
               'ensure' => 'installed',
+              'before' => 'File[sshd_config]',
             },
           )
         }
@@ -246,12 +253,6 @@ describe 'ssh::server' do
           },
         )
       }
-
-      facts[:sshd_packages].each do |pkg|
-        it {
-          is_expected.to contain_file('sshd_config').that_requires("Package[#{pkg}]")
-        }
-      end
 
       sshd_config_fixture = File.read(fixtures("#{facts[:sshd_config_fixture]}_sorted"))
       it { is_expected.to contain_file('sshd_config').with_content(sshd_config_fixture) }
@@ -323,15 +324,9 @@ describe 'ssh::server' do
         invalid:  [{ 'ha' => 'sh' }, 3, 2.42, false, [0]],
         message: 'String or Array|expects a String value|Error while evaluating a Resource Statement',
       },
-      'String or Array of strings (optional)' => {
-        name:     ['allow_groups', 'allow_users', 'authorized_keys_file', 'deny_groups', 'deny_users', 'permit_listen'],
-        valid:    ['string', ['array', 'of', 'strings'], :undef],
-        invalid:  [{ 'ha' => 'sh' }, 3, 2.42, false, [0]],
-        message: 'String or Array|expects a String value|Error while evaluating a Resource Statement',
-      },
       'Array of strings (optional)' => {
-        name:     ['accept_env', 'authentication_methods', 'ca_signature_algorithms', 'ciphers', 'custom', 'host_key', 'host_key_algorithms',
-                   'hostbased_accepted_key_types', 'kex_algorithms', 'listen_address', 'macs', 'pubkey_accepted_key_types', 'set_env'],
+        name:     ['accept_env', 'allow_groups', 'allow_users', 'authentication_methods', 'authorized_keys_file', 'ca_signature_algorithms', 'ciphers', 'custom', 'deny_groups', 'deny_users',
+                   'host_key', 'host_key_algorithms', 'hostbased_accepted_key_types', 'kex_algorithms', 'listen_address', 'macs', 'permit_listen', 'pubkey_accepted_key_types', 'set_env'],
         valid:    [['array', 'of', 'strings'], :undef],
         invalid:  ['string', { 'ha' => 'sh' }, 3, 2.42, false, [0]],
         message: 'Undef or Array|expects a String value|Error while evaluating a Resource Statement',

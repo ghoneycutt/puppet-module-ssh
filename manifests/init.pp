@@ -163,6 +163,8 @@
 #
 # @param preferred_authentications
 #
+# @param protocol
+#
 # @param proxy_command
 #
 # @param proxy_jump
@@ -211,6 +213,8 @@
 #
 # @param user_known_hosts_file
 #
+# @param use_roaming
+#
 # @param verify_host_key_dns
 #
 # @param visual_host_key
@@ -220,7 +224,7 @@
 # @param custom
 #
 class ssh (
-  Variant[String[1], Array[String[1]]] $packages = 'openssh-clients',
+  Optional[Array[String[1]]] $packages = [],
   Optional[Stdlib::Absolutepath] $package_source = undef,
   Optional[Stdlib::Absolutepath] $package_adminfile = undef,
   Stdlib::Absolutepath $config_path = '/etc/ssh/ssh_config',
@@ -273,7 +277,7 @@ class ssh (
   Variant[Undef, String[1], Integer[0]] $forward_x11_timeout = undef,
   Optional[Ssh::Yes_no] $forward_x11_trusted = undef,
   Optional[Ssh::Yes_no] $gateway_ports = undef,
-  Variant[Undef, String[1], Array[String[1]]] $global_known_hosts_file = undef,
+  Optional[Array[String[1]]] $global_known_hosts_file = undef,
   Optional[Ssh::Yes_no] $gss_api_authentication = undef,
   Optional[Ssh::Yes_no] $gss_api_delegate_credentials = undef,
   Optional[Ssh::Yes_no] $hash_known_hosts = undef,
@@ -301,6 +305,7 @@ class ssh (
   Optional[String[1]] $pkcs11_provider = undef,
   Optional[Stdlib::Port] $port = undef,
   Optional[Array[String[1]]] $preferred_authentications = undef,
+  Optional[String[1]] $protocol = undef,
   Optional[String[1]] $proxy_command = undef,
   Optional[Array[String[1]]] $proxy_jump = undef,
   Optional[Ssh::Yes_no] $proxy_use_fdpass = undef,
@@ -325,6 +330,7 @@ class ssh (
   Optional[Enum['yes', 'no', 'ask']] $update_host_keys = undef,
   Optional[String[1]] $user = undef,
   Optional[Array[String[1]]] $user_known_hosts_file = undef,
+  Optional[Ssh::Yes_no] $use_roaming = undef,
   Optional[Enum['yes', 'no', 'ask']] $verify_host_key_dns = undef,
   Optional[Ssh::Yes_no] $visual_host_key = undef,
   Optional[String[1]] $xauth_location = undef,
@@ -333,294 +339,22 @@ class ssh (
   Optional[Array[String[1]]] $custom = undef
 ) {
 
-  # TODO: This huge case statement is getting transitioned to hiera
-  case $facts['os']['family'] {
-    'RedHat': {}
-    'Suse': {
-      $default_packages                        = 'openssh'
-      $default_service_name                    = 'sshd'
-      $default_ssh_config_hash_known_hosts     = 'no'
-      $default_ssh_package_source              = undef
-      $default_ssh_package_adminfile           = undef
-      $default_ssh_sendenv                     = true
-      $default_ssh_config_forward_x11_trusted  = 'yes'
-      $default_sshd_config_mode                = '0600'
-      $default_sshd_config_use_dns             = 'yes'
-      $default_sshd_config_xauth_location      = '/usr/bin/xauth'
-      $default_sshd_use_pam                    = 'yes'
-      $default_sshd_gssapikeyexchange          = undef
-      $default_sshd_pamauthenticationviakbdint = undef
-      $default_sshd_gssapicleanupcredentials   = 'yes'
-      $default_sshd_acceptenv                  = true
-      $default_service_hasstatus               = true
-      $default_sshd_config_serverkeybits       = '1024'
-      $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
-      $default_sshd_addressfamily              = 'any'
-      $default_sshd_config_tcp_keepalive       = 'yes'
-      $default_sshd_config_permittunnel        = 'no'
-      case $::architecture {
-        'x86_64': {
-          if ($::operatingsystem == 'SLES') and ($::operatingsystemrelease =~ /^12\./) {
-            $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
-          } else {
-            $default_sshd_config_subsystem_sftp = '/usr/lib64/ssh/sftp-server'
-          }
-        }
-        'i386' : {
-          $default_sshd_config_subsystem_sftp = '/usr/lib/ssh/sftp-server'
-      }
-        default: {
-          fail("ssh supports architectures x86_64 and i386 for Suse. Detected architecture is <${::architecture}>.")
-        }
-      }
-    }
-    'Debian': {
-      # common for debian and ubuntu
-      $default_packages                        = ['openssh-server',
-                                                  'openssh-client']
-      $default_service_name                    = 'ssh'
-
-      case $::operatingsystemrelease {
-        '14.04': {
-          $default_sshd_config_hostkey = [
-            '/etc/ssh/ssh_host_rsa_key',
-          ]
-          $default_ssh_config_hash_known_hosts        = 'no'
-          $default_sshd_config_xauth_location         = '/usr/bin/xauth'
-          $default_ssh_config_forward_x11_trusted     = 'yes'
-          $default_ssh_package_source                 = undef
-          $default_ssh_package_adminfile              = undef
-          $default_ssh_sendenv                        = true
-          $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
-          $default_sshd_config_mode                   = '0600'
-          $default_sshd_config_use_dns                = 'yes'
-          $default_sshd_use_pam                       = 'yes'
-          $default_sshd_gssapikeyexchange             = undef
-          $default_sshd_pamauthenticationviakbdint    = undef
-          $default_sshd_gssapicleanupcredentials      = 'yes'
-          $default_sshd_acceptenv                     = true
-          $default_service_hasstatus                  = true
-          $default_sshd_config_serverkeybits          = '1024'
-          $default_sshd_addressfamily                 = 'any'
-          $default_sshd_config_tcp_keepalive          = 'yes'
-          $default_sshd_config_permittunnel           = 'no'
-        }
-        '16.04': {
-          $default_sshd_config_hostkey = [
-            '/etc/ssh/ssh_host_rsa_key',
-            '/etc/ssh/ssh_host_dsa_key',
-            '/etc/ssh/ssh_host_ecdsa_key',
-            '/etc/ssh/ssh_host_ed25519_key',
-          ]
-          $default_ssh_config_hash_known_hosts        = 'yes'
-          $default_sshd_config_xauth_location         = undef
-          $default_ssh_config_forward_x11_trusted     = 'yes'
-          $default_ssh_package_source                 = undef
-          $default_ssh_package_adminfile              = undef
-          $default_ssh_sendenv                        = true
-          $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
-          $default_sshd_config_mode                   = '0600'
-          $default_sshd_config_use_dns                = 'yes'
-          $default_sshd_use_pam                       = 'yes'
-          $default_sshd_gssapikeyexchange             = undef
-          $default_sshd_pamauthenticationviakbdint    = undef
-          $default_sshd_gssapicleanupcredentials      = 'yes'
-          $default_sshd_acceptenv                     = true
-          $default_service_hasstatus                  = true
-          $default_sshd_config_serverkeybits          = '1024'
-          $default_sshd_addressfamily                 = 'any'
-          $default_sshd_config_tcp_keepalive          = 'yes'
-          $default_sshd_config_permittunnel           = 'no'
-        }
-        '18.04': {
-          $default_sshd_config_hostkey = [
-            '/etc/ssh/ssh_host_rsa_key',
-            '/etc/ssh/ssh_host_dsa_key',
-            '/etc/ssh/ssh_host_ecdsa_key',
-            '/etc/ssh/ssh_host_ed25519_key',
-          ]
-          $default_ssh_config_hash_known_hosts        = 'yes'
-          $default_sshd_config_xauth_location         = undef
-          $default_ssh_config_forward_x11_trusted     = 'yes'
-          $default_ssh_package_source                 = undef
-          $default_ssh_package_adminfile              = undef
-          $default_ssh_sendenv                        = true
-          $default_sshd_config_subsystem_sftp         = '/usr/lib/openssh/sftp-server'
-          $default_sshd_config_mode                   = '0600'
-          $default_sshd_config_use_dns                = 'yes'
-          $default_sshd_use_pam                       = 'yes'
-          $default_sshd_gssapikeyexchange             = undef
-          $default_sshd_pamauthenticationviakbdint    = undef
-          $default_sshd_gssapicleanupcredentials      = 'yes'
-          $default_sshd_acceptenv                     = true
-          $default_service_hasstatus                  = true
-          $default_sshd_config_serverkeybits          = '1024'
-          $default_sshd_addressfamily                 = 'any'
-          $default_sshd_config_tcp_keepalive          = 'yes'
-          $default_sshd_config_permittunnel           = 'no'
-        }
-        /^9.*/: {
-          $default_sshd_config_hostkey = [
-            '/etc/ssh/ssh_host_rsa_key',
-            '/etc/ssh/ssh_host_ecdsa_key',
-            '/etc/ssh/ssh_host_ed25519_key',
-          ]
-          $default_sshd_config_mode                = '0600'
-          $default_sshd_use_pam                    = 'yes'
-          $default_ssh_config_forward_x11_trusted  = 'yes'
-          $default_sshd_acceptenv                  = true
-          $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
-          $default_ssh_config_hash_known_hosts     = 'yes'
-          $default_ssh_sendenv                     = true
-          $default_sshd_addressfamily              = undef
-          $default_sshd_config_serverkeybits       = undef
-          $default_sshd_gssapicleanupcredentials   = undef
-          $default_sshd_config_use_dns             = undef
-          $default_sshd_config_xauth_location      = undef
-          $default_sshd_config_permittunnel        = undef
-          $default_sshd_config_tcp_keepalive       = undef
-          $default_ssh_package_source              = undef
-          $default_ssh_package_adminfile           = undef
-          $default_sshd_gssapikeyexchange          = undef
-          $default_sshd_pamauthenticationviakbdint = undef
-          $default_service_hasstatus               = true
-        }
-        /^7.*/: {
-          $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
-          $default_ssh_config_hash_known_hosts     = 'no'
-          $default_sshd_config_xauth_location      = '/usr/bin/xauth'
-          $default_ssh_config_forward_x11_trusted  = 'yes'
-          $default_ssh_package_source              = undef
-          $default_ssh_package_adminfile           = undef
-          $default_ssh_sendenv                     = true
-          $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
-          $default_sshd_config_mode                = '0600'
-          $default_sshd_config_use_dns             = 'yes'
-          $default_sshd_use_pam                    = 'yes'
-          $default_sshd_gssapikeyexchange          = undef
-          $default_sshd_pamauthenticationviakbdint = undef
-          $default_sshd_gssapicleanupcredentials   = 'yes'
-          $default_sshd_acceptenv                  = true
-          $default_service_hasstatus               = true
-          $default_sshd_config_serverkeybits       = '1024'
-          $default_sshd_addressfamily              = 'any'
-          $default_sshd_config_tcp_keepalive       = 'yes'
-          $default_sshd_config_permittunnel        = 'no'
-        }
-        /^8.*/: {
-
-          $default_ssh_config_hash_known_hosts     = 'yes'
-          $default_ssh_config_forward_x11_trusted  = 'yes'
-          $default_ssh_package_source              = undef
-          $default_ssh_package_adminfile           = undef
-          $default_ssh_sendenv                     = true
-          $default_sshd_config_hostkey = [
-          '/etc/ssh/ssh_host_rsa_key',
-          '/etc/ssh/ssh_host_dsa_key',
-          '/etc/ssh/ssh_host_ecdsa_key',
-          '/etc/ssh/ssh_host_ed25519_key',
-          ]
-          $default_sshd_config_subsystem_sftp      = '/usr/lib/openssh/sftp-server'
-          $default_sshd_config_mode                = '0600'
-          $default_sshd_config_use_dns             = 'yes'
-          $default_sshd_use_pam                    = 'yes'
-          $default_sshd_gssapikeyexchange          = undef
-          $default_sshd_pamauthenticationviakbdint = undef
-          $default_sshd_gssapicleanupcredentials   = undef
-          $default_sshd_acceptenv                  = true
-          $default_sshd_config_xauth_location      = undef
-          $default_sshd_config_serverkeybits       = '1024'
-          $default_sshd_addressfamily              = 'any'
-          $default_sshd_config_tcp_keepalive       = 'yes'
-          $default_sshd_config_permittunnel        = 'no'
-          $default_service_hasstatus               = true
-        }
-        default: { fail ("Operating System : ${::operatingsystemrelease} not supported") }
-      }
-    }
-    'Solaris': {
-      $default_ssh_config_hash_known_hosts     = undef
-      $default_ssh_sendenv                     = false
-      $default_ssh_config_forward_x11_trusted  = undef
-      $default_sshd_config_subsystem_sftp      = '/usr/lib/ssh/sftp-server'
-      $default_sshd_config_mode                = '0644'
-      $default_sshd_config_use_dns             = undef
-      $default_sshd_config_xauth_location      = '/usr/openwin/bin/xauth'
-      $default_sshd_use_pam                    = undef
-      $default_sshd_gssapikeyexchange          = 'yes'
-      $default_sshd_pamauthenticationviakbdint = 'yes'
-      $default_sshd_gssapicleanupcredentials   = undef
-      $default_sshd_acceptenv                  = false
-      $default_sshd_config_serverkeybits       = '768'
-      $default_ssh_package_adminfile           = undef
-      $default_sshd_config_hostkey             = [ '/etc/ssh/ssh_host_rsa_key' ]
-      $default_sshd_addressfamily              = undef
-      $default_sshd_config_tcp_keepalive       = undef
-      $default_sshd_config_permittunnel        = undef
-      case $::kernelrelease {
-        '5.11': {
-          $default_packages                      = ['network/ssh',
-                                                    'network/ssh/ssh-key',
-                                                    'service/network/ssh']
-          $default_service_name                  = 'ssh'
-          $default_service_hasstatus             = true
-          $default_ssh_package_source            = undef
-        }
-        '5.10': {
-          $default_packages                      = ['SUNWsshcu',
-                                                    'SUNWsshdr',
-                                                    'SUNWsshdu',
-                                                    'SUNWsshr',
-                                                    'SUNWsshu']
-          $default_service_name                  = 'ssh'
-          $default_service_hasstatus             = true
-          $default_ssh_package_source            = '/var/spool/pkg'
-        }
-        '5.9' : {
-          $default_packages                      = ['SUNWsshcu',
-                                                    'SUNWsshdr',
-                                                    'SUNWsshdu',
-                                                    'SUNWsshr',
-                                                    'SUNWsshu']
-          $default_service_name                  = 'sshd'
-          $default_service_hasstatus             = false
-          $default_ssh_package_source            = '/var/spool/pkg'
-        }
-        default: {
-          fail('ssh module supports Solaris kernel release 5.9, 5.10 and 5.11.')
-        }
-      }
-    }
-    default: {
-      fail("ssh supports osfamilies RedHat, Suse, Debian and Solaris. Detected os family is <${facts['os']['family']}>.")
-    }
-  }
-
-  case type_of($global_known_hosts_file) {
-    string:  { $global_known_hosts_file_array = [ $global_known_hosts_file ] }
-    default: { $global_known_hosts_file_array = $global_known_hosts_file }
-  }
-
-
-  if "${::ssh_version}" =~ /^OpenSSH/  { # lint:ignore:only_variable_string
-    $ssh_version_array = split($::ssh_version_numeric, '\.')
-    $ssh_version_maj_int = 0 + $ssh_version_array[0]
-    $ssh_version_min_int = 0 + $ssh_version_array[1]
-    if $ssh_version_maj_int > 5 {
-      $default_ssh_config_use_roaming = 'no'
-    } elsif $ssh_version_maj_int == 5 and $ssh_version_min_int >= 4 {
-      $default_ssh_config_use_roaming = 'no'
-    } else {
-      $default_ssh_config_use_roaming = 'unset'
-    }
+  # UseRoaming should only be used if OpenSSH 5.4 is used on the client
+  if $use_roaming != undef {
+    $use_roaming_real = $use_roaming
   } else {
-      $default_ssh_config_use_roaming = 'unset'
+    if $::ssh_version =~ /^OpenSSH/ and versioncmp($::ssh_version_numeric, '5.3') == 1 {
+      $use_roaming_real = 'no'
+    } else {
+      $use_roaming_real = undef
+    }
   }
 
   package { $packages:
     ensure    => installed,
     source    => $package_source,
     adminfile => $package_adminfile,
+    before    => ['File[ssh_config]', 'File[ssh_known_hosts]'],
   }
 
   file  { 'ssh_config' :
@@ -630,7 +364,6 @@ class ssh (
     group   => $config_group,
     mode    => $config_mode,
     content => template('ssh/ssh_config.erb'),
-    require => Package[$packages],
   }
 
   if $manage_root_ssh_config == true {
@@ -669,12 +402,11 @@ class ssh (
   else { $host_aliases = [$::hostname, $::ipaddress] }
 
   file { 'ssh_known_hosts':
-    ensure  => file,
-    path    => $global_known_hosts,
-    owner   => $global_known_hosts_owner,
-    group   => $global_known_hosts_group,
-    mode    => $global_known_hosts_mode,
-    require => Package[$packages],
+    ensure => file,
+    path   => $global_known_hosts,
+    owner  => $global_known_hosts_owner,
+    group  => $global_known_hosts_group,
+    mode   => $global_known_hosts_mode,
   }
 
   # remove ssh key's not managed by puppet

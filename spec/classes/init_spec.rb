@@ -11,6 +11,7 @@ describe 'ssh' do
         major: '7',
       },
     },
+    operatingsystemrelease: '7.0',
     root_home: '/root',
     specific: 'dummy',
     ssh_version: 'OpenSSH_6.6p1',
@@ -75,10 +76,12 @@ describe 'ssh' do
       architecture: 'x86_64',
       os: {
         family: 'RedHat',
+        name:   'RedHat',
         release: {
           major: '5',
         },
       },
+      operatingsystemrelease: '5.0',
       ssh_version: 'OpenSSH_4.3p2',
       ssh_version_numeric: '4.3',
       ssh_packages: ['openssh-clients'],
@@ -88,10 +91,12 @@ describe 'ssh' do
       architecture: 'x86_64',
       os: {
         family: 'RedHat',
+        name:   'RedHat',
         release: {
           major: '6',
         },
       },
+      operatingsystemrelease: '6.0',
       ssh_version: 'OpenSSH_5.3p1',
       ssh_version_numeric: '5.3',
       ssh_packages: ['openssh-clients'],
@@ -101,10 +106,12 @@ describe 'ssh' do
       architecture: 'x86_64',
       os: {
         family: 'RedHat',
+        name:   'RedHat',
         release: {
           major: '7',
         },
       },
+      operatingsystemrelease: '7.0',
       ssh_version: 'OpenSSH_7.4p1',
       ssh_version_numeric: '7.4',
       ssh_packages: ['openssh-clients'],

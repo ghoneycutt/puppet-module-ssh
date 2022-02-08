@@ -1,8 +1,13 @@
 ---
-
+# RedHat 6 defaults in alphabetical order per class
 ssh::forward_x11_trusted: 'yes'
 ssh::gss_api_authentication: 'yes'
-
+ssh::hash_known_hosts: 'no'
+ssh::include: null
+ssh::packages:
+  - 'openssh-clients'
+ssh::package_source: null
+ssh::protocol: '2'
 ssh::send_env:
   - 'LANG'
   - 'LANGUAGE'
@@ -19,13 +24,9 @@ ssh::send_env:
   - 'LC_PAPER'
   - 'LC_TELEPHONE'
   - 'LC_TIME'
-  - 'XMODIFIERS'
-
-ssh::server::packages: 'openssh-server'
 
 ssh::server::accept_env:
   - 'LANG'
-  - 'LANGUAGE'
   - 'LC_ADDRESS'
   - 'LC_ALL'
   - 'LC_COLLATE'
@@ -39,17 +40,15 @@ ssh::server::accept_env:
   - 'LC_PAPER'
   - 'LC_TELEPHONE'
   - 'LC_TIME'
-  - 'XMODIFIERS'
-
-ssh::server::challenge_response_authentication: 'no'
-ssh::server::gss_api_authentication: 'yes'
+ssh::server::address_family: 'any'
 ssh::server::gss_api_cleanup_credentials: 'yes'
-ssh::server::password_authentication: 'no'
+ssh::server::host_key:
+  - '/etc/ssh/ssh_host_rsa_key'
+ssh::server::packages:
+  - 'openssh-server'
+ssh::server::permit_tunnel: 'no'
 ssh::server::subsystem: 'sftp /usr/libexec/openssh/sftp-server'
-ssh::server::syslog_facility: 'AUTHPRIV'
-ssh::server::use_dns: 'no'
+ssh::server::tcp_keep_alive: 'yes'
+ssh::server::use_dns: 'yes'
 ssh::server::use_pam: 'yes'
-ssh::server::x11_forwarding: 'yes'
-
-ssh::server::custom:
-  - 'Protocol 2'
+ssh::server::xauth_location: '/usr/bin/xauth'

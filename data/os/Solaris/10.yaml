@@ -1,0 +1,23 @@
+---
+# Solaris 10 defaults in alphabetical order per class
+ssh::gss_api_authentication: 'yes'
+ssh::packages:
+  - 'SUNWsshcu'
+  - 'SUNWsshr'
+  - 'SUNWsshu'
+ssh::package_source: '/var/spool/pkg'
+
+ssh::server::config_mode: '0644'
+ssh::server::custom:
+  - 'GSSAPIKeyExchange yes'
+  - 'PAMAuthenticationViaKBDInt yes'
+  - 'ServerKeyBits 768'
+ssh::server::host_key:
+  - '/etc/ssh/ssh_host_rsa_key'
+ssh::server::packages:
+  - 'SUNWsshdr'
+  - 'SUNWsshdu'
+ssh::server::package_source: '/var/spool/pkg'
+ssh::server::service_name: 'ssh'
+ssh::server::subsystem: 'sftp /usr/lib/ssh/sftp-server'
+ssh::server::xauth_location: '/usr/openwin/bin/xauth'

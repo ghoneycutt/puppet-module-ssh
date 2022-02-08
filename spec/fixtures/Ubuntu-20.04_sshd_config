@@ -1,0 +1,27 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+#
+# See https://man.openbsd.org/sshd_config for more info
+
+AcceptEnv LANG
+AcceptEnv LC_ADDRESS
+AcceptEnv LC_ALL
+AcceptEnv LC_COLLATE
+AcceptEnv LC_CTYPE
+AcceptEnv LC_IDENTIFICATION
+AcceptEnv LC_MEASUREMENT
+AcceptEnv LC_MESSAGES
+AcceptEnv LC_MONETARY
+AcceptEnv LC_NAME
+AcceptEnv LC_NUMERIC
+AcceptEnv LC_PAPER
+AcceptEnv LC_TELEPHONE
+AcceptEnv LC_TIME
+AddressFamily any
+GSSAPICleanupCredentials yes
+Include /etc/ssh/sshd_config.d/*.conf
+PrintMotd no
+Subsystem sftp /usr/lib/openssh/sftp-server
+UseDNS yes
+UsePAM yes
+X11Forwarding yes

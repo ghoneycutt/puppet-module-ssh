@@ -4,7 +4,6 @@
 # See https://man.openbsd.org/sshd_config for more info
 
 AcceptEnv LANG
-AcceptEnv LANGUAGE
 AcceptEnv LC_ADDRESS
 AcceptEnv LC_ALL
 AcceptEnv LC_COLLATE
@@ -18,14 +17,12 @@ AcceptEnv LC_NUMERIC
 AcceptEnv LC_PAPER
 AcceptEnv LC_TELEPHONE
 AcceptEnv LC_TIME
-AcceptEnv XMODIFIERS
-ChallengeResponseAuthentication no
-GSSAPIAuthentication yes
+AddressFamily any
 GSSAPICleanupCredentials yes
-PasswordAuthentication no
+HostKey /etc/ssh/ssh_host_rsa_key
+PermitTunnel no
 Subsystem sftp /usr/libexec/openssh/sftp-server
-SyslogFacility AUTHPRIV
-UseDNS no
+TCPKeepAlive yes
+UseDNS yes
 UsePAM yes
-X11Forwarding yes
-Protocol 2
+XAuthLocation /usr/bin/xauth
