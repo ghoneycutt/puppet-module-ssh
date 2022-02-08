@@ -102,8 +102,8 @@ Host <%= @host %>
 <% if @gateway_ports != nil -%>
   GatewayPorts <%= @gateway_ports %>
 <% end -%>
-<% if @global_known_hosts_file_array != nil -%>
-  GlobalKnownHostsFile <%= @global_known_hosts_file_array.join(' ') %>
+<% if @global_known_hosts_file != nil -%>
+  GlobalKnownHostsFile <%= @global_known_hosts_file.join(' ') %>
 <% end -%>
 <% if @gss_api_authentication != nil -%>
   GSSAPIAuthentication <%= @gss_api_authentication %>

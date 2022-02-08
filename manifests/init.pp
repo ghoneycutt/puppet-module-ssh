@@ -277,7 +277,7 @@ class ssh (
   Variant[Undef, String[1], Integer[0]] $forward_x11_timeout = undef,
   Optional[Ssh::Yes_no] $forward_x11_trusted = undef,
   Optional[Ssh::Yes_no] $gateway_ports = undef,
-  Variant[Undef, String[1], Array[String[1]]] $global_known_hosts_file = undef,
+  Optional[Array[String[1]]] $global_known_hosts_file = undef,
   Optional[Ssh::Yes_no] $gss_api_authentication = undef,
   Optional[Ssh::Yes_no] $gss_api_delegate_credentials = undef,
   Optional[Ssh::Yes_no] $hash_known_hosts = undef,
@@ -347,11 +347,6 @@ class ssh (
     } else {
       $use_roaming_real = undef
     }
-  }
-
-  case type_of($global_known_hosts_file) {
-    string:  { $global_known_hosts_file_array = [ $global_known_hosts_file ] }
-    default: { $global_known_hosts_file_array = $global_known_hosts_file }
   }
 
   package { $packages:
