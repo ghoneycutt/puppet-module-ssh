@@ -4,7 +4,7 @@ describe 'ssh' do
     |# This file is being maintained by Puppet.
     |# DO NOT EDIT
     |#
-    |# See https://man.openbsd.org/sshd_config for more info
+    |# See https://man.openbsd.org/ssh_config for more info
     |
     |Host *
   END
