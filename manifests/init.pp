@@ -339,6 +339,7 @@ class ssh (
   Optional[Array[String[1]]] $custom = undef
 ) {
 
+  # UseRoaming should only be used if OpenSSH 5.4 is used on the client
   if $use_roaming != undef {
     $use_roaming_real = $use_roaming
   } else {
