@@ -163,6 +163,8 @@
 #
 # @param preferred_authentications
 #
+# @param protocol
+#
 # @param proxy_command
 #
 # @param proxy_jump
@@ -303,6 +305,7 @@ class ssh (
   Optional[String[1]] $pkcs11_provider = undef,
   Optional[Stdlib::Port] $port = undef,
   Optional[Array[String[1]]] $preferred_authentications = undef,
+  Optional[String[1]] $protocol = undef,
   Optional[String[1]] $proxy_command = undef,
   Optional[Array[String[1]]] $proxy_jump = undef,
   Optional[Ssh::Yes_no] $proxy_use_fdpass = undef,
