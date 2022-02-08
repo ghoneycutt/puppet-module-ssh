@@ -413,7 +413,7 @@ class ssh (
   Variant[Undef, String[1], Integer[0]] $forward_x11_timeout = undef,
   Optional[Ssh::Yes_no] $forward_x11_trusted = undef,
   Optional[Ssh::Yes_no] $gateway_ports = undef,
-  Variant[Undef, String[1], Array[String[1]]] $global_known_hosts_file = undef,
+  Optional[Array[String[1]]] $global_known_hosts_file = undef,
   Optional[Ssh::Yes_no] $gss_api_authentication = undef,
   Optional[Ssh::Yes_no] $gss_api_delegate_credentials = undef,
   Optional[Ssh::Yes_no] $hash_known_hosts = undef,
@@ -753,6 +753,7 @@ class ssh (
     }
   }
 
+<<<<<<< HEAD
   case type_of($global_known_hosts_file) {
     string:  { $global_known_hosts_file_array = [ $global_known_hosts_file ] }
     default: { $global_known_hosts_file_array = $global_known_hosts_file }
@@ -1391,6 +1392,8 @@ class ssh (
 =======
   package { $packages_real:
 =======
+=======
+>>>>>>> f628824 (Refactor parameters that allow multiple values to accept only arrays)
   package { $packages:
 >>>>>>> db859ce (Move data from main class to hiera)
     ensure    => installed,

@@ -324,15 +324,9 @@ describe 'ssh::server' do
         invalid:  [{ 'ha' => 'sh' }, 3, 2.42, false, [0]],
         message: 'String or Array|expects a String value|Error while evaluating a Resource Statement',
       },
-      'String or Array of strings (optional)' => {
-        name:     ['allow_groups', 'allow_users', 'authorized_keys_file', 'deny_groups', 'deny_users', 'permit_listen'],
-        valid:    ['string', ['array', 'of', 'strings'], :undef],
-        invalid:  [{ 'ha' => 'sh' }, 3, 2.42, false, [0]],
-        message: 'String or Array|expects a String value|Error while evaluating a Resource Statement',
-      },
       'Array of strings (optional)' => {
-        name:     ['accept_env', 'authentication_methods', 'ca_signature_algorithms', 'ciphers', 'custom', 'host_key', 'host_key_algorithms',
-                   'hostbased_accepted_key_types', 'kex_algorithms', 'listen_address', 'macs', 'pubkey_accepted_key_types', 'set_env'],
+        name:     ['accept_env', 'allow_groups', 'allow_users', 'authentication_methods', 'authorized_keys_file', 'ca_signature_algorithms', 'ciphers', 'custom', 'deny_groups', 'deny_users',
+                   'host_key', 'host_key_algorithms', 'hostbased_accepted_key_types', 'kex_algorithms', 'listen_address', 'macs', 'permit_listen', 'pubkey_accepted_key_types', 'set_env'],
         valid:    [['array', 'of', 'strings'], :undef],
         invalid:  ['string', { 'ha' => 'sh' }, 3, 2.42, false, [0]],
         message: 'Undef or Array|expects a String value|Error while evaluating a Resource Statement',

@@ -303,11 +303,7 @@ AddressFamily <%= @address_family %>
 AllowAgentForwarding <%= @allow_agent_forwarding %>
 <% end -%>
 <% if @allow_groups != nil -%>
-<%   if @allow_groups.class == Array -%>
 AllowGroups <%= @allow_groups.join(' ') %>
-<%   elsif @allow_groups.class == String -%>
-AllowGroups <%= @allow_groups %>
-<%   end -%>
 <% end -%>
 <% if @allow_stream_local_forwarding != nil -%>
 AllowStreamLocalForwarding <%= @allow_stream_local_forwarding %>
@@ -316,11 +312,7 @@ AllowStreamLocalForwarding <%= @allow_stream_local_forwarding %>
 AllowTcpForwarding <%= @allow_tcp_forwarding %>
 <% end -%>
 <% if @allow_users != nil -%>
-<%   if @allow_users.class == Array -%>
 AllowUsers <%= @allow_users.join(' ') %>
-<%   elsif @allow_users.class == String -%>
-AllowUsers <%= @allow_users %>
-<%   end -%>
 <% end -%>
 <% if @authentication_methods != nil -%>
 AuthenticationMethods <%= @authentication_methods.join(',') %>
@@ -332,11 +324,7 @@ AuthorizedKeysCommand <%= @authorized_keys_command %>
 AuthorizedKeysCommandUser <%= @authorized_keys_command_user %>
 <% end -%>
 <% if @authorized_keys_file != nil -%>
-<%   if @authorized_keys_file.class == Array -%>
 AuthorizedKeysFile <%= @authorized_keys_file.join(' ') %>
-<%   elsif @authorized_keys_file.class == String -%>
-AuthorizedKeysFile <%= @authorized_keys_file %>
-<%   end -%>
 <% end -%>
 <% if @authorized_principals_command != nil -%>
 AuthorizedPrincipalsCommand <%= @authorized_principals_command %>
@@ -372,18 +360,10 @@ ClientAliveInterval <%= @client_alive_interval %>
 Compression <%= @compression %>
 <% end -%>
 <% if @deny_groups != nil -%>
-<%   if @deny_groups.class == Array -%>
 DenyGroups <%= @deny_groups.join(' ') %>
-<%   elsif @deny_groups.class == String -%>
-DenyGroups <%= @deny_groups %>
-<%   end -%>
 <% end -%>
 <% if @deny_users != nil -%>
-<%   if @deny_users.class == Array -%>
 DenyUsers <%= @deny_users.join(' ') %>
-<%   elsif @deny_users.class == String -%>
-DenyUsers <%= @deny_users %>
-<%   end -%>
 <% end -%>
 <% if @disable_forwarding != nil -%>
 DisableForwarding <%= @disable_forwarding %>
@@ -492,11 +472,7 @@ PasswordAuthentication <%= @password_authentication %>
 PermitEmptyPasswords <%= @permit_empty_passwords %>
 <% end -%>
 <% if @permit_listen != nil -%>
-<%   if @permit_listen.class == Array -%>
 PermitListen <%= @permit_listen.join(' ') %>
-<%   elsif @permit_listen.class == String -%>
-PermitListen <%= @permit_listen %>
-<%   end -%>
 <% end -%>
 <% if @permit_root_login != nil -%>
 PermitRootLogin <%= @permit_root_login %>
