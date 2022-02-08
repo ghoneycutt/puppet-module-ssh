@@ -479,6 +479,7 @@ class ssh (
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   case $::osfamily {
 =======
   # TODO: This huge case statement is getting transitioned to hiera
@@ -742,6 +743,9 @@ class ssh (
       $use_roaming_default = undef
     }
 =======
+=======
+  # UseRoaming should only be used if OpenSSH 5.4 is used on the client
+>>>>>>> e82a3df (Add comment for $use_roaming handling)
   if $use_roaming != undef {
     $use_roaming_real = $use_roaming
 >>>>>>> 5dd4eed (Refactor handling of $use_roaming)
