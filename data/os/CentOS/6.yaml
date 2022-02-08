@@ -7,6 +7,7 @@ ssh::include: null
 ssh::packages:
   - 'openssh-clients'
 ssh::package_source: null
+ssh::protocol: '2'
 ssh::send_env:
   - 'LANG'
   - 'LANGUAGE'

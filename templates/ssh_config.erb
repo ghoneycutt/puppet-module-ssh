@@ -301,6 +301,9 @@ Host <%= @host %>
 <% if @preferred_authentications != nil -%>
   PreferredAuthentications <%= @preferred_authentications.join(',') %>
 <% end -%>
+<% if @protocol != nil -%>
+  Protocol <%= @protocol %>
+<% end -%>
 <% if @proxy_command != nil -%>
   ProxyCommand <%= @proxy_command %>
 <% end -%>
