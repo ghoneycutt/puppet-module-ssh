@@ -3,10 +3,8 @@
 ssh::forward_x11_trusted: 'yes'
 ssh::gss_api_authentication: 'yes'
 ssh::hash_known_hosts: 'no'
-ssh::include: null
 ssh::packages:
   - 'openssh-clients'
-ssh::package_source: null
 ssh::protocol: '2'
 ssh::send_env:
   - 'LANG'
