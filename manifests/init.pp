@@ -1472,6 +1472,7 @@ class ssh (
     }
   }
 
+<<<<<<< HEAD
   if $manage_service_real {
     service { 'sshd_service' :
       ensure     => $service_ensure,
@@ -1509,6 +1510,8 @@ class ssh (
     }
   }
 
+=======
+>>>>>>> d2f0ca6 (Remove code block that was used for exporting SSH keys)
   file { 'ssh_known_hosts':
 <<<<<<< HEAD
     ensure  => file,
