@@ -21,7 +21,7 @@ AddressFamily any
 GSSAPICleanupCredentials yes
 HostKey /etc/ssh/ssh_host_rsa_key
 PermitTunnel no
-Subsystem sftp /usr/lib64/ssh/sftp-server
+Subsystem sftp /usr/lib/ssh/sftp-server
 TCPKeepAlive yes
 UseDNS yes
 UsePAM yes
