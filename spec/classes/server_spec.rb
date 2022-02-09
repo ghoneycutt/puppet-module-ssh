@@ -1,467 +1,239 @@
 require 'spec_helper'
-
 describe 'ssh::server' do
-  osfamily_matrix = {
-    # 'Debian-7' => {
-    #   architecture: 'x86_64',
-    #   osfamily: 'Debian',
-    #   operatingsystemrelease: '7',
-    #   ssh_version: 'OpenSSH_6.0p1',
-    #   ssh_version_numeric: '6.0',
-    #   sshd_packages: ['openssh-server', 'openssh-client'],
-    #   sshd_config_mode: '0600',
-    #   sshd_service_name: 'ssh',
-    #   sshd_service_hasstatus: true,
-    #   sshd_config_fixture: 'sshd_config_debian',
-    #   ssh_config_fixture: 'ssh_config_debian',
-    # },
-    'RedHat-5' => {
-      architecture: 'x86_64',
-      os: {
-        family: 'RedHat',
-        name: 'RedHat',
-        release: {
-          major: '5',
-        },
-      },
-      operatingsystemrelease: '5.0',
-      ssh_version: 'OpenSSH_4.3p2',
-      ssh_version_numeric: '4.3',
-      sshd_packages: ['openssh-server'],
-      sshd_config_mode: '0600',
-      sshd_service_name: 'sshd',
-      sshd_service_hasstatus: true,
-      sshd_config_fixture: 'sshd_config_el5',
-    },
-    'EL-6' => {
-      architecture: 'x86_64',
-      os: {
-        family: 'RedHat',
-        name: 'RedHat',
-        release: {
-          major: '6',
-        },
-      },
-      operatingsystemrelease: '6.0',
-      ssh_version: 'OpenSSH_5.3p1',
-      ssh_version_numeric: '5.3',
-      sshd_packages: ['openssh-server'],
-      sshd_config_mode: '0600',
-      sshd_service_name: 'sshd',
-      sshd_service_hasstatus: true,
-      sshd_config_fixture: 'sshd_config_el6',
-    },
-    'EL-7' => {
-      architecture: 'x86_64',
-      os: {
-        family: 'RedHat',
-        name: 'RedHat',
-        release: {
-          major: '7',
-        },
-      },
-      operatingsystemrelease: '7.0',
-      ssh_version: 'OpenSSH_7.4p1',
-      ssh_version_numeric: '7.4',
-      sshd_config_mode: '0600',
-      sshd_service_name: 'sshd',
-      sshd_service_hasstatus: true,
-      sshd_packages: ['openssh-server'],
-      sshd_config_fixture: 'sshd_config_el7',
-    },
-    # 'Suse-10-x86_64' => {
-    #   architecture: 'x86_64',
-    #   osfamily: 'Suse',
-    #   operatingsystem: 'SLES',
-    #   operatingsystemrelease: '10.4',
-    #   ssh_version: 'OpenSSH_5.1p1',
-    #   ssh_version_numeric: '5.1',
-    #   sshd_packages: ['openssh'],
-    #   sshd_config_mode: '0600',
-    #   sshd_service_name: 'sshd',
-    #   sshd_service_hasstatus: true,
-    #   sshd_config_fixture: 'sshd_config_suse_x86_64',
-    #   ssh_config_fixture: 'ssh_config_suse_old',
-    # },
-    # 'Suse-10-i386' => {
-    #   architecture: 'i386',
-    #   osfamily: 'Suse',
-    #   operatingsystem: 'SLES',
-    #   operatingsystemrelease: '10.4',
-    #   ssh_version: 'OpenSSH_5.1p1',
-    #   ssh_version_numeric: '5.1',
-    #   sshd_packages: ['openssh'],
-    #   sshd_config_mode: '0600',
-    #   sshd_service_name: 'sshd',
-    #   sshd_service_hasstatus: true,
-    #   sshd_config_fixture: 'sshd_config_suse_i386',
-    #   ssh_config_fixture: 'ssh_config_suse_old',
-    # },
-    # 'Suse-11-x86_64' => {
-    #   architecture: 'x86_64',
-    #   osfamily: 'Suse',
-    #   operatingsystem: 'SLES',
-    #   operatingsystemrelease: '11.4',
-    #   ssh_version: 'OpenSSH_6.6.1p1',
-    #   ssh_version_numeric: '6.6',
-    #   sshd_packages: ['openssh'],
-    #   sshd_config_mode: '0600',
-    #   sshd_service_name: 'sshd',
-    #   sshd_service_hasstatus: true,
-    #   sshd_config_fixture: 'sshd_config_suse_x86_64',
-    #   ssh_config_fixture: 'ssh_config_suse',
-    # },
-    # 'Suse-11-i386' => {
-    #   architecture: 'i386',
-    #   osfamily: 'Suse',
-    #   operatingsystem: 'SLES',
-    #   operatingsystemrelease: '11.4',
-    #   ssh_version: 'OpenSSH_6.6.1p1',
-    #   ssh_version_numeric: '6.6',
-    #   sshd_packages: ['openssh'],
-    #   sshd_config_mode: '0600',
-    #   sshd_service_name: 'sshd',
-    #   sshd_service_hasstatus: true,
-    #   sshd_config_fixture: 'sshd_config_suse_i386',
-    #   ssh_config_fixture: 'ssh_config_suse',
-    # },
-    # 'Suse-12-x86_64' => {
-    #   architecture: 'x86_64',
-    #   osfamily: 'Suse',
-    #   operatingsystem: 'SLES',
-    #   operatingsystemrelease: '12.0',
-    #   ssh_version: 'OpenSSH_6.6.1p1',
-    #   ssh_version_numeric: '6.6',
-    #   sshd_packages: ['openssh'],
-    #   sshd_config_mode: '0600',
-    #   sshd_service_name: 'sshd',
-    #   sshd_service_hasstatus: true,
-    #   sshd_config_fixture: 'sshd_config_sles_12_x86_64',
-    #   ssh_config_fixture: 'ssh_config_suse',
-    # },
-    # 'Solaris-5.11' => {
-    #   architecture: 'i86pc',
-    #   osfamily: 'Solaris',
-    #   kernelrelease: '5.11',
-    #   ssh_version: 'Sun_SSH_2.2',
-    #   ssh_version_numeric: '2.2',
-    #   sshd_packages: ['network/ssh', 'network/ssh/ssh-key', 'service/network/ssh'],
-    #   sshd_config_mode: '0644',
-    #   sshd_service_name: 'ssh',
-    #   sshd_service_hasstatus: true,
-    #   sshd_config_fixture: 'sshd_config_solaris',
-    #   ssh_config_fixture: 'ssh_config_solaris',
-    # },
-    # 'Solaris-5.10' => {
-    #   architecture: 'i86pc',
-    #   osfamily: 'Solaris',
-    #   kernelrelease: '5.10',
-    #   ssh_version: 'Sun_SSH_2.2',
-    #   ssh_version_numeric: '2.2',
-    #   sshd_packages: ['SUNWsshcu', 'SUNWsshdr', 'SUNWsshdu', 'SUNWsshr', 'SUNWsshu'],
-    #   sshd_config_mode: '0644',
-    #   sshd_service_name: 'ssh',
-    #   sshd_service_hasstatus: true,
-    #   sshd_config_fixture: 'sshd_config_solaris',
-    #   ssh_config_fixture: 'ssh_config_solaris',
-    # },
-    # 'Solaris-5.9' => {
-    #   architecture: 'i86pc',
-    #   osfamily: 'Solaris',
-    #   kernelrelease: '5.9',
-    #   ssh_version: 'Sun_SSH_2.2',
-    #   ssh_version_numeric: '2.2',
-    #   sshd_packages: ['SUNWsshcu', 'SUNWsshdr', 'SUNWsshdu', 'SUNWsshr', 'SUNWsshu'],
-    #   sshd_config_mode: '0644',
-    #   sshd_service_name: 'sshd',
-    #   sshd_service_hasstatus: false,
-    #   sshd_config_fixture: 'sshd_config_solaris',
-    #   ssh_config_fixture: 'ssh_config_solaris',
-    # },
-    # 'Ubuntu-1604' => {
-    #   architecture: 'x86_64',
-    #   osfamily: 'Debian',
-    #   operatingsystemrelease: '16.04',
-    #   ssh_version: 'OpenSSH_7.2p2',
-    #   ssh_version_numeric: '7.2',
-    #   sshd_packages: ['openssh-server', 'openssh-client'],
-    #   sshd_config_mode: '0600',
-    #   sshd_service_name: 'ssh',
-    #   sshd_service_hasstatus: true,
-    #   sshd_config_fixture: 'sshd_config_ubuntu1604',
-    #   ssh_config_fixture: 'ssh_config_ubuntu1604',
-    # },
-  }
+  header = <<-END.gsub(%r{^\s+\|}, '')
+    |# This file is being maintained by Puppet.
+    |# DO NOT EDIT
+    |#
+    |# See https://man.openbsd.org/sshd_config for more info
+    |
+  END
 
-  defaults = {
-    fqdn: 'monkey.example.com',
-    hostname: 'monkey',
-    ipaddress: '127.0.0.1',
-    root_home: '/root',
-    specific: 'dummy',
-    sshrsakey: 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==', # rubocop:disable Layout/LineLength
-  }
+  on_supported_os.sort.each do |os, os_facts|
+    context "on #{os} with default values for parameters" do
+      let(:facts) { os_facts }
 
-  #  defaults_solaris = {
-  #    fqdn: 'monkey.example.com',
-  #    hostname: 'monkey',
-  #    ipaddress: '127.0.0.1',
-  #    kernelrelease: '5.10',
-  #    osfamily: 'Solaris',
-  #    root_home: '/root',
-  #    specific: 'dummy',
-  #    ssh_version: 'Sun_SSH_2.2',
-  #    ssh_version_numeric: '2.2',
-  #    sshrsakey: 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==', # rubocop:disable Layout/LineLength
-  #  }
-
-  default_facts = osfamily_matrix['EL-7'].merge(defaults)
-
-  let(:facts) { default_facts }
-
-  osfamily_matrix.each do |os, facts|
-    context "with default params on osfamily #{os}" do
-      let(:facts) { defaults.merge(facts) }
-
-      # FIXME: first one fails. If you remove the duplicate, the first compile
-      # fails, if you remove both compile lines, then contain class fails and so on. Get this error
-      #
-      # Evaluation Error: Error while evaluating a Resource Statement, Could not autoload puppet/type/service: Could not autoload puppet/provider/service/upstart: Could not autoload puppet/provider/service/debian: Could not autoload puppet/provider/service/init: undefined method `downcase' for nil:NilClass (file: /Users/gh/git/puppet-module-ssh/spec/fixtures/modules/ssh/manifests/server.pp, line: 332, column: 5) # rubocop:disable Layout/LineLength
-      it { is_expected.to compile.with_all_deps }
-
-      it { is_expected.to contain_class('ssh::server') }
-
-      facts[:sshd_packages].each do |pkg|
-        it {
-          is_expected.to contain_package(pkg).with(
-            {
-              'ensure' => 'installed',
-              'before' => 'File[sshd_config]',
-            },
-          )
-        }
+      # OS specific defaults
+      case "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['full']}"
+      when %r{CentOS.*}, %r{OracleLinux.*}, %r{RedHat.*}, %r{Scientific.*}
+        config_mode       = '0600'
+        packages          = ['openssh-server']
+        service_hasstatus = true
+        service_name      = 'sshd'
+      when %r{SLED.*}, %r{SLES.*}
+        config_mode       = '0600'
+        packages          = []
+        service_name      = 'sshd'
+        service_hasstatus = true
+      when %r{Debian.*}, %r{Ubuntu.*}
+        config_mode       = '0600'
+        packages          = ['openssh-server']
+        service_hasstatus = true
+        service_name      = 'ssh'
+      when %r{Solaris-9.*}
+        config_mode       = '0644'
+        packages          = 'SUNWsshdr', 'SUNWsshdu'
+        packages_source   = '/var/spool/pkg'
+        service_hasstatus = false
+        service_name      = 'sshd'
+      when %r{Solaris-10.*}
+        config_mode       = '0644'
+        packages          = 'SUNWsshdr', 'SUNWsshdu'
+        packages_source   = '/var/spool/pkg'
+        service_hasstatus = true
+        service_name      = 'ssh'
+      when %r{Solaris-11.*}
+        config_mode       = '0644'
+        packages          = ['service/network/ssh']
+        service_hasstatus = true
+        service_name      = 'ssh'
       end
 
-      it {
-        is_expected.to contain_file('sshd_config').with(
+      it { is_expected.to compile.with_all_deps }
+      it { is_expected.to contain_class('ssh::server') }
+
+      packages.each do |package|
+        it do
+          is_expected.to contain_package(package).only_with(
+            {
+              'ensure'    => 'installed',
+              'source'    => packages_source,
+              'adminfile' => nil,
+              'before'    => 'File[sshd_config]',
+            },
+          )
+        end
+      end
+
+      content_fixture = File.read(fixtures("#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_sshd_config"))
+
+      it do
+        is_expected.to contain_file('sshd_config').only_with(
           {
             'ensure'  => 'file',
             'path'    => '/etc/ssh/sshd_config',
             'owner'   => 'root',
             'group'   => 'root',
-            'mode'    => facts[:sshd_config_mode],
+            'mode'    => config_mode,
+            'content' => content_fixture,
           },
         )
-      }
-
-      sshd_config_fixture = File.read(fixtures("#{facts[:sshd_config_fixture]}_sorted"))
-      it { is_expected.to contain_file('sshd_config').with_content(sshd_config_fixture) }
+      end
 
       it { is_expected.not_to contain_file('sshd_banner') }
 
-      it {
-        is_expected.to contain_service('sshd_service').with(
+      it do
+        is_expected.to contain_service('sshd_service').only_with(
           {
             'ensure'     => 'running',
-            'name'       => facts[:sshd_service_name],
-            'enable'     => 'true',
-            'hasrestart' => 'true',
-            'hasstatus'  => facts[:sshd_service_hasstatus],
+            'name'       => service_name,
+            'enable'     => true,
+            'hasrestart' => service_hasstatus,
+            'hasstatus'  => true,
             'subscribe'  => 'File[sshd_config]',
           },
         )
-      }
+      end
     end
   end
 
-  # TODO: test failure on unsupported platforms
-  #  context 'with default params on invalid osfamily' do
-  #    let(:facts) { default_facts.merge({ osfamily: 'C64' }) }
-  #
-  #    it 'fail' do
-  #      expect {
-  #        is_expected.to contain_class('ssh')
-  #      }.to raise_error(Puppet::Error,/ssh supports osfamilies RedHat, Suse, Debian and Solaris\. Detected osfamily is <C64>\./)
-  #    end
-  #  end
-  #
+  # test parameters
+  # they aren't OS dependent, so we use a fictional OS without any default values
+  let(:facts) { { os: { family: 'UnitTesting' } } }
 
-  describe 'validate data types of parameters' do
-    validations = {
-      'Stdlib::Absolutepath (optional)' => {
-        name:     ['package_adminfile', 'package_source'],
-        valid:    ['/absolute/filepath', '/absolute/directory/', :undef],
-        invalid:  ['../invalid', ['array'], { 'ha' => 'sh' }, 3, 2.42, false],
-        message: 'expects a (match for|match for Stdlib::Absolutepath =|Stdlib::Absolutepath =) Variant\[Stdlib::Windowspath.*Stdlib::Unixpath',
-      },
-      'Stdlib::Absolutepath' => {
-        name:     ['banner_path', 'config_path'],
-        valid:    ['/absolute/filepath', '/absolute/directory/'],
-        invalid:  ['../invalid', ['array'], { 'ha' => 'sh' }, 3, 2.42, false, nil],
-        message: 'expects a (match for|match for Stdlib::Absolutepath =|Stdlib::Absolutepath =) Variant\[Stdlib::Windowspath.*Stdlib::Unixpath',
-      },
-      'Stdlib::Ensure::Service' => {
-        name:     ['service_ensure'],
-        valid:    ['running', 'stopped'],
-        invalid:  ['present', 'absent', ['array'], { 'ha' => 'sh' }, 3, 2.42, false, nil],
-        message: 'expects a match for Stdlib::Ensure::Service',
-      },
-      'Stdlib::Filemode' => {
-        name:     ['banner_mode', 'config_mode'],
-        valid:    ['0644', '0755', '0640', '1740'],
-        invalid:  [2770, '0844', '00644', 'string', ['array'], { 'ha' => 'sh' }, 3, 2.42, false, nil],
-        message: 'expects a match for Stdlib::Filemode|Error while evaluating a Resource Statement',
-      },
-      'Array of Stdlib::Port (optional)' => {
-        name:     ['port'],
-        valid:    [[0], [242, 65_535], :undef],
-        invalid:  ['string', ['array'], { 'ha' => 'sh' }, -1, 2.42, 65_536, false],
-        message: 'expects a value of type Undef or Array|Error while evaluating a Resource Statement',
-      },
-      'String or Array of strings' => {
-        name:     ['packages'],
-        valid:    ['string', ['array', 'of', 'strings']],
-        invalid:  [{ 'ha' => 'sh' }, 3, 2.42, false, [0]],
-        message: 'String or Array|expects a String value|Error while evaluating a Resource Statement',
-      },
-      'Array of strings (optional)' => {
-        name:     ['accept_env', 'allow_groups', 'allow_users', 'authentication_methods', 'authorized_keys_file', 'ca_signature_algorithms', 'ciphers', 'custom', 'deny_groups', 'deny_users',
-                   'host_key', 'host_key_algorithms', 'hostbased_accepted_key_types', 'kex_algorithms', 'listen_address', 'macs', 'permit_listen', 'pubkey_accepted_key_types', 'set_env'],
-        valid:    [['array', 'of', 'strings'], :undef],
-        invalid:  ['string', { 'ha' => 'sh' }, 3, 2.42, false, [0]],
-        message: 'Undef or Array|expects a String value|Error while evaluating a Resource Statement',
-      },
-      'integer => 0 (optional)' => {
-        name:     ['client_alive_count_max', 'client_alive_interval', 'login_grace_time', 'max_sessions', 'x11_display_offset'],
-        valid:    [0, 1, 23, :undef],
-        invalid:  ['string', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
-        message: 'Undef or Integer|Error while evaluating a Resource Statement',
-      },
-      'integer => 2 (optional)' => {
-        name:     ['max_auth_tries'],
-        valid:    [2, 23, :undef],
-        invalid:  ['string', ['array'], { 'ha' => 'sh' }, -1, 2.42, 0, 1, false],
-        message: 'Undef or Integer|Error while evaluating a Resource Statement',
-      },
-      'four digit octal (optional) for umask' => {
-        name:     ['stream_local_bind_mask'],
-        valid:    ['0000', '1234', '7777', :undef],
-        invalid:  ['string', ['array'], { 'ha' => 'sh' }, -1, 2.42, false, '00000', 'x234', '77e1', '011'],
-        message: 'Error while evaluating a Resource Statement',
-      },
-      'enumeration of valid strings for permit_root_login (optional)' => {
-        name:     ['permit_root_login'],
-        valid:    ['yes', 'prohibit-password', 'without-password', 'forced-commands-only', 'no', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
-        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
-      },
-      'enumeration of valid strings for syslog_facility (optional)' => {
-        name:     ['syslog_facility'],
-        valid:    ['DAEMON', 'USER', 'AUTH', 'LOCAL0', 'LOCAL1', 'LOCAL2', 'LOCAL3', 'LOCAL4', 'LOCAL5', 'LOCAL6', 'LOCAL7', 'AUTHPRIV', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false, 'USER0', 'daemon'],
-        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
-      },
-      'enumeration of valid strings for fingerprint_hash (optional)' => {
-        name:     ['fingerprint_hash'],
-        valid:    ['md5', 'sha256', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
-        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
-      },
-      'enumeration of valid strings for gateway_ports (optional)' => {
-        name:     ['gateway_ports'],
-        valid:    ['yes', 'no', 'clientspecified', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
-        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
-      },
-      'enumeration of valid strings for allow_stream_local_forwarding (optional)' => {
-        name:     ['allow_stream_local_forwarding'],
-        valid:    ['yes', 'all', 'no', 'local', 'remote', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
-        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
-      },
-      'enumeration of valid strings for compression (optional)' => {
-        name:     ['compression'],
-        valid:    ['yes', 'no', 'delayed', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
-        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
-      },
-      'enumeration of valid strings for allow_tcp_forwarding (optional)' => {
-        name:     ['allow_tcp_forwarding'],
-        valid:    ['yes', 'no', 'local', 'remote', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
-        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
-      },
-      'enumeration of valid strings for permit_tunnel (optional)' => {
-        name:     ['permit_tunnel'],
-        valid:    ['yes', 'point-to-point', 'ethernet', 'no', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
-        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
-      },
-      'enumeration of valid strings for address_family (optional)' => {
-        name:     ['address_family'],
-        valid:    ['any', 'inet', 'inet6', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
-        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
-      },
-      'yes or no (optional)' => {
-        name:     ['allow_agent_forwarding', 'challenge_response_authentication', 'disable_forwarding', 'expose_auth_info', 'gss_api_authentication', 'gss_api_cleanup_credentials',
-                   'gss_api_strict_acceptor_check', 'hostbased_authentication', 'hostbased_uses_name_from_packet_only', 'ignore_rhosts', 'ignore_user_known_hosts',
-                   'kbd_interactive_authentication', 'kerberos_authentication', 'kerberos_get_afs_token', 'kerberos_or_local_passwd', 'kerberos_ticket_cleanup',
-                   'password_authentication', 'permit_empty_passwords', 'permit_tty', 'permit_user_rc', 'print_last_log', 'print_motd', 'pubkey_authentication',
-                   'stream_local_bind_unlink', 'strict_modes', 'tcp_keep_alive', 'use_dns', 'use_pam', 'x11_forwarding', 'x11_use_localhost'],
-        valid:    ['yes', 'no', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false, 'YES', 'No'],
-        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
-      },
-      'Ssh::Log_level (optional)' => {
-        name:     ['log_level'],
-        valid:    ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE', 'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false, 'INFO1'],
-        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
-      },
-      'Boolean' => {
-        name:     ['manage_service', 'service_enable', 'service_hasrestart', 'service_hasstatus'],
-        valid:    [true, false],
-        invalid:  ['string', ['array'], { 'ha' => 'sh' }, 3, 2.42, 'false', nil],
-        message: 'expects a Boolean',
-      },
-      'String (optional)' => {
-        name:     ['authorized_keys_command', 'authorized_keys_command_user',
-                   'authorized_principals_command', 'authorized_principals_command_user',
-                   'authorized_principals_file', 'banner', 'banner_content',
-                   'chroot_directory', 'force_command', 'host_certificate', 'host_key_agent',
-                   'ip_qos', 'max_startups', 'permit_user_environment', 'pid_file', 'rdomain',
-                   'rekey_limit', 'revoked_keys', 'subsystem', 'trusted_user_ca_keys',
-                   'version_addendum', 'xauth_location'],
-        valid:    ['string', :undef],
-        invalid:  [['array'], { 'ha' => 'sh' }, 3, 2.42, false],
-        message: 'expects a value of type Undef or String',
-      },
-    }
+  parameters = {
+    'accept_env'                           => { str: 'AcceptEnv',                        val: [['LANG'], ['TEST', 'ING']], sep: "\nAcceptEnv ", },
+    'address_family'                       => { str: 'AddressFamily',                    val: ['any', 'inet', 'inet6'], },
+    'allow_agent_forwarding'               => { str: 'AllowAgentForwarding',             val: ['yes', 'no'], },
+    'allow_groups'                         => { str: 'AllowGroups',                      val: [['test'], ['test', 'ing']], sep: ' ', },
+    'allow_stream_local_forwarding'        => { str: 'AllowStreamLocalForwarding',       val: ['yes', 'all', 'no', 'local', 'remote'], },
+    'allow_tcp_forwarding'                 => { str: 'AllowTcpForwarding',               val: ['yes', 'no', 'local', 'remote'], },
+    'allow_users'                          => { str: 'AllowUsers',                       val: [['test'], ['test', 'ing']], sep: ' ', },
+    'authentication_methods'               => { str: 'AuthenticationMethods',            val: [['publickey'], ['publickey', 'keyboard-interactive']], sep: ',', },
+    'authorized_keys_command'              => { str: 'AuthorizedKeysCommand',            val: ['/test/ing', '/test/ing/%u-%U'], },
+    'authorized_keys_command_user'         => { str: 'AuthorizedKeysCommandUser',        val: ['test', 'ing'], },
+    'authorized_keys_file'                 => { str: 'AuthorizedKeysFile',               val: [['ssh-ed25519'], ['ssh-ed25519', 'ssh-rsa']], sep: ' ', },
+    'authorized_principals_command'        => { str: 'AuthorizedPrincipalsCommand',      val: ['/test/ing', '/test/ing/%u-%U'], },
+    'authorized_principals_command_user'   => { str: 'AuthorizedPrincipalsCommandUser',  val: ['test', 'ing'], },
+    'authorized_principals_file'           => { str: 'AuthorizedPrincipalsFile',         val: ['/test/ing', '/test/ing/%u-%U'], },
+    'banner'                               => { str: 'Banner',                           val: ['Hello', 'Test'], },
+    'ca_signature_algorithms'              => { str: 'CASignatureAlgorithms',            val: [['ssh-ed25519'], ['ssh-ed25519', 'rsa-sha2-512']], sep: ',', },
+    'challenge_response_authentication'    => { str: 'ChallengeResponseAuthentication',  val: ['yes', 'no'], },
+    'chroot_directory'                     => { str: 'ChrootDirectory',                  val: ['none', '/test/ing'], },
+    'ciphers'                              => { str: 'Ciphers',                          val: [['3des-cbc'], ['3des-cbc', 'aes256-cbc']], sep: ',', },
+    'client_alive_count_max'               => { str: 'ClientAliveCountMax',              val: [3, 242], },
+    'client_alive_interval'                => { str: 'ClientAliveInterval',              val: [3, 242], },
+    'compression'                          => { str: 'Compression',                      val: ['yes', 'delayed', 'no'], },
+    'deny_groups'                          => { str: 'DenyGroups',                       val: [['test'], ['test', 'ing']], sep: ' ', },
+    'deny_users'                           => { str: 'DenyUsers',                        val: [['test'], ['test', 'ing']], sep: ' ', },
+    'disable_forwarding'                   => { str: 'DisableForwarding',                val: ['yes', 'no'], },
+    'expose_auth_info'                     => { str: 'ExposeAuthInfo',                   val: ['yes', 'no'], },
+    'fingerprint_hash'                     => { str: 'FingerprintHash',                  val: ['md5', 'sha256'], },
+    'force_command'                        => { str: 'ForceCommand',                     val: ['none', '/test/ing'], },
+    'gateway_ports'                        => { str: 'GatewayPorts',                     val: ['no', 'yes', 'clientspecified'], },
+    'gss_api_authentication'               => { str: 'GSSAPIAuthentication',             val: ['yes', 'no'], },
+    'gss_api_cleanup_credentials'          => { str: 'GSSAPICleanupCredentials',         val: ['yes', 'no'], },
+    'gss_api_strict_acceptor_check'        => { str: 'GSSAPIStrictAcceptorCheck',        val: ['yes', 'no'], },
+    'hostbased_accepted_key_types'         => { str: 'HostbasedAcceptedKeyTypes',        val: [['ssh-ed25519'], ['ssh-ed25519', 'rsa-sha2-512']], sep: ',', },
+    'hostbased_authentication'             => { str: 'HostbasedAuthentication',          val: ['yes', 'no'], },
+    'hostbased_uses_name_from_packet_only' => { str: 'HostbasedUsesNameFromPacketOnly',  val: ['yes', 'no'], },
+    'host_certificate'                     => { str: 'HostCertificate',                  val: ['/test/ing', '/test/ing2'], },
+    'host_key'                             => { str: 'HostKey',                          val: [['/test/ing'], ['/test/ing1', '/test/ing2']], sep: "\nHostKey ", },
+    'host_key_agent'                       => { str: 'HostKeyAgent',                     val: ['/test/ing', '/test/ing2'], },
+    'host_key_algorithms'                  => { str: 'HostKeyAlgorithms',                val: [['ssh-ed25519'], ['ssh-ed25519', 'rsa-sha2-512']], sep: ',', },
+    'ignore_rhosts'                        => { str: 'IgnoreRhosts',                     val: ['yes', 'no'], },
+    'ignore_user_known_hosts'              => { str: 'IgnoreUserKnownHosts',             val: ['yes', 'no'], },
+    'include'                              => { str: 'Include',                          val: ['/test/ing', '~/test/ing'], },
+    'ip_qos'                               => { str: 'IPQoS',                            val: ['af42', 'af42 cs3'], },
+    'kbd_interactive_authentication'       => { str: 'KbdInteractiveAuthentication',     val: ['yes', 'no'], },
+    'kerberos_authentication'              => { str: 'KerberosAuthentication',           val: ['yes', 'no'], },
+    'kerberos_get_afs_token'               => { str: 'KerberosGetAFSToken',              val: ['yes', 'no'], },
+    'kerberos_or_local_passwd'             => { str: 'KerberosOrLocalPasswd',            val: ['yes', 'no'], },
+    'kerberos_ticket_cleanup'              => { str: 'KerberosTicketCleanup',            val: ['yes', 'no'], },
+    'kex_algorithms'                       => { str: 'KexAlgorithms',                    val: [['^test-242'], ['-diffie-hellman-group14-sha256', '+test-242']], sep: ',', },
+    'listen_address'                       => { str: 'ListenAddress',                    val: [['3.3.3.3:242'], ['3.3.3.3', '242.242.242.242']], sep: "\nListenAddress ", },
+    'login_grace_time'                     => { str: 'LoginGraceTime',                   val: [3, 242], },
+    'log_level'                            => { str: 'LogLevel',                         val: ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE', 'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3'], },
+    'macs'                                 => { str: 'MACs',                             val: [['hmac-sha2-512'], ['hmac-sha2-512', 'hmac-sha2-256']], sep: ',', },
+    'max_auth_tries'                       => { str: 'MaxAuthTries',                     val: [3, 242], },
+    'max_sessions'                         => { str: 'MaxSessions',                      val: [3, 242], },
+    'max_startups'                         => { str: 'MaxStartups',                      val: ['10:30:100', '2:4:2'], },
+    'password_authentication'              => { str: 'PasswordAuthentication',           val: ['yes', 'no'], },
+    'permit_empty_passwords'               => { str: 'PermitEmptyPasswords',             val: ['yes', 'no'], },
+    'permit_listen'                        => { str: 'PermitListen',                     val: [['242'], ['242', 'localhost:242']], sep: ' ', },
+    'permit_root_login'                    => { str: 'PermitRootLogin',                  val: ['yes', 'no', 'prohibit-password', 'without-password', 'forced-commands-only'], },
+    'permit_tty'                           => { str: 'PermitTTY',                        val: ['yes', 'no'], },
+    'permit_tunnel'                        => { str: 'PermitTunnel',                     val: ['yes', 'point-to-point', 'ethernet', 'no'], },
+    'permit_user_environment'              => { str: 'PermitUserEnvironment',            val: ['yes', 'no', 'LANG,LC_*'], },
+    'permit_user_rc'                       => { str: 'PermitUserRC',                     val: ['yes', 'no'], },
+    'pid_file'                             => { str: 'PidFile',                          val: ['/test/ing.pid', 'none'], },
+    'port'                                 => { str: 'Port',                             val: [[3], [3, 242]], sep: "\nPort ", },
+    'print_last_log'                       => { str: 'PrintLastLog',                     val: ['yes', 'no'], },
+    'print_motd'                           => { str: 'PrintMotd',                        val: ['yes', 'no'], },
+    'pubkey_accepted_key_types'            => { str: 'PubkeyAcceptedKeyTypes',           val: [['+ssh-dss'], ['ssh-test', 'ssh-ed242']], sep: ',', },
+    'pubkey_authentication'                => { str: 'PubkeyAuthentication',             val: ['yes', 'no'], },
+    'rekey_limit'                          => { str: 'RekeyLimit',                       val: ['242G', 'default none'], },
+    'revoked_keys'                         => { str: 'RevokedKeys',                      val: ['/test/ing', 'default none'], },
+    'rdomain'                              => { str: 'RDomain',                          val: ['%D', 'test'], },
+    'set_env'                              => { str: 'SetEnv',                           val: [['LANG'], ['TEST', 'ING']], sep: "\nSetEnv " },
+    'stream_local_bind_mask'               => { str: 'StreamLocalBindMask',              val: ['0177', '0242'], },
+    'stream_local_bind_unlink'             => { str: 'StreamLocalBindUnlink',            val: ['yes', 'no'], },
+    'strict_modes'                         => { str: 'StrictModes',                      val: ['yes', 'no'], },
+    'subsystem'                            => { str: 'Subsystem',                        val: ['sftp /test/ing', 'sftp internal-sftp'], },
+    'syslog_facility'                      => { str: 'SyslogFacility',                   val: ['DAEMON', 'USER', 'AUTH', 'LOCAL0', 'LOCAL1', 'LOCAL2', 'LOCAL3', 'LOCAL4', 'LOCAL5', 'LOCAL6', 'LOCAL7', 'AUTHPRIV'], }, # rubocop:disable Layout/LineLength
+    'tcp_keep_alive'                       => { str: 'TCPKeepAlive',                     val: ['yes', 'no'], },
+    'trusted_user_ca_keys'                 => { str: 'TrustedUserCAKeys',                val: ['/test/ing', 'default none'], },
+    'use_dns'                              => { str: 'UseDNS',                           val: ['yes', 'no'], },
+    'use_pam'                              => { str: 'UsePAM',                           val: ['yes', 'no'], },
+    'version_addendum'                     => { str: 'VersionAddendum',                  val: ['test', 'none'], },
+    'x11_display_offset'                   => { str: 'X11DisplayOffset',                 val: [3, 242], },
+    'x11_forwarding'                       => { str: 'X11Forwarding',                    val: ['yes', 'no'], },
+    'x11_use_localhost'                    => { str: 'X11UseLocalhost',                  val: ['yes', 'no'], },
+    'xauth_location'                       => { str: 'XAuthLocation',                    val: ['/test/ing', '~/test/ing'], },
+  }
 
-    validations.sort.each do |type, var|
-      mandatory_params = {} if mandatory_params.nil?
-      var[:name].each do |var_name|
-        var[:params] = {} if var[:params].nil?
-        var[:valid].each do |valid|
-          context "when #{var_name} (#{type}) is set to valid #{valid} (as #{valid.class})" do
-            let(:facts) { [mandatory_facts, var[:facts]].reduce(:merge) } unless var[:facts].nil?
-            let(:params) { [mandatory_params, var[:params], { "#{var_name}": valid, }].reduce(:merge) }
+  parameters.each do |param, data|
+    data[:val].each do |value|
+      context "with #{param} set to valid #{value} (as #{value.class})" do
+        let(:params) { { "#{param}": value } }
 
-            it { is_expected.to compile }
-          end
+        if value.class == Array
+          it { is_expected.to contain_file('sshd_config').with_content(header + "#{data[:str]} #{value.join(data[:sep])}" + "\n") }
+        else
+          it { is_expected.to contain_file('sshd_config').with_content(header + "#{data[:str]} #{value}\n") }
+        end
+      end
+    end
+  end
+
+  context 'with custom set to valid ["keyword value"] (as Array)' do
+    let(:params) { { custom: ['KeyWord value'] } }
+
+    it { is_expected.to contain_file('sshd_config').with_content(header + "KeyWord value\n") }
+  end
+
+  context 'with custom set to valid ["keyword value", "test ing"] (as Array)' do
+    let(:params) { { custom: ['KeyWord value', 'Test ing'] } }
+
+    it { is_expected.to contain_file('sshd_config').with_content(header + "KeyWord value\nTest ing\n") }
+  end
+
+  ['SLED', 'SLES'].each do |name|
+    ['10', '11', '12'].each do |major|
+      context "on #{name} #{major} with i386 architecture path for sftp subsystem is /usr/lib/ssh/sftp-server" do
+        let(:facts) do
+          {
+            os: {
+              architecture: 'i386',
+              name: name,
+              release: {
+                major: major,
+              },
+            },
+          }
         end
 
-        var[:invalid].each do |invalid|
-          context "when #{var_name} (#{type}) is set to invalid #{invalid} (as #{invalid.class})" do
-            let(:params) { [mandatory_params, var[:params], { "#{var_name}": invalid, }].reduce(:merge) }
-
-            it 'fail' do
-              expect { is_expected.to contain_class(:subject) }.to raise_error(Puppet::Error, %r{#{var[:message]}})
-            end
-          end
-        end
-      end # var[:name].each
-    end # validations.sort.each
-  end # describe 'validate data types of parameters'
+        it { is_expected.to contain_file('sshd_config').with_content(%r{^Subsystem sftp \/usr\/lib\/ssh\/sftp-server$}) }
+      end
+    end
+  end
 end
