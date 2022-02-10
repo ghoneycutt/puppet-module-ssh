@@ -58,6 +58,9 @@ describe 'ssh' do
       when 'Debian-10'
         ssh_version = 'OpenSSH_7.9p1'
         ssh_version_numeric = '7.9'
+      when 'Debian-11'
+        ssh_version = 'OpenSSH_8.4p1'
+        ssh_version_numeric = '8.4'
       else
         ssh_version = 'UnkownSSH_2.42'
         ssh_version_numeric = '2.42'
