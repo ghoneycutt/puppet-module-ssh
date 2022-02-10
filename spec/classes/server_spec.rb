@@ -64,7 +64,7 @@ describe 'ssh::server' do
         end
       end
 
-      content_fixture = File.read(fixtures("#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_sshd_config"))
+      content_fixture = File.read(fixtures("testing/#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_sshd_config"))
 
       it do
         is_expected.to contain_file('sshd_config').only_with(

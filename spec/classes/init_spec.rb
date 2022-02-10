@@ -3074,7 +3074,7 @@ describe 'sshd_config_print_last_log param' do
         end
       end
 
-      content_fixture = File.read(fixtures("#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_ssh_config"))
+      content_fixture = File.read(fixtures("testing/#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_ssh_config"))
 
       it do
         is_expected.to contain_file('ssh_config').only_with(
