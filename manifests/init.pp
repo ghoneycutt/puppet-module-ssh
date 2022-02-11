@@ -33,10 +33,6 @@
 #
 # @param purge_keys
 #
-# @param ssh_key_ensure
-#
-# @param ssh_key_type
-#
 # @param keys
 #
 # @param config_entries
@@ -239,8 +235,6 @@ class ssh (
   String[1] $root_ssh_config_content = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
   Boolean $manage_server = true,
   Boolean $purge_keys = true,
-  Enum['present', 'absent'] $ssh_key_ensure = 'present',
-  Ssh::Key::Type $ssh_key_type = 'ssh-rsa',
   Hash $keys = {},
   Hash $config_entries = {},
   # class parameters below this line directly correlate with ssh_config parameters
