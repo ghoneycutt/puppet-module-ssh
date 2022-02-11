@@ -3,39 +3,39 @@
 # Notes: `Match` and `Host` attributes are not directly supported as multiple
 # match/host blocks can exist. Use the `custom` parameter for that.
 #
-# @param packages
-#
-# @param package_source
-#
-# @param package_adminfile
-#
-# @param config_path
-#
-# @param config_owner
+# @param config_entries
 #
 # @param config_group
 #
 # @param config_mode
 #
-# @param global_known_hosts_path
+# @param config_owner
 #
-# @param global_known_hosts_owner
+# @param config_path
 #
 # @param global_known_hosts_group
 #
 # @param global_known_hosts_mode
 #
-# @param manage_root_ssh_config
+# @param global_known_hosts_owner
 #
-# @param root_ssh_config_content
-#
-# @param manage_server
-#
-# @param purge_keys
+# @param global_known_hosts_path
 #
 # @param keys
 #
-# @param config_entries
+# @param manage_root_ssh_config
+#
+# @param manage_server
+#
+# @param package_adminfile
+#
+# @param packages
+#
+# @param package_source
+#
+# @param purge_keys
+#
+# @param root_ssh_config_content
 #
 # @param host
 #
@@ -220,23 +220,23 @@
 # @param custom
 #
 class ssh (
-  Optional[Array[String[1]]] $packages = [],
-  Optional[Stdlib::Absolutepath] $package_source = undef,
-  Optional[Stdlib::Absolutepath] $package_adminfile = undef,
-  Stdlib::Absolutepath $config_path = '/etc/ssh/ssh_config',
-  String[1] $config_owner = 'root',
+  Hash $config_entries = {},
   String[1] $config_group = 'root',
   Stdlib::Filemode $config_mode = '0644',
-  Stdlib::Absolutepath $global_known_hosts_path = '/etc/ssh/ssh_known_hosts',
-  String[1] $global_known_hosts_owner = 'root',
+  String[1] $config_owner = 'root',
+  Stdlib::Absolutepath $config_path = '/etc/ssh/ssh_config',
   String[1] $global_known_hosts_group = 'root',
   Stdlib::Filemode $global_known_hosts_mode = '0644',
-  Boolean $manage_root_ssh_config = false,
-  String[1] $root_ssh_config_content = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
-  Boolean $manage_server = true,
-  Boolean $purge_keys = true,
+  String[1] $global_known_hosts_owner = 'root',
+  Stdlib::Absolutepath $global_known_hosts_path = '/etc/ssh/ssh_known_hosts',
   Hash $keys = {},
-  Hash $config_entries = {},
+  Boolean $manage_root_ssh_config = false,
+  Boolean $manage_server = true,
+  Optional[Stdlib::Absolutepath] $package_adminfile = undef,
+  Optional[Array[String[1]]] $packages = [],
+  Optional[Stdlib::Absolutepath] $package_source = undef,
+  Boolean $purge_keys = true,
+  String[1] $root_ssh_config_content = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
   # class parameters below this line directly correlate with ssh_config parameters
   String[1] $host = '*',
   Optional[Enum['yes', 'no', 'ask', 'confirm']] $add_keys_to_agent = undef,
