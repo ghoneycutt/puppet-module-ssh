@@ -20,7 +20,7 @@
 #
 # @param config_mode
 #
-# @param global_known_hosts
+# @param global_known_hosts_path
 #
 # @param global_known_hosts_owner
 #
@@ -367,7 +367,7 @@ class ssh (
   String[1] $config_owner = 'root',
   String[1] $config_group = 'root',
   Stdlib::Filemode $config_mode = '0644',
-  Stdlib::Absolutepath $global_known_hosts = '/etc/ssh/ssh_known_hosts',
+  Stdlib::Absolutepath $global_known_hosts_path = '/etc/ssh/ssh_known_hosts',
   String[1] $global_known_hosts_owner = 'root',
   String[1] $global_known_hosts_group = 'root',
   Stdlib::Filemode $global_known_hosts_mode = '0644',
@@ -1529,7 +1529,7 @@ class ssh (
     }
 =======
     ensure => file,
-    path   => $global_known_hosts,
+    path   => $global_known_hosts_path,
     owner  => $global_known_hosts_owner,
     group  => $global_known_hosts_group,
     mode   => $global_known_hosts_mode,
