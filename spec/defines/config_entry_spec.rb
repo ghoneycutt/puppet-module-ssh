@@ -91,11 +91,11 @@ describe 'ssh::config_entry' do
       it { is_expected.to contain_concat__fragment('/test/path Host test_host').with_order(242) }
     end
 
-    # /!\ no functionality for $ensure implemented yet
-    #  context 'with ensure set to valid string <absent>' do
-    #    let(:params) { mandatory_params.merge({ ensure: 'absent' }) }
-    #    it { is_expected.to contain_concat('/test/path').with_ensure('absent') }
-    #  end
+    context "on #{os} with ensure set to valid value absent when mandatory parameters are set" do
+      let(:params) { mandatory_params.merge({ ensure: 'absent' }) }
+
+      it { is_expected.to contain_concat('/test/path').with_ensure('absent') }
+    end
 
     context "on #{os} with lines set to valid value [ForwardX11 no, StrictHostKeyChecking no] when mandatory parameters are set" do
       let(:params) { mandatory_params.merge({ lines: ['ForwardX11 no', 'StrictHostKeyChecking no'] }) }
