@@ -218,7 +218,7 @@
 # @param custom
 #
 class ssh::server (
-  Variant[String[1], Array[String[1]]] $packages = [],
+  Optional[Array[String[1]]] $packages = [],
   Optional[Stdlib::Absolutepath] $package_source = undef,
   Optional[Stdlib::Absolutepath] $package_adminfile = undef,
   Stdlib::Absolutepath $config_path = '/etc/ssh/sshd_config',
@@ -376,15 +376,6 @@ class ssh::server (
       hasrestart => $service_hasrestart,
       hasstatus  => $service_hasstatus,
       subscribe  => File['sshd_config'],
-    }
-  }
-
-  # TODO: remove and document that the code will not check these types of
-  # things. It introduces too much complexity here and in the testing. Anyone
-  # using this would test their own custom options to ensure they work anyhow.
-  if $address_family != undef {
-    if $facts['os']['family'] == 'Solaris' {
-      fail("address_family is not supported on Solaris and is set to <${address_family}>.")
     }
   }
 }

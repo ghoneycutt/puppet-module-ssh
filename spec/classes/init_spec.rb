@@ -1,412 +1,414 @@
 require 'spec_helper'
-
 describe 'ssh' do
-  default_facts = {
-    fqdn: 'monkey.example.com',
-    hostname: 'monkey',
-    ipaddress: '127.0.0.1',
-    os: {
-      family: 'RedHat',
-      release: {
-        major: '7',
-      },
-    },
-    operatingsystemrelease: '7.0',
-    root_home: '/root',
-    specific: 'dummy',
-    ssh_version: 'OpenSSH_6.6p1',
-    ssh_version_numeric: '6.6',
-    sshrsakey: 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==', # rubocop:disable Layout/LineLength
-    ssh: {
-      rsa: {
-        key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1  AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==', # rubocop:disable Layout/LineLength
-      }
-    }
-  }
+  on_supported_os.sort.each do |os, os_facts|
+    # OS specific SSH version facts
+    case "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}"
+    when 'CentOS-5', 'OracleLinux-5', 'RedHat-5', 'Scientific-5'
+      ssh_version = 'OpenSSH_4.3p2'
+      ssh_version_numeric = '4.3'
+    when 'CentOS-6', 'OracleLinux-6', 'RedHat-6', 'Scientific-6'
+      ssh_version = 'OpenSSH_5.3p1'
+      ssh_version_numeric = '5.3'
+    when 'CentOS-7', 'OracleLinux-7', 'RedHat-7', 'Scientific-7'
+      ssh_version = 'OpenSSH_6.6p1'
+      ssh_version_numeric = '6.6'
+    when 'SLED-10', 'SLES-10'
+      ssh_version = 'OpenSSH_5.1p1'
+      ssh_version_numeric = '5.1'
+    when 'SLED-11', 'SLED-12', 'SLES-11', 'SLES-12'
+      ssh_version = 'OpenSSH_6.6.1p1'
+      ssh_version_numeric = '6.6'
+    when 'SLED-15', 'SLES-15'
+      ssh_version = 'OpenSSH_8.4p1'
+      ssh_version_numeric = '8.4'
+    when 'Solaris-9', 'Solaris-10', 'Solaris-11'
+      ssh_version = 'Sun_SSH_2.2'
+      ssh_version_numeric = '2.2'
+    when 'Ubuntu-14.04'
+      ssh_version = 'OpenSSH 6.6p1'
+      ssh_version_numeric = '6.6'
+    when 'Ubuntu-16.04'
+      ssh_version = 'OpenSSH_7.2p2'
+      ssh_version_numeric = '7.2'
+    when 'Ubuntu-18.04'
+      ssh_version = 'OpenSSH_7.6p1'
+      ssh_version_numeric = '7.6'
+    when 'Ubuntu-20.04'
+      ssh_version = 'OpenSSH_8.2p1'
+      ssh_version_numeric = '8.2'
+    when 'Debian-7'
+      ssh_version = 'OpenSSH_6.0p1'
+      ssh_version_numeric = '6.0'
+    when 'Debian-8'
+      ssh_version = 'OpenSSH_6.7p1'
+      ssh_version_numeric = '6.7'
+    when 'Debian-9'
+      ssh_version = 'OpenSSH_7.4p1'
+      ssh_version_numeric = '7.4'
+    when 'Debian-10'
+      ssh_version = 'OpenSSH_7.9p1'
+      ssh_version_numeric = '7.9'
+    when 'Debian-11'
+      ssh_version = 'OpenSSH_8.4p1'
+      ssh_version_numeric = '8.4'
+    else
+      ssh_version = 'UnkownSSH_2.42'
+      ssh_version_numeric = '2.42'
+    end
 
-  #  default_solaris_facts = {
-  #    fqdn: 'monkey.example.com',
-  #    hostname: 'monkey',
-  #    ipaddress: '127.0.0.1',
-  #    kernelrelease: '5.10',
-  #    osfamily: 'Solaris',
-  #    root_home: '/root',
-  #    specific: 'dummy',
-  #    ssh_version: 'Sun_SSH_2.2',
-  #    ssh_version_numeric: '2.2',
-  #    sshrsakey: 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==',   # rubocop:disable Layout/LineLength
-  #    ssh: {
-  #      rsa: {
-  #        key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEArGElx46pD6NNnlxVaTbp0ZJMgBKCmbTCT3RaeCk0ZUJtQ8wkcwTtqIXmmiuFsynUT0DFSd8UIodnBOPqitimmooAVAiAi30TtJVzADfPScMiUnBJKZajIBkEMkwUcqsfh630jyBvLPE/kyQcxbEeGtbu1DG3monkeymanOBW1  AKc5o+cJLXcInLnbowMG7NXzujT3BRYn/9s5vtT1V9cuZJs4XLRXQ50NluxJI7sVfRPVvQI9EMbTS4AFBXUej3yfgaLSV+nPZC/lmJ2gR4t/tKvMFF9m16f8IcZKK7o0rK7v81G/tREbOT5YhcKLK+0wBfR6RsmHzwy4EddZloyLQ==',   # rubocop:disable Layout/LineLength
-  #      }
-  #    }
-  #  }
+    # OS specific module defaults
+    case "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['full']}"
+    when %r{CentOS.*}, %r{OracleLinux.*}, %r{RedHat.*}, %r{Scientific.*}
+      packages_default = ['openssh-clients']
+      packages_server  = ['openssh-server']
+    when %r{SLED.*}, %r{SLES.*}
+      packages_default = ['openssh']
+      packages_server  = []
+    when %r{Debian.*}, %r{Ubuntu.*}
+      packages_default = ['openssh-client']
+      packages_server  = ['openssh-server']
+    when %r{Solaris-9.*}, %r{Solaris-10.*}
+      packages_default    = ['SUNWsshcu', 'SUNWsshr', 'SUNWsshu']
+      packages_ssh_source = '/var/spool/pkg'
+      packages_server     = ['SUNWsshdr', 'SUNWsshdu']
+    when %r{Solaris-11.*}
+      packages_default    = ['network/ssh', 'network/ssh/ssh-key']
+      packages_ssh_source = nil
+      packages_server     = ['service/network/ssh']
+    end
 
-  let(:facts) { default_facts }
-
-  osfamily_matrix = {
-    #    'Debian-7' => {
-    #      architecture: 'x86_64',
-    #      osfamily: 'Debian',
-    #      operatingsystemrelease: '7',
-    #      ssh_version: 'OpenSSH_6.0p1',
-    #      ssh_version_numeric: '6.0',
-    #      ssh_packages: ['openssh-server', 'openssh-client'],
-    #      ssh_config_fixture: 'ssh_config_debian',
-    #    },
-    #    'Debian-8' => {
-    #      architecture: 'x86_64',
-    #      osfamily: 'Debian',
-    #      operatingsystemrelease: '8',
-    #      ssh_version: 'OpenSSH_6.7p1',
-    #      ssh_version_numeric: '8.11',
-    #      ssh_packages: ['openssh-server', 'openssh-client'],
-    #      ssh_config_fixture: 'ssh_config_debian8',
-    #    },
-    #    'Debian-9' => {
-    #      architecture: 'x86_64',
-    #      osfamily: 'Debian',
-    #      operatingsystemrelease: '9',
-    #      ssh_version: 'OpenSSH_7.4p1',
-    #      ssh_version_numeric: '7.4',
-    #      ssh_packages: ['openssh-server', 'openssh-client'],
-    #      ssh_config_fixture: 'ssh_config_debian9',
-    #    },
-    'RedHat-5' => {
-      architecture: 'x86_64',
-      os: {
-        family: 'RedHat',
-        name:   'RedHat',
-        release: {
-          major: '5',
-        },
-      },
-      operatingsystemrelease: '5.0',
-      ssh_version: 'OpenSSH_4.3p2',
-      ssh_version_numeric: '4.3',
-      ssh_packages: ['openssh-clients'],
-      ssh_config_fixture: 'ssh_config_el5',
-    },
-    'EL-6' => {
-      architecture: 'x86_64',
-      os: {
-        family: 'RedHat',
-        name:   'RedHat',
-        release: {
-          major: '6',
-        },
-      },
-      operatingsystemrelease: '6.0',
-      ssh_version: 'OpenSSH_5.3p1',
-      ssh_version_numeric: '5.3',
-      ssh_packages: ['openssh-clients'],
-      ssh_config_fixture: 'ssh_config_el6',
-    },
-    'EL-7' => {
-      architecture: 'x86_64',
-      os: {
-        family: 'RedHat',
-        name:   'RedHat',
-        release: {
-          major: '7',
-        },
-      },
-      operatingsystemrelease: '7.0',
-      ssh_version: 'OpenSSH_7.4p1',
-      ssh_version_numeric: '7.4',
-      ssh_packages: ['openssh-clients'],
-      ssh_config_fixture: 'ssh_config_el7',
-    },
-    #    'Suse-10-x86_64' => {
-    #      architecture: 'x86_64',
-    #      osfamily: 'Suse',
-    #      operatingsystem: 'SLES',
-    #      operatingsystemrelease: '10.4',
-    #      ssh_version: 'OpenSSH_5.1p1',
-    #      ssh_version_numeric: '5.1',
-    #      ssh_packages: ['openssh'],
-    #      ssh_config_fixture: 'ssh_config_suse_old',
-    #    },
-    #    'Suse-10-i386' => {
-    #      architecture: 'i386',
-    #      osfamily: 'Suse',
-    #      operatingsystem: 'SLES',
-    #      operatingsystemrelease: '10.4',
-    #      ssh_version: 'OpenSSH_5.1p1',
-    #      ssh_version_numeric: '5.1',
-    #      ssh_packages: ['openssh'],
-    #      ssh_config_fixture: 'ssh_config_suse_old',
-    #    },
-    #    'Suse-11-x86_64' => {
-    #      architecture: 'x86_64',
-    #      osfamily: 'Suse',
-    #      operatingsystem: 'SLES',
-    #      operatingsystemrelease: '11.4',
-    #      ssh_version: 'OpenSSH_6.6.1p1',
-    #      ssh_version_numeric: '6.6',
-    #      ssh_packages: ['openssh'],
-    #      ssh_config_fixture: 'ssh_config_suse',
-    #    },
-    #    'Suse-11-i386' => {
-    #      architecture: 'i386',
-    #      osfamily: 'Suse',
-    #      operatingsystem: 'SLES',
-    #      operatingsystemrelease: '11.4',
-    #      ssh_version: 'OpenSSH_6.6.1p1',
-    #      ssh_version_numeric: '6.6',
-    #      ssh_packages: ['openssh'],
-    #      ssh_config_fixture: 'ssh_config_suse',
-    #    },
-    #    'Suse-12-x86_64' => {
-    #      architecture: 'x86_64',
-    #      osfamily: 'Suse',
-    #      operatingsystem: 'SLES',
-    #      operatingsystemrelease: '12.0',
-    #      ssh_version: 'OpenSSH_6.6.1p1',
-    #      ssh_version_numeric: '6.6',
-    #      ssh_packages: ['openssh'],
-    #      ssh_config_fixture: 'ssh_config_suse',
-    #    },
-    #    'Solaris-5.11' => {
-    #      architecture: 'i86pc',
-    #      osfamily: 'Solaris',
-    #      kernelrelease: '5.11',
-    #      ssh_version: 'Sun_SSH_2.2',
-    #      ssh_version_numeric: '2.2',
-    #      ssh_packages: ['network/ssh', 'network/ssh/ssh-key', 'service/network/ssh'],
-    #      ssh_config_fixture: 'ssh_config_solaris',
-    #    },
-    #    'Solaris-5.10' => {
-    #      architecture: 'i86pc',
-    #      osfamily: 'Solaris',
-    #      kernelrelease: '5.10',
-    #      ssh_version: 'Sun_SSH_2.2',
-    #      ssh_version_numeric: '2.2',
-    #      ssh_packages: ['SUNWsshcu', 'SUNWsshdr', 'SUNWsshdu', 'SUNWsshr', 'SUNWsshu'],
-    #      ssh_config_fixture: 'ssh_config_solaris',
-    #    },
-    #    'Solaris-5.9' => {
-    #      architecture: 'i86pc',
-    #      osfamily: 'Solaris',
-    #      kernelrelease: '5.9',
-    #      ssh_version: 'Sun_SSH_2.2',
-    #      ssh_version_numeric: '2.2',
-    #      ssh_packages: ['SUNWsshcu', 'SUNWsshdr', 'SUNWsshdu', 'SUNWsshr', 'SUNWsshu'],
-    #      ssh_config_fixture: 'ssh_config_solaris',
-    #    },
-    #    'Ubuntu-1604' => {
-    #      architecture: 'x86_64',
-    #      osfamily: 'Debian',
-    #      operatingsystemrelease: '16.04',
-    #      ssh_version: 'OpenSSH_7.2p2',
-    #      ssh_version_numeric: '7.2',
-    #      ssh_packages: ['openssh-server', 'openssh-client'],
-    #      ssh_config_fixture: 'ssh_config_ubuntu1604',
-    #    },
-    #    'Ubuntu-1804' => {
-    #      architecture: 'x86_64',
-    #      osfamily: 'Debian',
-    #      operatingsystemrelease: '18.04',
-    #      ssh_version: 'OpenSSH_7.6p1',
-    #      ssh_version_numeric: '7.6',
-    #      ssh_packages: ['openssh-server', 'openssh-client'],
-    #      ssh_config_fixture: 'ssh_config_ubuntu1804',
-    #    },
-  }
-
-  osfamily_matrix.each do |os, facts|
-    context "with default params on osfamily #{os}" do
-      let(:facts) { default_facts.merge(facts) }
-
-      it { is_expected.to compile.with_all_deps }
-
-      it { is_expected.to contain_class('ssh') }
-      it { is_expected.to contain_class('ssh::server') }
-
-      facts[:ssh_packages].each do |pkg|
-        it {
-          is_expected.to contain_package(pkg).with(
-            {
-              'ensure' => 'installed',
-            },
-          )
-        }
+    describe "on #{os} with default values for parameters" do
+      let(:facts) do
+        os_facts.merge(
+          {
+            root_home: '/root',
+            ssh_version: ssh_version,
+            ssh_version_numeric: ssh_version_numeric,
+          },
+        )
       end
 
-      it {
-        is_expected.to contain_file('ssh_config').with(
+      it { is_expected.to compile.with_all_deps }
+      it { is_expected.to contain_class('ssh') }
+
+      packages_default.each do |package|
+        it do
+          is_expected.to contain_package(package).only_with(
+            {
+              'ensure'    => 'installed',
+              'source'    => packages_ssh_source,
+              'adminfile' => nil,
+              'before'    => ['File[ssh_config]', 'File[ssh_known_hosts]'],
+            },
+          )
+        end
+      end
+
+      content_fixture = File.read(fixtures("testing/#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_ssh_config"))
+
+      it do
+        is_expected.to contain_file('ssh_config').only_with(
           {
             'ensure'  => 'file',
             'path'    => '/etc/ssh/ssh_config',
             'owner'   => 'root',
             'group'   => 'root',
             'mode'    => '0644',
+            'content' => content_fixture,
           },
         )
-      }
-
-      facts[:ssh_packages].each do |pkg|
-        it {
-          is_expected.to contain_file('ssh_config').that_requires("Package[#{pkg}]")
-        }
       end
 
-      ssh_config_fixture = File.read(fixtures("#{facts[:ssh_config_fixture]}_sorted"))
-      it { is_expected.to contain_file('ssh_config').with_content(ssh_config_fixture) }
-
-      it {
-        is_expected.to contain_file('ssh_known_hosts').with(
-          {
-            'ensure' => 'file',
-            'path'   => '/etc/ssh/ssh_known_hosts',
-            'owner'  => 'root',
-            'group'  => 'root',
-            'mode'   => '0644',
-          },
-        )
-      }
-
-      facts[:ssh_packages].each do |pkg|
-        it {
-          is_expected.to contain_file('ssh_known_hosts').that_requires("Package[#{pkg}]")
-        }
-      end
-
-      it { is_expected.not_to contain_exec("mkdir_p-#{facts[:root_home]}/.ssh") }
+      it { is_expected.not_to contain_exec("mkdir_p-#{os_facts[:root_home]}/.ssh") }
       it { is_expected.not_to contain_file('root_ssh_dir') }
       it { is_expected.not_to contain_file('root_ssh_config') }
-      it { is_expected.to have_ssh__config_entry_resource_count(0) }
+
       it { is_expected.to have_sshkey_resource_count(0) }
 
-      it {
-        is_expected.to contain_resources('sshkey').with(
+      it do
+        is_expected.to contain_file('ssh_known_hosts').only_with(
           {
-            'purge' => 'true',
+            'ensure'  => 'file',
+            'path'    => '/etc/ssh/ssh_known_hosts',
+            'owner'   => 'root',
+            'group'   => 'root',
+            'mode'    => '0644',
           },
         )
-      }
+      end
 
+      it { is_expected.to contain_resources('sshkey').with_purge('true') }
+      it { is_expected.to have_ssh__config_entry_resource_count(0) }
       it { is_expected.to have_ssh_authorized_key_resource_count(0) }
+      it { is_expected.to contain_class('ssh::server') }
+
+      # tests needed to reach 100% resource coverage
+      it { is_expected.to contain_file('sshd_config') }
+      it { is_expected.to contain_service('sshd_service') }
+      packages_server.each do |package|
+        it { is_expected.to contain_package(package) }
+      end
     end
   end
 
-  # TODO: FIXME: access facts hash incorrectly?
-  #
-  #  context 'with default params on invalid osfamily' do
-  #    let(:facts) { default_facts.merge({ :os['family'] => 'C64' }) }
-  #
-  #    it 'should fail' do
-  #      expect {
-  #        is_expected.to contain_class('ssh')
-  #      }.to raise_error(Puppet::Error, /ssh supports osfamilies RedHat, Suse, Debian and Solaris\. Detected os family is <C64>\./)
-  #    end
-  #  end
-
-  context 'with config_entries defined' do
-    let(:params) do
+  # The following tests are OS independent, so we only test one
+  redhat = {
+    supported_os: [
       {
-        config_entries: {
-          'root' => {
-            'owner' => 'root',
-            'group' => 'root',
-            'path'  => '/root/.ssh/config',
-            'host'  => 'test_host1',
-          },
-          'user' => {
-            'owner' => 'user',
-            'group' => 'group',
-            'path'  => '/home/user/.ssh/config',
-            'host'  => 'test_host2',
-            'order' => 242,
-            'lines' => ['ForwardX11 no', 'StrictHostKeyChecking no'],
-          },
+        'operatingsystem'        => 'RedHat',
+        'operatingsystemrelease' => ['7'],
+      },
+    ],
+  }
+
+  on_supported_os(redhat).sort.each do |os, os_facts|
+    let(:facts) { os_facts.merge({ root_home: '/root' }) }
+
+    context "on #{os} with config_entries set to valid hash" do
+      let(:params) do
+        {
+          config_entries: {
+            'root' => {
+              'ensure' => 'absent',
+              'owner'  => 'root',
+              'group'  => 'root',
+              'path'   => '/root/.ssh/config',
+              'order'  => 3,
+              'host'   => 'test_host1',
+              'lines'  => ['Invalid value'],
+            },
+            'user' => {
+              'ensure' => 'present',
+              'owner' => 'user',
+              'group' => 'group',
+              'path'  => '/home/user/.ssh/config',
+              'host'  => 'test_host2',
+              'order' => 242,
+              'lines' => ['ForwardX11 no', 'StrictHostKeyChecking no'],
+            },
+          }
         }
-      }
+      end
+
+      it { is_expected.to have_ssh__config_entry_resource_count(2) }
+      it do
+        is_expected.to contain_ssh__config_entry('root').only_with(
+          {
+            'ensure' => 'absent',
+            'owner'  => 'root',
+            'group'  => 'root',
+            'path'   => '/root/.ssh/config',
+            'order'  => 3,
+            'host'   => 'test_host1',
+            'lines'  => ['Invalid value'],
+          },
+        )
+      end
+      it do
+        is_expected.to contain_ssh__config_entry('user').only_with(
+          {
+            'ensure' => 'present',
+            'owner'  => 'user',
+            'group'  => 'group',
+            'path'   => '/home/user/.ssh/config',
+            'host'   => 'test_host2',
+            'order'  => 242,
+            'lines'  => ['ForwardX11 no', 'StrictHostKeyChecking no'],
+          },
+        )
+      end
+
+      # tests needed to reach 100% resource coverage
+      it { is_expected.to contain_file('sshd_config') }
+      it { is_expected.to contain_concat__fragment('/home/user/.ssh/config Host test_host2') }
+      it { is_expected.to contain_concat('/home/user/.ssh/config') }
+      it { is_expected.to contain_concat__fragment('/root/.ssh/config Host test_host1') }
+      it { is_expected.to contain_concat('/root/.ssh/config') }
     end
 
-    it { is_expected.to compile.with_all_deps }
-    it { is_expected.to have_ssh__config_entry_resource_count(2) }
-    it do
-      is_expected.to contain_ssh__config_entry('root').with(
-        {
-          'owner' => 'root',
-          'group' => 'root',
-          'path'  => '/root/.ssh/config',
-          'host'  => 'test_host1',
-        },
-      )
-    end
-    it do
-      is_expected.to contain_ssh__config_entry('user').with(
-        {
-          'owner' => 'user',
-          'group' => 'group',
-          'path'  => '/home/user/.ssh/config',
-          'host'  => 'test_host2',
-          'order' => 242,
-          'lines' => ['ForwardX11 no', 'StrictHostKeyChecking no'],
-        },
-      )
-    end
-  end
+    context "on #{os} with config_group set to valid value test" do
+      let(:params) { { config_group: 'test' } }
 
-  context 'with keys defined' do
-    let(:params) do
-      {
-        keys: {
-          'root_for_userX' => {
+      it { is_expected.to contain_file('ssh_config').with_group('test') }
+    end
+
+    context "on #{os} with config_group set to valid value 0242" do
+      let(:params) { { config_mode: '0242' } }
+
+      it { is_expected.to contain_file('ssh_config').with_mode('0242') }
+    end
+
+    context "on #{os} with config_owner set to valid value test" do
+      let(:params) { { config_owner: 'test' } }
+
+      it { is_expected.to contain_file('ssh_config').with_owner('test') }
+    end
+
+    context "on #{os} with config_path set to valid value /unit/test" do
+      let(:params) { { config_path: '/unit/test' } }
+
+      it { is_expected.to contain_file('ssh_config').with_path('/unit/test') }
+    end
+
+    context "on #{os} with global_known_hosts_group set to valid value test" do
+      let(:params) { { global_known_hosts_group: 'test' } }
+
+      it { is_expected.to contain_file('ssh_known_hosts').with_group('test') }
+    end
+
+    context "on #{os} with global_known_hosts_group set to valid value 0242" do
+      let(:params) { { global_known_hosts_mode: '0242' } }
+
+      it { is_expected.to contain_file('ssh_known_hosts').with_mode('0242') }
+    end
+
+    context "on #{os} with global_known_hosts_owner set to valid value test" do
+      let(:params) { { global_known_hosts_owner: 'test' } }
+
+      it { is_expected.to contain_file('ssh_known_hosts').with_owner('test') }
+    end
+
+    context "on #{os} with global_known_hosts_path set to valid value /unit/test" do
+      let(:params) { { global_known_hosts_path: '/unit/test' } }
+
+      it { is_expected.to contain_file('ssh_known_hosts').with_path('/unit/test') }
+    end
+
+    context "on #{os} with host set to valid value unit.test.domain" do
+      let(:params) { { host: 'unit.test.domain' } }
+
+      it { is_expected.to contain_file('ssh_config').with_content(%r{Host unit.test.domain}) }
+    end
+
+    context "on #{os} with keys set to valid hash" do
+      let(:params) do
+        {
+          keys: {
+            'root_for_userX' => {
+              'ensure' => 'present',
+              'user'   => 'root',
+              'type'   => 'dsa',
+              'key'    => 'AAAA==',
+            },
+            'apache_hup' => {
+              'ensure'  => 'present',
+              'user'    => 'apachehup',
+              'type'    => 'dsa',
+              'key'     => 'AAAA==',
+              'options' => 'command="/sbin/service httpd restart"',
+            },
+          }
+        }
+      end
+
+      it { is_expected.to have_ssh_authorized_key_resource_count(2) }
+
+      it do
+        is_expected.to contain_ssh_authorized_key('root_for_userX').only_with(
+          {
             'ensure' => 'present',
             'user'   => 'root',
             'type'   => 'dsa',
             'key'    => 'AAAA==',
           },
-          'apache_hup' => {
+        )
+      end
+
+      it do
+        is_expected.to contain_ssh_authorized_key('apache_hup').only_with(
+          {
             'ensure'  => 'present',
             'user'    => 'apachehup',
             'type'    => 'dsa',
             'key'     => 'AAAA==',
             'options' => 'command="/sbin/service httpd restart"',
           },
-          'root_for_userY' => {
-            'ensure' => 'absent',
-            'user'   => 'root',
-          }
-        }
-      }
+        )
+      end
     end
 
-    it { is_expected.to compile.with_all_deps }
+    context "on #{os} with manage_root_ssh_config set to valid true" do
+      let(:params) { { manage_root_ssh_config: true } }
 
-    it {
-      is_expected.to contain_ssh_authorized_key('root_for_userX').with(
-        {
-          'ensure' => 'present',
-          'user'   => 'root',
-          'type'   => 'dsa',
-          'key'    => 'AAAA==',
-        },
-      )
-    }
+      it do
+        is_expected.to contain_exec('mkdir_p-/root/.ssh').only_with(
+          {
+            'command' => 'mkdir -p /root/.ssh',
+            'unless'  => 'test -d /root/.ssh',
+            'path'    => '/bin:/usr/bin',
+          },
+        )
+      end
 
-    it {
-      is_expected.to contain_ssh_authorized_key('apache_hup').with(
-        {
-          'ensure'  => 'present',
-          'user'    => 'apachehup',
-          'type'    => 'dsa',
-          'key'     => 'AAAA==',
-          'options' => 'command="/sbin/service httpd restart"',
-        },
-      )
-    }
+      it do
+        is_expected.to contain_file('root_ssh_dir').only_with(
+          {
+            'ensure'  => 'directory',
+            'path'    => '/root/.ssh',
+            'owner'   => 'root',
+            'group'   => 'root',
+            'mode'    => '0700',
+            'require' => 'Exec[mkdir_p-/root/.ssh]',
+          },
+        )
+      end
 
-    it {
-      is_expected.to contain_ssh_authorized_key('root_for_userY').with(
+      it do
+        is_expected.to contain_file('root_ssh_config').only_with(
+          {
+            'ensure'  => 'file',
+            'path'    => '/root/.ssh/config',
+            'content' => "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
+            'owner'   => 'root',
+            'group'   => 'root',
+            'mode'    => '0600',
+          },
+        )
+      end
+    end
+
+    context "on #{os} with manage_server set to valid false" do
+      let(:params) { { manage_server: false } }
+
+      it { is_expected.not_to contain_class('ssh::server') }
+    end
+
+    context "on #{os} with package_adminfile set to valid /unit/test" do
+      let(:params) { { package_adminfile: '/unit/test' } }
+
+      it { is_expected.to contain_package('openssh-clients').with_adminfile('/unit/test') }
+    end
+
+    context "on #{os} with packages set to valid array [array, of, strings]" do
+      let(:params) { { packages: ['array', 'of', 'strings'] } }
+
+      it { is_expected.to have_package_resource_count(4) } # test cases + openssh-server from ssh::server
+      it { is_expected.to contain_package('array') }
+      it { is_expected.to contain_package('of') }
+      it { is_expected.to contain_package('strings') }
+    end
+
+    context "on #{os} with package_source set to valid /unit/test" do
+      let(:params) { { package_source: '/unit/test' } }
+
+      it { is_expected.to contain_package('openssh-clients').with_source('/unit/test') }
+    end
+
+    context "on #{os} with purge_keys set to valid false" do
+      let(:params) { { purge_keys: false } }
+
+      it { is_expected.to contain_resources('sshkey').with_purge('false') }
+    end
+
+    context "on #{os} with root_ssh_config_content set to valid #unit test (when manage_root_ssh_config is true)" do
+      let(:params) do
         {
-          'ensure' => 'absent',
-          'user'   => 'root',
-        },
-      )
-    }
+          root_ssh_config_content: '#unit test',
+          manage_root_ssh_config: true,
+        }
+      end
+
+      it { is_expected.to contain_file('root_ssh_config').with_content('#unit test') }
+    end
   end
 end

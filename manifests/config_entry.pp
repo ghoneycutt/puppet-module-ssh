@@ -34,7 +34,7 @@ define ssh::config_entry (
 
   if ! defined(Concat[$path]) {
     concat { $path:
-      ensure         => present,
+      ensure         => $ensure,
       owner          => $owner,
       group          => $group,
       mode           => '0644',

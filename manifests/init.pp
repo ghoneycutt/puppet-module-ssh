@@ -3,43 +3,39 @@
 # Notes: `Match` and `Host` attributes are not directly supported as multiple
 # match/host blocks can exist. Use the `custom` parameter for that.
 #
-# @param packages
-#
-# @param package_source
-#
-# @param package_adminfile
-#
-# @param config_path
-#
-# @param config_owner
+# @param config_entries
 #
 # @param config_group
 #
 # @param config_mode
 #
-# @param global_known_hosts
+# @param config_owner
 #
-# @param global_known_hosts_owner
+# @param config_path
 #
 # @param global_known_hosts_group
 #
 # @param global_known_hosts_mode
 #
-# @param manage_root_ssh_config
+# @param global_known_hosts_owner
 #
-# @param root_ssh_config_content
-#
-# @param manage_server
-#
-# @param purge_keys
-#
-# @param ssh_key_ensure
-#
-# @param ssh_key_type
+# @param global_known_hosts_path
 #
 # @param keys
 #
-# @param config_entries
+# @param manage_root_ssh_config
+#
+# @param manage_server
+#
+# @param package_adminfile
+#
+# @param packages
+#
+# @param package_source
+#
+# @param purge_keys
+#
+# @param root_ssh_config_content
 #
 # @param host
 #
@@ -224,25 +220,23 @@
 # @param custom
 #
 class ssh (
-  Optional[Array[String[1]]] $packages = [],
-  Optional[Stdlib::Absolutepath] $package_source = undef,
-  Optional[Stdlib::Absolutepath] $package_adminfile = undef,
-  Stdlib::Absolutepath $config_path = '/etc/ssh/ssh_config',
-  String[1] $config_owner = 'root',
+  Hash $config_entries = {},
   String[1] $config_group = 'root',
   Stdlib::Filemode $config_mode = '0644',
-  Stdlib::Absolutepath $global_known_hosts = '/etc/ssh/ssh_known_hosts',
-  String[1] $global_known_hosts_owner = 'root',
+  String[1] $config_owner = 'root',
+  Stdlib::Absolutepath $config_path = '/etc/ssh/ssh_config',
   String[1] $global_known_hosts_group = 'root',
   Stdlib::Filemode $global_known_hosts_mode = '0644',
-  Boolean $manage_root_ssh_config = false,
-  String[1] $root_ssh_config_content = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
-  Boolean $manage_server = true,
-  Boolean $purge_keys = true,
-  Enum['present', 'absent'] $ssh_key_ensure = 'present',
-  Ssh::Key::Type $ssh_key_type = 'ssh-rsa',
+  String[1] $global_known_hosts_owner = 'root',
+  Stdlib::Absolutepath $global_known_hosts_path = '/etc/ssh/ssh_known_hosts',
   Hash $keys = {},
-  Hash $config_entries = {},
+  Boolean $manage_root_ssh_config = false,
+  Boolean $manage_server = true,
+  Optional[Stdlib::Absolutepath] $package_adminfile = undef,
+  Optional[Array[String[1]]] $packages = [],
+  Optional[Stdlib::Absolutepath] $package_source = undef,
+  Boolean $purge_keys = true,
+  String[1] $root_ssh_config_content = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
   # class parameters below this line directly correlate with ssh_config parameters
   String[1] $host = '*',
   Optional[Enum['yes', 'no', 'ask', 'confirm']] $add_keys_to_agent = undef,
@@ -393,17 +387,9 @@ class ssh (
     }
   }
 
-  # If either IPv4 or IPv6 stack is not configured on the agent, the
-  # corresponding $::ipaddress(6)? fact is not present. So, we cannot assume
-  # these variables are defined. Getvar (Stdlib 4.13+, ruby 1.8.7+) handles
-  # this correctly.
-  if getvar('::ipaddress') and getvar('::ipaddress6') { $host_aliases = [$::hostname, $::ipaddress, $::ipaddress6] }
-  elsif getvar('::ipaddress6') { $host_aliases = [$::hostname, $::ipaddress6] }
-  else { $host_aliases = [$::hostname, $::ipaddress] }
-
   file { 'ssh_known_hosts':
     ensure => file,
-    path   => $global_known_hosts,
+    path   => $global_known_hosts_path,
     owner  => $global_known_hosts_owner,
     group  => $global_known_hosts_group,
     mode   => $global_known_hosts_mode,
