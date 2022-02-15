@@ -107,12 +107,13 @@ describe 'ssh::server' do
       it { is_expected.to contain_package('openssh-server').with_adminfile('/unit/test') }
     end
 
-    context "on #{os} with packages set to valid array [unit, test]" do
-      let(:params) { { packages: ['unit', 'test'] } }
+    context "on #{os} with packages set to valid array [array, of, strings]" do
+      let(:params) { { packages: ['array', 'of', 'strings'] } }
 
-      it { is_expected.to have_package_resource_count(2) }
-      it { is_expected.to contain_package('unit') }
-      it { is_expected.to contain_package('test') }
+      it { is_expected.to have_package_resource_count(3) }
+      it { is_expected.to contain_package('array') }
+      it { is_expected.to contain_package('of') }
+      it { is_expected.to contain_package('strings') }
     end
 
     context "on #{os} with package_source set to valid /unit/test" do

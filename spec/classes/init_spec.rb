@@ -60,16 +60,21 @@ describe 'ssh' do
     case "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['full']}"
     when %r{CentOS.*}, %r{OracleLinux.*}, %r{RedHat.*}, %r{Scientific.*}
       packages_default = ['openssh-clients']
+      packages_server  = ['openssh-server']
     when %r{SLED.*}, %r{SLES.*}
       packages_default = ['openssh']
+      packages_server  = []
     when %r{Debian.*}, %r{Ubuntu.*}
       packages_default = ['openssh-client']
+      packages_server  = ['openssh-server']
     when %r{Solaris-9.*}, %r{Solaris-10.*}
       packages_default    = ['SUNWsshcu', 'SUNWsshr', 'SUNWsshu']
       packages_ssh_source = '/var/spool/pkg'
+      packages_server     = ['SUNWsshdr', 'SUNWsshdu']
     when %r{Solaris-11.*}
       packages_default    = ['network/ssh', 'network/ssh/ssh-key']
       packages_ssh_source = nil
+      packages_server     = ['service/network/ssh']
     end
 
     describe "on #{os} with default values for parameters" do
@@ -136,6 +141,13 @@ describe 'ssh' do
       it { is_expected.to have_ssh__config_entry_resource_count(0) }
       it { is_expected.to have_ssh_authorized_key_resource_count(0) }
       it { is_expected.to contain_class('ssh::server') }
+
+      # tests needed to reach 100% resource coverage
+      it { is_expected.to contain_file('sshd_config') }
+      it { is_expected.to contain_service('sshd_service') }
+      packages_server.each do |package|
+        it { is_expected.to contain_package(package) }
+      end
     end
   end
 
@@ -205,6 +217,13 @@ describe 'ssh' do
           },
         )
       end
+
+      # tests needed to reach 100% resource coverage
+      it { is_expected.to contain_file('sshd_config') }
+      it { is_expected.to contain_concat__fragment('/home/user/.ssh/config Host test_host2') }
+      it { is_expected.to contain_concat('/home/user/.ssh/config') }
+      it { is_expected.to contain_concat__fragment('/root/.ssh/config Host test_host1') }
+      it { is_expected.to contain_concat('/root/.ssh/config') }
     end
 
     context "on #{os} with config_group set to valid value test" do
@@ -360,12 +379,13 @@ describe 'ssh' do
       it { is_expected.to contain_package('openssh-clients').with_adminfile('/unit/test') }
     end
 
-    context "on #{os} with packages set to valid array [unit, test]" do
-      let(:params) { { packages: ['unit', 'test'] } }
+    context "on #{os} with packages set to valid array [array, of, strings]" do
+      let(:params) { { packages: ['array', 'of', 'strings'] } }
 
-      it { is_expected.to have_package_resource_count(3) } # [unit, test] + [openssh-server] from ssh::server
-      it { is_expected.to contain_package('unit') }
-      it { is_expected.to contain_package('test') }
+      it { is_expected.to have_package_resource_count(4) } # test cases + openssh-server from ssh::server
+      it { is_expected.to contain_package('array') }
+      it { is_expected.to contain_package('of') }
+      it { is_expected.to contain_package('strings') }
     end
 
     context "on #{os} with package_source set to valid /unit/test" do
