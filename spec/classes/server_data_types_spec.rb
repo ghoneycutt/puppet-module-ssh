@@ -6,16 +6,44 @@ describe 'ssh::server' do
     let(:facts) { { os: { family: 'UnitTesting' } } }
 
     validations = {
-      'Stdlib::Absolutepath (optional)' => {
-        name:     ['package_adminfile', 'package_source'],
-        valid:    ['/absolute/filepath', '/absolute/directory/', :undef],
-        invalid:  ['../invalid', ['array'], { 'ha' => 'sh' }, 3, 2.42, false],
-        message: 'expects a (match for|match for Stdlib::Absolutepath =|Stdlib::Absolutepath =) Variant\[Stdlib::Windowspath.*Stdlib::Unixpath',
+      'Array of Stdlib::Port (optional)' => {
+        name:     ['port'],
+        valid:    [[0], [242, 65_535], :undef],
+        invalid:  ['string', ['array'], { 'ha' => 'sh' }, -1, 2.42, 65_536, false],
+        message: 'expects a value of type Undef or Array|Error while evaluating a Resource Statement',
+      },
+      'Array of strings (optional)' => {
+        name:     ['accept_env', 'allow_groups', 'allow_users', 'authentication_methods',
+                   'authorized_keys_file', 'ca_signature_algorithms', 'ciphers', 'custom',
+                   'deny_groups', 'deny_users', 'host_key', 'host_key_algorithms',
+                   'hostbased_accepted_key_types', 'kex_algorithms', 'listen_address', 'macs',
+                   'permit_listen', 'pubkey_accepted_key_types', 'set_env'],
+        valid:    [['array', 'of', 'strings'], :undef],
+        invalid:  ['string', { 'ha' => 'sh' }, 3, 2.42, false, [0]],
+        message: 'Undef or Array|expects a String value|Error while evaluating a Resource Statement',
+      },
+      'Boolean' => {
+        name:     ['manage_service', 'service_enable', 'service_hasrestart', 'service_hasstatus'],
+        valid:    [true, false],
+        invalid:  ['string', ['array'], { 'ha' => 'sh' }, 3, 2.42, 'false', nil],
+        message: 'expects a Boolean',
+      },
+      'Ssh::Log_level (optional)' => {
+        name:     ['log_level'],
+        valid:    ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE', 'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3', :undef],
+        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false, 'INFO1'],
+        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
       },
       'Stdlib::Absolutepath' => {
         name:     ['banner_path', 'config_path'],
         valid:    ['/absolute/filepath', '/absolute/directory/'],
         invalid:  ['../invalid', ['array'], { 'ha' => 'sh' }, 3, 2.42, false, nil],
+        message: 'expects a (match for|match for Stdlib::Absolutepath =|Stdlib::Absolutepath =) Variant\[Stdlib::Windowspath.*Stdlib::Unixpath',
+      },
+      'Stdlib::Absolutepath (optional)' => {
+        name:     ['package_adminfile', 'package_source'],
+        valid:    ['/absolute/filepath', '/absolute/directory/', :undef],
+        invalid:  ['../invalid', ['array'], { 'ha' => 'sh' }, 3, 2.42, false],
         message: 'expects a (match for|match for Stdlib::Absolutepath =|Stdlib::Absolutepath =) Variant\[Stdlib::Windowspath.*Stdlib::Unixpath',
       },
       'Stdlib::Ensure::Service' => {
@@ -30,11 +58,16 @@ describe 'ssh::server' do
         invalid:  [2770, '0844', '00644', 'string', ['array'], { 'ha' => 'sh' }, 3, 2.42, false, nil],
         message: 'expects a match for Stdlib::Filemode|Error while evaluating a Resource Statement',
       },
-      'Array of Stdlib::Port (optional)' => {
-        name:     ['port'],
-        valid:    [[0], [242, 65_535], :undef],
-        invalid:  ['string', ['array'], { 'ha' => 'sh' }, -1, 2.42, 65_536, false],
-        message: 'expects a value of type Undef or Array|Error while evaluating a Resource Statement',
+      'String (optional)' => {
+        name:     ['authorized_keys_command', 'authorized_keys_command_user',
+                   'authorized_principals_command', 'authorized_principals_command_user',
+                   'authorized_principals_file', 'banner', 'banner_content', 'chroot_directory',
+                   'force_command', 'host_certificate', 'host_key_agent', 'ip_qos', 'max_startups',
+                   'permit_user_environment', 'pid_file', 'rdomain', 'rekey_limit', 'revoked_keys',
+                   'subsystem', 'trusted_user_ca_keys', 'version_addendum', 'xauth_location'],
+        valid:    ['string', :undef],
+        invalid:  [['array'], { 'ha' => 'sh' }, 3, 2.42, false],
+        message: 'expects a value of type Undef or String',
       },
       'String or Array of strings' => {
         name:     ['packages'],
@@ -42,44 +75,28 @@ describe 'ssh::server' do
         invalid:  [{ 'ha' => 'sh' }, 3, 2.42, false, [0]],
         message: 'String or Array|expects a String value|Error while evaluating a Resource Statement',
       },
-      'Array of strings (optional)' => {
-        name:     ['accept_env', 'allow_groups', 'allow_users', 'authentication_methods',
-                   'authorized_keys_file', 'ca_signature_algorithms', 'ciphers', 'custom',
-                   'deny_groups', 'deny_users', 'host_key', 'host_key_algorithms',
-                   'hostbased_accepted_key_types', 'kex_algorithms', 'listen_address', 'macs',
-                   'permit_listen', 'pubkey_accepted_key_types', 'set_env'],
-        valid:    [['array', 'of', 'strings'], :undef],
-        invalid:  ['string', { 'ha' => 'sh' }, 3, 2.42, false, [0]],
-        message: 'Undef or Array|expects a String value|Error while evaluating a Resource Statement',
-      },
-      'integer => 0 (optional)' => {
-        name:     ['client_alive_count_max', 'client_alive_interval', 'login_grace_time', 'max_sessions', 'x11_display_offset'],
-        valid:    [0, 1, 23, :undef],
-        invalid:  ['string', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
-        message: 'Undef or Integer|Error while evaluating a Resource Statement',
-      },
-      'integer => 2 (optional)' => {
-        name:     ['max_auth_tries'],
-        valid:    [2, 23, :undef],
-        invalid:  ['string', ['array'], { 'ha' => 'sh' }, -1, 2.42, 0, 1, false],
-        message: 'Undef or Integer|Error while evaluating a Resource Statement',
-      },
-      'four digit octal (optional) for umask' => {
-        name:     ['stream_local_bind_mask'],
-        valid:    ['0000', '1234', '7777', :undef],
-        invalid:  ['string', ['array'], { 'ha' => 'sh' }, -1, 2.42, false, '00000', 'x234', '77e1', '011'],
-        message: 'Error while evaluating a Resource Statement',
-      },
-      'enumeration of valid strings for permit_root_login (optional)' => {
-        name:     ['permit_root_login'],
-        valid:    ['yes', 'prohibit-password', 'without-password', 'forced-commands-only', 'no', :undef],
+      'enumeration of valid strings for address_family (optional)' => {
+        name:     ['address_family'],
+        valid:    ['any', 'inet', 'inet6', :undef],
         invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
         message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
       },
-      'enumeration of valid strings for syslog_facility (optional)' => {
-        name:     ['syslog_facility'],
-        valid:    ['DAEMON', 'USER', 'AUTH', 'LOCAL0', 'LOCAL1', 'LOCAL2', 'LOCAL3', 'LOCAL4', 'LOCAL5', 'LOCAL6', 'LOCAL7', 'AUTHPRIV', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false, 'USER0', 'daemon'],
+      'enumeration of valid strings for allow_stream_local_forwarding (optional)' => {
+        name:     ['allow_stream_local_forwarding'],
+        valid:    ['yes', 'all', 'no', 'local', 'remote', :undef],
+        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
+        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
+      },
+      'enumeration of valid strings for allow_tcp_forwarding (optional)' => {
+        name:     ['allow_tcp_forwarding'],
+        valid:    ['yes', 'no', 'local', 'remote', :undef],
+        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
+        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
+      },
+      'enumeration of valid strings for compression (optional)' => {
+        name:     ['compression'],
+        valid:    ['yes', 'no', 'delayed', :undef],
+        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
         message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
       },
       'enumeration of valid strings for fingerprint_hash (optional)' => {
@@ -94,21 +111,9 @@ describe 'ssh::server' do
         invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
         message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
       },
-      'enumeration of valid strings for allow_stream_local_forwarding (optional)' => {
-        name:     ['allow_stream_local_forwarding'],
-        valid:    ['yes', 'all', 'no', 'local', 'remote', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
-        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
-      },
-      'enumeration of valid strings for compression (optional)' => {
-        name:     ['compression'],
-        valid:    ['yes', 'no', 'delayed', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
-        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
-      },
-      'enumeration of valid strings for allow_tcp_forwarding (optional)' => {
-        name:     ['allow_tcp_forwarding'],
-        valid:    ['yes', 'no', 'local', 'remote', :undef],
+      'enumeration of valid strings for permit_root_login (optional)' => {
+        name:     ['permit_root_login'],
+        valid:    ['yes', 'prohibit-password', 'without-password', 'forced-commands-only', 'no', :undef],
         invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
         message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
       },
@@ -118,11 +123,29 @@ describe 'ssh::server' do
         invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
         message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
       },
-      'enumeration of valid strings for address_family (optional)' => {
-        name:     ['address_family'],
-        valid:    ['any', 'inet', 'inet6', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
+      'enumeration of valid strings for syslog_facility (optional)' => {
+        name:     ['syslog_facility'],
+        valid:    ['DAEMON', 'USER', 'AUTH', 'LOCAL0', 'LOCAL1', 'LOCAL2', 'LOCAL3', 'LOCAL4', 'LOCAL5', 'LOCAL6', 'LOCAL7', 'AUTHPRIV', :undef],
+        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false, 'USER0', 'daemon'],
         message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
+      },
+      'four digit octal (optional) for umask' => {
+        name:     ['stream_local_bind_mask'],
+        valid:    ['0000', '1234', '7777', :undef],
+        invalid:  ['string', ['array'], { 'ha' => 'sh' }, -1, 2.42, false, '00000', 'x234', '77e1', '011'],
+        message: 'Error while evaluating a Resource Statement',
+      },
+      'integer => 0 (optional)' => {
+        name:     ['client_alive_count_max', 'client_alive_interval', 'login_grace_time', 'max_sessions', 'x11_display_offset'],
+        valid:    [0, 1, 23, :undef],
+        invalid:  ['string', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
+        message: 'Undef or Integer|Error while evaluating a Resource Statement',
+      },
+      'integer => 2 (optional)' => {
+        name:     ['max_auth_tries'],
+        valid:    [2, 23, :undef],
+        invalid:  ['string', ['array'], { 'ha' => 'sh' }, -1, 2.42, 0, 1, false],
+        message: 'Undef or Integer|Error while evaluating a Resource Statement',
       },
       'yes or no (optional)' => {
         name:     ['allow_agent_forwarding', 'challenge_response_authentication',
@@ -138,29 +161,6 @@ describe 'ssh::server' do
         valid:    ['yes', 'no', :undef],
         invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false, 'YES', 'No'],
         message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
-      },
-      'Ssh::Log_level (optional)' => {
-        name:     ['log_level'],
-        valid:    ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE', 'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3', :undef],
-        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false, 'INFO1'],
-        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
-      },
-      'Boolean' => {
-        name:     ['manage_service', 'service_enable', 'service_hasrestart', 'service_hasstatus'],
-        valid:    [true, false],
-        invalid:  ['string', ['array'], { 'ha' => 'sh' }, 3, 2.42, 'false', nil],
-        message: 'expects a Boolean',
-      },
-      'String (optional)' => {
-        name:     ['authorized_keys_command', 'authorized_keys_command_user',
-                   'authorized_principals_command', 'authorized_principals_command_user',
-                   'authorized_principals_file', 'banner', 'banner_content', 'chroot_directory',
-                   'force_command', 'host_certificate', 'host_key_agent', 'ip_qos', 'max_startups',
-                   'permit_user_environment', 'pid_file', 'rdomain', 'rekey_limit', 'revoked_keys',
-                   'subsystem', 'trusted_user_ca_keys', 'version_addendum', 'xauth_location'],
-        valid:    ['string', :undef],
-        invalid:  [['array'], { 'ha' => 'sh' }, 3, 2.42, false],
-        message: 'expects a value of type Undef or String',
       },
     }
 
