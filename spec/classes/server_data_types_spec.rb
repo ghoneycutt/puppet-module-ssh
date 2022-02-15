@@ -17,7 +17,7 @@ describe 'ssh::server' do
                    'authorized_keys_file', 'ca_signature_algorithms', 'ciphers', 'custom',
                    'deny_groups', 'deny_users', 'host_key', 'host_key_algorithms',
                    'hostbased_accepted_key_types', 'kex_algorithms', 'listen_address', 'macs',
-                   'permit_listen', 'pubkey_accepted_key_types', 'set_env'],
+                   'packages', 'permit_listen', 'pubkey_accepted_key_types', 'set_env'],
         valid:    [['array', 'of', 'strings'], :undef],
         invalid:  ['string', { 'ha' => 'sh' }, 3, 2.42, false, [0]],
         message: 'Undef or Array|expects a String value|Error while evaluating a Resource Statement',
@@ -68,12 +68,6 @@ describe 'ssh::server' do
         valid:    ['string', :undef],
         invalid:  [['array'], { 'ha' => 'sh' }, 3, 2.42, false],
         message: 'expects a value of type Undef or String',
-      },
-      'String or Array of strings' => {
-        name:     ['packages'],
-        valid:    ['strings', ['array', 'of', 'strings']],
-        invalid:  [{ 'ha' => 'sh' }, 3, 2.42, false, [0]],
-        message: 'String or Array|expects a String value|Error while evaluating a Resource Statement',
       },
       'enumeration of valid strings for address_family (optional)' => {
         name:     ['address_family'],
