@@ -218,7 +218,7 @@
 # @param custom
 #
 class ssh::server (
-  Variant[String[1], Array[String[1]]] $packages = [],
+  Optional[Array[String[1]]] $packages = [],
   Optional[Stdlib::Absolutepath] $package_source = undef,
   Optional[Stdlib::Absolutepath] $package_adminfile = undef,
   Stdlib::Absolutepath $config_path = '/etc/ssh/sshd_config',
