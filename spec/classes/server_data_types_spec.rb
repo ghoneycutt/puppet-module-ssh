@@ -71,7 +71,7 @@ describe 'ssh::server' do
       },
       'String or Array of strings' => {
         name:     ['packages'],
-        valid:    ['string', ['array', 'of', 'strings']],
+        valid:    ['strings', ['array', 'of', 'strings']],
         invalid:  [{ 'ha' => 'sh' }, 3, 2.42, false, [0]],
         message: 'String or Array|expects a String value|Error while evaluating a Resource Statement',
       },
