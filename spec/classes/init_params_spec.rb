@@ -9,7 +9,7 @@ describe 'ssh' do
     |Host *
   END
 
-  # parameter for ssh_config aren't OS dependent, so we use a fictional OS without any default values
+  # these tests are OS independent, so we use a fictional OS without any default values
   let(:facts) { { os: { family: 'UnitTesting' } } }
 
   parameters = {
