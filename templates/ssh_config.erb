@@ -385,8 +385,8 @@ Host <%= @host %>
 <% if @user_known_hosts_file != nil -%>
   UserKnownHostsFile <%= @user_known_hosts_file.join(' ') %>
 <% end -%>
-<% if @use_roaming_real != nil -%>
-  UseRoaming <%= @use_roaming_real %>
+<% if @use_roaming != nil -%>
+  UseRoaming <%= @use_roaming %>
 <% end -%>
 <% if @verify_host_key_dns != nil -%>
   VerifyHostKeyDNS <%= @verify_host_key_dns %>

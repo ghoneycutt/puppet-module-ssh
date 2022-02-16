@@ -482,6 +482,7 @@ class ssh (
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   case $::osfamily {
 =======
   # TODO: This huge case statement is getting transitioned to hiera
@@ -1400,6 +1401,8 @@ class ssh (
 =======
 =======
 >>>>>>> f628824 (Refactor parameters that allow multiple values to accept only arrays)
+=======
+>>>>>>> d56aa55 (Remove automatic choosing of UseRoaming by running SSH version)
   package { $packages:
 >>>>>>> db859ce (Move data from main class to hiera)
     ensure    => installed,

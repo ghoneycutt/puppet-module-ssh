@@ -2977,61 +2977,6 @@ describe 'sshd_config_print_last_log param' do
 >>>>>>> 88c28a8 (Remove export/import functionality for SSH keys)
 =======
   on_supported_os.sort.each do |os, os_facts|
-    # OS specific SSH version facts
-    case "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}"
-    when 'CentOS-5', 'OracleLinux-5', 'RedHat-5', 'Scientific-5'
-      ssh_version = 'OpenSSH_4.3p2'
-      ssh_version_numeric = '4.3'
-    when 'CentOS-6', 'OracleLinux-6', 'RedHat-6', 'Scientific-6'
-      ssh_version = 'OpenSSH_5.3p1'
-      ssh_version_numeric = '5.3'
-    when 'CentOS-7', 'OracleLinux-7', 'RedHat-7', 'Scientific-7'
-      ssh_version = 'OpenSSH_6.6p1'
-      ssh_version_numeric = '6.6'
-    when 'SLED-10', 'SLES-10'
-      ssh_version = 'OpenSSH_5.1p1'
-      ssh_version_numeric = '5.1'
-    when 'SLED-11', 'SLED-12', 'SLES-11', 'SLES-12'
-      ssh_version = 'OpenSSH_6.6.1p1'
-      ssh_version_numeric = '6.6'
-    when 'SLED-15', 'SLES-15'
-      ssh_version = 'OpenSSH_8.4p1'
-      ssh_version_numeric = '8.4'
-    when 'Solaris-9', 'Solaris-10', 'Solaris-11'
-      ssh_version = 'Sun_SSH_2.2'
-      ssh_version_numeric = '2.2'
-    when 'Ubuntu-14.04'
-      ssh_version = 'OpenSSH 6.6p1'
-      ssh_version_numeric = '6.6'
-    when 'Ubuntu-16.04'
-      ssh_version = 'OpenSSH_7.2p2'
-      ssh_version_numeric = '7.2'
-    when 'Ubuntu-18.04'
-      ssh_version = 'OpenSSH_7.6p1'
-      ssh_version_numeric = '7.6'
-    when 'Ubuntu-20.04'
-      ssh_version = 'OpenSSH_8.2p1'
-      ssh_version_numeric = '8.2'
-    when 'Debian-7'
-      ssh_version = 'OpenSSH_6.0p1'
-      ssh_version_numeric = '6.0'
-    when 'Debian-8'
-      ssh_version = 'OpenSSH_6.7p1'
-      ssh_version_numeric = '6.7'
-    when 'Debian-9'
-      ssh_version = 'OpenSSH_7.4p1'
-      ssh_version_numeric = '7.4'
-    when 'Debian-10'
-      ssh_version = 'OpenSSH_7.9p1'
-      ssh_version_numeric = '7.9'
-    when 'Debian-11'
-      ssh_version = 'OpenSSH_8.4p1'
-      ssh_version_numeric = '8.4'
-    else
-      ssh_version = 'UnkownSSH_2.42'
-      ssh_version_numeric = '2.42'
-    end
-
     # OS specific module defaults
     case "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['full']}"
     when %r{CentOS.*}, %r{OracleLinux.*}, %r{RedHat.*}, %r{Scientific.*}
@@ -3054,15 +2999,7 @@ describe 'sshd_config_print_last_log param' do
     end
 
     describe "on #{os} with default values for parameters" do
-      let(:facts) do
-        os_facts.merge(
-          {
-            root_home: '/root',
-            ssh_version: ssh_version,
-            ssh_version_numeric: ssh_version_numeric,
-          },
-        )
-      end
+      let(:facts) { os_facts.merge(root_home: '/root') }
 
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to contain_class('ssh') }
