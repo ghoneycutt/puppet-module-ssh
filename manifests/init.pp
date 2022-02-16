@@ -1440,6 +1440,7 @@ class ssh (
 >>>>>>> c2b2b69 (Refactor package related params in main class)
   }
 
+<<<<<<< HEAD
   file  { 'sshd_config' :
     ensure  => file,
     path    => $sshd_config_path,
@@ -1459,6 +1460,13 @@ class ssh (
       mode    => $sshd_banner_mode,
       content => $sshd_banner_content,
       require => Package[$packages_real],
+=======
+  if $manage_root_ssh_config == true {
+    exec { "mkdir_p-${::root_home}/.ssh":
+      command => "mkdir -p ${::root_home}/.ssh",
+      unless  => "test -d ${::root_home}/.ssh",
+      path    => '/bin:/usr/bin',
+>>>>>>> 3d4f17a (Remove linebreak)
     }
   }
 
