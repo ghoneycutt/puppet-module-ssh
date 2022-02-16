@@ -356,7 +356,6 @@ class ssh (
   }
 
   if $manage_root_ssh_config == true {
-
     exec { "mkdir_p-${::root_home}/.ssh":
       command => "mkdir -p ${::root_home}/.ssh",
       unless  => "test -d ${::root_home}/.ssh",
