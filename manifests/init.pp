@@ -400,18 +400,16 @@ class ssh (
   }
 
   # manage users' ssh config entries if present
-  $config_entries.each |$key,$value| {
+  $config_entries.each |$key,$values| {
     ssh::config_entry { $key:
-      * => $value,
+      * => $values,
     }
   }
 
   # manage users' ssh authorized keys if present
-  if $keys.empty == false {
-    $keys.each |$key,$value| {
-      ssh_authorized_key { $key:
-        * => $value,
-      }
+  $keys.each |$key,$values| {
+    ssh_authorized_key { $key:
+      * => $values,
     }
   }
 
