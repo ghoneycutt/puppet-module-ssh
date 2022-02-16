@@ -29,6 +29,8 @@
 #
 # @param manage_server
 #
+# @param manage_sshkey
+#
 # @param package_adminfile
 #
 # @param packages
@@ -235,6 +237,7 @@ class ssh (
   Boolean $manage_global_known_hosts = true,
   Boolean $manage_root_ssh_config = false,
   Boolean $manage_server = true,
+  Boolean $manage_sshkey = true,
   Optional[Stdlib::Absolutepath] $package_adminfile = undef,
   Optional[Array[String[1]]] $packages = [],
   Optional[Stdlib::Absolutepath] $package_source = undef,
@@ -391,8 +394,10 @@ class ssh (
   }
 
   # remove ssh key's not managed by puppet
-  resources  { 'sshkey':
-    purge => $purge_keys,
+  if $manage_sshkey == true {
+    resources  { 'sshkey':
+      purge => $purge_keys,
+    }
   }
 
   # manage users' ssh config entries if present
