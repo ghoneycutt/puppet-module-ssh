@@ -35,7 +35,7 @@ describe 'ssh' do
               'ensure'    => 'installed',
               'source'    => packages_ssh_source,
               'adminfile' => nil,
-              'before'    => ['File[ssh_config]', 'File[ssh_known_hosts]'],
+              'before'    => 'File[ssh_config]',
             },
           )
         end
@@ -63,13 +63,14 @@ describe 'ssh' do
       it { is_expected.to have_sshkey_resource_count(0) }
 
       it do
-        is_expected.to contain_file('ssh_known_hosts').only_with(
+        is_expected.to contain_file('global_known_hosts').only_with(
           {
             'ensure'  => 'file',
             'path'    => '/etc/ssh/ssh_known_hosts',
             'owner'   => 'root',
             'group'   => 'root',
             'mode'    => '0644',
+            'require' => 'File[ssh_config]',
           },
         )
       end
@@ -190,25 +191,25 @@ describe 'ssh' do
     context "on #{os} with global_known_hosts_group set to valid value test" do
       let(:params) { { global_known_hosts_group: 'test' } }
 
-      it { is_expected.to contain_file('ssh_known_hosts').with_group('test') }
+      it { is_expected.to contain_file('global_known_hosts').with_group('test') }
     end
 
     context "on #{os} with global_known_hosts_group set to valid value 0242" do
       let(:params) { { global_known_hosts_mode: '0242' } }
 
-      it { is_expected.to contain_file('ssh_known_hosts').with_mode('0242') }
+      it { is_expected.to contain_file('global_known_hosts').with_mode('0242') }
     end
 
     context "on #{os} with global_known_hosts_owner set to valid value test" do
       let(:params) { { global_known_hosts_owner: 'test' } }
 
-      it { is_expected.to contain_file('ssh_known_hosts').with_owner('test') }
+      it { is_expected.to contain_file('global_known_hosts').with_owner('test') }
     end
 
     context "on #{os} with global_known_hosts_path set to valid value /unit/test" do
       let(:params) { { global_known_hosts_path: '/unit/test' } }
 
-      it { is_expected.to contain_file('ssh_known_hosts').with_path('/unit/test') }
+      it { is_expected.to contain_file('global_known_hosts').with_path('/unit/test') }
     end
 
     context "on #{os} with host set to valid value unit.test.domain" do
@@ -262,6 +263,12 @@ describe 'ssh' do
           },
         )
       end
+    end
+
+    context "on #{os} with manage_global_known_hosts set to valid false" do
+      let(:params) { { manage_global_known_hosts: false } }
+
+      it { is_expected.not_to contain_file('global_known_hosts') }
     end
 
     context "on #{os} with manage_root_ssh_config set to valid true" do
