@@ -40,180 +40,405 @@
 # @param service_hasstatus
 #
 # @param accept_env
+#   Value(s) passed to AcceptEnv parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#AcceptEnv for possible values.
 #
 # @param address_family
+#   Value(s) passed to AddressFamily parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#AddressFamily for possible values.
 #
 # @param allow_agent_forwarding
+#   Value(s) passed to AllowAgentForwarding parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#AllowAgentForwarding for possible values.
 #
 # @param allow_groups
+#   Value(s) passed to AllowGroups parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#AllowGroups for possible values.
 #
 # @param allow_stream_local_forwarding
+#   Value(s) passed to AllowStreamLocalForwarding parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#AllowStreamLocalForwarding for possible values.
 #
 # @param allow_tcp_forwarding
+#   Value(s) passed to AllowTcpForwarding parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#AllowTcpForwarding for possible values.
 #
 # @param allow_users
+#   Value(s) passed to AllowUsers parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#AllowUsers for possible values.
 #
 # @param authentication_methods
+#   Value(s) passed to AuthenticationMethods parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#AuthenticationMethods for possible values.
 #
 # @param authorized_keys_command
+#   Value(s) passed to AuthorizedKeysCommand parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#AuthorizedKeysCommand for possible values.
 #
 # @param authorized_keys_command_user
+#   Value(s) passed to AuthorizedKeysCommandUser parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#AuthorizedKeysCommandUser for possible values.
 #
 # @param authorized_keys_file
+#   Value(s) passed to AuthorizedKeysFile parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#AuthorizedKeysFile for possible values.
 #
 # @param authorized_principals_command
+#   Value(s) passed to AuthorizedPrincipalsCommand parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#AuthorizedPrincipalsCommand for possible values.
 #
 # @param authorized_principals_command_user
+#   Value(s) passed to AuthorizedPrincipalsCommandUser parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#AuthorizedPrincipalsCommandUser for possible values.
 #
 # @param authorized_principals_file
+#   Value(s) passed to AuthorizedPrincipalsFile parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#AuthorizedPrincipalsFile for possible values.
 #
 # @param banner
+#   Value(s) passed to Banner parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#Banner for possible values.
 #
 # @param ca_signature_algorithms
+#   Value(s) passed to CASignatureAlgorithms parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#CASignatureAlgorithms for possible values.
 #
 # @param challenge_response_authentication
+#   TODO: missing in docs
+#   Value(s) passed to  parameter in ssh_config. Unused if empty.
+#   Check  for possible values.
 #
 # @param chroot_directory
+#   Value(s) passed to ChrootDirectory parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#ChrootDirectory for possible values.
 #
 # @param ciphers
+#   Value(s) passed to Ciphers parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#Ciphers for possible values.
 #
 # @param client_alive_count_max
+#   Value(s) passed to ClientAliveCountMax parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#ClientAliveCountMax for possible values.
 #
 # @param client_alive_interval
+#   Value(s) passed to ClientAliveInterval parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#ClientAliveInterval for possible values.
 #
 # @param compression
+#   Value(s) passed to Compression parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#Compression for possible values.
 #
 # @param deny_groups
+#   Value(s) passed to DenyGroups parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#DenyGroups for possible values.
 #
 # @param deny_users
+#   Value(s) passed to DenyUsers parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#DenyUsers for possible values.
 #
 # @param disable_forwarding
+#   Value(s) passed to DisableForwarding parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#DisableForwarding for possible values.
 #
 # @param expose_auth_info
+#   Value(s) passed to ExposeAuthInfo parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#ExposeAuthInfo for possible values.
 #
 # @param fingerprint_hash
+#   Value(s) passed to FingerprintHash parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#FingerprintHash for possible values.
 #
 # @param force_command
+#   Value(s) passed to ForceCommand parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#ForceCommand for possible values.
 #
 # @param gateway_ports
+#   Value(s) passed to GatewayPorts parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#GatewayPorts for possible values.
 #
 # @param gss_api_authentication
+#   Value(s) passed to GSSAPIAuthentication parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#GSSAPIAuthentication for possible values.
 #
 # @param gss_api_cleanup_credentials
+#   Value(s) passed to GSSAPICleanupCredentials parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#GSSAPICleanupCredentials for possible values.
 #
 # @param gss_api_strict_acceptor_check
+#   Value(s) passed to GSSAPIStrictAcceptorCheck parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#GSSAPIStrictAcceptorCheck for possible values.
 #
 # @param hostbased_accepted_key_types
+#   TODO: missing in docs, renamed to HostbasedAcceptedAlgorithms
+#   Value(s) passed to  parameter in ssh_config. Unused if empty.
+#   Check  for possible values.
 #
+# @param hostbased_accepted_algorithms
+#   TODO: not implemented yet, see hostbased_accepted_key_types
+#   Value(s) passed to HostbasedAcceptedAlgorithms parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#HostbasedAcceptedAlgorithms for possible values.
+
 # @param hostbased_authentication
+#   Value(s) passed to HostbasedAuthentication parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#HostbasedAuthentication for possible values.
 #
 # @param hostbased_uses_name_from_packet_only
+#   Value(s) passed to HostbasedUsesNameFromPacketOnly parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#HostbasedUsesNameFromPacketOnly for possible values.
 #
 # @param host_certificate
+#   Value(s) passed to HostCertificate parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#HostCertificate for possible values.
 #
 # @param host_key
+#   Value(s) passed to HostKey parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#HostKey for possible values.
 #
 # @param host_key_agent
+#   Value(s) passed to HostKeyAgent parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#HostKeyAgent for possible values.
 #
 # @param host_key_algorithms
+#   Value(s) passed to HostKeyAlgorithms parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#HostKeyAlgorithms for possible values.
 #
 # @param ignore_rhosts
+#   Value(s) passed to IgnoreRhosts parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#IgnoreRhosts for possible values.
 #
 # @param ignore_user_known_hosts
+#   Value(s) passed to IgnoreUserKnownHosts parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#IgnoreUserKnownHosts for possible values.
 #
 # @param include
+#   Value(s) passed to Include parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#Include for possible values.
 #
 # @param ip_qos
+#   Value(s) passed to IPQoS parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#IPQoS for possible values.
 #
 # @param kbd_interactive_authentication
+#   Value(s) passed to KbdInteractiveAuthentication parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#KbdInteractiveAuthentication for possible values.
 #
 # @param kerberos_authentication
+#   Value(s) passed to KerberosAuthentication parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#KerberosAuthentication for possible values.
 #
 # @param kerberos_get_afs_token
+#   Value(s) passed to KerberosGetAFSToken parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#KerberosGetAFSToken for possible values.
 #
 # @param kerberos_or_local_passwd
+#   Value(s) passed to KerberosOrLocalPasswd parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#KerberosOrLocalPasswd for possible values.
 #
 # @param kerberos_ticket_cleanup
+#   Value(s) passed to KerberosTicketCleanup parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#KerberosTicketCleanup for possible values.
 #
 # @param kex_algorithms
+#   Value(s) passed to KexAlgorithms parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#KexAlgorithms for possible values.
 #
 # @param listen_address
+#   Value(s) passed to ListenAddress parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#ListenAddress for possible values.
 #
 # @param login_grace_time
+#   Value(s) passed to LoginGraceTime parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#LoginGraceTime for possible values.
 #
 # @param log_level
+#   Value(s) passed to LogLevel parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#LogLevel for possible values.
+#
+# @param log_verbose
+#   TODO: not implemented yet
+#   Value(s) passed to LogVerbose parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#LogVerbose for possible values.
 #
 # @param macs
+#   Value(s) passed to MACs parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#MACs for possible values.
 #
 # @param max_auth_tries
+#   Value(s) passed to MaxAuthTries parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#MaxAuthTries for possible values.
 #
 # @param max_sessions
+#   Value(s) passed to MaxSessions parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#MaxSessions for possible values.
 #
 # @param max_startups
+#   Value(s) passed to MaxStartups parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#MaxStartups for possible values.
+#
+# @param moduli_file
+#   TODO: not implemented yet
+#   Value(s) passed to ModuliFile parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#ModuliFile for possible values.
 #
 # @param password_authentication
+#   Value(s) passed to PasswordAuthentication parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PasswordAuthentication for possible values.
 #
 # @param permit_empty_passwords
+#   Value(s) passed to PermitEmptyPasswords parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PermitEmptyPasswords for possible values.
 #
 # @param permit_listen
+#   Value(s) passed to PermitListen parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PermitListen for possible values.
+#
+# @param permit_open
+#   TODO: not implemented yet
+#   Value(s) passed to PermitOpen parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PermitOpen for possible values.
 #
 # @param permit_root_login
+#   Value(s) passed to PermitRootLogin parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PermitRootLogin for possible values.
 #
 # @param permit_tty
+#   Value(s) passed to PermitTTY parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PermitTTY for possible values.
 #
 # @param permit_tunnel
+#   Value(s) passed to PermitTunnel parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PermitTunnel for possible values.
 #
 # @param permit_user_environment
+#   Value(s) passed to PermitUserEnvironment parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PermitUserEnvironment for possible values.
 #
 # @param permit_user_rc
+#   Value(s) passed to PermitUserRC parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PermitUserRC for possible values.
+#
+# @param per_source_max_startups
+#   TODO: not implemented yet
+#   Value(s) passed to PerSourceMaxStartups parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PerSourceMaxStartups for possible values.
+#
+# @param per_source_net_block_size
+#   TODO: not implemented yet
+#   Value(s) passed to PerSourceNetBlockSize parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PerSourceNetBlockSize for possible values.
 #
 # @param pid_file
+#   Value(s) passed to PidFile parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PidFile for possible values.
 #
 # @param port
+#   Value(s) passed to Port parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#Port for possible values.
 #
 # @param print_last_log
+#   Value(s) passed to PrintLastLog parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PrintLastLog for possible values.
 #
 # @param print_motd
+#   Value(s) passed to PrintMotd parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PrintMotd for possible values.
+#
+# @param pubkey_accepted_algorithms
+#   TODO: not implemented yet
+#   Value(s) passed to PubkeyAcceptedAlgorithms parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PubkeyAcceptedAlgorithms for possible values.
 #
 # @param pubkey_accepted_key_types
+#   TODO: missing in docs
+#   Value(s) passed to  parameter in ssh_config. Unused if empty.
+#   Check  for possible values.
+#
+# @param pubkey_auth_options
+#   TODO: not implemented yet
+#   Value(s) passed to PubkeyAuthOptions parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PubkeyAuthOptions for possible values.
 #
 # @param pubkey_authentication
+#   Value(s) passed to PubkeyAuthentication parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#PubkeyAuthentication for possible values.
 #
 # @param rekey_limit
+#   Value(s) passed to RekeyLimit parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#RekeyLimit for possible values.
 #
 # @param revoked_keys
+#   Value(s) passed to RevokedKeys parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#RevokedKeys for possible values.
 #
 # @param rdomain
+#   Value(s) passed to RDomain parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#RDomain for possible values.
+#
+# @param security_key_provider
+#   TODO: not implemented yet
+#   Value(s) passed to SecurityKeyProvider parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#SecurityKeyProvider for possible values.
 #
 # @param set_env
+#   Value(s) passed to SetEnv parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#SetEnv for possible values.
 #
 # @param stream_local_bind_mask
+#   Value(s) passed to StreamLocalBindMask parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#StreamLocalBindMask for possible values.
 #
 # @param stream_local_bind_unlink
+#   Value(s) passed to StreamLocalBindUnlink parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#StreamLocalBindUnlink for possible values.
 #
 # @param strict_modes
+#   Value(s) passed to StrictModes parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#StrictModes for possible values.
 #
 # @param subsystem
+#   Value(s) passed to Subsystem parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#Subsystem for possible values.
 #
 # @param syslog_facility
+#   Value(s) passed to SyslogFacility parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#SyslogFacility for possible values.
 #
 # @param tcp_keep_alive
+#   Value(s) passed to TCPKeepAlive parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#TCPKeepAlive for possible values.
 #
 # @param trusted_user_ca_keys
+#   Value(s) passed to TrustedUserCAKeys parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#TrustedUserCAKeys for possible values.
 #
 # @param use_dns
+#   Value(s) passed to UseDNS parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#UseDNS for possible values.
 #
 # @param use_pam
+#   TODO: missing in docs
+#   Value(s) passed to  parameter in ssh_config. Unused if empty.
+#   Check  for possible values.
 #
 # @param version_addendum
+#   Value(s) passed to VersionAddendum parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#VersionAddendum for possible values.
 #
 # @param x11_display_offset
+#   Value(s) passed to X11DisplayOffset parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#X11DisplayOffset for possible values.
 #
 # @param x11_forwarding
+#   Value(s) passed to X11Forwarding parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#X11Forwarding for possible values.
 #
 # @param x11_use_localhost
+#   Value(s) passed to X11UseLocalhost parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#X11UseLocalhost for possible values.
 #
 # @param xauth_location
+#   Value(s) passed to XAuthLocation parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#XAuthLocation for possible values.
 #
 # @param custom
 #
