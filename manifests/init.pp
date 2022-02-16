@@ -26,6 +26,8 @@
 #
 # @param keys
 #
+# @param manage_global_known_hosts
+#
 # @param manage_root_ssh_config
 #
 # @param manage_server
@@ -374,6 +376,7 @@ class ssh (
   String[1] $global_known_hosts_owner = 'root',
   Stdlib::Absolutepath $global_known_hosts_path = '/etc/ssh/ssh_known_hosts',
   Hash $keys = {},
+  Boolean $manage_global_known_hosts = true,
   Boolean $manage_root_ssh_config = false,
   Boolean $manage_server = true,
   Optional[Stdlib::Absolutepath] $package_adminfile = undef,
@@ -1408,8 +1411,12 @@ class ssh (
     ensure    => installed,
     source    => $package_source,
     adminfile => $package_adminfile,
+<<<<<<< HEAD
     before    => ['File[ssh_config]', 'File[ssh_known_hosts]'],
 >>>>>>> c2b2b69 (Refactor package related params in main class)
+=======
+    before    => 'File[ssh_config]',
+>>>>>>> 89a26da (Make global_known_hosts manageable)
   }
 
   file  { 'ssh_config' :
@@ -1478,6 +1485,7 @@ class ssh (
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   if $manage_service_real {
     service { 'sshd_service' :
       ensure     => $service_ensure,
@@ -1539,6 +1547,17 @@ class ssh (
     group  => $global_known_hosts_group,
     mode   => $global_known_hosts_mode,
 >>>>>>> c2b2b69 (Refactor package related params in main class)
+=======
+  if $manage_global_known_hosts == true {
+    file { 'global_known_hosts':
+      ensure  => file,
+      path    => $global_known_hosts_path,
+      owner   => $global_known_hosts_owner,
+      group   => $global_known_hosts_group,
+      mode    => $global_known_hosts_mode,
+      require => 'File[ssh_config]',
+    }
+>>>>>>> 89a26da (Make global_known_hosts manageable)
   }
 
   # remove ssh key's not managed by puppet
