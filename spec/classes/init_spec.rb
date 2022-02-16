@@ -3293,6 +3293,12 @@ describe 'sshd_config_print_last_log param' do
       it { is_expected.not_to contain_class('ssh::server') }
     end
 
+    context "on #{os} with manage_sshkey set to valid false" do
+      let(:params) { { manage_sshkey: false } }
+
+      it { is_expected.not_to contain_resources('sshkey') }
+    end
+
     context "on #{os} with package_adminfile set to valid /unit/test" do
       let(:params) { { package_adminfile: '/unit/test' } }
 

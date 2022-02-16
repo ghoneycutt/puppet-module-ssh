@@ -18,7 +18,8 @@ describe 'ssh' do
         message: 'Undef or Array|expects a String value|Error while evaluating a Resource Statement',
       },
       'Boolean' => {
-        name:     ['manage_global_known_hosts', 'manage_root_ssh_config', 'manage_server', 'purge_keys'],
+        name:     ['manage_global_known_hosts', 'manage_root_ssh_config', 'manage_sshkey',
+                   'manage_server', 'purge_keys'],
         valid:    [true, false],
         invalid:  ['string', ['array'], { 'ha' => 'sh' }, 3, 2.42, 'false', nil],
         message: 'expects a Boolean',
