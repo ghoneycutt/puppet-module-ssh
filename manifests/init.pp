@@ -333,17 +333,6 @@ class ssh (
   Optional[Array[String[1]]] $custom = undef
 ) {
 
-  # UseRoaming should only be used if OpenSSH 5.4 is used on the client
-  if $use_roaming != undef {
-    $use_roaming_real = $use_roaming
-  } else {
-    if $::ssh_version =~ /^OpenSSH/ and versioncmp($::ssh_version_numeric, '5.3') == 1 {
-      $use_roaming_real = 'no'
-    } else {
-      $use_roaming_real = undef
-    }
-  }
-
   package { $packages:
     ensure    => installed,
     source    => $package_source,
