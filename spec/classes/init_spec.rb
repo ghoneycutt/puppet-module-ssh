@@ -2980,22 +2980,22 @@ describe 'sshd_config_print_last_log param' do
     # OS specific module defaults
     case "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['full']}"
     when %r{CentOS.*}, %r{OracleLinux.*}, %r{RedHat.*}, %r{Scientific.*}
-      packages_default = ['openssh-clients']
-      packages_server  = ['openssh-server']
+      packages_client = ['openssh-clients']
+      packages_server = ['openssh-server']
     when %r{SLED.*}, %r{SLES.*}
-      packages_default = ['openssh']
-      packages_server  = []
+      packages_client = ['openssh']
+      packages_server = []
     when %r{Debian.*}, %r{Ubuntu.*}
-      packages_default = ['openssh-client']
-      packages_server  = ['openssh-server']
+      packages_client = ['openssh-client']
+      packages_server = ['openssh-server']
     when %r{Solaris-9.*}, %r{Solaris-10.*}
-      packages_default    = ['SUNWsshcu', 'SUNWsshr', 'SUNWsshu']
+      packages_client = ['SUNWsshcu', 'SUNWsshr', 'SUNWsshu']
+      packages_server = ['SUNWsshdr', 'SUNWsshdu']
       packages_ssh_source = '/var/spool/pkg'
-      packages_server     = ['SUNWsshdr', 'SUNWsshdu']
     when %r{Solaris-11.*}
-      packages_default    = ['network/ssh', 'network/ssh/ssh-key']
+      packages_client = ['network/ssh', 'network/ssh/ssh-key']
+      packages_server = ['service/network/ssh']
       packages_ssh_source = nil
-      packages_server     = ['service/network/ssh']
     end
 
     describe "on #{os} with default values for parameters" do
@@ -3004,7 +3004,7 @@ describe 'sshd_config_print_last_log param' do
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to contain_class('ssh') }
 
-      packages_default.each do |package|
+      packages_client.each do |package|
         it do
           is_expected.to contain_package(package).only_with(
             {
