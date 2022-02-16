@@ -1584,6 +1584,7 @@ class ssh (
   }
 
   # manage users' ssh config entries if present
+<<<<<<< HEAD
   create_resources('ssh::config_entry',$config_entries_real)
 
   # manage users' ssh authorized keys if present
@@ -1593,6 +1594,18 @@ class ssh (
     } else {
       $keys_real = $keys
       notice('Future versions of the ssh module will default ssh::hiera_merge_real to true')
+=======
+  $config_entries.each |$key,$values| {
+    ssh::config_entry { $key:
+      * => $values,
+    }
+  }
+
+  # manage users' ssh authorized keys if present
+  $keys.each |$key,$values| {
+    ssh_authorized_key { $key:
+      * => $values,
+>>>>>>> 3e07f34 (Remove unneeded check for $keys, adjust naming)
     }
     validate_hash($keys_real)
     create_resources('ssh_authorized_key', $keys_real)
