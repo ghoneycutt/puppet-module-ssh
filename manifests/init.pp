@@ -155,7 +155,7 @@
 # @param fork_after_authentication
 #   Value(s) passed to ForkAfterAuthentication parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#ForkAfterAuthentication for possible values.
-
+#
 # @param forward_agent
 #   Value(s) passed to ForwardAgent parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#ForwardAgent for possible values.
