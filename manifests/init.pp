@@ -190,18 +190,12 @@
 #   Check https://man.openbsd.org/ssh_config#HashKnownHosts for possible values.
 #
 # @param hostbased_accepted_algorithms
-#   TODO: parameter not implemented yet, was hostbased_key_types in the past, see below
 #   Value(s) passed to HostbasedAcceptedAlgorithms parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#HostbasedAcceptedAlgorithms for possible values.
 #
 # @param hostbased_authentication
 #   Value(s) passed to HostbasedAuthentication parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#HostbasedAuthentication for possible values.
-#
-# @param hostbased_key_types
-#   TODO: renamed to HostbasedAcceptedAlgorithms
-#   Value(s) passed to HostbasedKeyTypes parameter in ssh_config. Unused if empty.
-#   Check https://man.openbsd.org/ssh_config#HostbasedAcceptedAlgorithms for possible values.
 #
 # @param host_key_algorithms
 #   Value(s) passed to HostKeyAlgorithms parameter in ssh_config. Unused if empty.
@@ -510,8 +504,8 @@ class ssh (
   Optional[Ssh::Yes_no] $gss_api_authentication = undef,
   Optional[Ssh::Yes_no] $gss_api_delegate_credentials = undef,
   Optional[Ssh::Yes_no] $hash_known_hosts = undef,
+  Optional[Array[String[1]]] $hostbased_accepted_algorithms = undef,
   Optional[Ssh::Yes_no] $hostbased_authentication = undef,
-  Optional[Array[String[1]]] $hostbased_key_types = undef,
   Optional[Array[String[1]]] $host_key_algorithms = undef,
   Optional[String[1]] $host_key_alias = undef,
   Optional[String[1]] $hostname = undef,
