@@ -20,7 +20,6 @@ AcceptEnv LC_TIME
 AddressFamily any
 AllowTcpForwarding yes
 Banner none
-ChallengeResponseAuthentication yes
 ClientAliveCountMax 3
 ClientAliveInterval 0
 GSSAPIAuthentication yes
@@ -29,6 +28,7 @@ HostbasedAuthentication no
 IgnoreRhosts yes
 IgnoreUserKnownHosts no
 Include /etc/ssh/sshd_config.d/*.conf
+KbdInteractiveAuthentication yes
 LoginGraceTime 120
 PasswordAuthentication yes
 PermitRootLogin yes

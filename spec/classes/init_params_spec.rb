@@ -25,7 +25,6 @@ describe 'ssh' do
     'canonicalize_permitted_cnames'        => { str: 'CanonicalizePermittedCNAMEs',       val: [['*.test.ing:*.spec.ing'], ['*.test1.ing:*.spec.ing', '*.test2.ing:*.spec.ing']], sep: ',' },
     'ca_signature_algorithms'              => { str: 'CASignatureAlgorithms',             val: [['test-242'], ['-rsa-sha2-256', '+rsa-sha2-242']], sep: ',' },
     'certificate_file'                     => { str: 'CertificateFile',                   val: [['/test/ing'], ['/test/ing1', '/test/ing2']], sep: "\n  CertificateFile " },
-    'challenge_response_authentication'    => { str: 'ChallengeResponseAuthentication',   val: ['yes', 'no'], },
     'check_host_ip'                        => { str: 'CheckHostIP',                       val: ['yes', 'no'], },
     'ciphers'                              => { str: 'Ciphers',                           val: [['test242-ctr'], ['test242-ctr', 'test512-ctr']], sep: ',' },
     'clear_all_forwardings'                => { str: 'ClearAllForwardings',               val: ['yes', 'no'], },

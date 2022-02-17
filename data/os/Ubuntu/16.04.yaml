@@ -40,7 +40,7 @@ ssh::server::accept_env:
 ssh::server::address_family: 'any'
 ssh::server::allow_tcp_forwarding: 'yes'
 ssh::server::banner: 'none'
-ssh::server::challenge_response_authentication: 'yes'
+ssh::server::kbd_interactive_authentication: 'yes'
 ssh::server::client_alive_count_max: 3
 ssh::server::client_alive_interval: 0
 ssh::server::gss_api_authentication: 'yes'

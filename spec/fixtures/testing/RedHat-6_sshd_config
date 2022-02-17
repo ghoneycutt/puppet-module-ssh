@@ -20,7 +20,6 @@ AcceptEnv LC_TIME
 AddressFamily any
 AllowTcpForwarding yes
 Banner none
-ChallengeResponseAuthentication yes
 ClientAliveCountMax 3
 ClientAliveInterval 0
 GSSAPIAuthentication yes
@@ -44,3 +43,4 @@ UsePAM yes
 X11Forwarding yes
 X11UseLocalhost yes
 XAuthLocation /usr/bin/xauth
+ChallengeResponseAuthentication yes

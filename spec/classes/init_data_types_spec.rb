@@ -156,8 +156,8 @@ describe 'ssh' do
         message: 'String or Array|expects a String value|Error while evaluating a Resource Statement',
       },
       'yes or no (optional)' => {
-        name:     ['batch_mode', 'canonicalize_fallback_local', 'challenge_response_authentication',
-                   'check_host_ip', 'clear_all_forwardings', 'compression', 'enable_ssh_keysign',
+        name:     ['batch_mode', 'canonicalize_fallback_local', 'check_host_ip',
+                   'clear_all_forwardings', 'compression', 'enable_ssh_keysign',
                    'exit_on_forward_failure', 'forward_agent', 'forward_x11_trusted', 'forward_x11',
                    'gateway_ports', 'gss_api_authentication', 'gss_api_delegate_credentials',
                    'hash_known_hosts', 'hostbased_authentication', 'identities_only',
