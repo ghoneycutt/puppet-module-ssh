@@ -9,8 +9,8 @@ describe 'ssh' do
       'Array of strings (optional)' => {
         name:     ['canonical_domains', 'canonicalize_permitted_cnames', 'ca_signature_algorithms',
                    'certificate_file', 'ciphers', 'custom', 'global_known_hosts_file',
-                   'hostbased_key_types', 'host_key_algorithms', 'identity_file', 'ignore_unknown',
-                   'kbd_interactive_devices', 'kex_algorithms', 'packages',
+                   'hostbased_accepted_algorithms', 'host_key_algorithms', 'identity_file',
+                   'ignore_unknown', 'kbd_interactive_devices', 'kex_algorithms', 'packages',
                    'preferred_authentications', 'proxy_jump', 'pubkey_accepted_key_types',
                    'send_env', 'set_env', 'user_known_hosts_file'],
         valid:    [['array', 'of', 'strings'], :undef],
