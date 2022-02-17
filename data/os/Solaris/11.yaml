@@ -7,11 +7,11 @@ ssh::packages:
 
 ssh::server::allow_tcp_forwarding: 'yes'
 ssh::server::banner: 'none'
-ssh::server::challenge_response_authentication: 'yes'
 ssh::server::client_alive_count_max: 3
 ssh::server::client_alive_interval: 0
 ssh::server::config_mode: '0644'
 ssh::server::custom:
+  - 'ChallengeResponseAuthentication yes'
   - 'GSSAPIKeyExchange yes'
   - 'PAMAuthenticationViaKBDInt yes'
   - 'ServerKeyBits 768'

@@ -103,11 +103,6 @@
 #   Value(s) passed to CASignatureAlgorithms parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#CASignatureAlgorithms for possible values.
 #
-# @param challenge_response_authentication
-#   TODO: missing in docs
-#   Value(s) passed to  parameter in ssh_config. Unused if empty.
-#   Check  for possible values.
-#
 # @param chroot_directory
 #   Value(s) passed to ChrootDirectory parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#ChrootDirectory for possible values.
@@ -478,7 +473,6 @@ class ssh::server (
   Optional[String[1]] $authorized_principals_file = undef,
   Optional[String[1]] $banner = undef,
   Optional[Array[String[1]]] $ca_signature_algorithms = undef,
-  Optional[Ssh::Yes_no] $challenge_response_authentication = undef,
   Optional[String[1]] $chroot_directory = undef,
   Optional[Array[String[1]]] $ciphers = undef,
   Optional[Integer[0]] $client_alive_count_max = undef,

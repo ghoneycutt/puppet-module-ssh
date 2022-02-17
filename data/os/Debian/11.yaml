@@ -12,7 +12,7 @@ ssh::send_env:
 ssh::server::accept_env:
   - 'LANG'
   - 'LC_*'
-ssh::server::challenge_response_authentication: 'no'
+ssh::server::kbd_interactive_authentication: 'no'
 ssh::server::include: '/etc/ssh/sshd_config.d/*.conf'
 ssh::server::packages:
   - 'openssh-server'

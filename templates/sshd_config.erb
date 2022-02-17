@@ -53,9 +53,6 @@ Banner <%= @banner %>
 <% if @ca_signature_algorithms != nil -%>
 CASignatureAlgorithms <%= @ca_signature_algorithms.join(',') %>
 <% end -%>
-<% if @challenge_response_authentication != nil -%>
-ChallengeResponseAuthentication <%= @challenge_response_authentication %>
-<% end -%>
 <% if @chroot_directory != nil -%>
 ChrootDirectory <%= @chroot_directory %>
 <% end -%>

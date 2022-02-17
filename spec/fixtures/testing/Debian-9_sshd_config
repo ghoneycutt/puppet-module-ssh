@@ -19,7 +19,6 @@ AcceptEnv LC_TELEPHONE
 AcceptEnv LC_TIME
 AllowTcpForwarding yes
 Banner none
-ChallengeResponseAuthentication yes
 ClientAliveCountMax 3
 ClientAliveInterval 0
 GSSAPIAuthentication yes
@@ -29,6 +28,7 @@ HostKey /etc/ssh/ssh_host_ecdsa_key
 HostKey /etc/ssh/ssh_host_ed25519_key
 IgnoreRhosts yes
 IgnoreUserKnownHosts no
+KbdInteractiveAuthentication yes
 LoginGraceTime 120
 PasswordAuthentication yes
 PermitRootLogin yes

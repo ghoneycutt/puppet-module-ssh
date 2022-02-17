@@ -28,7 +28,6 @@ describe 'ssh::server' do
     'authorized_principals_file'           => { str: 'AuthorizedPrincipalsFile',         val: ['/test/ing', '/test/ing/%u-%U'], },
     'banner'                               => { str: 'Banner',                           val: ['Hello', 'Test'], },
     'ca_signature_algorithms'              => { str: 'CASignatureAlgorithms',            val: [['ssh-ed25519'], ['ssh-ed25519', 'rsa-sha2-512']], sep: ',', },
-    'challenge_response_authentication'    => { str: 'ChallengeResponseAuthentication',  val: ['yes', 'no'], },
     'chroot_directory'                     => { str: 'ChrootDirectory',                  val: ['none', '/test/ing'], },
     'ciphers'                              => { str: 'Ciphers',                          val: [['3des-cbc'], ['3des-cbc', 'aes256-cbc']], sep: ',', },
     'client_alive_count_max'               => { str: 'ClientAliveCountMax',              val: [3, 242], },

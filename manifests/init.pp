@@ -93,10 +93,6 @@
 #   Value(s) passed to CertificateFile parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#CertificateFile for possible values.
 #
-# @param challenge_response_authentication
-#   TODO: Deprecated alias for KbdInteractiveAuthentication
-#   Check https://man.openbsd.org/ssh_config#KbdInteractiveAuthentication for possible values.
-#
 # @param check_host_ip
 #   Value(s) passed to CheckHostIP parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#CheckHostIP for possible values.
@@ -245,7 +241,6 @@
 #   Check https://man.openbsd.org/ssh_config#IPQoS for possible values.
 #
 # @param kbd_interactive_authentication
-#   TODO: ChallengeResponseAuthentication is a deprecated alias for this.
 #   Value(s) passed to KbdInteractiveAuthentication parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#KbdInteractiveAuthentication for possible values.
 #
@@ -492,7 +487,6 @@ class ssh (
   Optional[Array[String[1]]] $canonicalize_permitted_cnames = undef,
   Optional[Array[String[1]]] $ca_signature_algorithms = undef,
   Optional[Array[String[1]]] $certificate_file = undef,
-  Optional[Ssh::Yes_no] $challenge_response_authentication = undef,
   Optional[Ssh::Yes_no] $check_host_ip = undef,
   Optional[Array[String[1]]] $ciphers = undef,
   Optional[Ssh::Yes_no] $clear_all_forwardings = undef,

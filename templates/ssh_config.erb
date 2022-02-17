@@ -42,9 +42,6 @@ Host <%= @host %>
   CertificateFile <%= v %>
 <%   end -%>
 <% end -%>
-<% if @challenge_response_authentication != nil -%>
-  ChallengeResponseAuthentication <%= @challenge_response_authentication %>
-<% end -%>
 <% if @check_host_ip != nil -%>
   CheckHostIP <%= @check_host_ip %>
 <% end -%>
