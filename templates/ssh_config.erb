@@ -207,6 +207,9 @@ Host <%= @host %>
 <% if @forward_agent != nil -%>
   ForwardAgent <%= @forward_agent %>
 <% end -%>
+<% if @fork_after_authentication != nil -%>
+  ForkAfterAuthentication <%= @fork_after_authentication %>
+<% end -%>
 <% if @forward_x11 != nil -%>
   ForwardX11 <%= @forward_x11 %>
 <% end -%>

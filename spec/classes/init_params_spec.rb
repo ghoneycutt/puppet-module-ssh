@@ -39,6 +39,7 @@ describe 'ssh' do
     'escape_char'                          => { str: 'EscapeChar',                        val: ['~.', '~B'], },
     'exit_on_forward_failure'              => { str: 'ExitOnForwardFailure',              val: ['yes', 'no'], },
     'fingerprint_hash'                     => { str: 'FingerprintHash',                   val: ['sha256', 'md5'], },
+    'fork_after_authentication'            => { str: 'ForkAfterAuthentication',           val: ['yes', 'no'], },
     'forward_agent'                        => { str: 'ForwardAgent',                      val: ['yes', 'no'], },
     'forward_x11'                          => { str: 'ForwardX11',                        val: ['yes', 'no'], },
     'forward_x11_timeout'                  => { str: 'ForwardX11Timeout',                 val: ['3h', '242m', '2300s'], },
