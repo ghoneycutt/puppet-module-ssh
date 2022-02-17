@@ -150,7 +150,6 @@
 #   Check https://man.openbsd.org/ssh_config#FingerprintHash for possible values.
 #
 # @param fork_after_authentication
-#   TODO: parameter not implemented yet
 #   Value(s) passed to ForkAfterAuthentication parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#ForkAfterAuthentication for possible values.
 
@@ -501,6 +500,7 @@ class ssh (
   Optional[String[1]] $escape_char = undef,
   Optional[Ssh::Yes_no] $exit_on_forward_failure = undef,
   Optional[Enum['sha256', 'md5']] $fingerprint_hash = undef,
+  Optional[Ssh::Yes_no] $fork_after_authentication = undef,
   Optional[Ssh::Yes_no] $forward_agent = undef,
   Optional[Ssh::Yes_no] $forward_x11 = undef,
   Variant[Undef, String[1], Integer[0]] $forward_x11_timeout = undef,
