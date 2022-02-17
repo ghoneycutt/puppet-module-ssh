@@ -156,6 +156,9 @@ Host <%= @host %>
 <% if @kex_algorithms != nil -%>
   KexAlgorithms <%= @kex_algorithms.join(',') %>
 <% end -%>
+<% if @kown_hosts_command != nil -%>
+  KnownHostsCommand <%= @kown_hosts_command %>
+<% end -%>
 <% if @local_command != nil -%>
   LocalCommand <%= @local_command %>
 <% end -%>
