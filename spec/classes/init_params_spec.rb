@@ -63,6 +63,7 @@ describe 'ssh' do
     'kbd_interactive_authentication'       => { str: 'KbdInteractiveAuthentication',      val: ['yes', 'no'], },
     'kbd_interactive_devices'              => { str: 'KbdInteractiveDevices',             val: [['pam'], ['bsdauth', 'pam']], sep: ',', },
     'kex_algorithms'                       => { str: 'KexAlgorithms',                     val: [['^test-242'], ['-diffie-hellman-group14-sha256', '+test-242']], sep: ',', },
+    'kown_hosts_command'                   => { str: 'KnownHostsCommand',                 val: ['/test/ing', '~/test/ing'], },
     'local_command'                        => { str: 'LocalCommand',                      val: ['/test/ing', '~/test/ing'], },
     'local_forward'                        => { str: 'LocalForward',                      val: ['242 localhost:242', '8080 127.0.0.1:8080'], },
     'log_level'                            => { str: 'LogLevel',                          val: ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE', 'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3'], },

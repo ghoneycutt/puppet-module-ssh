@@ -249,7 +249,6 @@
 #   Check https://man.openbsd.org/ssh_config#KexAlgorithms for possible values.
 #
 # @param kown_hosts_command
-#   TODO: not implemented yet
 #   Value(s) passed to KnownHostsCommand parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#KnownHostsCommand for possible values.
 #
@@ -662,6 +661,7 @@ class ssh (
   Optional[Ssh::Yes_no] $kbd_interactive_authentication = undef,
   Optional[Array[String[1]]] $kbd_interactive_devices = undef,
   Optional[Array[String[1]]] $kex_algorithms = undef,
+  Optional[String[1]] $kown_hosts_command = undef,
   Optional[String[1]] $local_command = undef,
   Optional[String[1]] $local_forward = undef,
   Optional[Ssh::Log_level] $log_level = undef,
