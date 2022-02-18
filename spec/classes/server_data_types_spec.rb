@@ -16,7 +16,7 @@ describe 'ssh::server' do
         name:     ['accept_env', 'allow_groups', 'allow_users', 'authentication_methods',
                    'authorized_keys_file', 'ca_signature_algorithms', 'ciphers', 'custom',
                    'deny_groups', 'deny_users', 'host_key', 'host_key_algorithms',
-                   'hostbased_accepted_key_types', 'kex_algorithms', 'listen_address', 'macs',
+                   'hostbased_accepted_algorithms', 'kex_algorithms', 'listen_address', 'macs',
                    'packages', 'permit_listen', 'pubkey_accepted_key_types', 'set_env'],
         valid:    [['array', 'of', 'strings'], :undef],
         invalid:  ['string', { 'ha' => 'sh' }, 3, 2.42, false, [0]],

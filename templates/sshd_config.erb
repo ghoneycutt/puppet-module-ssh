@@ -98,8 +98,8 @@ GSSAPICleanupCredentials <%= @gss_api_cleanup_credentials %>
 <% if @gss_api_strict_acceptor_check != nil -%>
 GSSAPIStrictAcceptorCheck <%= @gss_api_strict_acceptor_check %>
 <% end -%>
-<% if @hostbased_accepted_key_types != nil -%>
-HostbasedAcceptedKeyTypes <%= @hostbased_accepted_key_types.join(',') %>
+<% if @hostbased_accepted_algorithms != nil -%>
+HostbasedAcceptedAlgorithms <%= @hostbased_accepted_algorithms.join(',') %>
 <% end -%>
 <% if @hostbased_authentication != nil -%>
 HostbasedAuthentication <%= @hostbased_authentication %>
