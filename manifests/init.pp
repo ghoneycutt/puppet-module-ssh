@@ -409,11 +409,6 @@
 #   Value(s) passed to UserKnownHostsFile parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#UserKnownHostsFile for possible values.
 #
-# @param use_roaming
-#   TODO: missing in docs
-#   Value(s) passed to  parameter in ssh_config. Unused if empty.
-#   Check  for possible values.
-#
 # @param verify_host_key_dns
 #   Value(s) passed to VerifyHostKeyDNS parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#VerifyHostKeyDNS for possible values.
