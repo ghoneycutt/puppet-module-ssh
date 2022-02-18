@@ -207,6 +207,12 @@ PermitUserEnvironment <%= @permit_user_environment %>
 <% if @permit_user_rc != nil -%>
 PermitUserRC <%= @permit_user_rc %>
 <% end -%>
+<% if @per_source_max_startups != nil -%>
+PerSourceMaxStartups <%= @per_source_max_startups %>
+<% end -%>
+<% if @per_source_net_block_size != nil -%>
+PerSourceNetBlockSize <%= @per_source_net_block_size %>
+<% end -%>
 <% if @pid_file != nil -%>
 PidFile <%= @pid_file %>
 <% end -%>

@@ -78,6 +78,8 @@ describe 'ssh::server' do
     'permit_tunnel'                        => { str: 'PermitTunnel',                     val: ['yes', 'point-to-point', 'ethernet', 'no'], },
     'permit_user_environment'              => { str: 'PermitUserEnvironment',            val: ['yes', 'no', 'LANG,LC_*'], },
     'permit_user_rc'                       => { str: 'PermitUserRC',                     val: ['yes', 'no'], },
+    'per_source_max_startups'              => { str: 'PerSourceMaxStartups',             val: ['242', 'none'], },
+    'per_source_net_block_size'            => { str: 'PerSourceNetBlockSize',            val: ['3:242', '242'], },
     'pid_file'                             => { str: 'PidFile',                          val: ['/test/ing.pid', 'none'], },
     'port'                                 => { str: 'Port',                             val: [[3], [3, 242]], sep: "\nPort ", },
     'print_last_log'                       => { str: 'PrintLastLog',                     val: ['yes', 'no'], },
