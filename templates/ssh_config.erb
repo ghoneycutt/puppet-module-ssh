@@ -291,6 +291,9 @@ Host <%= @host %>
 <% if @log_verbose != nil -%>
   LogVerbose <%= @log_verbose %>
 <% end -%>
+<% if @macs != nil -%>
+  MACs <%= @macs.join(',') %>
+<% end -%>
 <% if @no_host_authentication_for_localhost != nil -%>
   NoHostAuthenticationForLocalhost <%= @no_host_authentication_for_localhost %>
 <% end -%>

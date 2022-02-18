@@ -10,7 +10,7 @@ describe 'ssh' do
         name:     ['canonical_domains', 'canonicalize_permitted_cnames', 'ca_signature_algorithms',
                    'certificate_file', 'ciphers', 'custom', 'global_known_hosts_file',
                    'hostbased_accepted_algorithms', 'host_key_algorithms', 'identity_file',
-                   'ignore_unknown', 'kbd_interactive_devices', 'kex_algorithms', 'packages',
+                   'ignore_unknown', 'kbd_interactive_devices', 'kex_algorithms', 'macs', 'packages',
                    'preferred_authentications', 'proxy_jump', 'pubkey_accepted_key_types',
                    'send_env', 'set_env', 'user_known_hosts_file'],
         valid:    [['array', 'of', 'strings'], :undef],

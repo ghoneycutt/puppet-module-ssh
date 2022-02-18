@@ -269,7 +269,6 @@
 #   Check https://man.openbsd.org/ssh_config#LogVerbose for possible values.
 #
 # @param macs
-#   TODO: not implemented yet
 #   Value(s) passed to MACs parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#MACs for possible values.
 #
@@ -665,6 +664,7 @@ class ssh (
   Optional[String[1]] $local_forward = undef,
   Optional[Ssh::Log_level] $log_level = undef,
   Optional[String[1]] $log_verbose = undef,
+  Optional[Array[String[1]]] $macs = undef,
   Optional[Ssh::Yes_no] $no_host_authentication_for_localhost = undef,
   Optional[Integer] $number_of_password_prompts = undef,
   Optional[Ssh::Yes_no] $password_authentication = undef,
