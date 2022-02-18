@@ -189,6 +189,9 @@ PermitEmptyPasswords <%= @permit_empty_passwords %>
 <% if @permit_listen != nil -%>
 PermitListen <%= @permit_listen.join(' ') %>
 <% end -%>
+<% if @permit_open != nil -%>
+PermitOpen <%= @permit_open.join(' ') %>
+<% end -%>
 <% if @permit_root_login != nil -%>
 PermitRootLogin <%= @permit_root_login %>
 <% end -%>

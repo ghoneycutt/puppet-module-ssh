@@ -72,6 +72,7 @@ describe 'ssh::server' do
     'password_authentication'              => { str: 'PasswordAuthentication',           val: ['yes', 'no'], },
     'permit_empty_passwords'               => { str: 'PermitEmptyPasswords',             val: ['yes', 'no'], },
     'permit_listen'                        => { str: 'PermitListen',                     val: [['242'], ['242', 'localhost:242']], sep: ' ', },
+    'permit_open'                          => { str: 'PermitOpen',                       val: [['unit.test.ing:242'], ['none'], ['h1.test.ing', 'h2.test.ing:2']], sep: ' ', },
     'permit_root_login'                    => { str: 'PermitRootLogin',                  val: ['yes', 'no', 'prohibit-password', 'without-password', 'forced-commands-only'], },
     'permit_tty'                           => { str: 'PermitTTY',                        val: ['yes', 'no'], },
     'permit_tunnel'                        => { str: 'PermitTunnel',                     val: ['yes', 'point-to-point', 'ethernet', 'no'], },
