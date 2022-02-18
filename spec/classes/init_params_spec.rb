@@ -73,6 +73,7 @@ describe 'ssh' do
     'number_of_password_prompts'           => { str: 'NumberOfPasswordPrompts',           val: [3, 242], },
     'password_authentication'              => { str: 'PasswordAuthentication',            val: ['yes', 'no'], },
     'permit_local_command'                 => { str: 'PermitLocalCommand',                val: ['yes', 'no'], },
+    'permit_remote_open'                   => { str: 'PermitRemoteOpen',                  val: [['unit.test.ing:242'], ['none'], ['h1.test.ing', 'h2.test.ing:2']], sep: ' ', },
     'pkcs11_provider'                      => { str: 'PKCS11Provider',                    val: ['/test/ing.so'], },
     'port'                                 => { str: 'Port',                              val: [3, 242], },
     'preferred_authentications'            => { str: 'PreferredAuthentications',          val: [['publickey'], ['gssapi-with-mic', 'hostbased']], sep: ',', },
