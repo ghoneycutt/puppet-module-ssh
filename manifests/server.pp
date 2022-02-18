@@ -392,9 +392,10 @@
 #   Check https://man.openbsd.org/sshd_config#UseDNS for possible values.
 #
 # @param use_pam
-#   TODO: missing in docs
-#   Value(s) passed to  parameter in ssh_config. Unused if empty.
-#   Check  for possible values.
+#   Value(s) passed to UsePAM parameter in ssh_config. Unused if empty.
+#   Possible values are 'yes' and 'no'.
+#   There is no mentioning of this parameter in the current man pages of OpenSSH v7.
+#   But it is mentioned in the release notes of OpenSSH v8. https://www.openssh.com/txt/release-8.0
 #
 # @param version_addendum
 #   Value(s) passed to VersionAddendum parameter in ssh_config. Unused if empty.
