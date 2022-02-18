@@ -345,7 +345,6 @@
 #   Check https://man.openbsd.org/ssh_config#RevokedHostKeys for possible values.
 #
 # @param security_key_provider
-#   TODO: not implemented yet
 #   Value(s) passed to SecurityKeyProvider parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#SecurityKeyProvider for possible values.
 #
@@ -671,6 +670,7 @@ class ssh (
   Optional[String[1]] $remote_forward = undef,
   Optional[Enum['no', 'yes', 'force', 'auto']] $request_tty = undef,
   Optional[String[1]] $revoked_host_keys = undef,
+  Optional[String[1]] $security_key_provider = undef,
   Optional[Array[String[1]]] $send_env = undef,
   Variant[Undef, String[1], Integer[0]] $server_alive_count_max = undef,
   Variant[Undef, String[1], Integer[0]] $server_alive_interval = undef,

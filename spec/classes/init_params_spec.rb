@@ -87,6 +87,7 @@ describe 'ssh' do
     'remote_forward'                       => { str: 'RemoteForward',                     val: ['242 localhost:242'], },
     'request_tty'                          => { str: 'RequestTTY',                        val: ['no', 'yes', 'force', 'auto'], },
     'revoked_host_keys'                    => { str: 'RevokedHostKeys',                   val: ['/test/ing', '~/test/ing'], },
+    'security_key_provider'                => { str: 'SecurityKeyProvider',               val: ['/test/ing', '$testing'], },
     'send_env'                             => { str: 'SendEnv',                           val: [['LANG'], ['TEST', 'ING']], sep: "\n  SendEnv " },
     'server_alive_count_max'               => { str: 'ServerAliveCountMax',               val: [3, 242], },
     'server_alive_interval'                => { str: 'ServerAliveInterval',               val: [3, 242], },
