@@ -314,14 +314,8 @@
 #   Check https://man.openbsd.org/ssh_config#ProxyUseFdpass for possible values.
 #
 # @param pubkey_accepted_algorithms
-#   TODO: not implemented yet
 #   Value(s) passed to PubkeyAcceptedAlgorithms parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#PubkeyAcceptedAlgorithms for possible values.
-#
-# @param pubkey_accepted_key_types
-#   TODO: missing in docs
-#   Value(s) passed to  parameter in ssh_config. Unused if empty.
-#   Check  for possible values.
 #
 # @param pubkey_authentication
 #   Value(s) passed to PubkeyAuthentication parameter in ssh_config. Unused if empty.
@@ -526,7 +520,7 @@ class ssh (
   Optional[String[1]] $proxy_command = undef,
   Optional[Array[String[1]]] $proxy_jump = undef,
   Optional[Ssh::Yes_no] $proxy_use_fdpass = undef,
-  Optional[Array[String[1]]] $pubkey_accepted_key_types = undef,
+  Optional[Array[String[1]]] $pubkey_accepted_algorithms = undef,
   Optional[Ssh::Yes_no] $pubkey_authentication = undef,
   Optional[String[1]] $rekey_limit = undef,
   Optional[String[1]] $remote_command = undef,
