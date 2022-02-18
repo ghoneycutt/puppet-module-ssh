@@ -90,6 +90,7 @@ describe 'ssh::server' do
     'rekey_limit'                          => { str: 'RekeyLimit',                       val: ['242G', 'default none'], },
     'revoked_keys'                         => { str: 'RevokedKeys',                      val: ['/test/ing', 'default none'], },
     'rdomain'                              => { str: 'RDomain',                          val: ['%D', 'test'], },
+    'security_key_provider'                => { str: 'SecurityKeyProvider',              val: ['/test/ing', '/test/ing2'], },
     'set_env'                              => { str: 'SetEnv',                           val: [['LANG'], ['TEST', 'ING']], sep: "\nSetEnv " },
     'stream_local_bind_mask'               => { str: 'StreamLocalBindMask',              val: ['0177', '0242'], },
     'stream_local_bind_unlink'             => { str: 'StreamLocalBindUnlink',            val: ['yes', 'no'], },
