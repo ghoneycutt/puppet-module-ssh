@@ -77,7 +77,6 @@ describe 'ssh' do
     'pkcs11_provider'                      => { str: 'PKCS11Provider',                    val: ['/test/ing.so'], },
     'port'                                 => { str: 'Port',                              val: [3, 242], },
     'preferred_authentications'            => { str: 'PreferredAuthentications',          val: [['publickey'], ['gssapi-with-mic', 'hostbased']], sep: ',', },
-    'protocol'                             => { str: 'Protocol',                          val: ['2', '2,1', '1'], },
     'proxy_command'                        => { str: 'ProxyCommand',                      val: ['/usr/bin/nc -X connect -x 192.0.2.0:8080 %h %p'], },
     'proxy_jump'                           => { str: 'ProxyJump',                         val: [['/test/ing connect -x 127.2.4.2'], ['/test/ing1', '/test/ing2']], sep: ',', },
     'proxy_use_fdpass'                     => { str: 'ProxyUseFdpass',                    val: ['yes', 'no'], },

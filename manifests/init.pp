@@ -304,11 +304,6 @@
 #   Value(s) passed to PreferredAuthentications parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#PreferredAuthentications for possible values.
 #
-# @param protocol
-#   TODO: missing in docs
-#   Value(s) passed to  parameter in ssh_config. Unused if empty.
-#   Check  for possible values.
-#
 # @param proxy_command
 #   Value(s) passed to ProxyCommand parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#ProxyCommand for possible values.
@@ -672,7 +667,6 @@ class ssh (
   Optional[String[1]] $pkcs11_provider = undef,
   Optional[Stdlib::Port] $port = undef,
   Optional[Array[String[1]]] $preferred_authentications = undef,
-  Optional[String[1]] $protocol = undef,
   Optional[String[1]] $proxy_command = undef,
   Optional[Array[String[1]]] $proxy_jump = undef,
   Optional[Ssh::Yes_no] $proxy_use_fdpass = undef,
