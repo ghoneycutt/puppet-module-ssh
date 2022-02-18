@@ -63,6 +63,7 @@ describe 'ssh::server' do
     'listen_address'                       => { str: 'ListenAddress',                    val: [['3.3.3.3:242'], ['3.3.3.3', '242.242.242.242']], sep: "\nListenAddress ", },
     'login_grace_time'                     => { str: 'LoginGraceTime',                   val: [3, 242], },
     'log_level'                            => { str: 'LogLevel',                         val: ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE', 'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3'], },
+    'log_verbose'                          => { str: 'LogVerbose',                       val: ['kex.c:*:242', 'kex.c:*,packet.c:*'], },
     'macs'                                 => { str: 'MACs',                             val: [['hmac-sha2-512'], ['hmac-sha2-512', 'hmac-sha2-256']], sep: ',', },
     'max_auth_tries'                       => { str: 'MaxAuthTries',                     val: [3, 242], },
     'max_sessions'                         => { str: 'MaxSessions',                      val: [3, 242], },

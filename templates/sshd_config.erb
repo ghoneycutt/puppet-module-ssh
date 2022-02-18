@@ -162,6 +162,9 @@ LoginGraceTime <%= @login_grace_time %>
 <% if @log_level != nil -%>
 LogLevel <%= @log_level %>
 <% end -%>
+<% if @log_verbose != nil -%>
+LogVerbose <%= @log_verbose %>
+<% end -%>
 <% if @macs != nil -%>
 MACs <%= @macs.join(',') %>
 <% end -%>
