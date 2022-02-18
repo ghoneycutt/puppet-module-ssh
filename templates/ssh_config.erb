@@ -362,6 +362,9 @@ Host <%= @host %>
 <% if @server_alive_interval != nil -%>
   ServerAliveInterval <%= @server_alive_interval %>
 <% end -%>
+<% if @session_type != nil -%>
+  SessionType <%= @session_type %>
+<% end -%>
 <% if @set_env != nil -%>
 <%   @set_env.each do |v| -%>
   SetEnv <%= v %>
@@ -369,6 +372,9 @@ Host <%= @host %>
 <% end -%>
 <% if @stream_local_bind_mask != nil -%>
   StreamLocalBindMask <%= @stream_local_bind_mask %>
+<% end -%>
+<% if @stdin_null != nil -%>
+  StdinNull <%= @stdin_null %>
 <% end -%>
 <% if @stream_local_bind_unlink != nil -%>
   StreamLocalBindUnlink <%= @stream_local_bind_unlink %>

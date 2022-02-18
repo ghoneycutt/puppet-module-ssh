@@ -60,6 +60,12 @@ describe 'ssh' do
         invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
         message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
       },
+      'Enumeration of valid strings for session_type (optional)' => {
+        name:     ['session_type'],
+        valid:    ['default', 'none', 'subsystem', :undef],
+        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
+        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
+      },
       'Enumeration of valid strings for strict_host_key_checking (optional)' => {
         name:     ['strict_host_key_checking'],
         valid:    ['yes', 'no', 'accept-new', 'off', 'ask', :undef],
@@ -165,7 +171,8 @@ describe 'ssh' do
                    'hostbased_authentication', 'identities_only', 'kbd_interactive_authentication',
                    'no_host_authentication_for_localhost', 'password_authentication',
                    'permit_local_command', 'proxy_use_fdpass', 'pubkey_authentication',
-                   'stream_local_bind_unlink', 'tcp_keep_alive', 'use_roaming', 'visual_host_key'],
+                   'stdin_null', 'stream_local_bind_unlink', 'tcp_keep_alive', 'use_roaming',
+                   'visual_host_key'],
         valid:    ['yes', 'no', :undef],
         invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false, 'YES', 'No'],
         message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
