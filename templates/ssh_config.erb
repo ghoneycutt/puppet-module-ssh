@@ -306,6 +306,9 @@ Host <%= @host %>
 <% if @permit_local_command != nil -%>
   PermitLocalCommand <%= @permit_local_command %>
 <% end -%>
+<% if @permit_remote_open != nil -%>
+  PermitRemoteOpen <%= @permit_remote_open.join(' ') %>
+<% end -%>
 <% if @pkcs11_provider != nil -%>
   PKCS11Provider <%= @pkcs11_provider %>
 <% end -%>

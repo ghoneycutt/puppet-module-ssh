@@ -289,7 +289,6 @@
 #   Check https://man.openbsd.org/ssh_config#PermitLocalCommand for possible values.
 #
 # @param permit_remote_open
-#   TODO: not implemented yet
 #   Value(s) passed to PermitRemoteOpen parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#PermitRemoteOpen for possible values.
 #
@@ -669,6 +668,7 @@ class ssh (
   Optional[Integer] $number_of_password_prompts = undef,
   Optional[Ssh::Yes_no] $password_authentication = undef,
   Optional[Ssh::Yes_no] $permit_local_command = undef,
+  Optional[Array[String[1]]] $permit_remote_open = undef,
   Optional[String[1]] $pkcs11_provider = undef,
   Optional[Stdlib::Port] $port = undef,
   Optional[Array[String[1]]] $preferred_authentications = undef,
