@@ -67,6 +67,7 @@ describe 'ssh' do
     'local_command'                        => { str: 'LocalCommand',                      val: ['/test/ing', '~/test/ing'], },
     'local_forward'                        => { str: 'LocalForward',                      val: ['242 localhost:242', '8080 127.0.0.1:8080'], },
     'log_level'                            => { str: 'LogLevel',                          val: ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE', 'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3'], },
+    'log_verbose'                          => { str: 'LogVerbose',                        val: ['kex.c:*:242', 'kex.c:*,packet.c:*'], },
     'no_host_authentication_for_localhost' => { str: 'NoHostAuthenticationForLocalhost',  val: ['yes', 'no'], },
     'number_of_password_prompts'           => { str: 'NumberOfPasswordPrompts',           val: [3, 242], },
     'password_authentication'              => { str: 'PasswordAuthentication',            val: ['yes', 'no'], },
