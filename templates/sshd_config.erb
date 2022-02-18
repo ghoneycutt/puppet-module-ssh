@@ -230,6 +230,9 @@ PrintMotd <%= @print_motd %>
 <% if @pubkey_accepted_algorithms != nil -%>
 PubkeyAcceptedAlgorithms <%= @pubkey_accepted_algorithms.join(',') %>
 <% end -%>
+<% if @pubkey_auth_options != nil -%>
+PubkeyAuthOptions <%= @pubkey_auth_options %>
+<% end -%>
 <% if @pubkey_authentication != nil -%>
 PubkeyAuthentication <%= @pubkey_authentication %>
 <% end -%>
