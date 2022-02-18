@@ -228,6 +228,9 @@ Host <%= @host %>
 <% if @revoked_host_keys != nil -%>
   RevokedHostKeys <%= @revoked_host_keys %>
 <% end -%>
+<% if @security_key_provider != nil -%>
+  SecurityKeyProvider <%= @security_key_provider %>
+<% end -%>
 <% if @send_env != nil -%>
 <%   @send_env.each do |v| -%>
   SendEnv <%= v %>
