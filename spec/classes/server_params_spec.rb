@@ -43,7 +43,7 @@ describe 'ssh::server' do
     'gss_api_authentication'               => { str: 'GSSAPIAuthentication',             val: ['yes', 'no'], },
     'gss_api_cleanup_credentials'          => { str: 'GSSAPICleanupCredentials',         val: ['yes', 'no'], },
     'gss_api_strict_acceptor_check'        => { str: 'GSSAPIStrictAcceptorCheck',        val: ['yes', 'no'], },
-    'hostbased_accepted_key_types'         => { str: 'HostbasedAcceptedKeyTypes',        val: [['ssh-ed25519'], ['ssh-ed25519', 'rsa-sha2-512']], sep: ',', },
+    'hostbased_accepted_algorithms'        => { str: 'HostbasedAcceptedAlgorithms',      val: [['ssh-ed25519'], ['ssh-ed25519', 'rsa-sha2-512']], sep: ',', },
     'hostbased_authentication'             => { str: 'HostbasedAuthentication',          val: ['yes', 'no'], },
     'hostbased_uses_name_from_packet_only' => { str: 'HostbasedUsesNameFromPacketOnly',  val: ['yes', 'no'], },
     'host_certificate'                     => { str: 'HostCertificate',                  val: ['/test/ing', '/test/ing2'], },

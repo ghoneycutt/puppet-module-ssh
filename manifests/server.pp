@@ -163,16 +163,10 @@
 #   Value(s) passed to GSSAPIStrictAcceptorCheck parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#GSSAPIStrictAcceptorCheck for possible values.
 #
-# @param hostbased_accepted_key_types
-#   TODO: missing in docs, renamed to HostbasedAcceptedAlgorithms
-#   Value(s) passed to  parameter in ssh_config. Unused if empty.
-#   Check  for possible values.
-#
 # @param hostbased_accepted_algorithms
-#   TODO: not implemented yet, see hostbased_accepted_key_types
 #   Value(s) passed to HostbasedAcceptedAlgorithms parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#HostbasedAcceptedAlgorithms for possible values.
-
+#
 # @param hostbased_authentication
 #   Value(s) passed to HostbasedAuthentication parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#HostbasedAuthentication for possible values.
@@ -488,7 +482,7 @@ class ssh::server (
   Optional[Ssh::Yes_no] $gss_api_authentication = undef,
   Optional[Ssh::Yes_no] $gss_api_cleanup_credentials = undef,
   Optional[Ssh::Yes_no] $gss_api_strict_acceptor_check = undef,
-  Optional[Array[String[1]]] $hostbased_accepted_key_types = undef,
+  Optional[Array[String[1]]] $hostbased_accepted_algorithms = undef,
   Optional[Ssh::Yes_no] $hostbased_authentication = undef,
   Optional[Ssh::Yes_no] $hostbased_uses_name_from_packet_only = undef,
   Optional[String[1]] $host_certificate = undef,
