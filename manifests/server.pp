@@ -280,7 +280,6 @@
 #   Check https://man.openbsd.org/sshd_config#PermitListen for possible values.
 #
 # @param permit_open
-#   TODO: not implemented yet
 #   Value(s) passed to PermitOpen parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#PermitOpen for possible values.
 #
@@ -503,6 +502,7 @@ class ssh::server (
   Optional[Ssh::Yes_no] $password_authentication = undef,
   Optional[Ssh::Yes_no] $permit_empty_passwords = undef,
   Optional[Array[String[1]]] $permit_listen = undef,
+  Optional[Array[String[1]]] $permit_open = undef,
   Optional[Ssh::Permit_root_login] $permit_root_login = undef,
   Optional[Ssh::Yes_no] $permit_tty = undef,
   Optional[Enum['yes', 'point-to-point', 'ethernet', 'no']] $permit_tunnel = undef,
