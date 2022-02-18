@@ -1,11 +1,12 @@
 ---
 # CentOS 6 defaults in alphabetical order per class
+ssh::custom:
+  - 'Protocol 2'
 ssh::forward_x11_trusted: 'yes'
 ssh::gss_api_authentication: 'yes'
 ssh::hash_known_hosts: 'no'
 ssh::packages:
   - 'openssh-clients'
-ssh::protocol: '2'
 ssh::send_env:
   - 'LANG'
   - 'LANGUAGE'
