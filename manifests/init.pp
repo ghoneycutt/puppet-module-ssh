@@ -358,7 +358,6 @@
 #   Check https://man.openbsd.org/ssh_config#ServerAliveInterval for possible values.
 #
 # @param session_type
-#   TODO: not implemented yet
 #   Value(s) passed to SessionType parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#SessionType for possible values.
 #
@@ -367,7 +366,6 @@
 #   Check https://man.openbsd.org/ssh_config#SetEnv for possible values.
 #
 # @param stdin_null
-#   TODO: not implemented yet
 #   Value(s) passed to StdinNull parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#StdinNull for possible values.
 #
@@ -530,7 +528,9 @@ class ssh (
   Optional[Array[String[1]]] $send_env = undef,
   Variant[Undef, String[1], Integer[0]] $server_alive_count_max = undef,
   Variant[Undef, String[1], Integer[0]] $server_alive_interval = undef,
+  Optional[Enum['default', 'none', 'subsystem']] $session_type = undef,
   Optional[Array[String[1]]] $set_env = undef,
+  Optional[Ssh::Yes_no] $stdin_null = undef,
   Optional[Pattern[/^[0-7]{4}$/]] $stream_local_bind_mask = undef,
   Optional[Ssh::Yes_no] $stream_local_bind_unlink = undef,
   Optional[Enum['yes', 'no', 'accept-new', 'off', 'ask']] $strict_host_key_checking = undef,
