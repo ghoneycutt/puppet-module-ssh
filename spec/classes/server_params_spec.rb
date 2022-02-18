@@ -79,7 +79,7 @@ describe 'ssh::server' do
     'port'                                 => { str: 'Port',                             val: [[3], [3, 242]], sep: "\nPort ", },
     'print_last_log'                       => { str: 'PrintLastLog',                     val: ['yes', 'no'], },
     'print_motd'                           => { str: 'PrintMotd',                        val: ['yes', 'no'], },
-    'pubkey_accepted_key_types'            => { str: 'PubkeyAcceptedKeyTypes',           val: [['+ssh-dss'], ['ssh-test', 'ssh-ed242']], sep: ',', },
+    'pubkey_accepted_algorithms'           => { str: 'PubkeyAcceptedAlgorithms',         val: [['+ssh-dss'], ['ssh-test', 'ssh-ed242']], sep: ',', },
     'pubkey_authentication'                => { str: 'PubkeyAuthentication',             val: ['yes', 'no'], },
     'rekey_limit'                          => { str: 'RekeyLimit',                       val: ['242G', 'default none'], },
     'revoked_keys'                         => { str: 'RevokedKeys',                      val: ['/test/ing', 'default none'], },
