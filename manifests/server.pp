@@ -244,7 +244,6 @@
 #   Check https://man.openbsd.org/sshd_config#LogLevel for possible values.
 #
 # @param log_verbose
-#   TODO: not implemented yet
 #   Value(s) passed to LogVerbose parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#LogVerbose for possible values.
 #
@@ -496,6 +495,7 @@ class ssh::server (
   Optional[Array[String[1]]] $listen_address = undef,
   Optional[Integer[0]] $login_grace_time = undef,
   Optional[Ssh::Log_level] $log_level = undef,
+  Optional[String[1]] $log_verbose = undef,
   Optional[Array[String[1]]] $macs = undef,
   Optional[Integer[2]] $max_auth_tries = undef,
   Optional[Integer[0]] $max_sessions = undef,
