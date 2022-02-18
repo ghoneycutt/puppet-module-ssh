@@ -119,6 +119,12 @@ describe 'ssh::server' do
         invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
         message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
       },
+      'enumeration of valid strings for pubkey_auth_options (optional)' => {
+        name:     ['pubkey_auth_options'],
+        valid:    ['none', 'touch-required', 'verify-required', :undef],
+        invalid:  ['invalid', ['array'], { 'ha' => 'sh' }, -1, 2.42, false],
+        message: 'expects an undef value or a match for Pattern|Error while evaluating a Resource Statement',
+      },
       'enumeration of valid strings for syslog_facility (optional)' => {
         name:     ['syslog_facility'],
         valid:    ['DAEMON', 'USER', 'AUTH', 'LOCAL0', 'LOCAL1', 'LOCAL2', 'LOCAL3', 'LOCAL4', 'LOCAL5', 'LOCAL6', 'LOCAL7', 'AUTHPRIV', :undef],

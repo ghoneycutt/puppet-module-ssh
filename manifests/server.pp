@@ -332,7 +332,6 @@
 #   Check https://man.openbsd.org/sshd_config#PubkeyAcceptedAlgorithms for possible values.
 #
 # @param pubkey_auth_options
-#   TODO: not implemented yet
 #   Value(s) passed to PubkeyAuthOptions parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#PubkeyAuthOptions for possible values.
 #
@@ -513,6 +512,7 @@ class ssh::server (
   Optional[Ssh::Yes_no] $print_last_log = undef,
   Optional[Ssh::Yes_no] $print_motd = undef,
   Optional[Array[String[1]]] $pubkey_accepted_algorithms = undef,
+  Optional[Enum['none', 'touch-required', 'verify-required']] $pubkey_auth_options = undef,
   Optional[Ssh::Yes_no] $pubkey_authentication = undef,
   Optional[String[1]] $rekey_limit = undef,
   Optional[String[1]] $revoked_keys = undef,
