@@ -333,14 +333,8 @@
 #   Check https://man.openbsd.org/sshd_config#PrintMotd for possible values.
 #
 # @param pubkey_accepted_algorithms
-#   TODO: not implemented yet
 #   Value(s) passed to PubkeyAcceptedAlgorithms parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#PubkeyAcceptedAlgorithms for possible values.
-#
-# @param pubkey_accepted_key_types
-#   TODO: missing in docs
-#   Value(s) passed to  parameter in ssh_config. Unused if empty.
-#   Check  for possible values.
 #
 # @param pubkey_auth_options
 #   TODO: not implemented yet
@@ -518,7 +512,7 @@ class ssh::server (
   Optional[Array[Stdlib::Port]] $port = undef,
   Optional[Ssh::Yes_no] $print_last_log = undef,
   Optional[Ssh::Yes_no] $print_motd = undef,
-  Optional[Array[String[1]]] $pubkey_accepted_key_types = undef,
+  Optional[Array[String[1]]] $pubkey_accepted_algorithms = undef,
   Optional[Ssh::Yes_no] $pubkey_authentication = undef,
   Optional[String[1]] $rekey_limit = undef,
   Optional[String[1]] $revoked_keys = undef,
