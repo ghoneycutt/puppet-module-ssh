@@ -80,7 +80,7 @@ describe 'ssh' do
     'proxy_command'                        => { str: 'ProxyCommand',                      val: ['/usr/bin/nc -X connect -x 192.0.2.0:8080 %h %p'], },
     'proxy_jump'                           => { str: 'ProxyJump',                         val: [['/test/ing connect -x 127.2.4.2'], ['/test/ing1', '/test/ing2']], sep: ',', },
     'proxy_use_fdpass'                     => { str: 'ProxyUseFdpass',                    val: ['yes', 'no'], },
-    'pubkey_accepted_key_types'            => { str: 'PubkeyAcceptedKeyTypes',            val: [['+ssh-dss'], ['ssh-test', 'ssh-ed242']], sep: ',', },
+    'pubkey_accepted_algorithms'           => { str: 'PubkeyAcceptedAlgorithms',          val: [['+ssh-dss'], ['ssh-test', 'ssh-ed242']], sep: ',', },
     'pubkey_authentication'                => { str: 'PubkeyAuthentication',              val: ['yes', 'no'], },
     'rekey_limit'                          => { str: 'RekeyLimit',                        val: ['242G', 'default none'], },
     'remote_command'                       => { str: 'RemoteCommand',                     val: ['/test/ing', '~/.ssh/testing/%r@%h-%p'], },
