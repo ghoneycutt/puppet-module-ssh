@@ -533,6 +533,9 @@ RevokedKeys <%= @revoked_keys %>
 <% if @rdomain != nil -%>
 RDomain <%= @rdomain %>
 <% end -%>
+<% if @security_key_provider != nil -%>
+SecurityKeyProvider <%= @security_key_provider %>
+<% end -%>
 <% if @set_env != nil -%>
 <%   @set_env.each do |v| -%>
 SetEnv <%= v %>

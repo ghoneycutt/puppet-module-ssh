@@ -352,7 +352,6 @@
 #   Check https://man.openbsd.org/sshd_config#RDomain for possible values.
 #
 # @param security_key_provider
-#   TODO: not implemented yet
 #   Value(s) passed to SecurityKeyProvider parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#SecurityKeyProvider for possible values.
 #
@@ -517,6 +516,7 @@ class ssh::server (
   Optional[String[1]] $rekey_limit = undef,
   Optional[String[1]] $revoked_keys = undef,
   Optional[String[1]] $rdomain = undef,
+  Optional[Stdlib::Absolutepath] $security_key_provider = undef,
   Optional[Array[String[1]]] $set_env = undef,
   Optional[Pattern[/^[0-7]{4}$/]] $stream_local_bind_mask = undef,
   Optional[Ssh::Yes_no] $stream_local_bind_unlink = undef,
