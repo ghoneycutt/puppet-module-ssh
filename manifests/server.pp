@@ -304,12 +304,10 @@
 #   Check https://man.openbsd.org/sshd_config#PermitUserRC for possible values.
 #
 # @param per_source_max_startups
-#   TODO: not implemented yet
 #   Value(s) passed to PerSourceMaxStartups parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#PerSourceMaxStartups for possible values.
 #
 # @param per_source_net_block_size
-#   TODO: not implemented yet
 #   Value(s) passed to PerSourceNetBlockSize parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#PerSourceNetBlockSize for possible values.
 #
@@ -508,6 +506,8 @@ class ssh::server (
   Optional[Enum['yes', 'point-to-point', 'ethernet', 'no']] $permit_tunnel = undef,
   Optional[String[1]] $permit_user_environment = undef,
   Optional[Ssh::Yes_no] $permit_user_rc = undef,
+  Optional[String[1]] $per_source_max_startups = undef,
+  Optional[String[1]] $per_source_net_block_size = undef,
   Optional[String[1]] $pid_file = undef,
   Optional[Array[Stdlib::Port]] $port = undef,
   Optional[Ssh::Yes_no] $print_last_log = undef,
