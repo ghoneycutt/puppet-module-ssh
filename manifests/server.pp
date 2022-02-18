@@ -264,7 +264,6 @@
 #   Check https://man.openbsd.org/sshd_config#MaxStartups for possible values.
 #
 # @param moduli_file
-#   TODO: not implemented yet
 #   Value(s) passed to ModuliFile parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#ModuliFile for possible values.
 #
@@ -500,6 +499,7 @@ class ssh::server (
   Optional[Integer[2]] $max_auth_tries = undef,
   Optional[Integer[0]] $max_sessions = undef,
   Optional[String[1]] $max_startups = undef,
+  Optional[Stdlib::Absolutepath] $moduli_file = undef,
   Optional[Ssh::Yes_no] $password_authentication = undef,
   Optional[Ssh::Yes_no] $permit_empty_passwords = undef,
   Optional[Array[String[1]]] $permit_listen = undef,

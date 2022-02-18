@@ -68,6 +68,7 @@ describe 'ssh::server' do
     'max_auth_tries'                       => { str: 'MaxAuthTries',                     val: [3, 242], },
     'max_sessions'                         => { str: 'MaxSessions',                      val: [3, 242], },
     'max_startups'                         => { str: 'MaxStartups',                      val: ['10:30:100', '2:4:2'], },
+    'moduli_file'                          => { str: 'ModuliFile',                       val: ['/test/ing', '/test/ing2'], },
     'password_authentication'              => { str: 'PasswordAuthentication',           val: ['yes', 'no'], },
     'permit_empty_passwords'               => { str: 'PermitEmptyPasswords',             val: ['yes', 'no'], },
     'permit_listen'                        => { str: 'PermitListen',                     val: [['242'], ['242', 'localhost:242']], sep: ' ', },

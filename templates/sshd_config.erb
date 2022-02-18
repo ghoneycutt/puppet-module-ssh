@@ -177,6 +177,9 @@ MaxSessions <%= @max_sessions %>
 <% if @max_startups != nil -%>
 MaxStartups <%= @max_startups %>
 <% end -%>
+<% if @moduli_file != nil -%>
+ModuliFile <%= @moduli_file %>
+<% end -%>
 <% if @password_authentication != nil -%>
 PasswordAuthentication <%= @password_authentication %>
 <% end -%>
