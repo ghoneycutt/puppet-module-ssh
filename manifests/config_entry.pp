@@ -3,19 +3,26 @@
 # Manage an entry in ~/.ssh/config for a particular user. Lines model the
 # lines in each Host block.
 #
-# @param owner
+# @param ensure
+#   ensure attribute for entry.
 #
 # @param group
-#
-# @param path
+#   User group used for the generated ssh/config file.
 #
 # @param host
-#
-# @param order
-#
-# @param ensure
+#   Host this generated ssh/config file is used for.
 #
 # @param lines
+#   Lines to be added tp ssh/config file.
+#
+# @param order
+#   Order of entries in the ssh/config file used for concatenation.
+#
+# @param owner
+#   User/Owner used for the generated ssh/config file.
+#
+# @param path
+#   Absolute path used for the generated ssh/config file.
 #
 define ssh::config_entry (
   String[1] $owner,
