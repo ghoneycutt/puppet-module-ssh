@@ -5,7 +5,7 @@ ssh::packages:
   - 'SUNWsshcu'
   - 'SUNWsshr'
   - 'SUNWsshu'
-ssh::package_source: '/var/spool/pkg'
+ssh::packages_source: '/var/spool/pkg'
 
 ssh::server::allow_tcp_forwarding: 'yes'
 ssh::server::banner: 'none'
@@ -28,7 +28,7 @@ ssh::server::service_hasstatus: false
 ssh::server::packages:
   - 'SUNWsshdr'
   - 'SUNWsshdu'
-ssh::server::package_source: '/var/spool/pkg'
+ssh::server::packages_source: '/var/spool/pkg'
 ssh::server::password_authentication: 'yes'
 ssh::server::permit_root_login: 'yes'
 ssh::server::port:

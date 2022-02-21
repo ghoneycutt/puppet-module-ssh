@@ -33,14 +33,14 @@
 # @param manage_service
 #   Boolean to choose if the SSH daemon should be managed.
 #
-# @param package_adminfile
-#   Path to adminfile for SSH server package(s) installation. Needed for Solaris.
-#
 # @param packages
 #   Installation package(s) for the SSH server. Leave empty if the client package(s) also
 #   include the server binaries (eg: Suse SLES and SLED).
 #
-# @param package_source
+# @param packages_adminfile
+#   Path to adminfile for SSH server package(s) installation. Needed for Solaris.
+#
+# @param packages_source
 #   Source to SSH server package(s). Needed for Solaris.
 #
 # @param service_enable
@@ -442,8 +442,8 @@
 #
 class ssh::server (
   Optional[Array[String[1]]] $packages = [],
-  Optional[Stdlib::Absolutepath] $package_source = undef,
-  Optional[Stdlib::Absolutepath] $package_adminfile = undef,
+  Optional[Stdlib::Absolutepath] $packages_adminfile = undef,
+  Optional[Stdlib::Absolutepath] $packages_source = undef,
   Stdlib::Absolutepath $config_path = '/etc/ssh/sshd_config',
   String[1] $config_owner = 'root',
   String[1] $config_group = 'root',
@@ -571,8 +571,8 @@ class ssh::server (
 
   package { $packages:
     ensure    => installed,
-    source    => $package_source,
-    adminfile => $package_adminfile,
+    source    => $packages_source,
+    adminfile => $packages_adminfile,
     before    => 'File[sshd_config]',
   }
 

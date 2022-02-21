@@ -121,7 +121,7 @@ describe 'ssh' do
         message: 'expects a (match for|match for Stdlib::Absolutepath =|Stdlib::Absolutepath =) Variant\[Stdlib::Windowspath.*Stdlib::Unixpath',
       },
       'Stdlib::Absolutepath (optional)' => {
-        name:     ['package_adminfile', 'package_source'],
+        name:     ['packages_adminfile', 'packages_source'],
         valid:    ['/absolute/filepath', '/absolute/directory/', :undef],
         invalid:  ['../invalid', ['array'], { 'ha' => 'sh' }, 3, 2.42, false],
         message: 'expects a (match for|match for Stdlib::Absolutepath =|Stdlib::Absolutepath =) Variant\[Stdlib::Windowspath.*Stdlib::Unixpath',

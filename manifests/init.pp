@@ -50,13 +50,13 @@
 # @param manage_sshkey
 #   Boolean to choose if SSH keys should be managed. Also see $purge_keys.
 #
-# @param package_adminfile
-#   Path to adminfile for SSH client package(s) installation. Needed for Solaris.
-#
 # @param packages
 #   Installation package(s) for the SSH client.
 #
-# @param package_source
+# @param packages_adminfile
+#   Path to adminfile for SSH client package(s) installation. Needed for Solaris.
+#
+# @param packages_source
 #   Source to SSH client package(s). Needed for Solaris.
 #
 # @param purge_keys
@@ -608,9 +608,9 @@ class ssh (
   Boolean $manage_root_ssh_config = false,
   Boolean $manage_server = true,
   Boolean $manage_sshkey = true,
-  Optional[Stdlib::Absolutepath] $package_adminfile = undef,
   Optional[Array[String[1]]] $packages = [],
-  Optional[Stdlib::Absolutepath] $package_source = undef,
+  Optional[Stdlib::Absolutepath] $packages_adminfile = undef,
+  Optional[Stdlib::Absolutepath] $packages_source = undef,
   Boolean $purge_keys = true,
   String[1] $root_ssh_config_content = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
   # class parameters below this line directly correlate with ssh_config parameters
@@ -1644,12 +1644,17 @@ class ssh (
   package { $packages:
 >>>>>>> db859ce (Move data from main class to hiera)
     ensure    => installed,
+<<<<<<< HEAD
     source    => $package_source,
     adminfile => $package_adminfile,
 <<<<<<< HEAD
     before    => ['File[ssh_config]', 'File[ssh_known_hosts]'],
 >>>>>>> c2b2b69 (Refactor package related params in main class)
 =======
+=======
+    source    => $packages_source,
+    adminfile => $packages_adminfile,
+>>>>>>> 1bdd8dd (Rename package_* to packages_* to align naming)
     before    => 'File[ssh_config]',
 >>>>>>> 89a26da (Make global_known_hosts manageable)
   }
