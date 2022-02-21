@@ -323,12 +323,6 @@ describe 'ssh' do
       it { is_expected.not_to contain_resources('sshkey') }
     end
 
-    context "on #{os} with package_adminfile set to valid /unit/test" do
-      let(:params) { { package_adminfile: '/unit/test' } }
-
-      it { is_expected.to contain_package('openssh-clients').with_adminfile('/unit/test') }
-    end
-
     context "on #{os} with packages set to valid array [array, of, strings]" do
       let(:params) { { packages: ['array', 'of', 'strings'] } }
 
@@ -338,8 +332,14 @@ describe 'ssh' do
       it { is_expected.to contain_package('strings') }
     end
 
-    context "on #{os} with package_source set to valid /unit/test" do
-      let(:params) { { package_source: '/unit/test' } }
+    context "on #{os} with packages_adminfile set to valid /unit/test" do
+      let(:params) { { packages_adminfile: '/unit/test' } }
+
+      it { is_expected.to contain_package('openssh-clients').with_adminfile('/unit/test') }
+    end
+
+    context "on #{os} with packages_source set to valid /unit/test" do
+      let(:params) { { packages_source: '/unit/test' } }
 
       it { is_expected.to contain_package('openssh-clients').with_source('/unit/test') }
     end
