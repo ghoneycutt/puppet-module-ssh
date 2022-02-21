@@ -3,41 +3,60 @@
 # Notes: `Match` attribute is not directly supported as multiple match blocks can
 # exist. Use the `custom` parameter for that.
 #
-# @param packages
-#
-# @param package_source
-#
-# @param package_adminfile
-#
-# @param config_path
-#
-# @param config_owner
-#
-# @param config_group
-#
-# @param config_mode
-#
-# @param banner_path
-#
 # @param banner_content
-#
-# @param banner_owner
+#   Content of SSHd banner file.
 #
 # @param banner_group
+#   User group used for SSHd banner file.
 #
 # @param banner_mode
+#   File mode used for SSHd banner file.
+#
+# @param banner_owner
+#   User/Owner used for SSHd banner file.
+#
+# @param banner_path
+#   Absolute path to SSHd banner file.
+#
+# @param config_group
+#   User group used for sshd_config file.
+#
+# @param config_mode
+#   File mode used for sshd_config file.
+#
+# @param config_owner
+#   User/Owner used for sshd_config file.
+#
+# @param config_path
+#   Absolute path to sshd_config file.
 #
 # @param manage_service
+#   Boolean to choose if the SSH daemon should be managed.
 #
-# @param service_ensure
+# @param package_adminfile
+#   Path to adminfile for SSH server package(s) installation. Needed for Solaris.
 #
-# @param service_name
+# @param packages
+#   Installation package(s) for the SSH server. Leave empty if the client package(s) also
+#   include the server binaries (eg: Suse SLES and SLED).
+#
+# @param package_source
+#   Source to SSH server package(s). Needed for Solaris.
 #
 # @param service_enable
+#   enable attribure for SSH daemon.
+#
+# @param service_ensure
+#   ensure attribute for SSH daemon.
 #
 # @param service_hasrestart
+#   hasrestart attribute for SSH daemon.
 #
 # @param service_hasstatus
+#   hasstatus attribute for SSH daemon.
+#
+# @param service_name
+#   Name of the SSH daemon.
 #
 # @param accept_env
 #   Value(s) passed to AcceptEnv parameter in ssh_config. Unused if empty.
@@ -418,6 +437,8 @@
 #   Check https://man.openbsd.org/sshd_config#XAuthLocation for possible values.
 #
 # @param custom
+#   Array of custom lines to be added to server configuration file sshd_config.
+#   Uses one array item per line to be added.
 #
 class ssh::server (
   Optional[Array[String[1]]] $packages = [],

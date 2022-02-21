@@ -7,42 +7,63 @@
 # match/host blocks can exist. Use the `custom` parameter for that.
 #
 # @param config_entries
+#   Hash of configuration entries passed to ssh::config_entries define.
+#   Please check the docs for ssh::config_entries for a list and details
+#   of the parameters usable here.
 #
 # @param config_group
+#   User group used for ssh_config file.
 #
 # @param config_mode
+#   File mode used for ssh_config file.
 #
 # @param config_owner
+#   User/Owner used for ssh_config file.
 #
 # @param config_path
+#   Absolute path to ssh_config file.
 #
 # @param global_known_hosts_group
+#   User group used for global used known_hosts file.
 #
 # @param global_known_hosts_mode
+#   File mode used for global used known_hosts file.
 #
 # @param global_known_hosts_owner
+#   User/Owner used for global used known_hosts file.
 #
 # @param global_known_hosts_path
+#   Absolute path to global used known_hosts file.
 #
 # @param keys
+#   Hash of keys to be added to ~/.ssh/authorized_keys for users.
 #
 # @param manage_global_known_hosts
+#   Boolean to choose if the global used known hosts file should be managed.
 #
 # @param manage_root_ssh_config
+#   Boolean to choose if the ssh_config file of root should be managed.
 #
 # @param manage_server
+#   Boolean to choose if the SSH daemon and its configuration should be managed.
 #
 # @param manage_sshkey
+#   Boolean to choose if SSH keys should be managed. Also see $purge_keys.
 #
 # @param package_adminfile
+#   Path to adminfile for SSH client package(s) installation. Needed for Solaris.
 #
 # @param packages
+#   Installation package(s) for the SSH client.
 #
 # @param package_source
+#   Source to SSH client package(s). Needed for Solaris.
 #
 # @param purge_keys
+#   If SSH keys not managed by Puppet should get removed. Also see $manage_sshkey.
 #
 # @param root_ssh_config_content
+#   Content of the ssh_config file of root.
 #
 # @param host
 #   Value(s) passed to Host parameter in ssh_config. Unused if empty.
@@ -425,7 +446,12 @@
 #   Check https://man.openbsd.org/ssh_config#XAuthLocation for possible values.
 #
 # @param custom
+<<<<<<< HEAD
 >>>>>>> 2510367 (Use new variable names for ssh_config related params)
+=======
+#   Array of custom lines to be added to client configuration file ssh_config.
+#   Uses one array item per line to be added.
+>>>>>>> 70efebd (Add inline docs for non config related parameters)
 #
 class ssh (
 <<<<<<< HEAD
