@@ -559,16 +559,6 @@ class ssh::server (
   Optional[Array[String[1]]] $custom = undef,
 ) {
 
-# lint:ignore:140chars
-#  if $authorized_keys_command_user != undef and $authorized_keys_command == undef {
-#    fail("If AuthorizedKeysCommand is specified but AuthorizedKeysCommandUser is not, then sshd(8) will refuse to start. authorized_keys_command_user = <${authorized_keys_command_user}> and authorized_keys_command = <${authorized_keys_command}>")
-#  }
-#
-#  if $authorized_principals_command_user != undef and $authorized_principals_command == undef {
-#    fail("If AuthorizedPrincipalsCommand is specified but AuthorizedPrincipalsCommandUser is not, then sshd(8) will refuse to start. authorized_principals_command_user = <${authorized_principals_command_user}> and authorized_principals_command = <${authorized_principals_command}>")
-#  }
-# lint:endignore
-
   package { $packages:
     ensure    => installed,
     source    => $packages_source,
