@@ -110,8 +110,8 @@ that are used by OpenSSH and the names used in v3 and v4 of this module.
 |VisualHostKey                     |                                        |visual_host_key                       |
 |XAuthLocation                     |                                        |xauth_location                        |
 |**removed**                       |                                        |                                      |
-|Protocol                          |                                        |move to $custom                       |
-|UseRoaming                        |ssh_config_use_roaming                  |move to $custom                       |
+|Protocol                          |                                        |use $custom instead                   |
+|UseRoaming                        |ssh_config_use_roaming                  |use $custom instead                   |
 
 
 
@@ -133,7 +133,7 @@ that are used by OpenSSH and the names used in v3 and v4 of this module.
 |AuthorizedPrincipalsFile          |sshd_config_authorized_principals_file  |authorized_principals_file            |
 |Banner                            |sshd_config_banner                      |banner                                |
 |CASignatureAlgorithms             |                                        |ca_signature_algorithms               |
-|ChallengeResponseAuthentication   |sshd_config_challenge_resp_auth         |kbd_interactive_authentication (renamed)  |
+|ChallengeResponseAuthentication   |sshd_config_challenge_resp_auth         |kbd_interactive_authentication        |
 |ChrootDirectory                   |sshd_config_chrootdirectory             |chroot_directory                      |
 |Ciphers                           |sshd_config_ciphers                     |ciphers                               |
 |ClientAliveCountMax               |sshd_client_alive_count_max             |client_alive_count_max                |
@@ -213,8 +213,8 @@ that are used by OpenSSH and the names used in v3 and v4 of this module.
 |X11UseLocalhost                   |sshd_x11_use_localhost                  |x11_use_localhost                     |
 |XAuthLocation                     |sshd_config_xauth_location              |xauth_location                        |
 |**removed**                       |                                        |                                      |
-|Match                             |sshd_config_match                       |                                      |
-|UsePrivilegeSeparation            |sshd_config_use_privilege_separation    |                                      |
-|GSSAPIKeyExchange                 |sshd_gssapikeyexchange                  |Solaris specific, move to $custom     |
-|PAMAuthenticationViaKBDInt        |sshd_pamauthenticationviakbdint         |Solaris specific, move to $custom     |
-|ServerKeyBits                     |sshd_config_serverkeybits               |Solaris specific, move to $custom     |
+|Match                             |sshd_config_match                       |use $custom instead                   |
+|UsePrivilegeSeparation            |sshd_config_use_privilege_separation    |use $custom instead                   |
+|GSSAPIKeyExchange                 |sshd_gssapikeyexchange                  |use $custom instead                   |
+|PAMAuthenticationViaKBDInt        |sshd_pamauthenticationviakbdint         |use $custom instead                   |
+|ServerKeyBits                     |sshd_config_serverkeybits               |use $custom instead                   |
