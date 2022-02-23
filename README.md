@@ -2,42 +2,49 @@
 
 Manage ssh client and server.
 
-The module uses exported resources to manage ssh keys and removes ssh keys that
-are not managed by puppet. This behavior is managed by the parameters
-ssh_key_ensure and purge_keys.
+This module is based on the OpenSSH v7.0 implementation. All parameters that are described in the
+man pages are available to this module with the exception of the Match parameter. Some SSH
+implementations do provide extra features and use additional parameters. These deviations can
+still be managed with the help of the `$custom` parameter. This freetext parameter allows you to add
+any lines to ssh_config and sshd_config that you wish to.
 
 This module may be used with a simple `include ::ssh`
 
 The `ssh::config_entry` defined type may be used directly and is used to manage
 Host entries in a personal `~/.ssh/config` file.
 
-===
-
-### Table of Contents
+#### Table of Contents
 1. [Compatibility](#compatibility)
 1. [Parameters](#parameters)
 1. [Examples](#sample-usage)
+1. [Upgrading](#upgrading)
+1. [Contributing](#contributing)
 
-===
 
-# Compatibility
+## Compatibility
 
-This module has been tested to work on the following systems with the
-latest Puppet v3, v3 with future parser, v4, v5 and v6.  See `.travis.yml`
-for the exact matrix of supported Puppet and ruby versions.
+This module has been tested to work on Puppet v7 and deliver default values for the following
+Operating systems:
 
  * Debian 7
  * Debian 8
  * Debian 9
  * Debian 10
+<<<<<<< HEAD
+=======
+ * Debian 11
+>>>>>>> 07f00d9 (Update documentation files)
  * EL 5
  * EL 6
  * EL 7
  * SLES 10
  * SLES 11
  * SLES 12
+<<<<<<< HEAD
  * SLES 15
  * Ubuntu 12.04 LTS
+=======
+>>>>>>> 07f00d9 (Update documentation files)
  * Ubuntu 14.04 LTS
  * Ubuntu 16.04 LTS
  * Ubuntu 18.04 LTS
@@ -46,30 +53,31 @@ for the exact matrix of supported Puppet and ruby versions.
  * Solaris 10
  * Solaris 11
 
+
+### SunSSH
 If you use the Sun Solaris SSH, please keep in mind that not all parameters can be used.
 
 Unsupported parameters for ssh_config:
 AddressFamily, Tunnel, TunnelDevice, PermitLocalCommand, HashKnownHosts
 
 Unsupported parameters for sshd_config:
-KerberosOrLocalPasswd, KerberosTicketCleanup, KerberosGetAFSToken, TCPKeepAlive, ShowPatchLevel, MaxSessions, PermitTunnel
+KerberosOrLocalPasswd, KerberosTicketCleanup, KerberosGetAFSToken, TCPKeepAlive, ShowPatchLevel,
+MaxSessions, PermitTunnel
 
-===
 
 # Parameters
-A value of `'USE_DEFAULTS'` will use the defaults specified by the module.
+A value of `undef` will use the defaults specified by the module. See `data/os/` for the actual
+default settings for supported operating systems.
+
+Please keep in mind that this module does not include any sanity checks. Depending on the set
+parameters or values and the running version of SSH the resulting configuration could stop SSH
+from working.
 
 
-hiera_merge
------------
-Boolean to merges all found instances of ssh::keys and ssh::config_entries in Hiera.
-This is useful for specifying SSH keys at different levels of the hierarchy and having
-them all included in the catalog.
+See [REFERENCE.md](REFERENCE.md) for a list of all parameters.
 
-This will default to 'true' in future versions.
 
-- *Default*: false
-
+<<<<<<< HEAD
 ssh_config_hash_known_hosts
 ---------------------------
 HashKnownHosts in ssh_config.
@@ -887,8 +895,13 @@ Manage the sshd service through this module or not.  Valid values are 'true' and
 - *Default*: 'true'
 
 ===
+=======
+>>>>>>> 07f00d9 (Update documentation files)
 # Manage user's ssh_authorized_keys
-This works by passing the ssh::keys hash to the ssh_authorized_keys type with create_resources(). Because of this, you may specify any valid parameter for ssh_authorized_key. See the [Type Reference](http://docs.puppetlabs.com/references/stable/type.html#ssh_authorized_key) for a complete list.
+The hash ssh::keys is passed to ssh_authorized_key type. Because of this, you may specify any valid
+parameter for ssh_authorized_key.
+See the [Type Reference](https://github.com/puppetlabs/puppetlabs-sshkeys_core/blob/main/REFERENCE.md#ssh_authorized_key)
+for a complete list.
 
 ## Sample usage:
 Push authorized key "root_for_userX" and remove key "root_for_userY" through Hiera.
@@ -937,3 +950,16 @@ ssh::config_entry { 'jenkins github.com':
   order => '20',
 }
 ```
+
+
+## Upgrading
+
+The SSH module v4 was completely rewritten. In this process all parameters for the SSH configuration
+files have been renamed. Users that want to upgrade need to change their running configuration.
+To make your upgrade easier there is a list of old and new parameter names.
+Consult [UPGRADING.md](UPGRADING.md)
+
+
+## Contributing
+
+Please check [CONTRIBUTING.md](CONTRIBUTING.md)
