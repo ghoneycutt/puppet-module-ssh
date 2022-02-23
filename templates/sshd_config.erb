@@ -53,9 +53,6 @@ Banner <%= @banner %>
 <% if @ca_signature_algorithms != nil -%>
 CASignatureAlgorithms <%= @ca_signature_algorithms.join(',') %>
 <% end -%>
-<% if @challenge_response_authentication != nil -%>
-ChallengeResponseAuthentication <%= @challenge_response_authentication %>
-<% end -%>
 <% if @chroot_directory != nil -%>
 ChrootDirectory <%= @chroot_directory %>
 <% end -%>
@@ -101,8 +98,8 @@ GSSAPICleanupCredentials <%= @gss_api_cleanup_credentials %>
 <% if @gss_api_strict_acceptor_check != nil -%>
 GSSAPIStrictAcceptorCheck <%= @gss_api_strict_acceptor_check %>
 <% end -%>
-<% if @hostbased_accepted_key_types != nil -%>
-HostbasedAcceptedKeyTypes <%= @hostbased_accepted_key_types.join(',') %>
+<% if @hostbased_accepted_algorithms != nil -%>
+HostbasedAcceptedAlgorithms <%= @hostbased_accepted_algorithms.join(',') %>
 <% end -%>
 <% if @hostbased_authentication != nil -%>
 HostbasedAuthentication <%= @hostbased_authentication %>
@@ -165,6 +162,9 @@ LoginGraceTime <%= @login_grace_time %>
 <% if @log_level != nil -%>
 LogLevel <%= @log_level %>
 <% end -%>
+<% if @log_verbose != nil -%>
+LogVerbose <%= @log_verbose %>
+<% end -%>
 <% if @macs != nil -%>
 MACs <%= @macs.join(',') %>
 <% end -%>
@@ -177,6 +177,9 @@ MaxSessions <%= @max_sessions %>
 <% if @max_startups != nil -%>
 MaxStartups <%= @max_startups %>
 <% end -%>
+<% if @moduli_file != nil -%>
+ModuliFile <%= @moduli_file %>
+<% end -%>
 <% if @password_authentication != nil -%>
 PasswordAuthentication <%= @password_authentication %>
 <% end -%>
@@ -185,6 +188,9 @@ PermitEmptyPasswords <%= @permit_empty_passwords %>
 <% end -%>
 <% if @permit_listen != nil -%>
 PermitListen <%= @permit_listen.join(' ') %>
+<% end -%>
+<% if @permit_open != nil -%>
+PermitOpen <%= @permit_open.join(' ') %>
 <% end -%>
 <% if @permit_root_login != nil -%>
 PermitRootLogin <%= @permit_root_login %>
@@ -201,6 +207,12 @@ PermitUserEnvironment <%= @permit_user_environment %>
 <% if @permit_user_rc != nil -%>
 PermitUserRC <%= @permit_user_rc %>
 <% end -%>
+<% if @per_source_max_startups != nil -%>
+PerSourceMaxStartups <%= @per_source_max_startups %>
+<% end -%>
+<% if @per_source_net_block_size != nil -%>
+PerSourceNetBlockSize <%= @per_source_net_block_size %>
+<% end -%>
 <% if @pid_file != nil -%>
 PidFile <%= @pid_file %>
 <% end -%>
@@ -215,8 +227,11 @@ PrintLastLog <%= @print_last_log %>
 <% if @print_motd != nil -%>
 PrintMotd <%= @print_motd %>
 <% end -%>
-<% if @pubkey_accepted_key_types != nil -%>
-PubkeyAcceptedKeyTypes <%= @pubkey_accepted_key_types.join(',') %>
+<% if @pubkey_accepted_algorithms != nil -%>
+PubkeyAcceptedAlgorithms <%= @pubkey_accepted_algorithms.join(',') %>
+<% end -%>
+<% if @pubkey_auth_options != nil -%>
+PubkeyAuthOptions <%= @pubkey_auth_options %>
 <% end -%>
 <% if @pubkey_authentication != nil -%>
 PubkeyAuthentication <%= @pubkey_authentication %>
@@ -229,6 +244,9 @@ RevokedKeys <%= @revoked_keys %>
 <% end -%>
 <% if @rdomain != nil -%>
 RDomain <%= @rdomain %>
+<% end -%>
+<% if @security_key_provider != nil -%>
+SecurityKeyProvider <%= @security_key_provider %>
 <% end -%>
 <% if @set_env != nil -%>
 <%   @set_env.each do |v| -%>

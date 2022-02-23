@@ -42,9 +42,6 @@ Host <%= @host %>
   CertificateFile <%= v %>
 <%   end -%>
 <% end -%>
-<% if @challenge_response_authentication != nil -%>
-  ChallengeResponseAuthentication <%= @challenge_response_authentication %>
-<% end -%>
 <% if @check_host_ip != nil -%>
   CheckHostIP <%= @check_host_ip %>
 <% end -%>
@@ -90,6 +87,9 @@ Host <%= @host %>
 <% if @forward_agent != nil -%>
   ForwardAgent <%= @forward_agent %>
 <% end -%>
+<% if @fork_after_authentication != nil -%>
+  ForkAfterAuthentication <%= @fork_after_authentication %>
+<% end -%>
 <% if @forward_x11 != nil -%>
   ForwardX11 <%= @forward_x11 %>
 <% end -%>
@@ -114,11 +114,11 @@ Host <%= @host %>
 <% if @hash_known_hosts != nil -%>
   HashKnownHosts <%= @hash_known_hosts %>
 <% end -%>
+<% if @hostbased_accepted_algorithms != nil -%>
+  HostbasedAcceptedAlgorithms <%= @hostbased_accepted_algorithms.join(',') %>
+<% end -%>
 <% if @hostbased_authentication != nil -%>
   HostbasedAuthentication <%= @hostbased_authentication %>
-<% end -%>
-<% if @hostbased_key_types != nil -%>
-  HostbasedKeyTypes <%= @hostbased_key_types.join(',') %>
 <% end -%>
 <% if @host_key_algorithms != nil -%>
   HostKeyAlgorithms <%= @host_key_algorithms.join(',') %>
@@ -156,6 +156,9 @@ Host <%= @host %>
 <% if @kex_algorithms != nil -%>
   KexAlgorithms <%= @kex_algorithms.join(',') %>
 <% end -%>
+<% if @kown_hosts_command != nil -%>
+  KnownHostsCommand <%= @kown_hosts_command %>
+<% end -%>
 <% if @local_command != nil -%>
   LocalCommand <%= @local_command %>
 <% end -%>
@@ -164,6 +167,12 @@ Host <%= @host %>
 <% end -%>
 <% if @log_level != nil -%>
   LogLevel <%= @log_level %>
+<% end -%>
+<% if @log_verbose != nil -%>
+  LogVerbose <%= @log_verbose %>
+<% end -%>
+<% if @macs != nil -%>
+  MACs <%= @macs.join(',') %>
 <% end -%>
 <% if @no_host_authentication_for_localhost != nil -%>
   NoHostAuthenticationForLocalhost <%= @no_host_authentication_for_localhost %>
@@ -177,6 +186,9 @@ Host <%= @host %>
 <% if @permit_local_command != nil -%>
   PermitLocalCommand <%= @permit_local_command %>
 <% end -%>
+<% if @permit_remote_open != nil -%>
+  PermitRemoteOpen <%= @permit_remote_open.join(' ') %>
+<% end -%>
 <% if @pkcs11_provider != nil -%>
   PKCS11Provider <%= @pkcs11_provider %>
 <% end -%>
@@ -185,9 +197,6 @@ Host <%= @host %>
 <% end -%>
 <% if @preferred_authentications != nil -%>
   PreferredAuthentications <%= @preferred_authentications.join(',') %>
-<% end -%>
-<% if @protocol != nil -%>
-  Protocol <%= @protocol %>
 <% end -%>
 <% if @proxy_command != nil -%>
   ProxyCommand <%= @proxy_command %>
@@ -198,8 +207,8 @@ Host <%= @host %>
 <% if @proxy_use_fdpass != nil -%>
   ProxyUseFdpass <%= @proxy_use_fdpass %>
 <% end -%>
-<% if @pubkey_accepted_key_types != nil -%>
-  PubkeyAcceptedKeyTypes <%= @pubkey_accepted_key_types.join(',') %>
+<% if @pubkey_accepted_algorithms != nil -%>
+  PubkeyAcceptedAlgorithms <%= @pubkey_accepted_algorithms.join(',') %>
 <% end -%>
 <% if @pubkey_authentication != nil -%>
   PubkeyAuthentication <%= @pubkey_authentication %>
@@ -219,6 +228,9 @@ Host <%= @host %>
 <% if @revoked_host_keys != nil -%>
   RevokedHostKeys <%= @revoked_host_keys %>
 <% end -%>
+<% if @security_key_provider != nil -%>
+  SecurityKeyProvider <%= @security_key_provider %>
+<% end -%>
 <% if @send_env != nil -%>
 <%   @send_env.each do |v| -%>
   SendEnv <%= v %>
@@ -230,6 +242,9 @@ Host <%= @host %>
 <% if @server_alive_interval != nil -%>
   ServerAliveInterval <%= @server_alive_interval %>
 <% end -%>
+<% if @session_type != nil -%>
+  SessionType <%= @session_type %>
+<% end -%>
 <% if @set_env != nil -%>
 <%   @set_env.each do |v| -%>
   SetEnv <%= v %>
@@ -237,6 +252,9 @@ Host <%= @host %>
 <% end -%>
 <% if @stream_local_bind_mask != nil -%>
   StreamLocalBindMask <%= @stream_local_bind_mask %>
+<% end -%>
+<% if @stdin_null != nil -%>
+  StdinNull <%= @stdin_null %>
 <% end -%>
 <% if @stream_local_bind_unlink != nil -%>
   StreamLocalBindUnlink <%= @stream_local_bind_unlink %>
@@ -264,9 +282,6 @@ Host <%= @host %>
 <% end -%>
 <% if @user_known_hosts_file != nil -%>
   UserKnownHostsFile <%= @user_known_hosts_file.join(' ') %>
-<% end -%>
-<% if @use_roaming_real != nil -%>
-  UseRoaming <%= @use_roaming_real %>
 <% end -%>
 <% if @verify_host_key_dns != nil -%>
   VerifyHostKeyDNS <%= @verify_host_key_dns %>

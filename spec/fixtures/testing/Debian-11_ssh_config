@@ -9,4 +9,3 @@ Host *
   Include /etc/ssh/ssh_config.d/*.conf
   SendEnv LANG
   SendEnv LC_*
-  UseRoaming no
