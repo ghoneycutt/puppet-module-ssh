@@ -1,7 +1,7 @@
 Facter.add('ssh_version') do
   setcode do
     if Facter::Util::Resolution.which('ssh')
-      Facter::Util::Resolution.exec('ssh -V 2>&1').match(%r{^[A-Za-z0-9._]+})[0]
+      Facter::Util::Resolution.exec('ssh -V 2>&1').match(%r{^[A-Za-z0-9._]+SSH[A-Za-z0-9._]+})[0]
     end
   end
 end
