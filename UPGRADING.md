@@ -1,16 +1,20 @@
 # Upgrading from v3 to v4
 
-In v4 of this module all the configuration file related parameters have been renamed to follow a simple naming scheme.
-In SSH configuration files CamelCase is used to name the parameters. Puppet does not support CamelCase, instead
-these names have been transfered to all lowercase names with underscores whenever a new word starts.
+In v4 of this module all the configuration file related parameters have been renamed to follow a
+simple naming scheme. In SSH configuration files CamelCase is used to name the parameters. Puppet
+does not support CamelCase, instead these names have been transfered to all lowercase names with
+underscores whenever a new word starts.
 
-Please also take notice that all SSH server related actions and configurations have been moved to the ssh::server
-class. Therefore client related configuration paramaters now use the `ssh::` prefix while server related
-configuration paramaters now uses the `ssh::server::` prefix as namespace (eg: `ssh::send_env` vs `ssh::server::accept_env`).
+Please also take notice that all SSH server related actions and configurations have been moved to
+the ssh::server class. Therefore client related configuration paramaters now use the `ssh::` prefix
+while server related configuration paramaters now uses the `ssh::server::` prefix as namespace
+(eg: `ssh::send_env` vs `ssh::server::accept_env`).
 
-To make your life a little bit easier while upgrading from v3 to v4 of this module here is a list with the names
-that are used by OpenSSH and the names used in v3 and v4 of this module.
+To make your life a little bit easier while upgrading from v3 to v4 of this module here is a list
+with the names that are used by OpenSSH and the names used in v3 and v4 of this module.
 
+
+Client configuration file related parameters:
 
 |ssh_config name                   |v3 name                                 |v4 name                               |
 |----------------------------------|----------------------------------------|--------------------------------------|
@@ -114,6 +118,7 @@ that are used by OpenSSH and the names used in v3 and v4 of this module.
 |UseRoaming                        |ssh_config_use_roaming                  |use $custom instead                   |
 
 
+Server configuration file related parameters:
 
 |sshd_config name                  |v3 name                                 |v4 name                               |
 |----------------------------------|----------------------------------------|--------------------------------------|
