@@ -1,6 +1,2 @@
 --- {}
 
-ssh::server::host_key_owner: root
-ssh::server::host_key_group: root
-ssh::server::host_key_mode: '0600'
-
