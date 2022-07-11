@@ -505,11 +505,6 @@ class ssh::server (
   Optional[Ssh::Yes_no] $hostbased_uses_name_from_packet_only = undef,
   Optional[String[1]] $host_certificate = undef,
   Optional[Array[String[1]]] $host_key = undef,
-  String $host_key_owner = 'root',
-  String $host_key_group = 'root',
-  String $host_key_mode = '0640',
-  Optional[Array[String[1]]] $host_key = undef,
-  Optional[Array[String[1]]] $host_key = undef,
   Optional[String[1]] $host_key_agent = undef,
   Optional[Array[String[1]]] $host_key_algorithms = undef,
   Optional[Ssh::Yes_no] $ignore_rhosts = undef,
@@ -603,9 +598,9 @@ class ssh::server (
 
   file { $host_key:
     ensure => file,
-    owner  => host_key_owner,
-    owner  => host_key_group,
-    owner  => host_key_mode,
+    owner  => config_owner,
+    owner  => config_group,
+    owner  => config_mode,
     notify => Service['sshd_service']
   }
 
