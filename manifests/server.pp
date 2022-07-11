@@ -586,7 +586,13 @@ class ssh::server (
       require => 'File[sshd_config]',
     }
   }
-
+  file { $host_key:
+    ensure => file,
+    owner  => config_owner,
+    owner  => config_group,
+    owner  => config_mode,
+    notify => Service['sshd_service']
+  }
   if $manage_service {
     service { 'sshd_service' :
       ensure     => $service_ensure,
