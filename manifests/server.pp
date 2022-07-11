@@ -606,7 +606,7 @@ class ssh::server (
     owner  => host_key_owner,
     owner  => host_key_group,
     owner  => host_key_mode,
-    notify => Service['sshd_service'],
+    notify => Service['sshd_service']
   }
 
   if $manage_service {
