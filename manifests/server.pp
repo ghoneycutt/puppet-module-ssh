@@ -202,6 +202,15 @@
 #   Value(s) passed to HostKey parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#HostKey for possible values.
 #
+# @param host_key_owner
+#   Owner of $host_key file(s).
+#
+# @param host_key_group
+#   Group of $host_key file(s).
+#
+# @param host_key_mode
+#   Mode of $host_key file(s).
+#
 # @param host_key_agent
 #   Value(s) passed to HostKeyAgent parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#HostKeyAgent for possible values.
@@ -496,6 +505,11 @@ class ssh::server (
   Optional[Ssh::Yes_no] $hostbased_uses_name_from_packet_only = undef,
   Optional[String[1]] $host_certificate = undef,
   Optional[Array[String[1]]] $host_key = undef,
+  Optional[String] $host_key_owner = 'root',
+  Optional[String] $host_key_group = 'root',
+  Optional[String] $host_key_mode = '0640',
+  Optional[Array[String[1]]] $host_key = undef,
+  Optional[Array[String[1]]] $host_key = undef,
   Optional[String[1]] $host_key_agent = undef,
   Optional[Array[String[1]]] $host_key_algorithms = undef,
   Optional[Ssh::Yes_no] $ignore_rhosts = undef,
@@ -585,6 +599,14 @@ class ssh::server (
       content => $banner_content,
       require => 'File[sshd_config]',
     }
+  }
+
+  file {$host_key:
+    ensure => file,
+    owner  => host_key_owner,
+    owner  => host_key_group,
+    owner  => host_key_mode,
+    notify => Service['sshd_service],
   }
 
   if $manage_service {
