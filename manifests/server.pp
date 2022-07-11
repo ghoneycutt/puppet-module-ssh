@@ -27,6 +27,15 @@
 # @param config_owner
 #   User/Owner used for sshd_config file.
 #
+# @param host_key_group
+#   User group used for $host_key file(s).
+#
+# @param host_key_mode
+#   File mode used for $host_key file(s).
+#
+# @param host_key_owner
+#   User/Owner used for $host_key file(s).
+#
 # @param config_path
 #   Absolute path to sshd_config file.
 #
@@ -448,6 +457,9 @@ class ssh::server (
   String[1] $config_owner = 'root',
   String[1] $config_group = 'root',
   Stdlib::Filemode $config_mode = '0600',
+  String[1] $host_key_owner = 'root',
+  String[1] $host_key_group = 'root',
+  Stdlib::Filemode $host_key_mode = '0600',
   Stdlib::Absolutepath $banner_path = '/etc/sshd_banner',
   Optional[String[1]] $banner_content = undef,
   String[1] $banner_owner = 'root',
@@ -585,6 +597,15 @@ class ssh::server (
       content => $banner_content,
       require => 'File[sshd_config]',
     }
+  }
+
+  # Ensure ssh_host_*_ files have correct ownerships.
+  file { $host_key:
+    ensure => file,
+    owner  => $host_key_owner,
+    group  => $host_key_group,
+    mode   => $host_key_mode,
+    notify => Service['sshd_service']
   }
 
   if $manage_service {
