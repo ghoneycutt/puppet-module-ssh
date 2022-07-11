@@ -202,15 +202,6 @@
 #   Value(s) passed to HostKey parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#HostKey for possible values.
 #
-# @param host_key_owner
-#   Owner of $host_key file(s).
-#
-# @param host_key_group
-#   Group of $host_key file(s).
-#
-# @param host_key_mode
-#   Mode of $host_key file(s).
-#
 # @param host_key_agent
 #   Value(s) passed to HostKeyAgent parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#HostKeyAgent for possible values.
