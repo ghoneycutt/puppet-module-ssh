@@ -46,6 +46,7 @@ ssh::server::client_alive_interval: 0
 ssh::server::gss_api_authentication: 'yes'
 ssh::server::gss_api_cleanup_credentials: 'yes'
 ssh::server::hostbased_authentication: 'no'
+ssh::server::host_key_group: ssh_keys
 ssh::server::host_key:
   - /etc/ssh/ssh_host_ecdsa_key
   - /etc/ssh/ssh_host_ed25519_key
