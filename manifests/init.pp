@@ -270,7 +270,7 @@ class ssh (
           $default_sshd_config_permittunnel           = 'no'
           $default_sshd_config_include                = undef
         }
-        '20.04': {
+        /^2[02].04/: {
           $default_service_hasstatus                  = true
           $default_ssh_config_forward_x11_trusted     = 'yes'
           $default_ssh_config_hash_known_hosts        = 'yes'
