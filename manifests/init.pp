@@ -430,6 +430,9 @@
 #   Value(s) passed to UserKnownHostsFile parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#UserKnownHostsFile for possible values.
 #
+# @param use_roaming
+#   Value(s) passed to the UseRoaming parameter in ssh_config. Unused if empty.
+#
 # @param verify_host_key_dns
 #   Value(s) passed to VerifyHostKeyDNS parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#VerifyHostKeyDNS for possible values.
@@ -461,7 +464,7 @@ class ssh (
   Boolean $manage_root_ssh_config = false,
   Boolean $manage_server = true,
   Boolean $manage_sshkey = true,
-  Optional[Array[String[1]]] $packages = [],
+  Array[String[1]] $packages = [],
   Optional[Stdlib::Absolutepath] $packages_adminfile = undef,
   Optional[Stdlib::Absolutepath] $packages_source = undef,
   Boolean $purge_keys = true,
@@ -575,7 +578,7 @@ class ssh (
     before    => 'File[ssh_config]',
   }
 
-  file  { 'ssh_config' :
+  file { 'ssh_config' :
     ensure  => file,
     path    => $config_path,
     owner   => $config_owner,
@@ -585,24 +588,24 @@ class ssh (
   }
 
   if $manage_root_ssh_config == true {
-    exec { "mkdir_p-${::root_home}/.ssh":
-      command => "mkdir -p ${::root_home}/.ssh",
-      unless  => "test -d ${::root_home}/.ssh",
+    exec { "mkdir_p-${facts['root_home']}/.ssh":
+      command => "mkdir -p ${facts['root_home']}/.ssh",
+      unless  => "test -d ${facts['root_home']}/.ssh",
       path    => '/bin:/usr/bin',
     }
 
     file { 'root_ssh_dir':
       ensure  => directory,
-      path    => "${::root_home}/.ssh",
+      path    => "${facts['root_home']}/.ssh",
       owner   => 'root',
       group   => 'root',
       mode    => '0700',
-      require => Exec["mkdir_p-${::root_home}/.ssh"],
+      require => Exec["mkdir_p-${facts['root_home']}/.ssh"],
     }
 
     file { 'root_ssh_config':
       ensure  => file,
-      path    => "${::root_home}/.ssh/config",
+      path    => "${facts['root_home']}/.ssh/config",
       content => $root_ssh_config_content,
       owner   => 'root',
       group   => 'root',
@@ -623,7 +626,7 @@ class ssh (
 
   # remove ssh key's not managed by puppet
   if $manage_sshkey == true {
-    resources  { 'sshkey':
+    resources { 'sshkey':
       purge => $purge_keys,
     }
   }

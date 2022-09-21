@@ -27,14 +27,12 @@
 /inventory.yaml
 /spec/fixtures/litmus_inventory.yaml
 /appveyor.yml
-/.editorconfig
 /.fixtures.yml
 /Gemfile
 /.gitattributes
 /.gitignore
 /.gitlab-ci.yml
 /.pdkignore
-/.puppet-lint.rc
 /Rakefile
 /rakelib/
 /.rspec

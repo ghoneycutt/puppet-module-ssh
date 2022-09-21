@@ -3,19 +3,25 @@ require 'spec_helper'
 describe 'ssh' do
   context 'validate data types of parameters' do
     # these tests are OS independent, so we use a fictional OS without any default values
-    let(:facts) { { root_home: '/root', os: { family: 'UnitTesting' } } }
+    let(:facts) { { root_home: '/root', operatingsystem: 'UnitTesting', os: { family: 'UnitTesting' } } }
 
     validations = {
       'Array of strings (optional)' => {
         name:     ['canonical_domains', 'canonicalize_permitted_cnames', 'ca_signature_algorithms',
                    'certificate_file', 'ciphers', 'custom', 'global_known_hosts_file',
                    'hostbased_accepted_algorithms', 'host_key_algorithms', 'identity_file',
-                   'ignore_unknown', 'kbd_interactive_devices', 'kex_algorithms', 'macs', 'packages',
+                   'ignore_unknown', 'kbd_interactive_devices', 'kex_algorithms', 'macs',
                    'permit_remote_open', 'preferred_authentications', 'proxy_jump',
                    'pubkey_accepted_algorithms', 'send_env', 'set_env', 'user_known_hosts_file'],
         valid:    [['array', 'of', 'strings'], :undef],
         invalid:  ['string', { 'ha' => 'sh' }, 3, 2.42, false, [0]],
         message: 'Undef or Array|expects a String value|Error while evaluating a Resource Statement',
+      },
+      'Array of strings' => {
+        name:     ['packages'],
+        valid:    [['array', 'of', 'strings']],
+        invalid:  ['string', { 'ha' => 'sh' }, 3, 2.42, false, [0], nil],
+        message: 'expects a String value|Error while evaluating a Resource Statement',
       },
       'Boolean' => {
         name:     ['manage_global_known_hosts', 'manage_root_ssh_config', 'manage_sshkey',

@@ -4,7 +4,7 @@ require:
 - rubocop-rspec
 AllCops:
   DisplayCopNames: true
-  TargetRubyVersion: '2.4'
+  TargetRubyVersion: '2.5'
   Include:
   - "**/*.rb"
   Exclude:
@@ -71,12 +71,20 @@ Style/TrailingCommaInArrayLiteral:
 Style/SymbolArray:
   Description: Using percent style obscures symbolic intent of array's contents.
   EnforcedStyle: brackets
+Layout/FirstHashElementIndentation:
+  Enabled: false
+Performance/RegexpMatch:
+  Enabled: false
 RSpec/MessageSpies:
   EnforcedStyle: receive
+RSpec/NamedSubject:
+  Enabled: false
 Style/Documentation:
   Exclude:
   - lib/puppet/parser/functions/**/*
   - spec/**/*
+Style/HashEachMethods:
+  Enabled: false
 Style/WordArray:
   EnforcedStyle: brackets
 Performance/AncestorsInclude:

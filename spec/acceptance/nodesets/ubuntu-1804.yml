@@ -1,5 +1,5 @@
 HOSTS:
-  ubuntu-1804:
+  ubuntu1804:
     roles:
       - agent
     platform: ubuntu-18.04-amd64
@@ -8,11 +8,13 @@ HOSTS:
     docker_preserve_image: true
     docker_cmd: '["/sbin/init"]'
     docker_image_commands:
-      - 'apt-get install -y -q net-tools wget locales'
+      - "rm -f /etc/dpkg/dpkg.cfg.d/excludes"
+      - 'apt-get install -y wget net-tools locales apt-transport-https ca-certificates'
       - 'locale-gen en_US.UTF-8'
+    docker_container_name: 'ssh-ubuntu1804'
 CONFIG:
-  type: foss
   log_level: debug
+  type: foss
 ssh:
   password: root
   auth_methods: ["password"]

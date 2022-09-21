@@ -23,8 +23,11 @@ Host entries in a personal `~/.ssh/config` file.
 
 ## Compatibility
 
-This module has been tested to work on Puppet v7 and deliver default values for the following
-Operating systems:
+This module officially supports the platforms listed in the
+`metadata.json`. It does not fail on unsupported platforms and has been
+known to work on many, many platforms since its creation in 2010.
+
+### Known to work
 
  * Debian 7
  * Debian 8

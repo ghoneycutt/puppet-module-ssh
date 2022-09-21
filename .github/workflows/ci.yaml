@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.allow_failure }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - ruby: 2.7.0
+            puppet: 7
+            fixtures: .fixtures.yml
+            allow_failure: false
+          - ruby: 2.7.0
+            puppet: 7
+            fixtures: .fixtures-latest.yml
+            allow_failure: true
+    env:
+      BUNDLE_WITHOUT: system_tests:release
+      PUPPET_GEM_VERSION: "~> ${{ matrix.puppet }}.0"
+      FACTER_GEM_VERSION: "< 4.0"
+      FIXTURES_YML: ${{ matrix.fixtures }}
+    name: Puppet ${{ matrix.puppet }} (Ruby ${{ matrix.ruby }} fixtures=${{ matrix.fixtures }})
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+          bundler: '2.1.0'
+      - name: Validate
+        run: bundle exec rake check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop syntax lint metadata_lint
+      - name: Run tests
+        run: bundle exec rake parallel_spec
+  acceptance:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        set:
+          - "debian-10"
+          - "rocky-8"
+          - "ubuntu-1804"
+        puppet:
+          - "puppet7"
+    env:
+      BUNDLE_WITHOUT: development:release
+      BEAKER_debug: true
+    name: 
+    steps:
+      - name: Enable IPv6 on docker
+        run: |
+          echo '{"ipv6":true,"fixed-cidr-v6":"2001:db8:1::/64"}' | sudo tee /etc/docker/daemon.json
+          sudo service docker restart
+      # https://github.com/actions/virtual-environments/issues/181#issuecomment-610874237
+      - name: apparmor
+        run: |
+            set -x
+            sudo apt-get remove mysql-server --purge
+            sudo apt-get install apparmor-profiles
+            sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
+      - uses: actions/checkout@v2
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
+          bundler: '2.1.0'
+      - name: Run tests
+        run: bundle exec rake beaker
+        env:
+          BEAKER_PUPPET_COLLECTION: ${{ matrix.puppet }}
+          BEAKER_set: ${{ matrix.set }}

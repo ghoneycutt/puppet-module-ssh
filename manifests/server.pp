@@ -441,7 +441,7 @@
 #   Uses one array item per line to be added.
 #
 class ssh::server (
-  Optional[Array[String[1]]] $packages = [],
+  Array[String[1]] $packages = [],
   Optional[Stdlib::Absolutepath] $packages_adminfile = undef,
   Optional[Stdlib::Absolutepath] $packages_source = undef,
   Stdlib::Absolutepath $config_path = '/etc/ssh/sshd_config',
@@ -566,7 +566,7 @@ class ssh::server (
     before    => 'File[sshd_config]',
   }
 
-  file  { 'sshd_config' :
+  file { 'sshd_config' :
     ensure  => file,
     path    => $config_path,
     mode    => $config_mode,
