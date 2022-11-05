@@ -1,0 +1,7 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+#
+# See https://man.openbsd.org/ssh_config for more info
+
+Host *
+  GSSAPIAuthentication yes

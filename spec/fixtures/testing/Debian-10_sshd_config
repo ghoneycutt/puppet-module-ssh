@@ -1,0 +1,42 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+#
+# See https://man.openbsd.org/sshd_config for more info
+
+AcceptEnv LANG
+AcceptEnv LC_ADDRESS
+AcceptEnv LC_ALL
+AcceptEnv LC_COLLATE
+AcceptEnv LC_CTYPE
+AcceptEnv LC_IDENTIFICATION
+AcceptEnv LC_MEASUREMENT
+AcceptEnv LC_MESSAGES
+AcceptEnv LC_MONETARY
+AcceptEnv LC_NAME
+AcceptEnv LC_NUMERIC
+AcceptEnv LC_PAPER
+AcceptEnv LC_TELEPHONE
+AcceptEnv LC_TIME
+AllowTcpForwarding yes
+Banner none
+ClientAliveCountMax 3
+ClientAliveInterval 0
+GSSAPIAuthentication yes
+HostbasedAuthentication no
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+IgnoreRhosts yes
+IgnoreUserKnownHosts no
+KbdInteractiveAuthentication yes
+LoginGraceTime 120
+PasswordAuthentication yes
+PermitRootLogin yes
+Port 22
+PrintMotd yes
+PubkeyAuthentication yes
+Subsystem sftp /usr/lib/openssh/sftp-server
+SyslogFacility AUTH
+UsePAM yes
+X11Forwarding yes
+X11UseLocalhost yes

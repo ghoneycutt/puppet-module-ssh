@@ -1,0 +1,17 @@
+---
+version: 5
+defaults:
+  datadir: data
+  data_hash: yaml_data
+hierarchy:
+  - name: "os/{os.name}/{os.release.major}"
+    paths:
+      # in cases when minor versions are needed activate below line
+      # - "os/%{facts.os.name}/%{facts.os.release.major}.%{facts.os.release.minor}.yaml"
+      # needed for $subsystem parameter on SLED/SLES with i386 architecture only
+      - "os/%{facts.os.name}/%{facts.os.architecture}.yaml"
+      # for all other OSes
+      - "os/%{facts.os.name}/%{facts.os.release.major}.yaml"
+  - name: "os/{os.family}/{os.release.major}"
+    paths:
+      - "os/%{facts.os.family}/%{facts.os.release.major}.yaml"

@@ -1,0 +1,23 @@
+---
+# Debian 11 defaults in alphabetical order per class
+ssh::gss_api_authentication: 'yes'
+ssh::hash_known_hosts: 'yes'
+ssh::include: '/etc/ssh/ssh_config.d/*.conf'
+ssh::packages:
+  - 'openssh-client'
+ssh::send_env:
+  - 'LANG'
+  - 'LC_*'
+
+ssh::server::accept_env:
+  - 'LANG'
+  - 'LC_*'
+ssh::server::kbd_interactive_authentication: 'no'
+ssh::server::include: '/etc/ssh/sshd_config.d/*.conf'
+ssh::server::packages:
+  - 'openssh-server'
+ssh::server::print_motd: 'no'
+ssh::server::service_name: 'ssh'
+ssh::server::subsystem: 'sftp /usr/lib/openssh/sftp-server'
+ssh::server::use_pam: 'yes'
+ssh::server::x11_forwarding: 'yes'

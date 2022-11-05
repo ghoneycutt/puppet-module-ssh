@@ -1,296 +1,305 @@
 # This file is being maintained by Puppet.
 # DO NOT EDIT
+#
+# See https://man.openbsd.org/sshd_config for more info
 
-# $OpenBSD: sshd_config,v 1.73 2005/12/06 22:38:28 reyk Exp $
-
-# This is the sshd server system-wide configuration file.  See
-# sshd_config(5) for more information.
-
-# This sshd was compiled with PATH=/usr/local/bin:/bin:/usr/bin
-
-# The strategy used for options in the default sshd_config shipped with
-# OpenSSH is to specify options with their default value where
-# possible, but leave them commented.  Uncommented options change a
-# default value.
-
-<% if defined?(@sshd_config_include_real) -%>
-<% if @sshd_config_include_real.is_a? Array -%>
-Include <%= @sshd_config_include_real.join(' ') %>
-<% else -%>
-Include <%= @sshd_config_include_real %>
-<% end -%>
-
-<% end -%>
-#Port 22
-<% @sshd_config_port_array.each do |p| -%>
-<%= "Port #{p}" %>
-<% end -%>
-#Protocol 2,1
-Protocol 2
-<% if defined?(@sshd_addressfamily_real) -%>
-#AddressFamily any
-AddressFamily <%= @sshd_addressfamily_real %>
-<% end -%>
-<% if @sshd_listen_address.class == Array -%>
-<% @sshd_listen_address.each do |val| -%>
-ListenAddress <%= val %>
-<% end -%>
-<% elsif @sshd_listen_address.class == String -%>
-ListenAddress <%= @sshd_listen_address %>
-<% end -%>
-
-# HostKey for protocol version 1
-#HostKey /etc/ssh/ssh_host_key
-# HostKeys for protocol version 2
-#HostKey /etc/ssh/ssh_host_rsa_key
-#HostKey /etc/ssh/ssh_host_dsa_key
-<% @sshd_config_hostkey_real.each do |hostkey| -%>
-HostKey <%= hostkey %>
-<% end -%>
-
-# Lifetime and size of ephemeral version 1 server key
-#KeyRegenerationInterval 1h
-#ServerKeyBits 1024
-<% if @sshd_config_serverkeybits_real != nil -%>
-ServerKeyBits <%= @sshd_config_serverkeybits_real %>
-<% end -%>
-# Logging
-# obsoletes QuietMode and FascistLogging
-#SyslogFacility AUTH
-SyslogFacility <%= @sshd_config_syslog_facility %>
-#LogLevel INFO
-LogLevel <%= @sshd_config_loglevel %>
-
-# Authentication:
-
-#LoginGraceTime 120
-LoginGraceTime <%= @sshd_config_login_grace_time %>
-#PermitRootLogin yes
-PermitRootLogin <%= @permit_root_login %>
-#StrictModes yes
-<% if @sshd_config_strictmodes -%>
-StrictModes <%= @sshd_config_strictmodes %>
-<% end -%>
-#MaxAuthTries 6
-<% if @sshd_config_maxauthtries %>
-MaxAuthTries <%= @sshd_config_maxauthtries %>
-<% end -%>
-
-#RSAAuthentication yes
-<% if @sshd_pubkeyacceptedkeytypes -%>
-PubkeyAcceptedKeyTypes <%= @sshd_pubkeyacceptedkeytypes.join(',') %>
-<% end -%>
-#PubkeyAuthentication yes
-PubkeyAuthentication <%= @sshd_pubkeyauthentication %>
-#AuthorizedKeysFile .ssh/authorized_keys
-<% if @sshd_config_authkey_location -%>
-AuthorizedKeysFile <%= @sshd_config_authkey_location %>
-<% end -%>
-<% if @sshd_authorized_keys_command -%>
-AuthorizedKeysCommand <%= @sshd_authorized_keys_command %>
-<% end -%>
-<% if @sshd_authorized_keys_command_user -%>
-AuthorizedKeysCommandUser <%= @sshd_authorized_keys_command_user %>
-<% end -%>
-
-# For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
-#RhostsRSAAuthentication no
-# similar for protocol version 2
-#HostbasedAuthentication no
-HostbasedAuthentication <%= @sshd_hostbasedauthentication %>
-# Change to yes if you don't trust ~/.ssh/known_hosts for
-# RhostsRSAAuthentication and HostbasedAuthentication
-#IgnoreUserKnownHosts no
-IgnoreUserKnownHosts <%= @sshd_ignoreuserknownhosts %>
-# Don't read the user's ~/.rhosts and ~/.shosts files
-#IgnoreRhosts yes
-IgnoreRhosts <%= @sshd_ignorerhosts %>
-
-<%- if @sshd_config_authenticationmethods -%>
-AuthenticationMethods <%= @sshd_config_authenticationmethods.join(',') %>
-<%- end -%>
-# To disable tunneled clear text passwords, change to no here!
-#PasswordAuthentication yes
-PasswordAuthentication <%= @sshd_password_authentication %>
-<% if @sshd_pamauthenticationviakbdint_real != nil -%>
-# Use PAM via keyboard interactive method for authentication.
-# Depending on the setup of pam.conf(4) this may allow tunneled clear text
-# passwords even when PasswordAuthentication is set to no. This is dependent
-# on what the individual modules request and is out of the control of sshd
-# or the protocol.
-PAMAuthenticationViaKBDInt <%= @sshd_pamauthenticationviakbdint_real %>
-<% end -%>
-#PermitEmptyPasswords no
-<% if @sshd_config_permitemptypasswords != nil -%>
-PermitEmptyPasswords <%= @sshd_config_permitemptypasswords %>
-<% end -%>
-
-# Change to no to disable s/key passwords
-#ChallengeResponseAuthentication yes
-ChallengeResponseAuthentication <%= @sshd_config_challenge_resp_auth %>
-
-# Kerberos options
-<% if @sshd_kerberos_authentication != nil -%>
-#KerberosAuthentication no
-KerberosAuthentication <%= @sshd_kerberos_authentication %>
-<% end -%>
-#KerberosOrLocalPasswd yes
-#KerberosTicketCleanup yes
-#KerberosGetAFSToken no
-
-# GSSAPI options
-#GSSAPIAuthentication no
-GSSAPIAuthentication <%= @sshd_gssapiauthentication %>
-<% if @sshd_gssapikeyexchange_real != nil -%>
-GSSAPIKeyExchange <%= @sshd_gssapikeyexchange_real %>
-<% end -%>
-<% if @sshd_gssapicleanupcredentials_real != nil -%>
-#GSSAPICleanupCredentials yes
-GSSAPICleanupCredentials <%= @sshd_gssapicleanupcredentials_real %>
-<% end -%>
-
-<% if @sshd_use_pam_real != nil -%>
-# Set this to 'yes' to enable PAM authentication, account processing,
-# and session processing. If this is enabled, PAM authentication will
-# be allowed through the ChallengeResponseAuthentication mechanism.
-# Depending on your PAM configuration, this may bypass the setting of
-# PasswordAuthentication, PermitEmptyPasswords, and
-# "PermitRootLogin without-password". If you just want the PAM account and
-# session checks to run without PAM authentication, then enable this but set
-# ChallengeResponseAuthentication=no
-#UsePAM no
-UsePAM <%= @sshd_use_pam_real %>
-<% end -%>
-
-<% if @sshd_acceptenv_real == true -%>
-# Accept locale-related environment variables
-AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
-AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
-AcceptEnv LC_IDENTIFICATION LC_ALL
-<% end -%>
-#AllowTcpForwarding yes
-AllowTcpForwarding <%= @sshd_allow_tcp_forwarding %>
-#GatewayPorts no
-#X11Forwarding no
-X11Forwarding <%= @sshd_x11_forwarding %>
-#X11DisplayOffset 10
-#X11UseLocalhost yes
-X11UseLocalhost <%= @sshd_x11_use_localhost %>
-#PrintMotd yes
-PrintMotd <%= @sshd_config_print_motd %>
-#PrintLastLog yes
-<% if @sshd_config_print_last_log != nil -%>
-PrintLastLog <%= @sshd_config_print_last_log %>
-<% end -%>
-#TCPKeepAlive yes
-<% if @sshd_config_tcp_keepalive_real != nil -%>
-TCPKeepAlive <%= @sshd_config_tcp_keepalive_real %>
-<% end -%>
-#UseLogin no
-#UsePrivilegeSeparation yes
-<% if @sshd_config_use_privilege_separation != nil -%>
-UsePrivilegeSeparation <%= @sshd_config_use_privilege_separation %>
-<% end -%>
-#PermitUserEnvironment no
-<% if @sshd_config_permituserenvironment != nil -%>
-PermitUserEnvironment <%= @sshd_config_permituserenvironment %>
-<% end -%>
-#Compression delayed
-<% if @sshd_config_compression != nil -%>
-Compression <%= @sshd_config_compression %>
-<% end -%>
-#ClientAliveInterval 0
-ClientAliveInterval <%= @sshd_client_alive_interval %>
-ClientAliveCountMax <%= @sshd_client_alive_count_max %>
-#ShowPatchLevel no
-<% if @sshd_config_use_dns_real != nil -%>
-#UseDNS yes
-UseDNS <%= @sshd_config_use_dns_real %>
-<% end -%>
-#PidFile /var/run/sshd.pid
-<% if @sshd_config_maxstartups -%>
-MaxStartups <%= @sshd_config_maxstartups %>
-<% else -%>
-#MaxStartups 10:30:100
-<% end -%>
-<% if @sshd_config_maxsessions_integer != nil -%>
-MaxSessions <%= @sshd_config_maxsessions_integer %>
-<% else -%>
-#MaxSessions 10
-<% end -%>
-
-#PermitTunnel no
-<% if @sshd_config_permittunnel_real != nil -%>
-PermitTunnel <%= @sshd_config_permittunnel_real %>
-<% end -%>
-<% if @sshd_config_chrootdirectory -%>
-ChrootDirectory <%= @sshd_config_chrootdirectory %>
-<% else -%>
-#ChrootDirectory none
-<% end -%>
-<% if @sshd_config_forcecommand -%>
-ForceCommand <%= @sshd_config_forcecommand %>
-<% end -%>
-<% if @sshd_config_allowagentforwarding != nil -%>
-#AllowAgentForwarding yes
-AllowAgentForwarding <%= @sshd_config_allowagentforwarding %>
-<% end -%>
-
-# no default banner path
-#Banner none
-Banner <%= @sshd_config_banner %>
-
-<% if @sshd_config_xauth_location_real -%>
-#XAuthLocation /usr/bin/xauth
-XAuthLocation <%= @sshd_config_xauth_location_real %>
-
-<% end -%>
-# override default of no subsystems
-Subsystem sftp <%= @sshd_config_subsystem_sftp_real %>
-
-<% if @sshd_config_ciphers -%>
-Ciphers <%= @sshd_config_ciphers.join(',') %>
-<% end -%>
-<% if @sshd_config_kexalgorithms -%>
-KexAlgorithms <%= @sshd_config_kexalgorithms.join(',') %>
-<% end -%>
-<% if @sshd_config_macs -%>
-MACs <%= @sshd_config_macs.join(',') %>
-<% end -%>
-<% if @sshd_config_denyusers_real != [] -%>
-DenyUsers <%= @sshd_config_denyusers_real.join(' ') %>
-<% end -%>
-<% if @sshd_config_denygroups_real != [] -%>
-DenyGroups <%= @sshd_config_denygroups_real.join(' ') %>
-<% end -%>
-<% if @sshd_config_allowusers_real != [] -%>
-AllowUsers <%= @sshd_config_allowusers_real.join(' ') %>
-<% end -%>
-<% if @sshd_config_allowgroups_real != [] -%>
-AllowGroups <%= @sshd_config_allowgroups_real.join(' ') %>
-<% end -%>
-<% if @sshd_config_key_revocation_list_real -%>
-RevokedKeys <%= @sshd_config_key_revocation_list_real %>
-<% end -%>
-<% if @sshd_config_hostcertificate_real.class == Array -%>
-<%   @sshd_config_hostcertificate_real.each do |cert| -%>
-HostCertificate <%= cert %>
+<% if @accept_env != nil -%>
+<%   @accept_env.each do |v| -%>
+AcceptEnv <%= v %>
 <%   end -%>
-<% elsif @sshd_config_hostcertificate_real.class == String -%>
-HostCertificate <%= @sshd_config_hostcertificate_real %>
 <% end -%>
-<% if @sshd_config_trustedusercakeys_real -%>
-TrustedUserCAKeys <%= @sshd_config_trustedusercakeys_real %>
+<% if @address_family != nil -%>
+AddressFamily <%= @address_family %>
 <% end -%>
-<% if @sshd_config_authorized_principals_file_real -%>
-AuthorizedPrincipalsFile <%= @sshd_config_authorized_principals_file_real %>
+<% if @allow_agent_forwarding != nil -%>
+AllowAgentForwarding <%= @allow_agent_forwarding %>
 <% end -%>
-<% if @sshd_config_match -%>
-
-<%   @sshd_config_match.sort.each do |key, hash| -%>
-Match <%= key %>
-<%     hash.sort.each do |values| -%>
-  <%= values %>
-<%     end -%>
+<% if @allow_groups != nil -%>
+AllowGroups <%= @allow_groups.join(' ') %>
+<% end -%>
+<% if @allow_stream_local_forwarding != nil -%>
+AllowStreamLocalForwarding <%= @allow_stream_local_forwarding %>
+<% end -%>
+<% if @allow_tcp_forwarding != nil -%>
+AllowTcpForwarding <%= @allow_tcp_forwarding %>
+<% end -%>
+<% if @allow_users != nil -%>
+AllowUsers <%= @allow_users.join(' ') %>
+<% end -%>
+<% if @authentication_methods != nil -%>
+AuthenticationMethods <%= @authentication_methods.join(',') %>
+<% end -%>
+<% if @authorized_keys_command != nil -%>
+AuthorizedKeysCommand <%= @authorized_keys_command %>
+<% end -%>
+<% if @authorized_keys_command_user != nil -%>
+AuthorizedKeysCommandUser <%= @authorized_keys_command_user %>
+<% end -%>
+<% if @authorized_keys_file != nil -%>
+AuthorizedKeysFile <%= @authorized_keys_file.join(' ') %>
+<% end -%>
+<% if @authorized_principals_command != nil -%>
+AuthorizedPrincipalsCommand <%= @authorized_principals_command %>
+<% end -%>
+<% if @authorized_principals_command_user != nil -%>
+AuthorizedPrincipalsCommandUser <%= @authorized_principals_command_user %>
+<% end -%>
+<% if @authorized_principals_file != nil -%>
+AuthorizedPrincipalsFile <%= @authorized_principals_file %>
+<% end -%>
+<% if @banner != nil -%>
+Banner <%= @banner %>
+<% end -%>
+<% if @ca_signature_algorithms != nil -%>
+CASignatureAlgorithms <%= @ca_signature_algorithms.join(',') %>
+<% end -%>
+<% if @challenge_response_authentication -%>
+ChallengeResponseAuthentication <%= @challenge_response_authentication %>
+<% end -%>
+<% if @chroot_directory != nil -%>
+ChrootDirectory <%= @chroot_directory %>
+<% end -%>
+<% if @ciphers != nil -%>
+Ciphers <%= @ciphers.join(',') %>
+<% end -%>
+<% if @client_alive_count_max != nil -%>
+ClientAliveCountMax <%= @client_alive_count_max %>
+<% end -%>
+<% if @client_alive_interval != nil -%>
+ClientAliveInterval <%= @client_alive_interval %>
+<% end -%>
+<% if @compression != nil -%>
+Compression <%= @compression %>
+<% end -%>
+<% if @deny_groups != nil -%>
+DenyGroups <%= @deny_groups.join(' ') %>
+<% end -%>
+<% if @deny_users != nil -%>
+DenyUsers <%= @deny_users.join(' ') %>
+<% end -%>
+<% if @disable_forwarding != nil -%>
+DisableForwarding <%= @disable_forwarding %>
+<% end -%>
+<% if @expose_auth_info != nil -%>
+ExposeAuthInfo <%= @expose_auth_info %>
+<% end -%>
+<% if @fingerprint_hash != nil -%>
+FingerprintHash <%= @fingerprint_hash %>
+<% end -%>
+<% if @force_command != nil -%>
+ForceCommand <%= @force_command %>
+<% end -%>
+<% if @gateway_ports != nil -%>
+GatewayPorts <%= @gateway_ports %>
+<% end -%>
+<% if @gss_api_authentication != nil -%>
+GSSAPIAuthentication <%= @gss_api_authentication %>
+<% end -%>
+<% if @gss_api_cleanup_credentials != nil -%>
+GSSAPICleanupCredentials <%= @gss_api_cleanup_credentials %>
+<% end -%>
+<% if @gss_api_strict_acceptor_check != nil -%>
+GSSAPIStrictAcceptorCheck <%= @gss_api_strict_acceptor_check %>
+<% end -%>
+<% if @hostbased_accepted_algorithms != nil -%>
+HostbasedAcceptedAlgorithms <%= @hostbased_accepted_algorithms.join(',') %>
+<% end -%>
+<% if @hostbased_authentication != nil -%>
+HostbasedAuthentication <%= @hostbased_authentication %>
+<% end -%>
+<% if @hostbased_uses_name_from_packet_only != nil -%>
+HostbasedUsesNameFromPacketOnly <%= @hostbased_uses_name_from_packet_only %>
+<% end -%>
+<% if @host_certificate != nil -%>
+HostCertificate <%= @host_certificate %>
+<% end -%>
+<% if @host_key != nil -%>
+<%   @host_key.each do |v| -%>
+HostKey <%= v %>
+<%   end -%>
+<% end -%>
+<% if @host_key_agent != nil -%>
+HostKeyAgent <%= @host_key_agent %>
+<% end -%>
+<% if @host_key_algorithms != nil -%>
+HostKeyAlgorithms <%= @host_key_algorithms.join(',') %>
+<% end -%>
+<% if @ignore_rhosts != nil -%>
+IgnoreRhosts <%= @ignore_rhosts %>
+<% end -%>
+<% if @ignore_user_known_hosts != nil -%>
+IgnoreUserKnownHosts <%= @ignore_user_known_hosts %>
+<% end -%>
+<% if @include != nil -%>
+Include <%= @include %>
+<% end -%>
+<% if @ip_qos != nil -%>
+IPQoS <%= @ip_qos %>
+<% end -%>
+<% if @kbd_interactive_authentication != nil -%>
+KbdInteractiveAuthentication <%= @kbd_interactive_authentication %>
+<% end -%>
+<% if @kerberos_authentication != nil -%>
+KerberosAuthentication <%= @kerberos_authentication %>
+<% end -%>
+<% if @kerberos_get_afs_token != nil -%>
+KerberosGetAFSToken <%= @kerberos_get_afs_token %>
+<% end -%>
+<% if @kerberos_or_local_passwd != nil -%>
+KerberosOrLocalPasswd <%= @kerberos_or_local_passwd %>
+<% end -%>
+<% if @kerberos_ticket_cleanup != nil -%>
+KerberosTicketCleanup <%= @kerberos_ticket_cleanup %>
+<% end -%>
+<% if @kex_algorithms != nil -%>
+KexAlgorithms <%= @kex_algorithms.join(',') %>
+<% end -%>
+<% if @listen_address != nil -%>
+<%   @listen_address.each do |v| -%>
+ListenAddress <%= v %>
+<%   end -%>
+<% end -%>
+<% if @login_grace_time != nil -%>
+LoginGraceTime <%= @login_grace_time %>
+<% end -%>
+<% if @log_level != nil -%>
+LogLevel <%= @log_level %>
+<% end -%>
+<% if @log_verbose != nil -%>
+LogVerbose <%= @log_verbose %>
+<% end -%>
+<% if @macs != nil -%>
+MACs <%= @macs.join(',') %>
+<% end -%>
+<% if @max_auth_tries != nil -%>
+MaxAuthTries <%= @max_auth_tries %>
+<% end -%>
+<% if @max_sessions != nil -%>
+MaxSessions <%= @max_sessions %>
+<% end -%>
+<% if @max_startups != nil -%>
+MaxStartups <%= @max_startups %>
+<% end -%>
+<% if @moduli_file != nil -%>
+ModuliFile <%= @moduli_file %>
+<% end -%>
+<% if @password_authentication != nil -%>
+PasswordAuthentication <%= @password_authentication %>
+<% end -%>
+<% if @permit_empty_passwords != nil -%>
+PermitEmptyPasswords <%= @permit_empty_passwords %>
+<% end -%>
+<% if @permit_listen != nil -%>
+PermitListen <%= @permit_listen.join(' ') %>
+<% end -%>
+<% if @permit_open != nil -%>
+PermitOpen <%= @permit_open.join(' ') %>
+<% end -%>
+<% if @permit_root_login != nil -%>
+PermitRootLogin <%= @permit_root_login %>
+<% end -%>
+<% if @permit_tty != nil -%>
+PermitTTY <%= @permit_tty %>
+<% end -%>
+<% if @permit_tunnel != nil -%>
+PermitTunnel <%= @permit_tunnel %>
+<% end -%>
+<% if @permit_user_environment != nil -%>
+PermitUserEnvironment <%= @permit_user_environment %>
+<% end -%>
+<% if @permit_user_rc != nil -%>
+PermitUserRC <%= @permit_user_rc %>
+<% end -%>
+<% if @per_source_max_startups != nil -%>
+PerSourceMaxStartups <%= @per_source_max_startups %>
+<% end -%>
+<% if @per_source_net_block_size != nil -%>
+PerSourceNetBlockSize <%= @per_source_net_block_size %>
+<% end -%>
+<% if @pid_file != nil -%>
+PidFile <%= @pid_file %>
+<% end -%>
+<% if @port != nil -%>
+<%   @port.each do |v| -%>
+Port <%= v %>
+<%   end -%>
+<% end -%>
+<% if @print_last_log != nil -%>
+PrintLastLog <%= @print_last_log %>
+<% end -%>
+<% if @print_motd != nil -%>
+PrintMotd <%= @print_motd %>
+<% end -%>
+<% if @pubkey_accepted_algorithms != nil -%>
+PubkeyAcceptedAlgorithms <%= @pubkey_accepted_algorithms.join(',') %>
+<% end -%>
+<% if @pubkey_auth_options != nil -%>
+PubkeyAuthOptions <%= @pubkey_auth_options %>
+<% end -%>
+<% if @pubkey_authentication != nil -%>
+PubkeyAuthentication <%= @pubkey_authentication %>
+<% end -%>
+<% if @rekey_limit != nil -%>
+RekeyLimit <%= @rekey_limit %>
+<% end -%>
+<% if @revoked_keys != nil -%>
+RevokedKeys <%= @revoked_keys %>
+<% end -%>
+<% if @rdomain != nil -%>
+RDomain <%= @rdomain %>
+<% end -%>
+<% if @security_key_provider != nil -%>
+SecurityKeyProvider <%= @security_key_provider %>
+<% end -%>
+<% if @set_env != nil -%>
+<%   @set_env.each do |v| -%>
+SetEnv <%= v %>
+<%   end -%>
+<% end -%>
+<% if @stream_local_bind_mask != nil -%>
+StreamLocalBindMask <%= @stream_local_bind_mask %>
+<% end -%>
+<% if @stream_local_bind_unlink != nil -%>
+StreamLocalBindUnlink <%= @stream_local_bind_unlink %>
+<% end -%>
+<% if @strict_modes != nil -%>
+StrictModes <%= @strict_modes %>
+<% end -%>
+<% if @subsystem != nil -%>
+Subsystem <%= @subsystem %>
+<% end -%>
+<% if @syslog_facility != nil -%>
+SyslogFacility <%= @syslog_facility %>
+<% end -%>
+<% if @tcp_keep_alive != nil -%>
+TCPKeepAlive <%= @tcp_keep_alive %>
+<% end -%>
+<% if @trusted_user_ca_keys != nil -%>
+TrustedUserCAKeys <%= @trusted_user_ca_keys %>
+<% end -%>
+<% if @use_dns != nil -%>
+UseDNS <%= @use_dns %>
+<% end -%>
+<% if @use_pam != nil -%>
+UsePAM <%= @use_pam %>
+<% end -%>
+<% if @version_addendum != nil -%>
+VersionAddendum <%= @version_addendum %>
+<% end -%>
+<% if @x11_display_offset != nil -%>
+X11DisplayOffset <%= @x11_display_offset %>
+<% end -%>
+<% if @x11_forwarding != nil -%>
+X11Forwarding <%= @x11_forwarding %>
+<% end -%>
+<% if @x11_use_localhost != nil -%>
+X11UseLocalhost <%= @x11_use_localhost %>
+<% end -%>
+<% if @xauth_location != nil -%>
+XAuthLocation <%= @xauth_location %>
+<% end -%>
+<% if @custom != nil -%>
+<%   @custom.each do |line| -%>
+<%= line %>
 <%   end -%>
 <% end -%>

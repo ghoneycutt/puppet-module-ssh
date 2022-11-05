@@ -1,0 +1,67 @@
+---
+# Debian 10 defaults in alphabetical order
+ssh::forward_x11_trusted: 'yes'
+ssh::gss_api_authentication: 'yes'
+ssh::hash_known_hosts: 'yes'
+ssh::packages:
+  - 'openssh-client'
+ssh::send_env:
+  - 'LANG'
+  - 'LANGUAGE'
+  - 'LC_ADDRESS'
+  - 'LC_ALL'
+  - 'LC_COLLATE'
+  - 'LC_CTYPE'
+  - 'LC_IDENTIFICATION'
+  - 'LC_MEASUREMENT'
+  - 'LC_MESSAGES'
+  - 'LC_MONETARY'
+  - 'LC_NAME'
+  - 'LC_NUMERIC'
+  - 'LC_PAPER'
+  - 'LC_TELEPHONE'
+  - 'LC_TIME'
+
+ssh::server::accept_env:
+  - 'LANG'
+  - 'LC_ADDRESS'
+  - 'LC_ALL'
+  - 'LC_COLLATE'
+  - 'LC_CTYPE'
+  - 'LC_IDENTIFICATION'
+  - 'LC_MEASUREMENT'
+  - 'LC_MESSAGES'
+  - 'LC_MONETARY'
+  - 'LC_NAME'
+  - 'LC_NUMERIC'
+  - 'LC_PAPER'
+  - 'LC_TELEPHONE'
+  - 'LC_TIME'
+ssh::server::allow_tcp_forwarding: 'yes'
+ssh::server::banner: 'none'
+ssh::server::kbd_interactive_authentication: 'yes'
+ssh::server::client_alive_count_max: 3
+ssh::server::client_alive_interval: 0
+ssh::server::gss_api_authentication: 'yes'
+ssh::server::hostbased_authentication: 'no'
+ssh::server::host_key:
+  - '/etc/ssh/ssh_host_rsa_key'
+  - '/etc/ssh/ssh_host_ecdsa_key'
+  - '/etc/ssh/ssh_host_ed25519_key'
+ssh::server::ignore_rhosts: 'yes'
+ssh::server::ignore_user_known_hosts: 'no'
+ssh::server::login_grace_time: 120
+ssh::server::packages:
+  - 'openssh-server'
+ssh::server::password_authentication: 'yes'
+ssh::server::permit_root_login: 'yes'
+ssh::server::port:
+  - 22
+ssh::server::print_motd: 'yes'
+ssh::server::pubkey_authentication: 'yes'
+ssh::server::service_name: 'ssh'
+ssh::server::subsystem: 'sftp /usr/lib/openssh/sftp-server'
+ssh::server::syslog_facility: 'AUTH'
+ssh::server::use_pam: 'yes'
+ssh::server::x11_forwarding: 'yes'
+ssh::server::x11_use_localhost: 'yes'

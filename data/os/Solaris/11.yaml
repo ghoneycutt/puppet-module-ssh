@@ -1,0 +1,38 @@
+---
+# Solaris 11 defaults in alphabetical order per class
+ssh::gss_api_authentication: 'yes'
+ssh::packages:
+  - 'network/ssh'
+  - 'network/ssh/ssh-key'
+
+ssh::server::allow_tcp_forwarding: 'yes'
+ssh::server::banner: 'none'
+ssh::server::client_alive_count_max: 3
+ssh::server::client_alive_interval: 0
+ssh::server::config_mode: '0644'
+ssh::server::custom:
+  - 'ChallengeResponseAuthentication yes'
+  - 'GSSAPIKeyExchange yes'
+  - 'PAMAuthenticationViaKBDInt yes'
+  - 'ServerKeyBits 768'
+ssh::server::gss_api_authentication: 'yes'
+ssh::server::hostbased_authentication: 'no'
+ssh::server::host_key:
+  - '/etc/ssh/ssh_host_rsa_key'
+ssh::server::ignore_rhosts: 'yes'
+ssh::server::ignore_user_known_hosts: 'no'
+ssh::server::login_grace_time: 120
+ssh::server::packages:
+  - 'service/network/ssh'
+ssh::server::password_authentication: 'yes'
+ssh::server::permit_root_login: 'yes'
+ssh::server::port:
+  - 22
+ssh::server::print_motd: 'yes'
+ssh::server::pubkey_authentication: 'yes'
+ssh::server::service_name: 'ssh'
+ssh::server::subsystem: 'sftp /usr/lib/ssh/sftp-server'
+ssh::server::syslog_facility: 'AUTH'
+ssh::server::x11_forwarding: 'yes'
+ssh::server::x11_use_localhost: 'yes'
+ssh::server::xauth_location: '/usr/openwin/bin/xauth'

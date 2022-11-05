@@ -1,0 +1,11 @@
+---
+fixtures:
+  repositories:
+    stdlib:
+      repo: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
+    concat:
+      repo: 'https://github.com/puppetlabs/puppetlabs-concat.git'
+    sshkeys:
+      repo: 'https://github.com/puppetlabs/puppetlabs-sshkeys_core.git'
+  symlinks:
+    ssh: "#{source_dir}"
