@@ -1,0 +1,13 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+#
+# See https://man.openbsd.org/sshd_config for more info
+
+AcceptEnv LANG
+AcceptEnv LC_*
+Include /etc/ssh/sshd_config.d/*.conf
+KbdInteractiveAuthentication no
+PrintMotd no
+Subsystem sftp /usr/lib/openssh/sftp-server
+UsePAM yes
+X11Forwarding yes

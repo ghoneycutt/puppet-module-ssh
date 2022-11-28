@@ -1,0 +1,51 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+#
+# See https://man.openbsd.org/sshd_config for more info
+
+AcceptEnv LANG
+AcceptEnv LC_CTYPE
+AcceptEnv LC_NUMERIC
+AcceptEnv LC_TIME
+AcceptEnv LC_COLLATE
+AcceptEnv LC_MONETARY
+AcceptEnv LC_MESSAGES
+AcceptEnv LC_PAPER
+AcceptEnv LC_NAME
+AcceptEnv LC_ADDRESS
+AcceptEnv LC_TELEPHONE
+AcceptEnv LC_MEASUREMENT
+AcceptEnv LC_IDENTIFICATION
+AcceptEnv LC_ALL LANGUAGE
+AcceptEnv XMODIFIERS
+AddressFamily any
+AllowTcpForwarding yes
+AuthorizedKeysFile .ssh/authorized_keys
+Banner none
+ChallengeResponseAuthentication no
+ClientAliveCountMax 3
+ClientAliveInterval 0
+GSSAPIAuthentication yes
+GSSAPICleanupCredentials no
+HostbasedAuthentication no
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/ssh_host_rsa_key
+IgnoreRhosts yes
+IgnoreUserKnownHosts no
+KbdInteractiveAuthentication yes
+LoginGraceTime 120
+PasswordAuthentication yes
+PermitRootLogin yes
+PermitTunnel no
+Port 22
+PrintMotd no
+PubkeyAuthentication yes
+Subsystem sftp /usr/libexec/openssh/sftp-server
+SyslogFacility AUTHPRIV
+TCPKeepAlive yes
+UseDNS no
+UsePAM yes
+X11Forwarding no
+X11UseLocalhost yes
+XAuthLocation /usr/bin/xauth

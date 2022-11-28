@@ -1,0 +1,5 @@
+--no-80chars-check
+--no-140chars-check
+--no-manifest_whitespace_opening_brace_after-check
+--relative
+--fail_on_warnings

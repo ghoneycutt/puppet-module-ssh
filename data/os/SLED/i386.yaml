@@ -1,0 +1,3 @@
+---
+# (Suse) SLED/SLES on i386 architecture does use a different path for sftp subsystem
+ssh::server::subsystem: 'sftp /usr/lib/ssh/sftp-server'
