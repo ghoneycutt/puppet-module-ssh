@@ -1,0 +1,2606 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Puppet Class: ssh
+  
+    &mdash; Documentation by YARD 0.9.28
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "puppet_classes::ssh";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../puppet_class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (s)</a> &raquo;
+    <span class='title'><span class='object_link'>Puppet Classes</span></span>
+     &raquo; 
+    <span class="title">ssh</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="puppet_class_list_link"
+        href="../puppet_class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Puppet Class: ssh</h1>
+<div class="box_info">
+  
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>
+      manifests/init.pp
+    </dd>
+  </dl>
+</div>
+
+  <h2>Summary</h2>
+  Class to manage SSH client
+
+<h2>Overview</h2>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Notes: <code>Match</code> and <code>Host</code> attributes are not directly supported as multiple match/host blocks can exist. Use the <code>custom</code> parameter for that.</p>
+
+  </div>
+</div>
+
+
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>config_entries</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Hash of configuration entries passed to ssh::config_entries define. Please check the docs for ssh::config_entries for a list and details of the parameters usable here.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>config_group</span>
+      
+      
+        <span class='type'>(<tt>String[1]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;root&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>User group used for ssh_config file.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>config_mode</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Filemode</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;0644&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>File mode used for ssh_config file.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>config_owner</span>
+      
+      
+        <span class='type'>(<tt>String[1]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;root&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>User/Owner used for ssh_config file.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>config_path</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Absolutepath</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;/etc/ssh/ssh_config&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Absolute path to ssh_config file.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>global_known_hosts_group</span>
+      
+      
+        <span class='type'>(<tt>String[1]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;root&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>User group used for global used known_hosts file.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>global_known_hosts_mode</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Filemode</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;0644&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>File mode used for global used known_hosts file.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>global_known_hosts_owner</span>
+      
+      
+        <span class='type'>(<tt>String[1]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;root&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>User/Owner used for global used known_hosts file.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>global_known_hosts_path</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Absolutepath</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;/etc/ssh/ssh_known_hosts&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Absolute path to global used known_hosts file.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>keys</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Hash of keys to be added to ~/.ssh/authorized_keys for users.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>manage_global_known_hosts</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Boolean to choose if the global used known hosts file should be managed.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>manage_root_ssh_config</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Boolean to choose if the ssh_config file of root should be managed.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>manage_server</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Boolean to choose if the SSH daemon and its configuration should be managed.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>manage_sshkey</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Boolean to choose if SSH keys should be managed. Also see $purge_keys.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>packages</span>
+      
+      
+        <span class='type'>(<tt>Array[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Installation package(s) for the SSH client.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>packages_adminfile</span>
+      
+      
+        <span class='type'>(<tt>Optional[Stdlib::Absolutepath]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Path to adminfile for SSH client package(s) installation. Needed for Solaris.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>packages_source</span>
+      
+      
+        <span class='type'>(<tt>Optional[Stdlib::Absolutepath]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Source to SSH client package(s). Needed for Solaris.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>purge_keys</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If SSH keys not managed by Puppet should get removed. Also see $manage_sshkey.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>root_ssh_config_content</span>
+      
+      
+        <span class='type'>(<tt>String[1]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;# This file is being maintained by Puppet.\n# DO NOT EDIT\n&quot;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Content of the ssh_config file of root.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>host</span>
+      
+      
+        <span class='type'>(<tt>String[1]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;*&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to Host parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#Host">man.openbsd.org/ssh_config#Host</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>add_keys_to_agent</span>
+      
+      
+        <span class='type'>(<tt>Optional[Enum['yes', 'no', 'ask', 'confirm']]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to AddKeysToAgent parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#AddKeysToAgent">man.openbsd.org/ssh_config#AddKeysToAgent</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>address_family</span>
+      
+      
+        <span class='type'>(<tt>Optional[Enum['any', 'inet', 'inet6']]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to AddressFamily parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#AddressFamily">man.openbsd.org/ssh_config#AddressFamily</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>batch_mode</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to BatchMode parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#BatchMode">man.openbsd.org/ssh_config#BatchMode</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>bind_address</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to BindAddress parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#BindAddress">man.openbsd.org/ssh_config#BindAddress</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>bind_interface</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to BindInterface parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#BindInterface">man.openbsd.org/ssh_config#BindInterface</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>canonical_domains</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to CanonicalDomains parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CanonicalDomains">man.openbsd.org/ssh_config#CanonicalDomains</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>canonicalize_fallback_local</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to CanonicalizeFallbackLocal parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CanonicalizeFallbackLocal">man.openbsd.org/ssh_config#CanonicalizeFallbackLocal</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>canonicalize_hostname</span>
+      
+      
+        <span class='type'>(<tt>Optional[Enum['yes', 'no', 'always']]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to CanonicalizeHostname parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CanonicalizeHostname">man.openbsd.org/ssh_config#CanonicalizeHostname</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>canonicalize_max_dots</span>
+      
+      
+        <span class='type'>(<tt>Optional[Integer[0]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to CanonicalizeMaxDots parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CanonicalizeMaxDots">man.openbsd.org/ssh_config#CanonicalizeMaxDots</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>canonicalize_permitted_cnames</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to CanonicalizePermittedCNAMEs parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CanonicalizePermittedCNAMEs">man.openbsd.org/ssh_config#CanonicalizePermittedCNAMEs</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ca_signature_algorithms</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to CASignatureAlgorithms parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CASignatureAlgorithms">man.openbsd.org/ssh_config#CASignatureAlgorithms</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>certificate_file</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to CertificateFile parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CertificateFile">man.openbsd.org/ssh_config#CertificateFile</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>check_host_ip</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to CheckHostIP parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CheckHostIP">man.openbsd.org/ssh_config#CheckHostIP</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ciphers</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to Ciphers parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#Ciphers">man.openbsd.org/ssh_config#Ciphers</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>clear_all_forwardings</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ClearAllForwardings parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ClearAllForwardings">man.openbsd.org/ssh_config#ClearAllForwardings</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>compression</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to Compression parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#Compression">man.openbsd.org/ssh_config#Compression</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>connection_attempts</span>
+      
+      
+        <span class='type'>(<tt>Optional[Integer[0]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ConnectionAttempts parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ConnectionAttempts">man.openbsd.org/ssh_config#ConnectionAttempts</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>connect_timeout</span>
+      
+      
+        <span class='type'>(<tt>Optional[Integer[0]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ConnectTimeout parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ConnectTimeout">man.openbsd.org/ssh_config#ConnectTimeout</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>control_master</span>
+      
+      
+        <span class='type'>(<tt>Optional[Enum['yes', 'no', 'ask', 'auto', 'autoask']]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ControlMaster parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ControlMaster">man.openbsd.org/ssh_config#ControlMaster</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>control_path</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ControlPath parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ControlPath">man.openbsd.org/ssh_config#ControlPath</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>control_persist</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ControlPersist parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ControlPersist">man.openbsd.org/ssh_config#ControlPersist</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>dynamic_forward</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to DynamicForward parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#DynamicForward">man.openbsd.org/ssh_config#DynamicForward</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_ssh_keysign</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to EnableSSHKeysign parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#EnableSSHKeysign">man.openbsd.org/ssh_config#EnableSSHKeysign</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>escape_char</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to EscapeChar parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#EscapeChar">man.openbsd.org/ssh_config#EscapeChar</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>exit_on_forward_failure</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ExitOnForwardFailure parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ExitOnForwardFailure">man.openbsd.org/ssh_config#ExitOnForwardFailure</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>fingerprint_hash</span>
+      
+      
+        <span class='type'>(<tt>Optional[Enum['sha256', 'md5']]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to FingerprintHash parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#FingerprintHash">man.openbsd.org/ssh_config#FingerprintHash</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>fork_after_authentication</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ForkAfterAuthentication parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ForkAfterAuthentication">man.openbsd.org/ssh_config#ForkAfterAuthentication</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>forward_agent</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ForwardAgent parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ForwardAgent">man.openbsd.org/ssh_config#ForwardAgent</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>forward_x11</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ForwardX11 parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ForwardX11">man.openbsd.org/ssh_config#ForwardX11</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>forward_x11_timeout</span>
+      
+      
+        <span class='type'>(<tt>Variant[Undef, String[1], Integer[0]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ForwardX11Timeout parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ForwardX11Timeout">man.openbsd.org/ssh_config#ForwardX11Timeout</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>forward_x11_trusted</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ForwardX11Trusted parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ForwardX11Trusted">man.openbsd.org/ssh_config#ForwardX11Trusted</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>gateway_ports</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to GatewayPorts parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#GatewayPorts">man.openbsd.org/ssh_config#GatewayPorts</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>global_known_hosts_file</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to GlobalKnownHostsFile parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#GlobalKnownHostsFile">man.openbsd.org/ssh_config#GlobalKnownHostsFile</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>gss_api_authentication</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to GSSAPIAuthentication parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#GSSAPIAuthentication">man.openbsd.org/ssh_config#GSSAPIAuthentication</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>gss_api_delegate_credentials</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to GSSAPIDelegateCredentials parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#GSSAPIDelegateCredentials">man.openbsd.org/ssh_config#GSSAPIDelegateCredentials</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>hash_known_hosts</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to HashKnownHosts parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#HashKnownHosts">man.openbsd.org/ssh_config#HashKnownHosts</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>hostbased_accepted_algorithms</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to HostbasedAcceptedAlgorithms parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#HostbasedAcceptedAlgorithms">man.openbsd.org/ssh_config#HostbasedAcceptedAlgorithms</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>hostbased_authentication</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to HostbasedAuthentication parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#HostbasedAuthentication">man.openbsd.org/ssh_config#HostbasedAuthentication</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>host_key_algorithms</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to HostKeyAlgorithms parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#HostKeyAlgorithms">man.openbsd.org/ssh_config#HostKeyAlgorithms</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>host_key_alias</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to HostKeyAlias parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#HostKeyAlias">man.openbsd.org/ssh_config#HostKeyAlias</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>hostname</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to Hostname parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#Hostname">man.openbsd.org/ssh_config#Hostname</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>identities_only</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to IdentitiesOnly parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#IdentitiesOnly">man.openbsd.org/ssh_config#IdentitiesOnly</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>identity_agent</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to IdentityAgent parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#IdentityAgent">man.openbsd.org/ssh_config#IdentityAgent</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>identity_file</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to IdentityFile parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#IdentityFile">man.openbsd.org/ssh_config#IdentityFile</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ignore_unknown</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to IgnoreUnknown parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#IgnoreUnknown">man.openbsd.org/ssh_config#IgnoreUnknown</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>include</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to Include parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#Include">man.openbsd.org/ssh_config#Include</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ip_qos</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to IPQoS parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#IPQoS">man.openbsd.org/ssh_config#IPQoS</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>kbd_interactive_authentication</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to KbdInteractiveAuthentication parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#KbdInteractiveAuthentication">man.openbsd.org/ssh_config#KbdInteractiveAuthentication</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>kbd_interactive_devices</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to KbdInteractiveDevices parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#KbdInteractiveDevices">man.openbsd.org/ssh_config#KbdInteractiveDevices</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>kex_algorithms</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to KexAlgorithms parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#KexAlgorithms">man.openbsd.org/ssh_config#KexAlgorithms</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>kown_hosts_command</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to KnownHostsCommand parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#KnownHostsCommand">man.openbsd.org/ssh_config#KnownHostsCommand</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>local_command</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to LocalCommand parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#LocalCommand">man.openbsd.org/ssh_config#LocalCommand</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>local_forward</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to LocalForward parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#LocalForward">man.openbsd.org/ssh_config#LocalForward</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>log_level</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Log_level]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to LogLevel parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#LogLevel">man.openbsd.org/ssh_config#LogLevel</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>log_verbose</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to LogVerbose parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#LogVerbose">man.openbsd.org/ssh_config#LogVerbose</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>macs</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to MACs parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#MACs">man.openbsd.org/ssh_config#MACs</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>no_host_authentication_for_localhost</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to NoHostAuthenticationForLocalhost parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#NoHostAuthenticationForLocalhost">man.openbsd.org/ssh_config#NoHostAuthenticationForLocalhost</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>number_of_password_prompts</span>
+      
+      
+        <span class='type'>(<tt>Optional[Integer]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to NumberOfPasswordPrompts parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#NumberOfPasswordPrompts">man.openbsd.org/ssh_config#NumberOfPasswordPrompts</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>password_authentication</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to PasswordAuthentication parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#PasswordAuthentication">man.openbsd.org/ssh_config#PasswordAuthentication</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>permit_local_command</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to PermitLocalCommand parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#PermitLocalCommand">man.openbsd.org/ssh_config#PermitLocalCommand</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>permit_remote_open</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to PermitRemoteOpen parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#PermitRemoteOpen">man.openbsd.org/ssh_config#PermitRemoteOpen</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>pkcs11_provider</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to PKCS11Provider parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#PKCS11Provider">man.openbsd.org/ssh_config#PKCS11Provider</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>port</span>
+      
+      
+        <span class='type'>(<tt>Optional[Stdlib::Port]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to Port parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#Port">man.openbsd.org/ssh_config#Port</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>preferred_authentications</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to PreferredAuthentications parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#PreferredAuthentications">man.openbsd.org/ssh_config#PreferredAuthentications</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>proxy_command</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ProxyCommand parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ProxyCommand">man.openbsd.org/ssh_config#ProxyCommand</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>proxy_jump</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ProxyJump parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ProxyJump">man.openbsd.org/ssh_config#ProxyJump</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>proxy_use_fdpass</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ProxyUseFdpass parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ProxyUseFdpass">man.openbsd.org/ssh_config#ProxyUseFdpass</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>pubkey_accepted_algorithms</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to PubkeyAcceptedAlgorithms parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#PubkeyAcceptedAlgorithms">man.openbsd.org/ssh_config#PubkeyAcceptedAlgorithms</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>pubkey_authentication</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to PubkeyAuthentication parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#PubkeyAuthentication">man.openbsd.org/ssh_config#PubkeyAuthentication</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>rekey_limit</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to RekeyLimit parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#RekeyLimit">man.openbsd.org/ssh_config#RekeyLimit</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>remote_command</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to RemoteCommand parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#RemoteCommand">man.openbsd.org/ssh_config#RemoteCommand</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>remote_forward</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to RemoteForward parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#RemoteForward">man.openbsd.org/ssh_config#RemoteForward</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>request_tty</span>
+      
+      
+        <span class='type'>(<tt>Optional[Enum['no', 'yes', 'force', 'auto']]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to RequestTTY parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#RequestTTY">man.openbsd.org/ssh_config#RequestTTY</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>revoked_host_keys</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to RevokedHostKeys parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#RevokedHostKeys">man.openbsd.org/ssh_config#RevokedHostKeys</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>security_key_provider</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to SecurityKeyProvider parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#SecurityKeyProvider">man.openbsd.org/ssh_config#SecurityKeyProvider</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>send_env</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to SendEnv parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#SendEnv">man.openbsd.org/ssh_config#SendEnv</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>server_alive_count_max</span>
+      
+      
+        <span class='type'>(<tt>Variant[Undef, String[1], Integer[0]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ServerAliveCountMax parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ServerAliveCountMax">man.openbsd.org/ssh_config#ServerAliveCountMax</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>server_alive_interval</span>
+      
+      
+        <span class='type'>(<tt>Variant[Undef, String[1], Integer[0]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to ServerAliveInterval parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ServerAliveInterval">man.openbsd.org/ssh_config#ServerAliveInterval</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>session_type</span>
+      
+      
+        <span class='type'>(<tt>Optional[Enum['default', 'none', 'subsystem']]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to SessionType parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#SessionType">man.openbsd.org/ssh_config#SessionType</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>set_env</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to SetEnv parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#SetEnv">man.openbsd.org/ssh_config#SetEnv</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>stdin_null</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to StdinNull parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#StdinNull">man.openbsd.org/ssh_config#StdinNull</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>stream_local_bind_mask</span>
+      
+      
+        <span class='type'>(<tt>Optional[Pattern[/^[0-7]{4}$/]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to StreamLocalBindMask parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#StreamLocalBindMask">man.openbsd.org/ssh_config#StreamLocalBindMask</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>stream_local_bind_unlink</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to StreamLocalBindUnlink parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#StreamLocalBindUnlink">man.openbsd.org/ssh_config#StreamLocalBindUnlink</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>strict_host_key_checking</span>
+      
+      
+        <span class='type'>(<tt>Optional[Enum['yes', 'no', 'accept-new', 'off', 'ask']]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to StrictHostKeyChecking parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#StrictHostKeyChecking">man.openbsd.org/ssh_config#StrictHostKeyChecking</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>syslog_facility</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Syslog_facility]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to SyslogFacility parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#SyslogFacility">man.openbsd.org/ssh_config#SyslogFacility</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>tcp_keep_alive</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to TCPKeepAlive parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#TCPKeepAlive">man.openbsd.org/ssh_config#TCPKeepAlive</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>tunnel</span>
+      
+      
+        <span class='type'>(<tt>Optional[Enum['yes', 'no', 'point-to-point', 'ethernet']]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to Tunnel parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#Tunnel">man.openbsd.org/ssh_config#Tunnel</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>tunnel_device</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to TunnelDevice parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#TunnelDevice">man.openbsd.org/ssh_config#TunnelDevice</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>update_host_keys</span>
+      
+      
+        <span class='type'>(<tt>Optional[Enum['yes', 'no', 'ask']]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to UpdateHostKeys parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#UpdateHostKeys">man.openbsd.org/ssh_config#UpdateHostKeys</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>user</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to User parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#User">man.openbsd.org/ssh_config#User</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>user_known_hosts_file</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to UserKnownHostsFile parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#UserKnownHostsFile">man.openbsd.org/ssh_config#UserKnownHostsFile</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>use_roaming</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to the UseRoaming parameter in ssh_config. Unused if empty.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>verify_host_key_dns</span>
+      
+      
+        <span class='type'>(<tt>Optional[Enum['yes', 'no', 'ask']]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to VerifyHostKeyDNS parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#VerifyHostKeyDNS">man.openbsd.org/ssh_config#VerifyHostKeyDNS</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>visual_host_key</span>
+      
+      
+        <span class='type'>(<tt>Optional[Ssh::Yes_no]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to VisualHostKey parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#VisualHostKey">man.openbsd.org/ssh_config#VisualHostKey</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>xauth_location</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value(s) passed to XAuthLocation parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#XAuthLocation">man.openbsd.org/ssh_config#XAuthLocation</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>custom</span>
+      
+      
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Array of custom lines to be added to client configuration file ssh_config. Uses one array item per line to be added.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+
+</div><div class="method_details_list">
+  <table class="source_code">
+    <tr>
+      <td>
+        <pre class="lines">
+
+
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651</pre>
+      </td>
+      <td>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 452</span>
+
+class ssh (
+  Hash $config_entries = {},
+  String[1] $config_group = &#39;root&#39;,
+  Stdlib::Filemode $config_mode = &#39;0644&#39;,
+  String[1] $config_owner = &#39;root&#39;,
+  Stdlib::Absolutepath $config_path = &#39;/etc/ssh/ssh_config&#39;,
+  String[1] $global_known_hosts_group = &#39;root&#39;,
+  Stdlib::Filemode $global_known_hosts_mode = &#39;0644&#39;,
+  String[1] $global_known_hosts_owner = &#39;root&#39;,
+  Stdlib::Absolutepath $global_known_hosts_path = &#39;/etc/ssh/ssh_known_hosts&#39;,
+  Hash $keys = {},
+  Boolean $manage_global_known_hosts = true,
+  Boolean $manage_root_ssh_config = false,
+  Boolean $manage_server = true,
+  Boolean $manage_sshkey = true,
+  Array[String[1]] $packages = [],
+  Optional[Stdlib::Absolutepath] $packages_adminfile = undef,
+  Optional[Stdlib::Absolutepath] $packages_source = undef,
+  Boolean $purge_keys = true,
+  String[1] $root_ssh_config_content = &quot;# This file is being maintained by Puppet.\n# DO NOT EDIT\n&quot;,
+  # class parameters below this line directly correlate with ssh_config parameters
+  String[1] $host = &#39;*&#39;,
+  Optional[Enum[&#39;yes&#39;, &#39;no&#39;, &#39;ask&#39;, &#39;confirm&#39;]] $add_keys_to_agent = undef,
+  Optional[Enum[&#39;any&#39;, &#39;inet&#39;, &#39;inet6&#39;]] $address_family = undef,
+  Optional[Ssh::Yes_no] $batch_mode = undef,
+  Optional[String[1]] $bind_address = undef,
+  Optional[String[1]] $bind_interface = undef,
+  Optional[Array[String[1]]] $canonical_domains = undef,
+  Optional[Ssh::Yes_no] $canonicalize_fallback_local = undef,
+  Optional[Enum[&#39;yes&#39;, &#39;no&#39;, &#39;always&#39;]] $canonicalize_hostname = undef,
+  Optional[Integer[0]] $canonicalize_max_dots = undef,
+  Optional[Array[String[1]]] $canonicalize_permitted_cnames = undef,
+  Optional[Array[String[1]]] $ca_signature_algorithms = undef,
+  Optional[Array[String[1]]] $certificate_file = undef,
+  Optional[Ssh::Yes_no] $check_host_ip = undef,
+  Optional[Array[String[1]]] $ciphers = undef,
+  Optional[Ssh::Yes_no] $clear_all_forwardings = undef,
+  Optional[Ssh::Yes_no] $compression = undef,
+  Optional[Integer[0]] $connection_attempts = undef,
+  Optional[Integer[0]] $connect_timeout = undef,
+  Optional[Enum[&#39;yes&#39;, &#39;no&#39;, &#39;ask&#39;, &#39;auto&#39;, &#39;autoask&#39;]] $control_master = undef,
+  Optional[String[1]] $control_path = undef,
+  Optional[String[1]] $control_persist = undef,
+  Optional[String[1]] $dynamic_forward = undef,
+  Optional[Ssh::Yes_no] $enable_ssh_keysign = undef,
+  Optional[String[1]] $escape_char = undef,
+  Optional[Ssh::Yes_no] $exit_on_forward_failure = undef,
+  Optional[Enum[&#39;sha256&#39;, &#39;md5&#39;]] $fingerprint_hash = undef,
+  Optional[Ssh::Yes_no] $fork_after_authentication = undef,
+  Optional[Ssh::Yes_no] $forward_agent = undef,
+  Optional[Ssh::Yes_no] $forward_x11 = undef,
+  Variant[Undef, String[1], Integer[0]] $forward_x11_timeout = undef,
+  Optional[Ssh::Yes_no] $forward_x11_trusted = undef,
+  Optional[Ssh::Yes_no] $gateway_ports = undef,
+  Optional[Array[String[1]]] $global_known_hosts_file = undef,
+  Optional[Ssh::Yes_no] $gss_api_authentication = undef,
+  Optional[Ssh::Yes_no] $gss_api_delegate_credentials = undef,
+  Optional[Ssh::Yes_no] $hash_known_hosts = undef,
+  Optional[Array[String[1]]] $hostbased_accepted_algorithms = undef,
+  Optional[Ssh::Yes_no] $hostbased_authentication = undef,
+  Optional[Array[String[1]]] $host_key_algorithms = undef,
+  Optional[String[1]] $host_key_alias = undef,
+  Optional[String[1]] $hostname = undef,
+  Optional[Ssh::Yes_no] $identities_only = undef,
+  Optional[String[1]] $identity_agent = undef,
+  Optional[Array[String[1]]] $identity_file = undef,
+  Optional[Array[String[1]]] $ignore_unknown = undef,
+  Optional[String[1]] $include = undef,
+  Optional[String[1]] $ip_qos = undef,
+  Optional[Ssh::Yes_no] $kbd_interactive_authentication = undef,
+  Optional[Array[String[1]]] $kbd_interactive_devices = undef,
+  Optional[Array[String[1]]] $kex_algorithms = undef,
+  Optional[String[1]] $kown_hosts_command = undef,
+  Optional[String[1]] $local_command = undef,
+  Optional[String[1]] $local_forward = undef,
+  Optional[Ssh::Log_level] $log_level = undef,
+  Optional[String[1]] $log_verbose = undef,
+  Optional[Array[String[1]]] $macs = undef,
+  Optional[Ssh::Yes_no] $no_host_authentication_for_localhost = undef,
+  Optional[Integer] $number_of_password_prompts = undef,
+  Optional[Ssh::Yes_no] $password_authentication = undef,
+  Optional[Ssh::Yes_no] $permit_local_command = undef,
+  Optional[Array[String[1]]] $permit_remote_open = undef,
+  Optional[String[1]] $pkcs11_provider = undef,
+  Optional[Stdlib::Port] $port = undef,
+  Optional[Array[String[1]]] $preferred_authentications = undef,
+  Optional[String[1]] $proxy_command = undef,
+  Optional[Array[String[1]]] $proxy_jump = undef,
+  Optional[Ssh::Yes_no] $proxy_use_fdpass = undef,
+  Optional[Array[String[1]]] $pubkey_accepted_algorithms = undef,
+  Optional[Ssh::Yes_no] $pubkey_authentication = undef,
+  Optional[String[1]] $rekey_limit = undef,
+  Optional[String[1]] $remote_command = undef,
+  Optional[String[1]] $remote_forward = undef,
+  Optional[Enum[&#39;no&#39;, &#39;yes&#39;, &#39;force&#39;, &#39;auto&#39;]] $request_tty = undef,
+  Optional[String[1]] $revoked_host_keys = undef,
+  Optional[String[1]] $security_key_provider = undef,
+  Optional[Array[String[1]]] $send_env = undef,
+  Variant[Undef, String[1], Integer[0]] $server_alive_count_max = undef,
+  Variant[Undef, String[1], Integer[0]] $server_alive_interval = undef,
+  Optional[Enum[&#39;default&#39;, &#39;none&#39;, &#39;subsystem&#39;]] $session_type = undef,
+  Optional[Array[String[1]]] $set_env = undef,
+  Optional[Ssh::Yes_no] $stdin_null = undef,
+  Optional[Pattern[/^[0-7]{4}$/]] $stream_local_bind_mask = undef,
+  Optional[Ssh::Yes_no] $stream_local_bind_unlink = undef,
+  Optional[Enum[&#39;yes&#39;, &#39;no&#39;, &#39;accept-new&#39;, &#39;off&#39;, &#39;ask&#39;]] $strict_host_key_checking = undef,
+  Optional[Ssh::Syslog_facility] $syslog_facility = undef,
+  Optional[Ssh::Yes_no] $tcp_keep_alive = undef,
+  Optional[Enum[&#39;yes&#39;, &#39;no&#39;, &#39;point-to-point&#39;, &#39;ethernet&#39;]] $tunnel = undef,
+  Optional[String[1]] $tunnel_device = undef,
+  Optional[Enum[&#39;yes&#39;, &#39;no&#39;, &#39;ask&#39;]] $update_host_keys = undef,
+  Optional[String[1]] $user = undef,
+  Optional[Array[String[1]]] $user_known_hosts_file = undef,
+  Optional[Ssh::Yes_no] $use_roaming = undef,
+  Optional[Enum[&#39;yes&#39;, &#39;no&#39;, &#39;ask&#39;]] $verify_host_key_dns = undef,
+  Optional[Ssh::Yes_no] $visual_host_key = undef,
+  Optional[String[1]] $xauth_location = undef,
+  # custom is a string that allows for multiple lines to be appended to end of
+  # the ssh_config file.
+  Optional[Array[String[1]]] $custom = undef
+) {
+
+  package { $packages:
+    ensure    =&gt; installed,
+    source    =&gt; $packages_source,
+    adminfile =&gt; $packages_adminfile,
+    before    =&gt; &#39;File[ssh_config]&#39;,
+  }
+
+  file { &#39;ssh_config&#39; :
+    ensure  =&gt; file,
+    path    =&gt; $config_path,
+    owner   =&gt; $config_owner,
+    group   =&gt; $config_group,
+    mode    =&gt; $config_mode,
+    content =&gt; template(&#39;ssh/ssh_config.erb&#39;),
+  }
+
+  if $manage_root_ssh_config == true {
+    exec { &quot;mkdir_p-${facts[&#39;root_home&#39;]}/.ssh&quot;:
+      command =&gt; &quot;mkdir -p ${facts[&#39;root_home&#39;]}/.ssh&quot;,
+      unless  =&gt; &quot;test -d ${facts[&#39;root_home&#39;]}/.ssh&quot;,
+      path    =&gt; &#39;/bin:/usr/bin&#39;,
+    }
+
+    file { &#39;root_ssh_dir&#39;:
+      ensure  =&gt; directory,
+      path    =&gt; &quot;${facts[&#39;root_home&#39;]}/.ssh&quot;,
+      owner   =&gt; &#39;root&#39;,
+      group   =&gt; &#39;root&#39;,
+      mode    =&gt; &#39;0700&#39;,
+      require =&gt; Exec[&quot;mkdir_p-${facts[&#39;root_home&#39;]}/.ssh&quot;],
+    }
+
+    file { &#39;root_ssh_config&#39;:
+      ensure  =&gt; file,
+      path    =&gt; &quot;${facts[&#39;root_home&#39;]}/.ssh/config&quot;,
+      content =&gt; $root_ssh_config_content,
+      owner   =&gt; &#39;root&#39;,
+      group   =&gt; &#39;root&#39;,
+      mode    =&gt; &#39;0600&#39;,
+    }
+  }
+
+  if $manage_global_known_hosts == true {
+    file { &#39;global_known_hosts&#39;:
+      ensure  =&gt; file,
+      path    =&gt; $global_known_hosts_path,
+      owner   =&gt; $global_known_hosts_owner,
+      group   =&gt; $global_known_hosts_group,
+      mode    =&gt; $global_known_hosts_mode,
+      require =&gt; &#39;File[ssh_config]&#39;,
+    }
+  }
+
+  # remove ssh key&#39;s not managed by puppet
+  if $manage_sshkey == true {
+    resources { &#39;sshkey&#39;:
+      purge =&gt; $purge_keys,
+    }
+  }
+
+  # manage users&#39; ssh config entries if present
+  $config_entries.each |$key,$values| {
+    ssh::config_entry { $key:
+      * =&gt; $values,
+    }
+  }
+
+  # manage users&#39; ssh authorized keys if present
+  $keys.each |$key,$values| {
+    ssh_authorized_key { $key:
+      * =&gt; $values,
+    }
+  }
+
+  if $manage_server == true {
+    include ssh::server
+  }
+}</pre>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+
+      <div id="footer">
+     Generated by <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>.
+</div>
+
+    </div>
+  </body>
+</html>
