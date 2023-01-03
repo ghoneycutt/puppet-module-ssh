@@ -1,0 +1,12 @@
+---
+ssh::packages:
+  - 'openssh-clients'
+ssh::server::packages:
+  - 'openssh-server'
+
+ssh::include: '/etc/ssh/ssh_config.d/*.conf'
+
+ssh::server::authorized_keys_file:
+  - '.ssh/authorized_keys'
+ssh::server::include: '/etc/ssh/sshd_config.d/*.conf'
+ssh::server::subsystem: 'sftp /usr/libexec/openssh/sftp-server'
