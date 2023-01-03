@@ -62,12 +62,12 @@ describe 'Ssh::Sshd_Config' do
 
   context 'Ssh::Yes_no' do
     [
-      'AllowAgentForwarding', 'DisableForwarding', 'ExposeAuthInfo', 'GSSAPIAuthentication', 'GSSAPICleanupCredentials',
-      'GSSAPIStrictAcceptorCheck', 'HostbasedAuthentication', 'HostbasedUsesNameFromPacketOnly', 'IgnoreRhosts',
-      'IgnoreUserKnownHosts', 'KbdInteractiveAuthentication', 'KerberosAuthentication', 'KerberosGetAFSToken',
+      'AllowAgentForwarding', 'ChallengeResponseAuthentication', 'DisableForwarding', 'ExposeAuthInfo', 'GSSAPIAuthentication',
+      'GSSAPICleanupCredentials', 'GSSAPIStrictAcceptorCheck', 'HostbasedAuthentication', 'HostbasedUsesNameFromPacketOnly',
+      'IgnoreRhosts', 'IgnoreUserKnownHosts', 'KbdInteractiveAuthentication', 'KerberosAuthentication', 'KerberosGetAFSToken',
       'KerberosOrLocalPasswd', 'KerberosTicketCleanup', 'PasswordAuthentication', 'PermitEmptyPasswords',
       'PermitTTY', 'PermitUserRC', 'PrintLastLog', 'PrintMotd', 'PubkeyAuthentication', 'StreamLocalBindUnlink',
-      'StrictModes', 'TCPKeepAlive', 'UseDNS', 'X11Forwarding', 'X11UseLocalhost'
+      'StrictModes', 'TCPKeepAlive', 'UseDNS', 'UsePAM', 'X11Forwarding', 'X11UseLocalhost'
     ].each do |directive|
       describe directive.inspect do
         [

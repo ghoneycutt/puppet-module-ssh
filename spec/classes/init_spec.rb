@@ -3,6 +3,14 @@ describe 'ssh' do
   on_supported_os.sort.each do |os, os_facts|
     # OS specific module defaults
     case "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['full']}"
+    when %r{AlmaLinux.8}
+      packages_client = ['openssh-clients']
+      packages_server = ['openssh-server']
+      config_files    = '/etc/ssh/ssh_config.d/05-redhat.conf'
+    when %r{AlmaLinux.9}
+      packages_client = ['openssh-clients']
+      packages_server = ['openssh-server']
+      config_files    = '/etc/ssh/ssh_config.d/50-redhat.conf'
     when %r{CentOS.*}, %r{OracleLinux.*}, %r{RedHat.*}, %r{Scientific.*}
       packages_client = ['openssh-clients']
       packages_server = ['openssh-server']
@@ -59,7 +67,14 @@ describe 'ssh' do
       it { is_expected.not_to contain_exec("mkdir_p-#{os_facts[:root_home]}/.ssh") }
       it { is_expected.not_to contain_file('root_ssh_dir') }
       it { is_expected.not_to contain_file('root_ssh_config') }
-
+      if config_files
+        content_config_files = File.read(fixtures("testing/#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_ssh_config.d"))
+        it { is_expected.to have_ssh__config_file_client_resource_count(1) }
+        it { is_expected.to contain_ssh__config_file_client(config_files) }
+        it { is_expected.to contain_file(config_files).with_content(content_config_files) }
+      else
+        it { is_expected.to have_ssh__config_file_client_resource_count(0) }
+      end
       it { is_expected.to have_sshkey_resource_count(0) }
 
       it do
@@ -78,6 +93,7 @@ describe 'ssh' do
       it { is_expected.to contain_resources('sshkey').with_purge('true') }
       it { is_expected.to have_ssh__config_entry_resource_count(0) }
       it { is_expected.to have_ssh_authorized_key_resource_count(0) }
+
       it { is_expected.to contain_class('ssh::server') }
 
       # tests needed to reach 100% resource coverage

@@ -7,7 +7,14 @@ describe 'ssh::server' do
       fixture = fixtures("testing/#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_sshd_config")
       # OS specific defaults
       case "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['full']}"
-      when %r{CentOS.*}, %r{OracleLinux.*}, %r{RedHat.*}, %r{Scientific.*}
+      when %r{AlmaLinux.9}
+        config_mode       = '0600'
+        packages          = ['openssh-server']
+        service_hasstatus = true
+        service_name      = 'sshd'
+        fixture           = fixtures("testing/#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_sshd_config")
+        config_files      = '/etc/ssh/sshd_config.d/50-redhat.conf'
+      when %r{AlmaLinux.*}, %r{CentOS.*}, %r{OracleLinux.*}, %r{RedHat.*}, %r{Scientific.*}
         config_mode       = '0600'
         packages          = ['openssh-server']
         service_hasstatus = true
@@ -86,6 +93,15 @@ describe 'ssh::server' do
             'subscribe'  => 'File[sshd_config]',
           },
         )
+      end
+
+      if config_files
+        content_config_files = File.read(fixtures("testing/#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_sshd_config.d"))
+        it { is_expected.to have_ssh__config_file_server_resource_count(1) }
+        it { is_expected.to contain_ssh__config_file_server(config_files) }
+        it { is_expected.to contain_file(config_files).with_content(content_config_files) }
+      else
+        it { is_expected.to have_ssh__config_file_server_resource_count(0) }
       end
     end
   end

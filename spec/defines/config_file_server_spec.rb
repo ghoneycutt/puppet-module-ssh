@@ -87,6 +87,7 @@ describe 'ssh::config_file_server' do
             'AuthorizedPrincipalsFile'        => 'test',
             'Banner'                          => 'test',
             'CASignatureAlgorithms'           => 'test',
+            'ChallengeResponseAuthentication' => 'yes',
             'ChannelTimeout'                  => 'test',
             'ChrootDirectory'                 => 'test',
             'Ciphers'                         => 'test',
@@ -162,6 +163,7 @@ describe 'ssh::config_file_server' do
             'TCPKeepAlive'                    => 'yes',
             'TrustedUserCAKeys'               => 'test',
             'UseDNS'                          => 'yes',
+            'UsePAM'                          => 'yes',
             'VersionAddendum'                 => 'test',
             'X11DisplayOffset'                => 242,
             'X11Forwarding'                   => 'yes',
@@ -191,6 +193,7 @@ describe 'ssh::config_file_server' do
         |AuthorizedPrincipalsFile test
         |Banner test
         |CASignatureAlgorithms test
+        |ChallengeResponseAuthentication yes
         |ChannelTimeout test
         |ChrootDirectory test
         |Ciphers test
@@ -266,6 +269,7 @@ describe 'ssh::config_file_server' do
         |TCPKeepAlive yes
         |TrustedUserCAKeys test
         |UseDNS yes
+        |UsePAM yes
         |VersionAddendum test
         |X11DisplayOffset 242
         |X11Forwarding yes
