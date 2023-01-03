@@ -3,7 +3,7 @@ describe 'ssh' do
   on_supported_os.sort.each do |os, os_facts|
     # OS specific module defaults
     case "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['full']}"
-    when %r{CentOS.*}, %r{OracleLinux.*}, %r{RedHat.*}, %r{Scientific.*}
+    when %r{AlmaLinux.*}, %r{CentOS.*}, %r{OracleLinux.*}, %r{RedHat.*}, %r{Scientific.*}
       packages_client = ['openssh-clients']
       packages_server = ['openssh-server']
     when %r{SLED.*}, %r{SLES.*}
