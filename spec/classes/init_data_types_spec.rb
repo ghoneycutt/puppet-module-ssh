@@ -127,7 +127,7 @@ describe 'ssh' do
         message: 'expects a (match for|match for Stdlib::Absolutepath =|Stdlib::Absolutepath =) Variant\[Stdlib::Windowspath.*Stdlib::Unixpath',
       },
       'Stdlib::Absolutepath (optional)' => {
-        name:     ['packages_adminfile', 'packages_source'],
+        name:     ['packages_adminfile', 'packages_source', 'include'],
         valid:    ['/absolute/filepath', '/absolute/directory/', :undef],
         invalid:  ['../invalid', ['array'], { 'ha' => 'sh' }, 3, 2.42, false],
         message: 'expects a (match for|match for Stdlib::Absolutepath =|Stdlib::Absolutepath =) Variant\[Stdlib::Windowspath.*Stdlib::Unixpath',
@@ -146,16 +146,16 @@ describe 'ssh' do
       },
       'String' => {
         name:     ['config_group', 'config_owner', 'global_known_hosts_group',
-                   'global_known_hosts_owner', 'host', 'root_ssh_config_content'],
+                   'global_known_hosts_owner', 'root_ssh_config_content'],
         valid:    ['string'],
         invalid:  [['array'], { 'ha' => 'sh' }, 3, 2.42, false], # undef should be invalid too
         message: 'expects a String value',
       },
       'String (optional)' => {
         name:     ['bind_address', 'bind_interface', 'control_path', 'control_persist',
-                   'dynamic_forward', 'escape_char', 'host_key_alias', 'hostname', 'identity_agent',
-                   'include', 'ip_qos', 'kown_hosts_command', 'local_command', 'local_forward',
-                   'log_verbose', 'pkcs11_provider', 'proxy_command', 'rekey_limit',
+                   'dynamic_forward', 'escape_char', 'host', 'host_key_alias', 'hostname',
+                   'identity_agent', 'ip_qos', 'kown_hosts_command', 'local_command',
+                   'local_forward', 'log_verbose', 'pkcs11_provider', 'proxy_command', 'rekey_limit',
                    'remote_command', 'remote_forward', 'revoked_host_keys', 'security_key_provider',
                    'tunnel_device', 'user', 'xauth_location'],
         valid:    ['string', :undef],

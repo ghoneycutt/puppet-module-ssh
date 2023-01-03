@@ -23,6 +23,24 @@
   ],
   "operatingsystem_support": [
     {
+      "operatingsystem": "Archlinux"
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7",
+        "8",
+        "9"
+      ]
+    },
+    {
+      "operatingsystem": "AlmaLinux",
+      "operatingsystemrelease": [
+        "8",
+        "9"
+      ]
+    },
+    {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
         "10",
@@ -30,7 +48,29 @@
       ]
     },
     {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "7",
+        "8"
+      ]
+    },
+    {
       "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7",
+        "8",
+        "9"
+      ]
+    },
+    {
+      "operatingsystem": "Rocky",
+      "operatingsystemrelease": [
+        "8",
+        "9"
+      ]
+    },
+    {
+      "operatingsystem": "Scientific",
       "operatingsystemrelease": [
         "7",
         "8"
@@ -47,7 +87,8 @@
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
         "18.04",
-        "20.04"
+        "20.04",
+        "22.04"
       ]
     }
   ],
@@ -58,7 +99,7 @@
     }
   ],
   "description": "Manage SSH",
-  "pdk-version": "2.5.0",
+  "pdk-version": "2.6.1",
   "template-url": "https://github.com/tailored-automation/pdk-templates#main",
   "template-ref": "heads/main-0-g37b4517"
 }

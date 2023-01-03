@@ -62,6 +62,11 @@
 # @param root_ssh_config_content
 #   Content of the ssh_config file of root.
 #
+# @param config_files
+#   Hash of configuration entries passed to ssh::config_file_client define.
+#   Please check the docs for ssh::config_file_client and the type Ssh::Ssh_Config
+#   for a list and details of the parameters usable here.
+#
 # @param host
 #   Value(s) passed to Host parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#Host for possible values.
@@ -249,6 +254,18 @@
 # @param include
 #   Value(s) passed to Include parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#Include for possible values.
+#
+# @param include_dir_owner
+#   The owner of the include directory
+#
+# @param include_dir_group
+#   The group of the include directory
+#
+# @param include_dir_mode
+#   The mode of the include directory
+#
+# @param include_dir_purge
+#   Sets whether to purge the include_dir of unmanaged files
 #
 # @param ip_qos
 #   Value(s) passed to IPQoS parameter in ssh_config. Unused if empty.
@@ -469,8 +486,9 @@ class ssh (
   Optional[Stdlib::Absolutepath] $packages_source = undef,
   Boolean $purge_keys = true,
   String[1] $root_ssh_config_content = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
+  Hash $config_files = {},
   # class parameters below this line directly correlate with ssh_config parameters
-  String[1] $host = '*',
+  Optional[String[1]] $host = undef,
   Optional[Enum['yes', 'no', 'ask', 'confirm']] $add_keys_to_agent = undef,
   Optional[Enum['any', 'inet', 'inet6']] $address_family = undef,
   Optional[Ssh::Yes_no] $batch_mode = undef,
@@ -516,7 +534,11 @@ class ssh (
   Optional[String[1]] $identity_agent = undef,
   Optional[Array[String[1]]] $identity_file = undef,
   Optional[Array[String[1]]] $ignore_unknown = undef,
-  Optional[String[1]] $include = undef,
+  Optional[Stdlib::Absolutepath] $include = undef,
+  String[1] $include_dir_owner = 'root',
+  String[1] $include_dir_group = 'root',
+  Stdlib::Filemode $include_dir_mode = '0755',
+  Boolean $include_dir_purge = true,
   Optional[String[1]] $ip_qos = undef,
   Optional[Ssh::Yes_no] $kbd_interactive_authentication = undef,
   Optional[Array[String[1]]] $kbd_interactive_devices = undef,
@@ -587,6 +609,23 @@ class ssh (
     content => template('ssh/ssh_config.erb'),
   }
 
+  if $include {
+    $include_dir = dirname($include)
+    file { 'ssh_config_include_dir':
+      ensure  => 'directory',
+      path    => $include_dir,
+      owner   => $include_dir_owner,
+      group   => $include_dir_group,
+      mode    => $include_dir_mode,
+      purge   => $include_dir_purge,
+      recurse => $include_dir_purge,
+      force   => $include_dir_purge,
+      require => Package[$packages],
+    }
+  } else {
+    $include_dir = undef
+  }
+
   if $manage_root_ssh_config == true {
     exec { "mkdir_p-${facts['root_home']}/.ssh":
       command => "mkdir -p ${facts['root_home']}/.ssh",
@@ -642,6 +681,12 @@ class ssh (
   $keys.each |$key,$values| {
     ssh_authorized_key { $key:
       * => $values,
+    }
+  }
+
+  $config_files.each |$file, $lines| {
+    ssh::config_file_client { $file:
+      * => $lines,
     }
   }
 

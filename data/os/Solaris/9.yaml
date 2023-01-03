@@ -1,6 +1,7 @@
 ---
 # Solaris 9 defaults in alphabetical order per class
 ssh::gss_api_authentication: 'yes'
+ssh::host: '*'
 ssh::packages:
   - 'SUNWsshcu'
   - 'SUNWsshr'

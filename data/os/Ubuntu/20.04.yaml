@@ -3,6 +3,7 @@
 ssh::forward_x11_trusted: 'yes'
 ssh::gss_api_authentication: 'yes'
 ssh::hash_known_hosts: 'yes'
+ssh::host: '*'
 ssh::include: '/etc/ssh/ssh_config.d/*.conf'
 ssh::packages:
   - 'openssh-client'

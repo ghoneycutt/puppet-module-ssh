@@ -2,16 +2,30 @@ require 'spec_helper'
 describe 'ssh' do
   on_supported_os.sort.each do |os, os_facts|
     # OS specific module defaults
-    case "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['full']}"
-    when %r{CentOS.*}, %r{OracleLinux.*}, %r{RedHat.*}, %r{Scientific.*}
+    platform = if os_facts[:os]['family'] == 'RedHat'
+                 "#{os_facts[:os]['family']}-#{os_facts[:os]['release']['major']}"
+               else
+                 "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}"
+               end
+    case platform
+    when %r{RedHat-(7|8)}
       packages_client = ['openssh-clients']
       packages_server = ['openssh-server']
-    when %r{SLED.*}, %r{SLES.*}
+    when %r{RedHat-9}
+      packages_client = ['openssh-clients']
+      packages_server = ['openssh-server']
+      config_files    = '50-redhat'
+      include_dir     = '/etc/ssh/ssh_config.d'
+    when %r{Archlinux.*}, %r{SLED.*}, %r{SLES.*}
       packages_client = ['openssh']
       packages_server = []
-    when %r{Debian.*}, %r{Ubuntu.*}
+    when %r{Debian-10}, %r{Ubuntu-18.04}
       packages_client = ['openssh-client']
       packages_server = ['openssh-server']
+    when %r{Debian-11}, %r{Ubuntu-(20.04|22.04)}
+      packages_client = ['openssh-client']
+      packages_server = ['openssh-server']
+      include_dir     = '/etc/ssh/ssh_config.d'
     when %r{Solaris-9.*}, %r{Solaris-10.*}
       packages_client = ['SUNWsshcu', 'SUNWsshr', 'SUNWsshu']
       packages_server = ['SUNWsshdr', 'SUNWsshdu']
@@ -41,7 +55,7 @@ describe 'ssh' do
         end
       end
 
-      content_fixture = File.read(fixtures("testing/#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_ssh_config"))
+      content_fixture = File.read(fixtures("testing/#{platform}_ssh_config"))
 
       it do
         is_expected.to contain_file('ssh_config').only_with(
@@ -59,8 +73,32 @@ describe 'ssh' do
       it { is_expected.not_to contain_exec("mkdir_p-#{os_facts[:root_home]}/.ssh") }
       it { is_expected.not_to contain_file('root_ssh_dir') }
       it { is_expected.not_to contain_file('root_ssh_config') }
-
+      if config_files
+        content_config_files = File.read(fixtures("testing/#{platform}_ssh_config.d"))
+        it { is_expected.to have_ssh__config_file_client_resource_count(1) }
+        it { is_expected.to contain_ssh__config_file_client(config_files) }
+        it { is_expected.to contain_file("/etc/ssh/ssh_config.d/#{config_files}.conf").with_content(content_config_files) }
+      else
+        it { is_expected.to have_ssh__config_file_client_resource_count(0) }
+      end
       it { is_expected.to have_sshkey_resource_count(0) }
+
+      if include_dir
+        it do
+          is_expected.to contain_file('ssh_config_include_dir').with(
+            ensure: 'directory',
+            path: include_dir,
+            owner: 'root',
+            group: 'root',
+            mode: '0755',
+            purge: 'true',
+            recurse: 'true',
+            force: 'true',
+          )
+        end
+      else
+        it { is_expected.not_to contain_file('ssh_config_include_dir') }
+      end
 
       it do
         is_expected.to contain_file('global_known_hosts').only_with(
@@ -359,6 +397,85 @@ describe 'ssh' do
       end
 
       it { is_expected.to contain_file('root_ssh_config').with_content('#unit test') }
+    end
+
+    context "on #{os} with config_files set to a valid hash" do
+      let(:params) do
+        {
+          include: '/etc/ssh/ssh_config.d/*.conf',
+          config_files: {
+            '50-redhat' => {
+              'lines' => {
+                'GSSAPIAuthentication' => 'yes',
+              },
+            },
+          }
+        }
+      end
+
+      it { is_expected.to have_ssh__config_file_client_resource_count(1) }
+      it { is_expected.to contain_ssh__config_file_client('50-redhat') }
+    end
+
+    context "on #{os} when config_files set to a valid hash" do
+      let(:params) do
+        {
+          include: '/etc/ssh/ssh_config.d/*.conf',
+          config_files: {
+            '42-testing' => {
+              'ensure' => 'present',
+              'owner'  => 'test',
+              'group'  => 'test',
+              'mode'   => '0242',
+              'lines'  => {
+                'GSSAPIAuthentication'      => 'yes',
+                'GSSAPIDelegateCredentials' => 'no',
+              },
+            },
+            '50-redhat' => {
+              'lines' => {
+                'ForwardX11Trusted' => 'yes',
+              },
+            },
+          }
+        }
+      end
+
+      it { is_expected.to have_ssh__config_file_client_resource_count(2) }
+
+      it do
+        is_expected.to contain_ssh__config_file_client('42-testing').only_with(
+          {
+            'ensure' => 'present',
+            'owner'  => 'test',
+            'group'  => 'test',
+            'mode'   => '0242',
+            'lines'  => {
+              'GSSAPIAuthentication'      => 'yes',
+              'GSSAPIDelegateCredentials' => 'no',
+            },
+            'custom' => [],
+          },
+        )
+      end
+
+      it do
+        is_expected.to contain_ssh__config_file_client('50-redhat').only_with(
+          {
+            'ensure' => 'present',
+            'owner'  => 'root',
+            'group'  => 'root',
+            'mode'   => '0644',
+            'lines'  => {
+              'ForwardX11Trusted' => 'yes',
+            },
+            'custom' => [],
+          },
+        )
+      end
+
+      it { is_expected.to contain_file('/etc/ssh/ssh_config.d/42-testing.conf') } # only needed for 100% resource coverage
+      it { is_expected.to contain_file('/etc/ssh/ssh_config.d/50-redhat.conf') }  # only needed for 100% resource coverage
     end
   end
 end
