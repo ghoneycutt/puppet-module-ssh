@@ -12,7 +12,7 @@ describe 'ssh::server' do
         packages          = ['openssh-server']
         service_hasstatus = true
         service_name      = 'sshd'
-        fixture           = fixtures("testing/#{os_facts[:os]['family']}-#{os_facts[:os]['release']['major']}_sshd_config")
+        fixture           = fixtures("testing/#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_sshd_config")
       when %r{SLED.*}, %r{SLES.*}
         config_mode       = '0600'
         packages          = []
