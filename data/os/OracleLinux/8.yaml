@@ -1,0 +1,60 @@
+---
+ssh::forward_x11_trusted: 'no'
+ssh::gss_api_authentication: 'no'
+ssh::hash_known_hosts: 'no'
+ssh::packages:
+  - 'openssh-clients'
+ssh::send_env: []
+
+ssh::server::accept_env:
+  - LANG
+  - LC_CTYPE
+  - LC_NUMERIC
+  - LC_TIME
+  - LC_COLLATE
+  - LC_MONETARY
+  - LC_MESSAGES
+  - LC_PAPER
+  - LC_NAME
+  - LC_ADDRESS
+  - LC_TELEPHONE
+  - LC_MEASUREMENT
+  - LC_IDENTIFICATION
+  - LC_ALL LANGUAGE
+  - XMODIFIERS
+ssh::server::address_family: 'any'
+ssh::server::allow_tcp_forwarding: 'yes'
+ssh::server::authorized_keys_file:
+  - .ssh/authorized_keys
+ssh::server::banner: 'none'
+ssh::server::kbd_interactive_authentication: 'yes'
+ssh::server::challenge_response_authentication: 'no'
+ssh::server::client_alive_count_max: 3
+ssh::server::client_alive_interval: 0
+ssh::server::gss_api_authentication: 'yes'
+ssh::server::gss_api_cleanup_credentials: 'no'
+ssh::server::hostbased_authentication: 'no'
+ssh::server::host_key:
+  - /etc/ssh/ssh_host_ecdsa_key
+  - /etc/ssh/ssh_host_ed25519_key
+  - /etc/ssh/ssh_host_rsa_key
+ssh::server::ignore_rhosts: 'yes'
+ssh::server::ignore_user_known_hosts: 'no'
+ssh::server::login_grace_time: 120
+ssh::server::packages:
+  - 'openssh-server'
+ssh::server::password_authentication: 'yes'
+ssh::server::permit_root_login: 'yes'
+ssh::server::permit_tunnel: 'no'
+ssh::server::port:
+  - 22
+ssh::server::print_motd: 'no'
+ssh::server::pubkey_authentication: 'yes'
+ssh::server::subsystem: 'sftp /usr/libexec/openssh/sftp-server'
+ssh::server::syslog_facility: 'AUTHPRIV'
+ssh::server::tcp_keep_alive: 'yes'
+ssh::server::use_dns: 'no'
+ssh::server::use_pam: 'yes'
+ssh::server::x11_forwarding: 'no'
+ssh::server::x11_use_localhost: 'yes'
+ssh::server::xauth_location: '/usr/bin/xauth'

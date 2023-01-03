@@ -12,6 +12,3 @@ hierarchy:
       - "os/%{facts.os.name}/%{facts.os.architecture}.yaml"
       # for all other OSes
       - "os/%{facts.os.name}/%{facts.os.release.major}.yaml"
-  - name: "os/{os.family}/{os.release.major}"
-    paths:
-      - "os/%{facts.os.family}/%{facts.os.release.major}.yaml"
