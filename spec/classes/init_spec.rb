@@ -3,11 +3,11 @@ describe 'ssh' do
   on_supported_os.sort.each do |os, os_facts|
     # OS specific module defaults
     case "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['full']}"
-    when %r{AlmaLinux.8}
+    when %r{AlmaLinux.8}, %r{Rocky.8}
       packages_client = ['openssh-clients']
       packages_server = ['openssh-server']
       config_files    = '/etc/ssh/ssh_config.d/05-redhat.conf'
-    when %r{AlmaLinux.9}
+    when %r{AlmaLinux.9}, %r{Rocky.9}
       packages_client = ['openssh-clients']
       packages_server = ['openssh-server']
       config_files    = '/etc/ssh/ssh_config.d/50-redhat.conf'
