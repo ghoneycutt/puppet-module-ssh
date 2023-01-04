@@ -36,6 +36,7 @@ known to work on many, many platforms since its creation in 2010.
  * EL 9
  * Ubuntu 18.04 LTS
  * Ubuntu 20.04 LTS
+ * Ubuntu 22.04 LTS
  * Solaris 10
  * Solaris 11
 
