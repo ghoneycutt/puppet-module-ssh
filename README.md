@@ -33,6 +33,7 @@ known to work on many, many platforms since its creation in 2010.
  * Debian 11
  * EL 7
  * EL 8
+ * EL 9
  * Ubuntu 18.04 LTS
  * Ubuntu 20.04 LTS
  * Solaris 10
