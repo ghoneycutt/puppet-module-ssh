@@ -51,6 +51,7 @@ jobs:
           - "centos-7"
           - "rocky-8"
           - "ubuntu-1804"
+          - "ubuntu-2204"
         puppet:
           - "puppet7"
     env:
