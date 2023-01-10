@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'ssh::server' do
   context 'validate data types of parameters' do
     # these tests are OS independent, so we use a fictional OS without any default values
-    let(:facts) { { os: { family: 'UnitTesting' } } }
+    let(:facts) { { root_home: '/root', operatingsystem: 'UnitTesting', os: { family: 'UnitTesting' } } }
 
     validations = {
       'Array of Stdlib::Port (optional)' => {

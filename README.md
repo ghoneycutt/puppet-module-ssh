@@ -115,6 +115,72 @@ ssh::config_entry { 'jenkins github.com':
 }
 ```
 
+# Manage configurations files in .d directories
+SSH supports configuration files in .d directories via the `include` directive. This module enables you to also manage these files. You need to set directives for the server (eg: /etc/ssh/sshd_config.d) and client (eg: /etc/ssh/ssh_config.d) part seperatly as they support different directives.
+
+You can activate the management by setting the `$manage_config_files` parameter to `true` and pass a hash with the needed SSH directives and their values.
+Directives can be passed as hash via the `$ssh::config_files` and `$ssh::server::config_files` parameters. Directives passed as hash via `lines` will be checked for correct names and values. Directives passed as array via `custom` will not be checked and will be added to the configuration file. Similar to the main configuration files.
+
+Different file permissions can be specified via `owner`, `group`, or `mode`.
+You can remove a file by setting `ensure` to `absent`.
+
+## Sample usage:
+Manage the client configuration file /etc/ssh/ssh_config.d/50-redhat.conf with some directives and default file permissions (0644 root:root).
+``` yaml
+ssh::manage_config_files: true
+ssh::config_files:
+  '/etc/ssh/ssh_config.d/50-redhat.conf':
+    lines:
+      Match: 'final all'
+      Include: '/etc/crypto-policies/back-ends/openssh.config'
+      GSSAPIAuthentication: 'yes'
+      ForwardX11Trusted: 'yes'
+```
+
+Manage the server configuration file /etc/ssh/sshd_config.d/50-redhat.conf with some directives and default file permissions (0600 root:root).
+``` yaml
+ssh::server::manage_config_files: true
+ssh::server::config_files:
+  '/etc/ssh/sshd_config.d/50-redhat.conf':
+    lines:
+      Include: '/etc/crypto-policies/back-ends/opensshserver.config'
+      SyslogFacility: 'AUTHPRIV'
+      ChallengeResponseAuthentication: 'no'
+      GSSAPIAuthentication: 'yes'
+      GSSAPICleanupCredentials: 'no'
+      UsePAM: 'yes'
+      X11Forwarding: 'yes'
+      PrintMotd: 'no'
+```
+You can also specify different file permissions by setting $owner, $group, or $mode accordingly:
+``` yaml
+ssh::manage_config_files: true
+ssh::config_files:
+  '/etc/ssh/ssh_config.d/50-redhat.conf':
+    owner: 'name'
+    group: 'group'
+    mode:  '0664'
+    lines:
+      Match: 'final all'
+      GSSAPIAuthentication: 'yes'
+```
+Using directives that are not supported by this module:
+``` yaml
+ssh::manage_config_files: true
+ssh::config_files:
+  '/etc/ssh/ssh_config.d/50-redhat.conf':
+    custom:
+      - 'Directive1 Value1'
+      - 'Directive2 Value2'
+```
+
+Remove the file /etc/ssh/ssh_config.d/50-redhat.conf:
+``` yaml
+ssh::manage_config_files: true
+ssh::config_files:
+  '/etc/ssh/ssh_config.d/50-redhat.conf':
+    ensure: 'absent'
+```
 
 ## Upgrading
 

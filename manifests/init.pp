@@ -62,6 +62,14 @@
 # @param root_ssh_config_content
 #   Content of the ssh_config file of root.
 #
+# @param manage_config_files
+#   Boolean to choose if configuration files inside include directories should be managed.
+#
+# @param config_files
+#   Hash of configuration entries passed to ssh::config_file_client define.
+#   Please check the docs for ssh::config_file_client and the type Ssh::Ssh_Config
+#   for a list and details of the parameters usable here.
+#
 # @param host
 #   Value(s) passed to Host parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#Host for possible values.
@@ -469,6 +477,8 @@ class ssh (
   Optional[Stdlib::Absolutepath] $packages_source = undef,
   Boolean $purge_keys = true,
   String[1] $root_ssh_config_content = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
+  Boolean $manage_config_files = false,
+  Hash $config_files = {},
   # class parameters below this line directly correlate with ssh_config parameters
   String[1] $host = '*',
   Optional[Enum['yes', 'no', 'ask', 'confirm']] $add_keys_to_agent = undef,
@@ -642,6 +652,14 @@ class ssh (
   $keys.each |$key,$values| {
     ssh_authorized_key { $key:
       * => $values,
+    }
+  }
+
+  if $manage_config_files {
+    $config_files.each |$file, $lines| {
+      ssh::config_file_client { $file:
+        * => $lines,
+      }
     }
   }
 

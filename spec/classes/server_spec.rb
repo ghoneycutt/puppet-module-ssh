@@ -213,5 +213,95 @@ describe 'ssh::server' do
 
       it { is_expected.to contain_service('sshd_service').with_hasstatus('false') }
     end
+
+    context "on #{os} with manage_config_files set to valid true" do
+      let(:params) { { manage_config_files: true } }
+
+      # config_files is not set
+      it { is_expected.to have_ssh__config_file_server_resource_count(0) }
+    end
+
+    context "on #{os} with config_files set to a valid hash" do
+      let(:params) do
+        {
+          config_files: {
+            '/etc/ssh/sshd_config.d/50-redhat.conf' => {
+              'lines'  => {
+                'test' => 'test',
+              },
+            },
+          }
+        }
+      end
+
+      # manage_config_files is not true
+      it { is_expected.to have_ssh__config_file_server_resource_count(0) }
+      it { is_expected.not_to contain_ssh__config_file_server('/etc/ssh/sshd_config.d/50-redhat.conf') }
+    end
+
+    context "on #{os} with manage_config_files set to valid true when config_files set to a valid hash" do
+      let(:params) do
+        {
+          manage_config_files: true,
+          config_files: {
+            '/etc/ssh/sshd_config.d/42-testing.conf' => {
+              'ensure' => 'present',
+              'owner'  => 'test',
+              'group'  => 'test',
+              'mode'   => '0242',
+              'lines'  => {
+                'GSSAPIAuthentication'     => 'yes',
+                'GSSAPICleanupCredentials' => 'no',
+              },
+            },
+            '/etc/ssh/sshd_config.d/50-redhat.conf' => {
+              'lines' => {
+                'X11Forwarding' => 'yes',
+              },
+            },
+          }
+        }
+      end
+
+      it { is_expected.to have_ssh__config_file_server_resource_count(2) }
+
+      it do
+        is_expected.to contain_ssh__config_file_server('/etc/ssh/sshd_config.d/42-testing.conf').only_with(
+          {
+            'ensure' => 'present',
+            'path'   => '/etc/ssh/sshd_config.d/42-testing.conf',
+            'owner'  => 'test',
+            'group'  => 'test',
+            'mode'   => '0242',
+            'lines'  => {
+              'GSSAPIAuthentication'     => 'yes',
+              'GSSAPICleanupCredentials' => 'no',
+            },
+            'custom' => [],
+          },
+        )
+      end
+
+      it do
+        is_expected.to contain_ssh__config_file_server('/etc/ssh/sshd_config.d/50-redhat.conf').only_with(
+          {
+            'ensure' => 'present',
+            'path'   => '/etc/ssh/sshd_config.d/50-redhat.conf',
+            'owner'  => 'root',
+            'group'  => 'root',
+            'mode'   => '0600',
+            'lines'  => {
+              'X11Forwarding' => 'yes',
+            },
+            'custom' => [],
+          },
+        )
+      end
+
+      it { is_expected.to contain_file('/etc/ssh/sshd_config.d/42-testing.conf') } # only needed for 100% resource coverage
+      it { is_expected.to contain_file('/etc/ssh/sshd_config.d/50-redhat.conf') }  # only needed for 100% resource coverage
+    end
   end
 end
+
+at_exit { RSpec::Puppet::Coverage.report! }

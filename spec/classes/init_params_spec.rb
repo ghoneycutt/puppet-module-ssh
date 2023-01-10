@@ -10,7 +10,7 @@ describe 'ssh' do
   END
 
   # these tests are OS independent, so we use a fictional OS without any default values
-  let(:facts) { { os: { family: 'UnitTesting' } } }
+  let(:facts) { { root_home: '/root', operatingsystem: 'UnitTesting', os: { family: 'UnitTesting' } } }
 
   parameters = {
     'add_keys_to_agent'                    => { str: 'AddKeysToAgent',                    val: ['yes', 'no', 'ask', 'confirm'], },

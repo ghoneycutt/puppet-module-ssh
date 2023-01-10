@@ -1,0 +1,13 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+
+<% if $lines { -%>
+<%   $lines.each |$directive, $value| { -%>
+<%= $directive %> <%= $value %>
+<%   } -%>
+<% } -%>
+<% if $custom { -%>
+<%   $custom.each |$line| { -%>
+<%= $line %>
+<%   } -%>
+<% } -%>

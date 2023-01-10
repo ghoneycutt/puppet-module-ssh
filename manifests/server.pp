@@ -55,6 +55,14 @@
 # @param service_hasstatus
 #   hasstatus attribute for SSH daemon.
 #
+# @param manage_config_files
+#   Boolean to choose if configuration files inside include directories should be managed.
+#
+# @param config_files
+#   Hash of configuration entries passed to ssh::config_file_server define.
+#   Please check the docs for ssh::config_file_client and the type Ssh::Sshd_Config
+#   for a list and details of the parameters usable here.
+#
 # @param service_name
 #   Name of the SSH daemon.
 #
@@ -463,6 +471,8 @@ class ssh::server (
   Boolean $service_enable = true,
   Boolean $service_hasrestart = true,
   Boolean $service_hasstatus = true,
+  Boolean $manage_config_files = false,
+  Hash $config_files = {},
   # all paramters below this line are for sshd_config
   Optional[Array[String[1]]] $accept_env = undef,
   Optional[Enum['any', 'inet', 'inet6']] $address_family = undef,
@@ -600,6 +610,14 @@ class ssh::server (
       hasrestart => $service_hasrestart,
       hasstatus  => $service_hasstatus,
       subscribe  => File['sshd_config'],
+    }
+  }
+
+  if $manage_config_files {
+    $config_files.each |$file, $lines| {
+      ssh::config_file_server { $file:
+        * => $lines,
+      }
     }
   }
 }

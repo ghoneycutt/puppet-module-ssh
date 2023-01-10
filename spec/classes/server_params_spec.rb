@@ -9,7 +9,7 @@ describe 'ssh::server' do
   END
 
   # these tests are OS independent, so we use a fictional OS without any default values
-  let(:facts) { { os: { family: 'UnitTesting' } } }
+  let(:facts) { { root_home: '/root', operatingsystem: 'UnitTesting', os: { family: 'UnitTesting' } } }
 
   parameters = {
     'accept_env'                           => { str: 'AcceptEnv',                        val: [['LANG'], ['TEST', 'ING']], sep: "\nAcceptEnv ", },
