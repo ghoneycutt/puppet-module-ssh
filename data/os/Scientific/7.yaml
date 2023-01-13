@@ -3,6 +3,7 @@
 ssh::forward_x11_trusted: 'yes'
 ssh::gss_api_authentication: 'yes'
 ssh::hash_known_hosts: 'no'
+ssh::host: '*'
 ssh::packages:
   - 'openssh-clients'
 ssh::send_env:

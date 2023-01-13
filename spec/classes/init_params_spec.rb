@@ -6,7 +6,6 @@ describe 'ssh' do
     |#
     |# See https://man.openbsd.org/ssh_config for more info
     |
-    |Host *
   END
 
   # these tests are OS independent, so we use a fictional OS without any default values

@@ -480,7 +480,7 @@ class ssh (
   Boolean $manage_config_files = false,
   Hash $config_files = {},
   # class parameters below this line directly correlate with ssh_config parameters
-  String[1] $host = '*',
+  Optional[String[1]] $host = undef,
   Optional[Enum['yes', 'no', 'ask', 'confirm']] $add_keys_to_agent = undef,
   Optional[Enum['any', 'inet', 'inet6']] $address_family = undef,
   Optional[Ssh::Yes_no] $batch_mode = undef,

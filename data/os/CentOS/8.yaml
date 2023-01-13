@@ -2,6 +2,7 @@
 ssh::forward_x11_trusted: 'no'
 ssh::gss_api_authentication: 'no'
 ssh::hash_known_hosts: 'no'
+ssh::host: '*'
 ssh::packages:
   - 'openssh-clients'
 ssh::send_env: []
