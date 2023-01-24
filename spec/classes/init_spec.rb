@@ -7,7 +7,7 @@ describe 'ssh' do
       packages_client = ['openssh-clients']
       packages_server = ['openssh-server']
       config_files    = '/etc/ssh/ssh_config.d/05-redhat.conf'
-    when %r{AlmaLinux.9}, %r{Rocky.9}, %r{RedHat.9}
+    when %r{AlmaLinux.9}, %r{CentOS.9}, %r{Rocky.9}, %r{RedHat.9}
       packages_client = ['openssh-clients']
       packages_server = ['openssh-server']
       config_files    = '/etc/ssh/ssh_config.d/50-redhat.conf'
