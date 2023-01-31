@@ -14,7 +14,7 @@ describe 'ssh' do
     when %r{CentOS.*}, %r{OracleLinux.*}, %r{RedHat.*}, %r{Scientific.*}
       packages_client = ['openssh-clients']
       packages_server = ['openssh-server']
-    when %r{SLED.*}, %r{SLES.*}
+    when %r{Archlinux.*}, %r{SLED.*}, %r{SLES.*}
       packages_client = ['openssh']
       packages_server = []
     when %r{Debian.*}, %r{Ubuntu.*}

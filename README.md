@@ -29,6 +29,7 @@ known to work on many, many platforms since its creation in 2010.
 
 ### Known to work
 
+ * Archlinux
  * Debian 10
  * Debian 11
  * EL 7

@@ -7,6 +7,12 @@ describe 'ssh::server' do
       fixture = fixtures("testing/#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_sshd_config")
       # OS specific defaults
       case "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['full']}"
+      when %r{Archlinux.*}
+        config_mode       = '0644'
+        packages          = []
+        service_hasstatus = true
+        service_name      = 'sshd'
+        fixture           = fixtures("testing/#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_sshd_config")
       when %r{AlmaLinux.9}, %r{CentOS.9}, %r{RedHat.9}, %r{Rocky.9}
         config_mode       = '0600'
         packages          = ['openssh-server']
