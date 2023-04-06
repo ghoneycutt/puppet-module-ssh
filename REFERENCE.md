@@ -7,19 +7,23 @@
 ### Classes
 
 * [`ssh`](#ssh): Class to manage SSH client
-* [`ssh::server`](#sshserver): Class to manage SSH server
+* [`ssh::server`](#ssh--server): Class to manage SSH server
 
 ### Defined types
 
-* [`ssh::config_entry`](#sshconfig_entry): Create config entries in a users' ~/.ssh/config
+* [`ssh::config_entry`](#ssh--config_entry): Create config entries in a users' ~/.ssh/config
+* [`ssh::config_file_client`](#ssh--config_file_client): Create config files to be used
+* [`ssh::config_file_server`](#ssh--config_file_server): Create config files to be used
 
 ### Data types
 
-* [`Ssh::Key::Type`](#sshkeytype): From https://github.com/puppetlabs/puppetlabs-sshkeys_core/blob/master/lib/puppet/type/sshkey.rb v1.0.2
-* [`Ssh::Log_level`](#sshlog_level)
-* [`Ssh::Permit_root_login`](#sshpermit_root_login): 'without-password' is a deprecated alias for 'prohibit-password'
-* [`Ssh::Syslog_facility`](#sshsyslog_facility)
-* [`Ssh::Yes_no`](#sshyes_no)
+* [`Ssh::Key::Type`](#Ssh--Key--Type): From https://github.com/puppetlabs/puppetlabs-sshkeys_core/blob/master/lib/puppet/type/sshkey.rb v1.0.2
+* [`Ssh::Log_level`](#Ssh--Log_level)
+* [`Ssh::Permit_root_login`](#Ssh--Permit_root_login): 'without-password' is a deprecated alias for 'prohibit-password'
+* [`Ssh::Ssh_Config`](#Ssh--Ssh_Config): ssh_config configuration file parameters
+* [`Ssh::Sshd_Config`](#Ssh--Sshd_Config): sshd_config configuration file parameters
+* [`Ssh::Syslog_facility`](#Ssh--Syslog_facility)
+* [`Ssh::Yes_no`](#Ssh--Yes_no)
 
 ## Classes
 
@@ -32,124 +36,129 @@ match/host blocks can exist. Use the `custom` parameter for that.
 
 The following parameters are available in the `ssh` class:
 
-* [`config_entries`](#config_entries)
-* [`config_group`](#config_group)
-* [`config_mode`](#config_mode)
-* [`config_owner`](#config_owner)
-* [`config_path`](#config_path)
-* [`global_known_hosts_group`](#global_known_hosts_group)
-* [`global_known_hosts_mode`](#global_known_hosts_mode)
-* [`global_known_hosts_owner`](#global_known_hosts_owner)
-* [`global_known_hosts_path`](#global_known_hosts_path)
-* [`keys`](#keys)
-* [`manage_global_known_hosts`](#manage_global_known_hosts)
-* [`manage_root_ssh_config`](#manage_root_ssh_config)
-* [`manage_server`](#manage_server)
-* [`manage_sshkey`](#manage_sshkey)
-* [`packages`](#packages)
-* [`packages_adminfile`](#packages_adminfile)
-* [`packages_source`](#packages_source)
-* [`purge_keys`](#purge_keys)
-* [`root_ssh_config_content`](#root_ssh_config_content)
-* [`host`](#host)
-* [`add_keys_to_agent`](#add_keys_to_agent)
-* [`address_family`](#address_family)
-* [`batch_mode`](#batch_mode)
-* [`bind_address`](#bind_address)
-* [`bind_interface`](#bind_interface)
-* [`canonical_domains`](#canonical_domains)
-* [`canonicalize_fallback_local`](#canonicalize_fallback_local)
-* [`canonicalize_hostname`](#canonicalize_hostname)
-* [`canonicalize_max_dots`](#canonicalize_max_dots)
-* [`canonicalize_permitted_cnames`](#canonicalize_permitted_cnames)
-* [`ca_signature_algorithms`](#ca_signature_algorithms)
-* [`certificate_file`](#certificate_file)
-* [`check_host_ip`](#check_host_ip)
-* [`ciphers`](#ciphers)
-* [`clear_all_forwardings`](#clear_all_forwardings)
-* [`compression`](#compression)
-* [`connection_attempts`](#connection_attempts)
-* [`connect_timeout`](#connect_timeout)
-* [`control_master`](#control_master)
-* [`control_path`](#control_path)
-* [`control_persist`](#control_persist)
-* [`dynamic_forward`](#dynamic_forward)
-* [`enable_ssh_keysign`](#enable_ssh_keysign)
-* [`escape_char`](#escape_char)
-* [`exit_on_forward_failure`](#exit_on_forward_failure)
-* [`fingerprint_hash`](#fingerprint_hash)
-* [`fork_after_authentication`](#fork_after_authentication)
-* [`forward_agent`](#forward_agent)
-* [`forward_x11`](#forward_x11)
-* [`forward_x11_timeout`](#forward_x11_timeout)
-* [`forward_x11_trusted`](#forward_x11_trusted)
-* [`gateway_ports`](#gateway_ports)
-* [`global_known_hosts_file`](#global_known_hosts_file)
-* [`gss_api_authentication`](#gss_api_authentication)
-* [`gss_api_delegate_credentials`](#gss_api_delegate_credentials)
-* [`hash_known_hosts`](#hash_known_hosts)
-* [`hostbased_accepted_algorithms`](#hostbased_accepted_algorithms)
-* [`hostbased_authentication`](#hostbased_authentication)
-* [`host_key_algorithms`](#host_key_algorithms)
-* [`host_key_alias`](#host_key_alias)
-* [`hostname`](#hostname)
-* [`identities_only`](#identities_only)
-* [`identity_agent`](#identity_agent)
-* [`identity_file`](#identity_file)
-* [`ignore_unknown`](#ignore_unknown)
-* [`include`](#include)
-* [`ip_qos`](#ip_qos)
-* [`kbd_interactive_authentication`](#kbd_interactive_authentication)
-* [`kbd_interactive_devices`](#kbd_interactive_devices)
-* [`kex_algorithms`](#kex_algorithms)
-* [`kown_hosts_command`](#kown_hosts_command)
-* [`local_command`](#local_command)
-* [`local_forward`](#local_forward)
-* [`log_level`](#log_level)
-* [`log_verbose`](#log_verbose)
-* [`macs`](#macs)
-* [`no_host_authentication_for_localhost`](#no_host_authentication_for_localhost)
-* [`number_of_password_prompts`](#number_of_password_prompts)
-* [`password_authentication`](#password_authentication)
-* [`permit_local_command`](#permit_local_command)
-* [`permit_remote_open`](#permit_remote_open)
-* [`pkcs11_provider`](#pkcs11_provider)
-* [`port`](#port)
-* [`preferred_authentications`](#preferred_authentications)
-* [`proxy_command`](#proxy_command)
-* [`proxy_jump`](#proxy_jump)
-* [`proxy_use_fdpass`](#proxy_use_fdpass)
-* [`pubkey_accepted_algorithms`](#pubkey_accepted_algorithms)
-* [`pubkey_authentication`](#pubkey_authentication)
-* [`rekey_limit`](#rekey_limit)
-* [`remote_command`](#remote_command)
-* [`remote_forward`](#remote_forward)
-* [`request_tty`](#request_tty)
-* [`revoked_host_keys`](#revoked_host_keys)
-* [`security_key_provider`](#security_key_provider)
-* [`send_env`](#send_env)
-* [`server_alive_count_max`](#server_alive_count_max)
-* [`server_alive_interval`](#server_alive_interval)
-* [`session_type`](#session_type)
-* [`set_env`](#set_env)
-* [`stdin_null`](#stdin_null)
-* [`stream_local_bind_mask`](#stream_local_bind_mask)
-* [`stream_local_bind_unlink`](#stream_local_bind_unlink)
-* [`strict_host_key_checking`](#strict_host_key_checking)
-* [`syslog_facility`](#syslog_facility)
-* [`tcp_keep_alive`](#tcp_keep_alive)
-* [`tunnel`](#tunnel)
-* [`tunnel_device`](#tunnel_device)
-* [`update_host_keys`](#update_host_keys)
-* [`user`](#user)
-* [`user_known_hosts_file`](#user_known_hosts_file)
-* [`use_roaming`](#use_roaming)
-* [`verify_host_key_dns`](#verify_host_key_dns)
-* [`visual_host_key`](#visual_host_key)
-* [`xauth_location`](#xauth_location)
-* [`custom`](#custom)
+* [`config_entries`](#-ssh--config_entries)
+* [`config_group`](#-ssh--config_group)
+* [`config_mode`](#-ssh--config_mode)
+* [`config_owner`](#-ssh--config_owner)
+* [`config_path`](#-ssh--config_path)
+* [`global_known_hosts_group`](#-ssh--global_known_hosts_group)
+* [`global_known_hosts_mode`](#-ssh--global_known_hosts_mode)
+* [`global_known_hosts_owner`](#-ssh--global_known_hosts_owner)
+* [`global_known_hosts_path`](#-ssh--global_known_hosts_path)
+* [`keys`](#-ssh--keys)
+* [`manage_global_known_hosts`](#-ssh--manage_global_known_hosts)
+* [`manage_root_ssh_config`](#-ssh--manage_root_ssh_config)
+* [`manage_server`](#-ssh--manage_server)
+* [`manage_sshkey`](#-ssh--manage_sshkey)
+* [`packages`](#-ssh--packages)
+* [`packages_adminfile`](#-ssh--packages_adminfile)
+* [`packages_source`](#-ssh--packages_source)
+* [`purge_keys`](#-ssh--purge_keys)
+* [`root_ssh_config_content`](#-ssh--root_ssh_config_content)
+* [`config_files`](#-ssh--config_files)
+* [`host`](#-ssh--host)
+* [`add_keys_to_agent`](#-ssh--add_keys_to_agent)
+* [`address_family`](#-ssh--address_family)
+* [`batch_mode`](#-ssh--batch_mode)
+* [`bind_address`](#-ssh--bind_address)
+* [`bind_interface`](#-ssh--bind_interface)
+* [`canonical_domains`](#-ssh--canonical_domains)
+* [`canonicalize_fallback_local`](#-ssh--canonicalize_fallback_local)
+* [`canonicalize_hostname`](#-ssh--canonicalize_hostname)
+* [`canonicalize_max_dots`](#-ssh--canonicalize_max_dots)
+* [`canonicalize_permitted_cnames`](#-ssh--canonicalize_permitted_cnames)
+* [`ca_signature_algorithms`](#-ssh--ca_signature_algorithms)
+* [`certificate_file`](#-ssh--certificate_file)
+* [`check_host_ip`](#-ssh--check_host_ip)
+* [`ciphers`](#-ssh--ciphers)
+* [`clear_all_forwardings`](#-ssh--clear_all_forwardings)
+* [`compression`](#-ssh--compression)
+* [`connection_attempts`](#-ssh--connection_attempts)
+* [`connect_timeout`](#-ssh--connect_timeout)
+* [`control_master`](#-ssh--control_master)
+* [`control_path`](#-ssh--control_path)
+* [`control_persist`](#-ssh--control_persist)
+* [`dynamic_forward`](#-ssh--dynamic_forward)
+* [`enable_ssh_keysign`](#-ssh--enable_ssh_keysign)
+* [`escape_char`](#-ssh--escape_char)
+* [`exit_on_forward_failure`](#-ssh--exit_on_forward_failure)
+* [`fingerprint_hash`](#-ssh--fingerprint_hash)
+* [`fork_after_authentication`](#-ssh--fork_after_authentication)
+* [`forward_agent`](#-ssh--forward_agent)
+* [`forward_x11`](#-ssh--forward_x11)
+* [`forward_x11_timeout`](#-ssh--forward_x11_timeout)
+* [`forward_x11_trusted`](#-ssh--forward_x11_trusted)
+* [`gateway_ports`](#-ssh--gateway_ports)
+* [`global_known_hosts_file`](#-ssh--global_known_hosts_file)
+* [`gss_api_authentication`](#-ssh--gss_api_authentication)
+* [`gss_api_delegate_credentials`](#-ssh--gss_api_delegate_credentials)
+* [`hash_known_hosts`](#-ssh--hash_known_hosts)
+* [`hostbased_accepted_algorithms`](#-ssh--hostbased_accepted_algorithms)
+* [`hostbased_authentication`](#-ssh--hostbased_authentication)
+* [`host_key_algorithms`](#-ssh--host_key_algorithms)
+* [`host_key_alias`](#-ssh--host_key_alias)
+* [`hostname`](#-ssh--hostname)
+* [`identities_only`](#-ssh--identities_only)
+* [`identity_agent`](#-ssh--identity_agent)
+* [`identity_file`](#-ssh--identity_file)
+* [`ignore_unknown`](#-ssh--ignore_unknown)
+* [`include`](#-ssh--include)
+* [`include_dir_owner`](#-ssh--include_dir_owner)
+* [`include_dir_group`](#-ssh--include_dir_group)
+* [`include_dir_mode`](#-ssh--include_dir_mode)
+* [`include_dir_purge`](#-ssh--include_dir_purge)
+* [`ip_qos`](#-ssh--ip_qos)
+* [`kbd_interactive_authentication`](#-ssh--kbd_interactive_authentication)
+* [`kbd_interactive_devices`](#-ssh--kbd_interactive_devices)
+* [`kex_algorithms`](#-ssh--kex_algorithms)
+* [`kown_hosts_command`](#-ssh--kown_hosts_command)
+* [`local_command`](#-ssh--local_command)
+* [`local_forward`](#-ssh--local_forward)
+* [`log_level`](#-ssh--log_level)
+* [`log_verbose`](#-ssh--log_verbose)
+* [`macs`](#-ssh--macs)
+* [`no_host_authentication_for_localhost`](#-ssh--no_host_authentication_for_localhost)
+* [`number_of_password_prompts`](#-ssh--number_of_password_prompts)
+* [`password_authentication`](#-ssh--password_authentication)
+* [`permit_local_command`](#-ssh--permit_local_command)
+* [`permit_remote_open`](#-ssh--permit_remote_open)
+* [`pkcs11_provider`](#-ssh--pkcs11_provider)
+* [`port`](#-ssh--port)
+* [`preferred_authentications`](#-ssh--preferred_authentications)
+* [`proxy_command`](#-ssh--proxy_command)
+* [`proxy_jump`](#-ssh--proxy_jump)
+* [`proxy_use_fdpass`](#-ssh--proxy_use_fdpass)
+* [`pubkey_accepted_algorithms`](#-ssh--pubkey_accepted_algorithms)
+* [`pubkey_authentication`](#-ssh--pubkey_authentication)
+* [`rekey_limit`](#-ssh--rekey_limit)
+* [`remote_command`](#-ssh--remote_command)
+* [`remote_forward`](#-ssh--remote_forward)
+* [`request_tty`](#-ssh--request_tty)
+* [`revoked_host_keys`](#-ssh--revoked_host_keys)
+* [`security_key_provider`](#-ssh--security_key_provider)
+* [`send_env`](#-ssh--send_env)
+* [`server_alive_count_max`](#-ssh--server_alive_count_max)
+* [`server_alive_interval`](#-ssh--server_alive_interval)
+* [`session_type`](#-ssh--session_type)
+* [`set_env`](#-ssh--set_env)
+* [`stdin_null`](#-ssh--stdin_null)
+* [`stream_local_bind_mask`](#-ssh--stream_local_bind_mask)
+* [`stream_local_bind_unlink`](#-ssh--stream_local_bind_unlink)
+* [`strict_host_key_checking`](#-ssh--strict_host_key_checking)
+* [`syslog_facility`](#-ssh--syslog_facility)
+* [`tcp_keep_alive`](#-ssh--tcp_keep_alive)
+* [`tunnel`](#-ssh--tunnel)
+* [`tunnel_device`](#-ssh--tunnel_device)
+* [`update_host_keys`](#-ssh--update_host_keys)
+* [`user`](#-ssh--user)
+* [`user_known_hosts_file`](#-ssh--user_known_hosts_file)
+* [`use_roaming`](#-ssh--use_roaming)
+* [`verify_host_key_dns`](#-ssh--verify_host_key_dns)
+* [`visual_host_key`](#-ssh--visual_host_key)
+* [`xauth_location`](#-ssh--xauth_location)
+* [`custom`](#-ssh--custom)
 
-##### <a name="config_entries"></a>`config_entries`
+##### <a name="-ssh--config_entries"></a>`config_entries`
 
 Data type: `Hash`
 
@@ -159,7 +168,7 @@ of the parameters usable here.
 
 Default value: `{}`
 
-##### <a name="config_group"></a>`config_group`
+##### <a name="-ssh--config_group"></a>`config_group`
 
 Data type: `String[1]`
 
@@ -167,7 +176,7 @@ User group used for ssh_config file.
 
 Default value: `'root'`
 
-##### <a name="config_mode"></a>`config_mode`
+##### <a name="-ssh--config_mode"></a>`config_mode`
 
 Data type: `Stdlib::Filemode`
 
@@ -175,7 +184,7 @@ File mode used for ssh_config file.
 
 Default value: `'0644'`
 
-##### <a name="config_owner"></a>`config_owner`
+##### <a name="-ssh--config_owner"></a>`config_owner`
 
 Data type: `String[1]`
 
@@ -183,7 +192,7 @@ User/Owner used for ssh_config file.
 
 Default value: `'root'`
 
-##### <a name="config_path"></a>`config_path`
+##### <a name="-ssh--config_path"></a>`config_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -191,7 +200,7 @@ Absolute path to ssh_config file.
 
 Default value: `'/etc/ssh/ssh_config'`
 
-##### <a name="global_known_hosts_group"></a>`global_known_hosts_group`
+##### <a name="-ssh--global_known_hosts_group"></a>`global_known_hosts_group`
 
 Data type: `String[1]`
 
@@ -199,7 +208,7 @@ User group used for global used known_hosts file.
 
 Default value: `'root'`
 
-##### <a name="global_known_hosts_mode"></a>`global_known_hosts_mode`
+##### <a name="-ssh--global_known_hosts_mode"></a>`global_known_hosts_mode`
 
 Data type: `Stdlib::Filemode`
 
@@ -207,7 +216,7 @@ File mode used for global used known_hosts file.
 
 Default value: `'0644'`
 
-##### <a name="global_known_hosts_owner"></a>`global_known_hosts_owner`
+##### <a name="-ssh--global_known_hosts_owner"></a>`global_known_hosts_owner`
 
 Data type: `String[1]`
 
@@ -215,7 +224,7 @@ User/Owner used for global used known_hosts file.
 
 Default value: `'root'`
 
-##### <a name="global_known_hosts_path"></a>`global_known_hosts_path`
+##### <a name="-ssh--global_known_hosts_path"></a>`global_known_hosts_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -223,7 +232,7 @@ Absolute path to global used known_hosts file.
 
 Default value: `'/etc/ssh/ssh_known_hosts'`
 
-##### <a name="keys"></a>`keys`
+##### <a name="-ssh--keys"></a>`keys`
 
 Data type: `Hash`
 
@@ -231,39 +240,39 @@ Hash of keys to be added to ~/.ssh/authorized_keys for users.
 
 Default value: `{}`
 
-##### <a name="manage_global_known_hosts"></a>`manage_global_known_hosts`
+##### <a name="-ssh--manage_global_known_hosts"></a>`manage_global_known_hosts`
 
 Data type: `Boolean`
 
 Boolean to choose if the global used known hosts file should be managed.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="manage_root_ssh_config"></a>`manage_root_ssh_config`
+##### <a name="-ssh--manage_root_ssh_config"></a>`manage_root_ssh_config`
 
 Data type: `Boolean`
 
 Boolean to choose if the ssh_config file of root should be managed.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="manage_server"></a>`manage_server`
+##### <a name="-ssh--manage_server"></a>`manage_server`
 
 Data type: `Boolean`
 
 Boolean to choose if the SSH daemon and its configuration should be managed.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="manage_sshkey"></a>`manage_sshkey`
+##### <a name="-ssh--manage_sshkey"></a>`manage_sshkey`
 
 Data type: `Boolean`
 
 Boolean to choose if SSH keys should be managed. Also see $purge_keys.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="packages"></a>`packages`
+##### <a name="-ssh--packages"></a>`packages`
 
 Data type: `Array[String[1]]`
 
@@ -271,31 +280,31 @@ Installation package(s) for the SSH client.
 
 Default value: `[]`
 
-##### <a name="packages_adminfile"></a>`packages_adminfile`
+##### <a name="-ssh--packages_adminfile"></a>`packages_adminfile`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 Path to adminfile for SSH client package(s) installation. Needed for Solaris.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="packages_source"></a>`packages_source`
+##### <a name="-ssh--packages_source"></a>`packages_source`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 Source to SSH client package(s). Needed for Solaris.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="purge_keys"></a>`purge_keys`
+##### <a name="-ssh--purge_keys"></a>`purge_keys`
 
 Data type: `Boolean`
 
 If SSH keys not managed by Puppet should get removed. Also see $manage_sshkey.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="root_ssh_config_content"></a>`root_ssh_config_content`
+##### <a name="-ssh--root_ssh_config_content"></a>`root_ssh_config_content`
 
 Data type: `String[1]`
 
@@ -303,879 +312,921 @@ Content of the ssh_config file of root.
 
 Default value: `"# This file is being maintained by Puppet.\n# DO NOT EDIT\n"`
 
-##### <a name="host"></a>`host`
+##### <a name="-ssh--config_files"></a>`config_files`
 
-Data type: `String[1]`
+Data type: `Hash`
+
+Hash of configuration entries passed to ssh::config_file_client define.
+Please check the docs for ssh::config_file_client and the type Ssh::Ssh_Config
+for a list and details of the parameters usable here.
+
+Default value: `{}`
+
+##### <a name="-ssh--host"></a>`host`
+
+Data type: `Optional[String[1]]`
 
 Value(s) passed to Host parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#Host for possible values.
 
-Default value: `'*'`
+Default value: `undef`
 
-##### <a name="add_keys_to_agent"></a>`add_keys_to_agent`
+##### <a name="-ssh--add_keys_to_agent"></a>`add_keys_to_agent`
 
 Data type: `Optional[Enum['yes', 'no', 'ask', 'confirm']]`
 
 Value(s) passed to AddKeysToAgent parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#AddKeysToAgent for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="address_family"></a>`address_family`
+##### <a name="-ssh--address_family"></a>`address_family`
 
 Data type: `Optional[Enum['any', 'inet', 'inet6']]`
 
 Value(s) passed to AddressFamily parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#AddressFamily for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="batch_mode"></a>`batch_mode`
+##### <a name="-ssh--batch_mode"></a>`batch_mode`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to BatchMode parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#BatchMode for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="bind_address"></a>`bind_address`
+##### <a name="-ssh--bind_address"></a>`bind_address`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to BindAddress parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#BindAddress for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="bind_interface"></a>`bind_interface`
+##### <a name="-ssh--bind_interface"></a>`bind_interface`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to BindInterface parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#BindInterface for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="canonical_domains"></a>`canonical_domains`
+##### <a name="-ssh--canonical_domains"></a>`canonical_domains`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to CanonicalDomains parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#CanonicalDomains for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="canonicalize_fallback_local"></a>`canonicalize_fallback_local`
+##### <a name="-ssh--canonicalize_fallback_local"></a>`canonicalize_fallback_local`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to CanonicalizeFallbackLocal parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#CanonicalizeFallbackLocal for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="canonicalize_hostname"></a>`canonicalize_hostname`
+##### <a name="-ssh--canonicalize_hostname"></a>`canonicalize_hostname`
 
 Data type: `Optional[Enum['yes', 'no', 'always']]`
 
 Value(s) passed to CanonicalizeHostname parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#CanonicalizeHostname for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="canonicalize_max_dots"></a>`canonicalize_max_dots`
+##### <a name="-ssh--canonicalize_max_dots"></a>`canonicalize_max_dots`
 
 Data type: `Optional[Integer[0]]`
 
 Value(s) passed to CanonicalizeMaxDots parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#CanonicalizeMaxDots for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="canonicalize_permitted_cnames"></a>`canonicalize_permitted_cnames`
+##### <a name="-ssh--canonicalize_permitted_cnames"></a>`canonicalize_permitted_cnames`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to CanonicalizePermittedCNAMEs parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#CanonicalizePermittedCNAMEs for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ca_signature_algorithms"></a>`ca_signature_algorithms`
+##### <a name="-ssh--ca_signature_algorithms"></a>`ca_signature_algorithms`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to CASignatureAlgorithms parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#CASignatureAlgorithms for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="certificate_file"></a>`certificate_file`
+##### <a name="-ssh--certificate_file"></a>`certificate_file`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to CertificateFile parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#CertificateFile for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="check_host_ip"></a>`check_host_ip`
+##### <a name="-ssh--check_host_ip"></a>`check_host_ip`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to CheckHostIP parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#CheckHostIP for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ciphers"></a>`ciphers`
+##### <a name="-ssh--ciphers"></a>`ciphers`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to Ciphers parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#Ciphers for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="clear_all_forwardings"></a>`clear_all_forwardings`
+##### <a name="-ssh--clear_all_forwardings"></a>`clear_all_forwardings`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to ClearAllForwardings parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ClearAllForwardings for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="compression"></a>`compression`
+##### <a name="-ssh--compression"></a>`compression`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to Compression parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#Compression for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="connection_attempts"></a>`connection_attempts`
+##### <a name="-ssh--connection_attempts"></a>`connection_attempts`
 
 Data type: `Optional[Integer[0]]`
 
 Value(s) passed to ConnectionAttempts parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ConnectionAttempts for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="connect_timeout"></a>`connect_timeout`
+##### <a name="-ssh--connect_timeout"></a>`connect_timeout`
 
 Data type: `Optional[Integer[0]]`
 
 Value(s) passed to ConnectTimeout parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ConnectTimeout for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="control_master"></a>`control_master`
+##### <a name="-ssh--control_master"></a>`control_master`
 
 Data type: `Optional[Enum['yes', 'no', 'ask', 'auto', 'autoask']]`
 
 Value(s) passed to ControlMaster parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ControlMaster for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="control_path"></a>`control_path`
+##### <a name="-ssh--control_path"></a>`control_path`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to ControlPath parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ControlPath for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="control_persist"></a>`control_persist`
+##### <a name="-ssh--control_persist"></a>`control_persist`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to ControlPersist parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ControlPersist for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="dynamic_forward"></a>`dynamic_forward`
+##### <a name="-ssh--dynamic_forward"></a>`dynamic_forward`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to DynamicForward parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#DynamicForward for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="enable_ssh_keysign"></a>`enable_ssh_keysign`
+##### <a name="-ssh--enable_ssh_keysign"></a>`enable_ssh_keysign`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to EnableSSHKeysign parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#EnableSSHKeysign for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="escape_char"></a>`escape_char`
+##### <a name="-ssh--escape_char"></a>`escape_char`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to EscapeChar parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#EscapeChar for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="exit_on_forward_failure"></a>`exit_on_forward_failure`
+##### <a name="-ssh--exit_on_forward_failure"></a>`exit_on_forward_failure`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to ExitOnForwardFailure parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ExitOnForwardFailure for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="fingerprint_hash"></a>`fingerprint_hash`
+##### <a name="-ssh--fingerprint_hash"></a>`fingerprint_hash`
 
 Data type: `Optional[Enum['sha256', 'md5']]`
 
 Value(s) passed to FingerprintHash parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#FingerprintHash for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="fork_after_authentication"></a>`fork_after_authentication`
+##### <a name="-ssh--fork_after_authentication"></a>`fork_after_authentication`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to ForkAfterAuthentication parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ForkAfterAuthentication for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="forward_agent"></a>`forward_agent`
+##### <a name="-ssh--forward_agent"></a>`forward_agent`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to ForwardAgent parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ForwardAgent for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="forward_x11"></a>`forward_x11`
+##### <a name="-ssh--forward_x11"></a>`forward_x11`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to ForwardX11 parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ForwardX11 for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="forward_x11_timeout"></a>`forward_x11_timeout`
+##### <a name="-ssh--forward_x11_timeout"></a>`forward_x11_timeout`
 
 Data type: `Variant[Undef, String[1], Integer[0]]`
 
 Value(s) passed to ForwardX11Timeout parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ForwardX11Timeout for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="forward_x11_trusted"></a>`forward_x11_trusted`
+##### <a name="-ssh--forward_x11_trusted"></a>`forward_x11_trusted`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to ForwardX11Trusted parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ForwardX11Trusted for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="gateway_ports"></a>`gateway_ports`
+##### <a name="-ssh--gateway_ports"></a>`gateway_ports`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to GatewayPorts parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#GatewayPorts for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="global_known_hosts_file"></a>`global_known_hosts_file`
+##### <a name="-ssh--global_known_hosts_file"></a>`global_known_hosts_file`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to GlobalKnownHostsFile parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#GlobalKnownHostsFile for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="gss_api_authentication"></a>`gss_api_authentication`
+##### <a name="-ssh--gss_api_authentication"></a>`gss_api_authentication`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to GSSAPIAuthentication parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#GSSAPIAuthentication for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="gss_api_delegate_credentials"></a>`gss_api_delegate_credentials`
+##### <a name="-ssh--gss_api_delegate_credentials"></a>`gss_api_delegate_credentials`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to GSSAPIDelegateCredentials parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#GSSAPIDelegateCredentials for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="hash_known_hosts"></a>`hash_known_hosts`
+##### <a name="-ssh--hash_known_hosts"></a>`hash_known_hosts`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to HashKnownHosts parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#HashKnownHosts for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="hostbased_accepted_algorithms"></a>`hostbased_accepted_algorithms`
+##### <a name="-ssh--hostbased_accepted_algorithms"></a>`hostbased_accepted_algorithms`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to HostbasedAcceptedAlgorithms parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#HostbasedAcceptedAlgorithms for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="hostbased_authentication"></a>`hostbased_authentication`
+##### <a name="-ssh--hostbased_authentication"></a>`hostbased_authentication`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to HostbasedAuthentication parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#HostbasedAuthentication for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="host_key_algorithms"></a>`host_key_algorithms`
+##### <a name="-ssh--host_key_algorithms"></a>`host_key_algorithms`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to HostKeyAlgorithms parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#HostKeyAlgorithms for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="host_key_alias"></a>`host_key_alias`
+##### <a name="-ssh--host_key_alias"></a>`host_key_alias`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to HostKeyAlias parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#HostKeyAlias for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="hostname"></a>`hostname`
+##### <a name="-ssh--hostname"></a>`hostname`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to Hostname parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#Hostname for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="identities_only"></a>`identities_only`
+##### <a name="-ssh--identities_only"></a>`identities_only`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to IdentitiesOnly parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#IdentitiesOnly for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="identity_agent"></a>`identity_agent`
+##### <a name="-ssh--identity_agent"></a>`identity_agent`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to IdentityAgent parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#IdentityAgent for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="identity_file"></a>`identity_file`
+##### <a name="-ssh--identity_file"></a>`identity_file`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to IdentityFile parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#IdentityFile for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ignore_unknown"></a>`ignore_unknown`
+##### <a name="-ssh--ignore_unknown"></a>`ignore_unknown`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to IgnoreUnknown parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#IgnoreUnknown for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="include"></a>`include`
+##### <a name="-ssh--include"></a>`include`
 
-Data type: `Optional[String[1]]`
+Data type: `Optional[Stdlib::Absolutepath]`
 
 Value(s) passed to Include parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#Include for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ip_qos"></a>`ip_qos`
+##### <a name="-ssh--include_dir_owner"></a>`include_dir_owner`
+
+Data type: `String[1]`
+
+The owner of the include directory
+
+Default value: `'root'`
+
+##### <a name="-ssh--include_dir_group"></a>`include_dir_group`
+
+Data type: `String[1]`
+
+The group of the include directory
+
+Default value: `'root'`
+
+##### <a name="-ssh--include_dir_mode"></a>`include_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+The mode of the include directory
+
+Default value: `'0755'`
+
+##### <a name="-ssh--include_dir_purge"></a>`include_dir_purge`
+
+Data type: `Boolean`
+
+Sets whether to purge the include_dir of unmanaged files
+
+Default value: `true`
+
+##### <a name="-ssh--ip_qos"></a>`ip_qos`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to IPQoS parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#IPQoS for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="kbd_interactive_authentication"></a>`kbd_interactive_authentication`
+##### <a name="-ssh--kbd_interactive_authentication"></a>`kbd_interactive_authentication`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to KbdInteractiveAuthentication parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#KbdInteractiveAuthentication for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="kbd_interactive_devices"></a>`kbd_interactive_devices`
+##### <a name="-ssh--kbd_interactive_devices"></a>`kbd_interactive_devices`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to KbdInteractiveDevices parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#KbdInteractiveDevices for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="kex_algorithms"></a>`kex_algorithms`
+##### <a name="-ssh--kex_algorithms"></a>`kex_algorithms`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to KexAlgorithms parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#KexAlgorithms for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="kown_hosts_command"></a>`kown_hosts_command`
+##### <a name="-ssh--kown_hosts_command"></a>`kown_hosts_command`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to KnownHostsCommand parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#KnownHostsCommand for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="local_command"></a>`local_command`
+##### <a name="-ssh--local_command"></a>`local_command`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to LocalCommand parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#LocalCommand for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="local_forward"></a>`local_forward`
+##### <a name="-ssh--local_forward"></a>`local_forward`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to LocalForward parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#LocalForward for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="log_level"></a>`log_level`
+##### <a name="-ssh--log_level"></a>`log_level`
 
 Data type: `Optional[Ssh::Log_level]`
 
 Value(s) passed to LogLevel parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#LogLevel for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="log_verbose"></a>`log_verbose`
+##### <a name="-ssh--log_verbose"></a>`log_verbose`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to LogVerbose parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#LogVerbose for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="macs"></a>`macs`
+##### <a name="-ssh--macs"></a>`macs`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to MACs parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#MACs for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="no_host_authentication_for_localhost"></a>`no_host_authentication_for_localhost`
+##### <a name="-ssh--no_host_authentication_for_localhost"></a>`no_host_authentication_for_localhost`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to NoHostAuthenticationForLocalhost parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#NoHostAuthenticationForLocalhost for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="number_of_password_prompts"></a>`number_of_password_prompts`
+##### <a name="-ssh--number_of_password_prompts"></a>`number_of_password_prompts`
 
 Data type: `Optional[Integer]`
 
 Value(s) passed to NumberOfPasswordPrompts parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#NumberOfPasswordPrompts for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="password_authentication"></a>`password_authentication`
+##### <a name="-ssh--password_authentication"></a>`password_authentication`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to PasswordAuthentication parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#PasswordAuthentication for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="permit_local_command"></a>`permit_local_command`
+##### <a name="-ssh--permit_local_command"></a>`permit_local_command`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to PermitLocalCommand parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#PermitLocalCommand for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="permit_remote_open"></a>`permit_remote_open`
+##### <a name="-ssh--permit_remote_open"></a>`permit_remote_open`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to PermitRemoteOpen parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#PermitRemoteOpen for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="pkcs11_provider"></a>`pkcs11_provider`
+##### <a name="-ssh--pkcs11_provider"></a>`pkcs11_provider`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to PKCS11Provider parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#PKCS11Provider for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="port"></a>`port`
+##### <a name="-ssh--port"></a>`port`
 
 Data type: `Optional[Stdlib::Port]`
 
 Value(s) passed to Port parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#Port for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="preferred_authentications"></a>`preferred_authentications`
+##### <a name="-ssh--preferred_authentications"></a>`preferred_authentications`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to PreferredAuthentications parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#PreferredAuthentications for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="proxy_command"></a>`proxy_command`
+##### <a name="-ssh--proxy_command"></a>`proxy_command`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to ProxyCommand parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ProxyCommand for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="proxy_jump"></a>`proxy_jump`
+##### <a name="-ssh--proxy_jump"></a>`proxy_jump`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to ProxyJump parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ProxyJump for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="proxy_use_fdpass"></a>`proxy_use_fdpass`
+##### <a name="-ssh--proxy_use_fdpass"></a>`proxy_use_fdpass`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to ProxyUseFdpass parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ProxyUseFdpass for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="pubkey_accepted_algorithms"></a>`pubkey_accepted_algorithms`
+##### <a name="-ssh--pubkey_accepted_algorithms"></a>`pubkey_accepted_algorithms`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to PubkeyAcceptedAlgorithms parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#PubkeyAcceptedAlgorithms for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="pubkey_authentication"></a>`pubkey_authentication`
+##### <a name="-ssh--pubkey_authentication"></a>`pubkey_authentication`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to PubkeyAuthentication parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#PubkeyAuthentication for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="rekey_limit"></a>`rekey_limit`
+##### <a name="-ssh--rekey_limit"></a>`rekey_limit`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to RekeyLimit parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#RekeyLimit for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="remote_command"></a>`remote_command`
+##### <a name="-ssh--remote_command"></a>`remote_command`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to RemoteCommand parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#RemoteCommand for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="remote_forward"></a>`remote_forward`
+##### <a name="-ssh--remote_forward"></a>`remote_forward`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to RemoteForward parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#RemoteForward for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="request_tty"></a>`request_tty`
+##### <a name="-ssh--request_tty"></a>`request_tty`
 
 Data type: `Optional[Enum['no', 'yes', 'force', 'auto']]`
 
 Value(s) passed to RequestTTY parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#RequestTTY for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="revoked_host_keys"></a>`revoked_host_keys`
+##### <a name="-ssh--revoked_host_keys"></a>`revoked_host_keys`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to RevokedHostKeys parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#RevokedHostKeys for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="security_key_provider"></a>`security_key_provider`
+##### <a name="-ssh--security_key_provider"></a>`security_key_provider`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to SecurityKeyProvider parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#SecurityKeyProvider for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="send_env"></a>`send_env`
+##### <a name="-ssh--send_env"></a>`send_env`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to SendEnv parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#SendEnv for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="server_alive_count_max"></a>`server_alive_count_max`
+##### <a name="-ssh--server_alive_count_max"></a>`server_alive_count_max`
 
 Data type: `Variant[Undef, String[1], Integer[0]]`
 
 Value(s) passed to ServerAliveCountMax parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ServerAliveCountMax for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="server_alive_interval"></a>`server_alive_interval`
+##### <a name="-ssh--server_alive_interval"></a>`server_alive_interval`
 
 Data type: `Variant[Undef, String[1], Integer[0]]`
 
 Value(s) passed to ServerAliveInterval parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ServerAliveInterval for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="session_type"></a>`session_type`
+##### <a name="-ssh--session_type"></a>`session_type`
 
 Data type: `Optional[Enum['default', 'none', 'subsystem']]`
 
 Value(s) passed to SessionType parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#SessionType for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="set_env"></a>`set_env`
+##### <a name="-ssh--set_env"></a>`set_env`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to SetEnv parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#SetEnv for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="stdin_null"></a>`stdin_null`
+##### <a name="-ssh--stdin_null"></a>`stdin_null`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to StdinNull parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#StdinNull for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="stream_local_bind_mask"></a>`stream_local_bind_mask`
+##### <a name="-ssh--stream_local_bind_mask"></a>`stream_local_bind_mask`
 
 Data type: `Optional[Pattern[/^[0-7]{4}$/]]`
 
 Value(s) passed to StreamLocalBindMask parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#StreamLocalBindMask for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="stream_local_bind_unlink"></a>`stream_local_bind_unlink`
+##### <a name="-ssh--stream_local_bind_unlink"></a>`stream_local_bind_unlink`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to StreamLocalBindUnlink parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#StreamLocalBindUnlink for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="strict_host_key_checking"></a>`strict_host_key_checking`
+##### <a name="-ssh--strict_host_key_checking"></a>`strict_host_key_checking`
 
 Data type: `Optional[Enum['yes', 'no', 'accept-new', 'off', 'ask']]`
 
 Value(s) passed to StrictHostKeyChecking parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#StrictHostKeyChecking for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="syslog_facility"></a>`syslog_facility`
+##### <a name="-ssh--syslog_facility"></a>`syslog_facility`
 
 Data type: `Optional[Ssh::Syslog_facility]`
 
 Value(s) passed to SyslogFacility parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#SyslogFacility for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="tcp_keep_alive"></a>`tcp_keep_alive`
+##### <a name="-ssh--tcp_keep_alive"></a>`tcp_keep_alive`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to TCPKeepAlive parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#TCPKeepAlive for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="tunnel"></a>`tunnel`
+##### <a name="-ssh--tunnel"></a>`tunnel`
 
 Data type: `Optional[Enum['yes', 'no', 'point-to-point', 'ethernet']]`
 
 Value(s) passed to Tunnel parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#Tunnel for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="tunnel_device"></a>`tunnel_device`
+##### <a name="-ssh--tunnel_device"></a>`tunnel_device`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to TunnelDevice parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#TunnelDevice for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="update_host_keys"></a>`update_host_keys`
+##### <a name="-ssh--update_host_keys"></a>`update_host_keys`
 
 Data type: `Optional[Enum['yes', 'no', 'ask']]`
 
 Value(s) passed to UpdateHostKeys parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#UpdateHostKeys for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="user"></a>`user`
+##### <a name="-ssh--user"></a>`user`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to User parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#User for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="user_known_hosts_file"></a>`user_known_hosts_file`
+##### <a name="-ssh--user_known_hosts_file"></a>`user_known_hosts_file`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to UserKnownHostsFile parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#UserKnownHostsFile for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="use_roaming"></a>`use_roaming`
+##### <a name="-ssh--use_roaming"></a>`use_roaming`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to the UseRoaming parameter in ssh_config. Unused if empty.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="verify_host_key_dns"></a>`verify_host_key_dns`
+##### <a name="-ssh--verify_host_key_dns"></a>`verify_host_key_dns`
 
 Data type: `Optional[Enum['yes', 'no', 'ask']]`
 
 Value(s) passed to VerifyHostKeyDNS parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#VerifyHostKeyDNS for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="visual_host_key"></a>`visual_host_key`
+##### <a name="-ssh--visual_host_key"></a>`visual_host_key`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to VisualHostKey parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#VisualHostKey for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="xauth_location"></a>`xauth_location`
+##### <a name="-ssh--xauth_location"></a>`xauth_location`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to XAuthLocation parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#XAuthLocation for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="custom"></a>`custom`
+##### <a name="-ssh--custom"></a>`custom`
 
 Data type: `Optional[Array[String[1]]]`
 
 Array of custom lines to be added to client configuration file ssh_config.
 Uses one array item per line to be added.
 
-Default value: ``undef``
+Default value: `undef`
 
-### <a name="sshserver"></a>`ssh::server`
+### <a name="ssh--server"></a>`ssh::server`
 
 Notes: `Match` attribute is not directly supported as multiple match blocks can
 exist. Use the `custom` parameter for that.
@@ -1184,130 +1235,135 @@ exist. Use the `custom` parameter for that.
 
 The following parameters are available in the `ssh::server` class:
 
-* [`banner_content`](#banner_content)
-* [`banner_group`](#banner_group)
-* [`banner_mode`](#banner_mode)
-* [`banner_owner`](#banner_owner)
-* [`banner_path`](#banner_path)
-* [`config_group`](#config_group)
-* [`config_mode`](#config_mode)
-* [`config_owner`](#config_owner)
-* [`config_path`](#config_path)
-* [`manage_service`](#manage_service)
-* [`packages`](#packages)
-* [`packages_adminfile`](#packages_adminfile)
-* [`packages_source`](#packages_source)
-* [`service_enable`](#service_enable)
-* [`service_ensure`](#service_ensure)
-* [`service_hasrestart`](#service_hasrestart)
-* [`service_hasstatus`](#service_hasstatus)
-* [`service_name`](#service_name)
-* [`accept_env`](#accept_env)
-* [`address_family`](#address_family)
-* [`allow_agent_forwarding`](#allow_agent_forwarding)
-* [`allow_groups`](#allow_groups)
-* [`allow_stream_local_forwarding`](#allow_stream_local_forwarding)
-* [`allow_tcp_forwarding`](#allow_tcp_forwarding)
-* [`allow_users`](#allow_users)
-* [`authentication_methods`](#authentication_methods)
-* [`authorized_keys_command`](#authorized_keys_command)
-* [`authorized_keys_command_user`](#authorized_keys_command_user)
-* [`authorized_keys_file`](#authorized_keys_file)
-* [`authorized_principals_command`](#authorized_principals_command)
-* [`authorized_principals_command_user`](#authorized_principals_command_user)
-* [`authorized_principals_file`](#authorized_principals_file)
-* [`banner`](#banner)
-* [`ca_signature_algorithms`](#ca_signature_algorithms)
-* [`challenge_response_authentication`](#challenge_response_authentication)
-* [`chroot_directory`](#chroot_directory)
-* [`ciphers`](#ciphers)
-* [`client_alive_count_max`](#client_alive_count_max)
-* [`client_alive_interval`](#client_alive_interval)
-* [`compression`](#compression)
-* [`deny_groups`](#deny_groups)
-* [`deny_users`](#deny_users)
-* [`disable_forwarding`](#disable_forwarding)
-* [`expose_auth_info`](#expose_auth_info)
-* [`fingerprint_hash`](#fingerprint_hash)
-* [`force_command`](#force_command)
-* [`gateway_ports`](#gateway_ports)
-* [`gss_api_authentication`](#gss_api_authentication)
-* [`gss_api_cleanup_credentials`](#gss_api_cleanup_credentials)
-* [`gss_api_strict_acceptor_check`](#gss_api_strict_acceptor_check)
-* [`hostbased_accepted_algorithms`](#hostbased_accepted_algorithms)
-* [`hostbased_authentication`](#hostbased_authentication)
-* [`hostbased_uses_name_from_packet_only`](#hostbased_uses_name_from_packet_only)
-* [`host_certificate`](#host_certificate)
-* [`host_key`](#host_key)
-* [`host_key_agent`](#host_key_agent)
-* [`host_key_algorithms`](#host_key_algorithms)
-* [`ignore_rhosts`](#ignore_rhosts)
-* [`ignore_user_known_hosts`](#ignore_user_known_hosts)
-* [`include`](#include)
-* [`ip_qos`](#ip_qos)
-* [`kbd_interactive_authentication`](#kbd_interactive_authentication)
-* [`kerberos_authentication`](#kerberos_authentication)
-* [`kerberos_get_afs_token`](#kerberos_get_afs_token)
-* [`kerberos_or_local_passwd`](#kerberos_or_local_passwd)
-* [`kerberos_ticket_cleanup`](#kerberos_ticket_cleanup)
-* [`kex_algorithms`](#kex_algorithms)
-* [`listen_address`](#listen_address)
-* [`login_grace_time`](#login_grace_time)
-* [`log_level`](#log_level)
-* [`log_verbose`](#log_verbose)
-* [`macs`](#macs)
-* [`max_auth_tries`](#max_auth_tries)
-* [`max_sessions`](#max_sessions)
-* [`max_startups`](#max_startups)
-* [`moduli_file`](#moduli_file)
-* [`password_authentication`](#password_authentication)
-* [`permit_empty_passwords`](#permit_empty_passwords)
-* [`permit_listen`](#permit_listen)
-* [`permit_open`](#permit_open)
-* [`permit_root_login`](#permit_root_login)
-* [`permit_tty`](#permit_tty)
-* [`permit_tunnel`](#permit_tunnel)
-* [`permit_user_environment`](#permit_user_environment)
-* [`permit_user_rc`](#permit_user_rc)
-* [`per_source_max_startups`](#per_source_max_startups)
-* [`per_source_net_block_size`](#per_source_net_block_size)
-* [`pid_file`](#pid_file)
-* [`port`](#port)
-* [`print_last_log`](#print_last_log)
-* [`print_motd`](#print_motd)
-* [`pubkey_accepted_algorithms`](#pubkey_accepted_algorithms)
-* [`pubkey_auth_options`](#pubkey_auth_options)
-* [`pubkey_authentication`](#pubkey_authentication)
-* [`rekey_limit`](#rekey_limit)
-* [`revoked_keys`](#revoked_keys)
-* [`rdomain`](#rdomain)
-* [`security_key_provider`](#security_key_provider)
-* [`set_env`](#set_env)
-* [`stream_local_bind_mask`](#stream_local_bind_mask)
-* [`stream_local_bind_unlink`](#stream_local_bind_unlink)
-* [`strict_modes`](#strict_modes)
-* [`subsystem`](#subsystem)
-* [`syslog_facility`](#syslog_facility)
-* [`tcp_keep_alive`](#tcp_keep_alive)
-* [`trusted_user_ca_keys`](#trusted_user_ca_keys)
-* [`use_dns`](#use_dns)
-* [`use_pam`](#use_pam)
-* [`version_addendum`](#version_addendum)
-* [`x11_display_offset`](#x11_display_offset)
-* [`x11_forwarding`](#x11_forwarding)
-* [`x11_use_localhost`](#x11_use_localhost)
-* [`xauth_location`](#xauth_location)
-* [`custom`](#custom)
+* [`banner_content`](#-ssh--server--banner_content)
+* [`banner_group`](#-ssh--server--banner_group)
+* [`banner_mode`](#-ssh--server--banner_mode)
+* [`banner_owner`](#-ssh--server--banner_owner)
+* [`banner_path`](#-ssh--server--banner_path)
+* [`config_group`](#-ssh--server--config_group)
+* [`config_mode`](#-ssh--server--config_mode)
+* [`config_owner`](#-ssh--server--config_owner)
+* [`config_path`](#-ssh--server--config_path)
+* [`manage_service`](#-ssh--server--manage_service)
+* [`packages`](#-ssh--server--packages)
+* [`packages_adminfile`](#-ssh--server--packages_adminfile)
+* [`packages_source`](#-ssh--server--packages_source)
+* [`service_enable`](#-ssh--server--service_enable)
+* [`service_ensure`](#-ssh--server--service_ensure)
+* [`service_hasrestart`](#-ssh--server--service_hasrestart)
+* [`service_hasstatus`](#-ssh--server--service_hasstatus)
+* [`config_files`](#-ssh--server--config_files)
+* [`service_name`](#-ssh--server--service_name)
+* [`accept_env`](#-ssh--server--accept_env)
+* [`address_family`](#-ssh--server--address_family)
+* [`allow_agent_forwarding`](#-ssh--server--allow_agent_forwarding)
+* [`allow_groups`](#-ssh--server--allow_groups)
+* [`allow_stream_local_forwarding`](#-ssh--server--allow_stream_local_forwarding)
+* [`allow_tcp_forwarding`](#-ssh--server--allow_tcp_forwarding)
+* [`allow_users`](#-ssh--server--allow_users)
+* [`authentication_methods`](#-ssh--server--authentication_methods)
+* [`authorized_keys_command`](#-ssh--server--authorized_keys_command)
+* [`authorized_keys_command_user`](#-ssh--server--authorized_keys_command_user)
+* [`authorized_keys_file`](#-ssh--server--authorized_keys_file)
+* [`authorized_principals_command`](#-ssh--server--authorized_principals_command)
+* [`authorized_principals_command_user`](#-ssh--server--authorized_principals_command_user)
+* [`authorized_principals_file`](#-ssh--server--authorized_principals_file)
+* [`banner`](#-ssh--server--banner)
+* [`ca_signature_algorithms`](#-ssh--server--ca_signature_algorithms)
+* [`challenge_response_authentication`](#-ssh--server--challenge_response_authentication)
+* [`chroot_directory`](#-ssh--server--chroot_directory)
+* [`ciphers`](#-ssh--server--ciphers)
+* [`client_alive_count_max`](#-ssh--server--client_alive_count_max)
+* [`client_alive_interval`](#-ssh--server--client_alive_interval)
+* [`compression`](#-ssh--server--compression)
+* [`deny_groups`](#-ssh--server--deny_groups)
+* [`deny_users`](#-ssh--server--deny_users)
+* [`disable_forwarding`](#-ssh--server--disable_forwarding)
+* [`expose_auth_info`](#-ssh--server--expose_auth_info)
+* [`fingerprint_hash`](#-ssh--server--fingerprint_hash)
+* [`force_command`](#-ssh--server--force_command)
+* [`gateway_ports`](#-ssh--server--gateway_ports)
+* [`gss_api_authentication`](#-ssh--server--gss_api_authentication)
+* [`gss_api_cleanup_credentials`](#-ssh--server--gss_api_cleanup_credentials)
+* [`gss_api_strict_acceptor_check`](#-ssh--server--gss_api_strict_acceptor_check)
+* [`hostbased_accepted_algorithms`](#-ssh--server--hostbased_accepted_algorithms)
+* [`hostbased_authentication`](#-ssh--server--hostbased_authentication)
+* [`hostbased_uses_name_from_packet_only`](#-ssh--server--hostbased_uses_name_from_packet_only)
+* [`host_certificate`](#-ssh--server--host_certificate)
+* [`host_key`](#-ssh--server--host_key)
+* [`host_key_agent`](#-ssh--server--host_key_agent)
+* [`host_key_algorithms`](#-ssh--server--host_key_algorithms)
+* [`ignore_rhosts`](#-ssh--server--ignore_rhosts)
+* [`ignore_user_known_hosts`](#-ssh--server--ignore_user_known_hosts)
+* [`include`](#-ssh--server--include)
+* [`include_dir_owner`](#-ssh--server--include_dir_owner)
+* [`include_dir_group`](#-ssh--server--include_dir_group)
+* [`include_dir_mode`](#-ssh--server--include_dir_mode)
+* [`include_dir_purge`](#-ssh--server--include_dir_purge)
+* [`ip_qos`](#-ssh--server--ip_qos)
+* [`kbd_interactive_authentication`](#-ssh--server--kbd_interactive_authentication)
+* [`kerberos_authentication`](#-ssh--server--kerberos_authentication)
+* [`kerberos_get_afs_token`](#-ssh--server--kerberos_get_afs_token)
+* [`kerberos_or_local_passwd`](#-ssh--server--kerberos_or_local_passwd)
+* [`kerberos_ticket_cleanup`](#-ssh--server--kerberos_ticket_cleanup)
+* [`kex_algorithms`](#-ssh--server--kex_algorithms)
+* [`listen_address`](#-ssh--server--listen_address)
+* [`login_grace_time`](#-ssh--server--login_grace_time)
+* [`log_level`](#-ssh--server--log_level)
+* [`log_verbose`](#-ssh--server--log_verbose)
+* [`macs`](#-ssh--server--macs)
+* [`max_auth_tries`](#-ssh--server--max_auth_tries)
+* [`max_sessions`](#-ssh--server--max_sessions)
+* [`max_startups`](#-ssh--server--max_startups)
+* [`moduli_file`](#-ssh--server--moduli_file)
+* [`password_authentication`](#-ssh--server--password_authentication)
+* [`permit_empty_passwords`](#-ssh--server--permit_empty_passwords)
+* [`permit_listen`](#-ssh--server--permit_listen)
+* [`permit_open`](#-ssh--server--permit_open)
+* [`permit_root_login`](#-ssh--server--permit_root_login)
+* [`permit_tty`](#-ssh--server--permit_tty)
+* [`permit_tunnel`](#-ssh--server--permit_tunnel)
+* [`permit_user_environment`](#-ssh--server--permit_user_environment)
+* [`permit_user_rc`](#-ssh--server--permit_user_rc)
+* [`per_source_max_startups`](#-ssh--server--per_source_max_startups)
+* [`per_source_net_block_size`](#-ssh--server--per_source_net_block_size)
+* [`pid_file`](#-ssh--server--pid_file)
+* [`port`](#-ssh--server--port)
+* [`print_last_log`](#-ssh--server--print_last_log)
+* [`print_motd`](#-ssh--server--print_motd)
+* [`pubkey_accepted_algorithms`](#-ssh--server--pubkey_accepted_algorithms)
+* [`pubkey_auth_options`](#-ssh--server--pubkey_auth_options)
+* [`pubkey_authentication`](#-ssh--server--pubkey_authentication)
+* [`rekey_limit`](#-ssh--server--rekey_limit)
+* [`revoked_keys`](#-ssh--server--revoked_keys)
+* [`rdomain`](#-ssh--server--rdomain)
+* [`security_key_provider`](#-ssh--server--security_key_provider)
+* [`set_env`](#-ssh--server--set_env)
+* [`stream_local_bind_mask`](#-ssh--server--stream_local_bind_mask)
+* [`stream_local_bind_unlink`](#-ssh--server--stream_local_bind_unlink)
+* [`strict_modes`](#-ssh--server--strict_modes)
+* [`subsystem`](#-ssh--server--subsystem)
+* [`syslog_facility`](#-ssh--server--syslog_facility)
+* [`tcp_keep_alive`](#-ssh--server--tcp_keep_alive)
+* [`trusted_user_ca_keys`](#-ssh--server--trusted_user_ca_keys)
+* [`use_dns`](#-ssh--server--use_dns)
+* [`use_pam`](#-ssh--server--use_pam)
+* [`version_addendum`](#-ssh--server--version_addendum)
+* [`x11_display_offset`](#-ssh--server--x11_display_offset)
+* [`x11_forwarding`](#-ssh--server--x11_forwarding)
+* [`x11_use_localhost`](#-ssh--server--x11_use_localhost)
+* [`xauth_location`](#-ssh--server--xauth_location)
+* [`custom`](#-ssh--server--custom)
 
-##### <a name="banner_content"></a>`banner_content`
+##### <a name="-ssh--server--banner_content"></a>`banner_content`
 
 Data type: `Optional[String[1]]`
 
 Content of SSHd banner file.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="banner_group"></a>`banner_group`
+##### <a name="-ssh--server--banner_group"></a>`banner_group`
 
 Data type: `String[1]`
 
@@ -1315,7 +1371,7 @@ User group used for SSHd banner file.
 
 Default value: `'root'`
 
-##### <a name="banner_mode"></a>`banner_mode`
+##### <a name="-ssh--server--banner_mode"></a>`banner_mode`
 
 Data type: `Stdlib::Filemode`
 
@@ -1323,7 +1379,7 @@ File mode used for SSHd banner file.
 
 Default value: `'0644'`
 
-##### <a name="banner_owner"></a>`banner_owner`
+##### <a name="-ssh--server--banner_owner"></a>`banner_owner`
 
 Data type: `String[1]`
 
@@ -1331,7 +1387,7 @@ User/Owner used for SSHd banner file.
 
 Default value: `'root'`
 
-##### <a name="banner_path"></a>`banner_path`
+##### <a name="-ssh--server--banner_path"></a>`banner_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -1339,7 +1395,7 @@ Absolute path to SSHd banner file.
 
 Default value: `'/etc/sshd_banner'`
 
-##### <a name="config_group"></a>`config_group`
+##### <a name="-ssh--server--config_group"></a>`config_group`
 
 Data type: `String[1]`
 
@@ -1347,7 +1403,7 @@ User group used for sshd_config file.
 
 Default value: `'root'`
 
-##### <a name="config_mode"></a>`config_mode`
+##### <a name="-ssh--server--config_mode"></a>`config_mode`
 
 Data type: `Stdlib::Filemode`
 
@@ -1355,7 +1411,7 @@ File mode used for sshd_config file.
 
 Default value: `'0600'`
 
-##### <a name="config_owner"></a>`config_owner`
+##### <a name="-ssh--server--config_owner"></a>`config_owner`
 
 Data type: `String[1]`
 
@@ -1363,7 +1419,7 @@ User/Owner used for sshd_config file.
 
 Default value: `'root'`
 
-##### <a name="config_path"></a>`config_path`
+##### <a name="-ssh--server--config_path"></a>`config_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -1371,15 +1427,15 @@ Absolute path to sshd_config file.
 
 Default value: `'/etc/ssh/sshd_config'`
 
-##### <a name="manage_service"></a>`manage_service`
+##### <a name="-ssh--server--manage_service"></a>`manage_service`
 
 Data type: `Boolean`
 
 Boolean to choose if the SSH daemon should be managed.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="packages"></a>`packages`
+##### <a name="-ssh--server--packages"></a>`packages`
 
 Data type: `Array[String[1]]`
 
@@ -1388,31 +1444,31 @@ include the server binaries (eg: Suse SLES and SLED).
 
 Default value: `[]`
 
-##### <a name="packages_adminfile"></a>`packages_adminfile`
+##### <a name="-ssh--server--packages_adminfile"></a>`packages_adminfile`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 Path to adminfile for SSH server package(s) installation. Needed for Solaris.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="packages_source"></a>`packages_source`
+##### <a name="-ssh--server--packages_source"></a>`packages_source`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 Source to SSH server package(s). Needed for Solaris.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="service_enable"></a>`service_enable`
+##### <a name="-ssh--server--service_enable"></a>`service_enable`
 
 Data type: `Boolean`
 
 enable attribure for SSH daemon.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="service_ensure"></a>`service_ensure`
+##### <a name="-ssh--server--service_ensure"></a>`service_ensure`
 
 Data type: `Stdlib::Ensure::Service`
 
@@ -1420,23 +1476,33 @@ ensure attribute for SSH daemon.
 
 Default value: `'running'`
 
-##### <a name="service_hasrestart"></a>`service_hasrestart`
+##### <a name="-ssh--server--service_hasrestart"></a>`service_hasrestart`
 
 Data type: `Boolean`
 
 hasrestart attribute for SSH daemon.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="service_hasstatus"></a>`service_hasstatus`
+##### <a name="-ssh--server--service_hasstatus"></a>`service_hasstatus`
 
 Data type: `Boolean`
 
 hasstatus attribute for SSH daemon.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="service_name"></a>`service_name`
+##### <a name="-ssh--server--config_files"></a>`config_files`
+
+Data type: `Hash`
+
+Hash of configuration entries passed to ssh::config_file_server define.
+Please check the docs for ssh::config_file_client and the type Ssh::Sshd_Config
+for a list and details of the parameters usable here.
+
+Default value: `{}`
+
+##### <a name="-ssh--server--service_name"></a>`service_name`
 
 Data type: `String[1]`
 
@@ -1444,808 +1510,840 @@ Name of the SSH daemon.
 
 Default value: `'sshd'`
 
-##### <a name="accept_env"></a>`accept_env`
+##### <a name="-ssh--server--accept_env"></a>`accept_env`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to AcceptEnv parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#AcceptEnv for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="address_family"></a>`address_family`
+##### <a name="-ssh--server--address_family"></a>`address_family`
 
 Data type: `Optional[Enum['any', 'inet', 'inet6']]`
 
 Value(s) passed to AddressFamily parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#AddressFamily for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="allow_agent_forwarding"></a>`allow_agent_forwarding`
+##### <a name="-ssh--server--allow_agent_forwarding"></a>`allow_agent_forwarding`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to AllowAgentForwarding parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#AllowAgentForwarding for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="allow_groups"></a>`allow_groups`
+##### <a name="-ssh--server--allow_groups"></a>`allow_groups`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to AllowGroups parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#AllowGroups for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="allow_stream_local_forwarding"></a>`allow_stream_local_forwarding`
+##### <a name="-ssh--server--allow_stream_local_forwarding"></a>`allow_stream_local_forwarding`
 
 Data type: `Optional[Enum['yes', 'all', 'no', 'local', 'remote']]`
 
 Value(s) passed to AllowStreamLocalForwarding parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#AllowStreamLocalForwarding for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="allow_tcp_forwarding"></a>`allow_tcp_forwarding`
+##### <a name="-ssh--server--allow_tcp_forwarding"></a>`allow_tcp_forwarding`
 
 Data type: `Optional[Enum['yes', 'no', 'local', 'remote']]`
 
 Value(s) passed to AllowTcpForwarding parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#AllowTcpForwarding for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="allow_users"></a>`allow_users`
+##### <a name="-ssh--server--allow_users"></a>`allow_users`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to AllowUsers parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#AllowUsers for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="authentication_methods"></a>`authentication_methods`
+##### <a name="-ssh--server--authentication_methods"></a>`authentication_methods`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to AuthenticationMethods parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#AuthenticationMethods for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="authorized_keys_command"></a>`authorized_keys_command`
+##### <a name="-ssh--server--authorized_keys_command"></a>`authorized_keys_command`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to AuthorizedKeysCommand parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#AuthorizedKeysCommand for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="authorized_keys_command_user"></a>`authorized_keys_command_user`
+##### <a name="-ssh--server--authorized_keys_command_user"></a>`authorized_keys_command_user`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to AuthorizedKeysCommandUser parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#AuthorizedKeysCommandUser for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="authorized_keys_file"></a>`authorized_keys_file`
+##### <a name="-ssh--server--authorized_keys_file"></a>`authorized_keys_file`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to AuthorizedKeysFile parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#AuthorizedKeysFile for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="authorized_principals_command"></a>`authorized_principals_command`
+##### <a name="-ssh--server--authorized_principals_command"></a>`authorized_principals_command`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to AuthorizedPrincipalsCommand parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#AuthorizedPrincipalsCommand for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="authorized_principals_command_user"></a>`authorized_principals_command_user`
+##### <a name="-ssh--server--authorized_principals_command_user"></a>`authorized_principals_command_user`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to AuthorizedPrincipalsCommandUser parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#AuthorizedPrincipalsCommandUser for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="authorized_principals_file"></a>`authorized_principals_file`
+##### <a name="-ssh--server--authorized_principals_file"></a>`authorized_principals_file`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to AuthorizedPrincipalsFile parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#AuthorizedPrincipalsFile for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="banner"></a>`banner`
+##### <a name="-ssh--server--banner"></a>`banner`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to Banner parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#Banner for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ca_signature_algorithms"></a>`ca_signature_algorithms`
+##### <a name="-ssh--server--ca_signature_algorithms"></a>`ca_signature_algorithms`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to CASignatureAlgorithms parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#CASignatureAlgorithms for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="challenge_response_authentication"></a>`challenge_response_authentication`
+##### <a name="-ssh--server--challenge_response_authentication"></a>`challenge_response_authentication`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to ChallengeResponseAuthentication parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#ChrootDirectory for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="chroot_directory"></a>`chroot_directory`
+##### <a name="-ssh--server--chroot_directory"></a>`chroot_directory`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to ChrootDirectory parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#ChrootDirectory for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ciphers"></a>`ciphers`
+##### <a name="-ssh--server--ciphers"></a>`ciphers`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to Ciphers parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#Ciphers for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="client_alive_count_max"></a>`client_alive_count_max`
+##### <a name="-ssh--server--client_alive_count_max"></a>`client_alive_count_max`
 
 Data type: `Optional[Integer[0]]`
 
 Value(s) passed to ClientAliveCountMax parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#ClientAliveCountMax for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="client_alive_interval"></a>`client_alive_interval`
+##### <a name="-ssh--server--client_alive_interval"></a>`client_alive_interval`
 
 Data type: `Optional[Integer[0]]`
 
 Value(s) passed to ClientAliveInterval parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#ClientAliveInterval for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="compression"></a>`compression`
+##### <a name="-ssh--server--compression"></a>`compression`
 
 Data type: `Optional[Enum['yes', 'delayed', 'no']]`
 
 Value(s) passed to Compression parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#Compression for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="deny_groups"></a>`deny_groups`
+##### <a name="-ssh--server--deny_groups"></a>`deny_groups`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to DenyGroups parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#DenyGroups for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="deny_users"></a>`deny_users`
+##### <a name="-ssh--server--deny_users"></a>`deny_users`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to DenyUsers parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#DenyUsers for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="disable_forwarding"></a>`disable_forwarding`
+##### <a name="-ssh--server--disable_forwarding"></a>`disable_forwarding`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to DisableForwarding parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#DisableForwarding for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="expose_auth_info"></a>`expose_auth_info`
+##### <a name="-ssh--server--expose_auth_info"></a>`expose_auth_info`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to ExposeAuthInfo parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#ExposeAuthInfo for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="fingerprint_hash"></a>`fingerprint_hash`
+##### <a name="-ssh--server--fingerprint_hash"></a>`fingerprint_hash`
 
 Data type: `Optional[Enum['md5', 'sha256']]`
 
 Value(s) passed to FingerprintHash parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#FingerprintHash for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="force_command"></a>`force_command`
+##### <a name="-ssh--server--force_command"></a>`force_command`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to ForceCommand parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#ForceCommand for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="gateway_ports"></a>`gateway_ports`
+##### <a name="-ssh--server--gateway_ports"></a>`gateway_ports`
 
 Data type: `Optional[Enum['no', 'yes', 'clientspecified']]`
 
 Value(s) passed to GatewayPorts parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#GatewayPorts for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="gss_api_authentication"></a>`gss_api_authentication`
+##### <a name="-ssh--server--gss_api_authentication"></a>`gss_api_authentication`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to GSSAPIAuthentication parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#GSSAPIAuthentication for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="gss_api_cleanup_credentials"></a>`gss_api_cleanup_credentials`
+##### <a name="-ssh--server--gss_api_cleanup_credentials"></a>`gss_api_cleanup_credentials`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to GSSAPICleanupCredentials parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#GSSAPICleanupCredentials for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="gss_api_strict_acceptor_check"></a>`gss_api_strict_acceptor_check`
+##### <a name="-ssh--server--gss_api_strict_acceptor_check"></a>`gss_api_strict_acceptor_check`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to GSSAPIStrictAcceptorCheck parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#GSSAPIStrictAcceptorCheck for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="hostbased_accepted_algorithms"></a>`hostbased_accepted_algorithms`
+##### <a name="-ssh--server--hostbased_accepted_algorithms"></a>`hostbased_accepted_algorithms`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to HostbasedAcceptedAlgorithms parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#HostbasedAcceptedAlgorithms for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="hostbased_authentication"></a>`hostbased_authentication`
+##### <a name="-ssh--server--hostbased_authentication"></a>`hostbased_authentication`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to HostbasedAuthentication parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#HostbasedAuthentication for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="hostbased_uses_name_from_packet_only"></a>`hostbased_uses_name_from_packet_only`
+##### <a name="-ssh--server--hostbased_uses_name_from_packet_only"></a>`hostbased_uses_name_from_packet_only`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to HostbasedUsesNameFromPacketOnly parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#HostbasedUsesNameFromPacketOnly for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="host_certificate"></a>`host_certificate`
+##### <a name="-ssh--server--host_certificate"></a>`host_certificate`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to HostCertificate parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#HostCertificate for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="host_key"></a>`host_key`
+##### <a name="-ssh--server--host_key"></a>`host_key`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to HostKey parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#HostKey for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="host_key_agent"></a>`host_key_agent`
+##### <a name="-ssh--server--host_key_agent"></a>`host_key_agent`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to HostKeyAgent parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#HostKeyAgent for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="host_key_algorithms"></a>`host_key_algorithms`
+##### <a name="-ssh--server--host_key_algorithms"></a>`host_key_algorithms`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to HostKeyAlgorithms parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#HostKeyAlgorithms for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ignore_rhosts"></a>`ignore_rhosts`
+##### <a name="-ssh--server--ignore_rhosts"></a>`ignore_rhosts`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to IgnoreRhosts parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#IgnoreRhosts for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ignore_user_known_hosts"></a>`ignore_user_known_hosts`
+##### <a name="-ssh--server--ignore_user_known_hosts"></a>`ignore_user_known_hosts`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to IgnoreUserKnownHosts parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#IgnoreUserKnownHosts for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="include"></a>`include`
+##### <a name="-ssh--server--include"></a>`include`
 
-Data type: `Optional[String[1]]`
+Data type: `Optional[Stdlib::Absolutepath]`
 
 Value(s) passed to Include parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#Include for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ip_qos"></a>`ip_qos`
+##### <a name="-ssh--server--include_dir_owner"></a>`include_dir_owner`
+
+Data type: `String[1]`
+
+The owner of the include directory
+
+Default value: `'root'`
+
+##### <a name="-ssh--server--include_dir_group"></a>`include_dir_group`
+
+Data type: `String[1]`
+
+The group of the include directory
+
+Default value: `'root'`
+
+##### <a name="-ssh--server--include_dir_mode"></a>`include_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+The mode of the include directory
+
+Default value: `'0700'`
+
+##### <a name="-ssh--server--include_dir_purge"></a>`include_dir_purge`
+
+Data type: `Boolean`
+
+Sets whether to purge the include_dir of unmanaged files
+
+Default value: `true`
+
+##### <a name="-ssh--server--ip_qos"></a>`ip_qos`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to IPQoS parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#IPQoS for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="kbd_interactive_authentication"></a>`kbd_interactive_authentication`
+##### <a name="-ssh--server--kbd_interactive_authentication"></a>`kbd_interactive_authentication`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to KbdInteractiveAuthentication parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#KbdInteractiveAuthentication for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="kerberos_authentication"></a>`kerberos_authentication`
+##### <a name="-ssh--server--kerberos_authentication"></a>`kerberos_authentication`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to KerberosAuthentication parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#KerberosAuthentication for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="kerberos_get_afs_token"></a>`kerberos_get_afs_token`
+##### <a name="-ssh--server--kerberos_get_afs_token"></a>`kerberos_get_afs_token`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to KerberosGetAFSToken parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#KerberosGetAFSToken for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="kerberos_or_local_passwd"></a>`kerberos_or_local_passwd`
+##### <a name="-ssh--server--kerberos_or_local_passwd"></a>`kerberos_or_local_passwd`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to KerberosOrLocalPasswd parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#KerberosOrLocalPasswd for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="kerberos_ticket_cleanup"></a>`kerberos_ticket_cleanup`
+##### <a name="-ssh--server--kerberos_ticket_cleanup"></a>`kerberos_ticket_cleanup`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to KerberosTicketCleanup parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#KerberosTicketCleanup for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="kex_algorithms"></a>`kex_algorithms`
+##### <a name="-ssh--server--kex_algorithms"></a>`kex_algorithms`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to KexAlgorithms parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#KexAlgorithms for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="listen_address"></a>`listen_address`
+##### <a name="-ssh--server--listen_address"></a>`listen_address`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to ListenAddress parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#ListenAddress for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="login_grace_time"></a>`login_grace_time`
+##### <a name="-ssh--server--login_grace_time"></a>`login_grace_time`
 
 Data type: `Optional[Integer[0]]`
 
 Value(s) passed to LoginGraceTime parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#LoginGraceTime for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="log_level"></a>`log_level`
+##### <a name="-ssh--server--log_level"></a>`log_level`
 
 Data type: `Optional[Ssh::Log_level]`
 
 Value(s) passed to LogLevel parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#LogLevel for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="log_verbose"></a>`log_verbose`
+##### <a name="-ssh--server--log_verbose"></a>`log_verbose`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to LogVerbose parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#LogVerbose for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="macs"></a>`macs`
+##### <a name="-ssh--server--macs"></a>`macs`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to MACs parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#MACs for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="max_auth_tries"></a>`max_auth_tries`
+##### <a name="-ssh--server--max_auth_tries"></a>`max_auth_tries`
 
 Data type: `Optional[Integer[2]]`
 
 Value(s) passed to MaxAuthTries parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#MaxAuthTries for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="max_sessions"></a>`max_sessions`
+##### <a name="-ssh--server--max_sessions"></a>`max_sessions`
 
 Data type: `Optional[Integer[0]]`
 
 Value(s) passed to MaxSessions parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#MaxSessions for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="max_startups"></a>`max_startups`
+##### <a name="-ssh--server--max_startups"></a>`max_startups`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to MaxStartups parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#MaxStartups for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="moduli_file"></a>`moduli_file`
+##### <a name="-ssh--server--moduli_file"></a>`moduli_file`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 Value(s) passed to ModuliFile parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#ModuliFile for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="password_authentication"></a>`password_authentication`
+##### <a name="-ssh--server--password_authentication"></a>`password_authentication`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to PasswordAuthentication parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PasswordAuthentication for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="permit_empty_passwords"></a>`permit_empty_passwords`
+##### <a name="-ssh--server--permit_empty_passwords"></a>`permit_empty_passwords`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to PermitEmptyPasswords parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PermitEmptyPasswords for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="permit_listen"></a>`permit_listen`
+##### <a name="-ssh--server--permit_listen"></a>`permit_listen`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to PermitListen parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PermitListen for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="permit_open"></a>`permit_open`
+##### <a name="-ssh--server--permit_open"></a>`permit_open`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to PermitOpen parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PermitOpen for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="permit_root_login"></a>`permit_root_login`
+##### <a name="-ssh--server--permit_root_login"></a>`permit_root_login`
 
 Data type: `Optional[Ssh::Permit_root_login]`
 
 Value(s) passed to PermitRootLogin parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PermitRootLogin for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="permit_tty"></a>`permit_tty`
+##### <a name="-ssh--server--permit_tty"></a>`permit_tty`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to PermitTTY parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PermitTTY for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="permit_tunnel"></a>`permit_tunnel`
+##### <a name="-ssh--server--permit_tunnel"></a>`permit_tunnel`
 
 Data type: `Optional[Enum['yes', 'point-to-point', 'ethernet', 'no']]`
 
 Value(s) passed to PermitTunnel parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PermitTunnel for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="permit_user_environment"></a>`permit_user_environment`
+##### <a name="-ssh--server--permit_user_environment"></a>`permit_user_environment`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to PermitUserEnvironment parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PermitUserEnvironment for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="permit_user_rc"></a>`permit_user_rc`
+##### <a name="-ssh--server--permit_user_rc"></a>`permit_user_rc`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to PermitUserRC parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PermitUserRC for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="per_source_max_startups"></a>`per_source_max_startups`
+##### <a name="-ssh--server--per_source_max_startups"></a>`per_source_max_startups`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to PerSourceMaxStartups parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PerSourceMaxStartups for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="per_source_net_block_size"></a>`per_source_net_block_size`
+##### <a name="-ssh--server--per_source_net_block_size"></a>`per_source_net_block_size`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to PerSourceNetBlockSize parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PerSourceNetBlockSize for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="pid_file"></a>`pid_file`
+##### <a name="-ssh--server--pid_file"></a>`pid_file`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to PidFile parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PidFile for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="port"></a>`port`
+##### <a name="-ssh--server--port"></a>`port`
 
 Data type: `Optional[Array[Stdlib::Port]]`
 
 Value(s) passed to Port parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#Port for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="print_last_log"></a>`print_last_log`
+##### <a name="-ssh--server--print_last_log"></a>`print_last_log`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to PrintLastLog parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PrintLastLog for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="print_motd"></a>`print_motd`
+##### <a name="-ssh--server--print_motd"></a>`print_motd`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to PrintMotd parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PrintMotd for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="pubkey_accepted_algorithms"></a>`pubkey_accepted_algorithms`
+##### <a name="-ssh--server--pubkey_accepted_algorithms"></a>`pubkey_accepted_algorithms`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to PubkeyAcceptedAlgorithms parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PubkeyAcceptedAlgorithms for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="pubkey_auth_options"></a>`pubkey_auth_options`
+##### <a name="-ssh--server--pubkey_auth_options"></a>`pubkey_auth_options`
 
 Data type: `Optional[Enum['none', 'touch-required', 'verify-required']]`
 
 Value(s) passed to PubkeyAuthOptions parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PubkeyAuthOptions for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="pubkey_authentication"></a>`pubkey_authentication`
+##### <a name="-ssh--server--pubkey_authentication"></a>`pubkey_authentication`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to PubkeyAuthentication parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#PubkeyAuthentication for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="rekey_limit"></a>`rekey_limit`
+##### <a name="-ssh--server--rekey_limit"></a>`rekey_limit`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to RekeyLimit parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#RekeyLimit for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="revoked_keys"></a>`revoked_keys`
+##### <a name="-ssh--server--revoked_keys"></a>`revoked_keys`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to RevokedKeys parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#RevokedKeys for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="rdomain"></a>`rdomain`
+##### <a name="-ssh--server--rdomain"></a>`rdomain`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to RDomain parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#RDomain for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="security_key_provider"></a>`security_key_provider`
+##### <a name="-ssh--server--security_key_provider"></a>`security_key_provider`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 Value(s) passed to SecurityKeyProvider parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#SecurityKeyProvider for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="set_env"></a>`set_env`
+##### <a name="-ssh--server--set_env"></a>`set_env`
 
 Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to SetEnv parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#SetEnv for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="stream_local_bind_mask"></a>`stream_local_bind_mask`
+##### <a name="-ssh--server--stream_local_bind_mask"></a>`stream_local_bind_mask`
 
 Data type: `Optional[Pattern[/^[0-7]{4}$/]]`
 
 Value(s) passed to StreamLocalBindMask parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#StreamLocalBindMask for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="stream_local_bind_unlink"></a>`stream_local_bind_unlink`
+##### <a name="-ssh--server--stream_local_bind_unlink"></a>`stream_local_bind_unlink`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to StreamLocalBindUnlink parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#StreamLocalBindUnlink for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="strict_modes"></a>`strict_modes`
+##### <a name="-ssh--server--strict_modes"></a>`strict_modes`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to StrictModes parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#StrictModes for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="subsystem"></a>`subsystem`
+##### <a name="-ssh--server--subsystem"></a>`subsystem`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to Subsystem parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#Subsystem for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="syslog_facility"></a>`syslog_facility`
+##### <a name="-ssh--server--syslog_facility"></a>`syslog_facility`
 
 Data type: `Optional[Ssh::Syslog_facility]`
 
 Value(s) passed to SyslogFacility parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#SyslogFacility for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="tcp_keep_alive"></a>`tcp_keep_alive`
+##### <a name="-ssh--server--tcp_keep_alive"></a>`tcp_keep_alive`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to TCPKeepAlive parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#TCPKeepAlive for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="trusted_user_ca_keys"></a>`trusted_user_ca_keys`
+##### <a name="-ssh--server--trusted_user_ca_keys"></a>`trusted_user_ca_keys`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to TrustedUserCAKeys parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#TrustedUserCAKeys for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="use_dns"></a>`use_dns`
+##### <a name="-ssh--server--use_dns"></a>`use_dns`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to UseDNS parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#UseDNS for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="use_pam"></a>`use_pam`
+##### <a name="-ssh--server--use_pam"></a>`use_pam`
 
 Data type: `Optional[Ssh::Yes_no]`
 
@@ -2254,65 +2352,65 @@ Possible values are 'yes' and 'no'.
 There is no mentioning of this parameter in the current man pages of OpenSSH v7.
 But it is mentioned in the release notes of OpenSSH v8. https://www.openssh.com/txt/release-8.0
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="version_addendum"></a>`version_addendum`
+##### <a name="-ssh--server--version_addendum"></a>`version_addendum`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to VersionAddendum parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#VersionAddendum for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="x11_display_offset"></a>`x11_display_offset`
+##### <a name="-ssh--server--x11_display_offset"></a>`x11_display_offset`
 
 Data type: `Optional[Integer[0]]`
 
 Value(s) passed to X11DisplayOffset parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#X11DisplayOffset for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="x11_forwarding"></a>`x11_forwarding`
+##### <a name="-ssh--server--x11_forwarding"></a>`x11_forwarding`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to X11Forwarding parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#X11Forwarding for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="x11_use_localhost"></a>`x11_use_localhost`
+##### <a name="-ssh--server--x11_use_localhost"></a>`x11_use_localhost`
 
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to X11UseLocalhost parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#X11UseLocalhost for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="xauth_location"></a>`xauth_location`
+##### <a name="-ssh--server--xauth_location"></a>`xauth_location`
 
 Data type: `Optional[String[1]]`
 
 Value(s) passed to XAuthLocation parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#XAuthLocation for possible values.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="custom"></a>`custom`
+##### <a name="-ssh--server--custom"></a>`custom`
 
 Data type: `Optional[Array[String[1]]]`
 
 Array of custom lines to be added to server configuration file sshd_config.
 Uses one array item per line to be added.
 
-Default value: ``undef``
+Default value: `undef`
 
 ## Defined types
 
-### <a name="sshconfig_entry"></a>`ssh::config_entry`
+### <a name="ssh--config_entry"></a>`ssh::config_entry`
 
 Manage an entry in ~/.ssh/config for a particular user. Lines model the
 lines in each Host block.
@@ -2321,15 +2419,15 @@ lines in each Host block.
 
 The following parameters are available in the `ssh::config_entry` defined type:
 
-* [`ensure`](#ensure)
-* [`group`](#group)
-* [`host`](#host)
-* [`lines`](#lines)
-* [`order`](#order)
-* [`owner`](#owner)
-* [`path`](#path)
+* [`ensure`](#-ssh--config_entry--ensure)
+* [`group`](#-ssh--config_entry--group)
+* [`host`](#-ssh--config_entry--host)
+* [`lines`](#-ssh--config_entry--lines)
+* [`order`](#-ssh--config_entry--order)
+* [`owner`](#-ssh--config_entry--owner)
+* [`path`](#-ssh--config_entry--path)
 
-##### <a name="ensure"></a>`ensure`
+##### <a name="-ssh--config_entry--ensure"></a>`ensure`
 
 Data type: `Enum['present','absent']`
 
@@ -2337,19 +2435,19 @@ ensure attribute for entry.
 
 Default value: `'present'`
 
-##### <a name="group"></a>`group`
+##### <a name="-ssh--config_entry--group"></a>`group`
 
 Data type: `String[1]`
 
 User group used for the generated ssh/config file.
 
-##### <a name="host"></a>`host`
+##### <a name="-ssh--config_entry--host"></a>`host`
 
 Data type: `String[1]`
 
 Host this generated ssh/config file is used for.
 
-##### <a name="lines"></a>`lines`
+##### <a name="-ssh--config_entry--lines"></a>`lines`
 
 Data type: `Array[String]`
 
@@ -2357,7 +2455,7 @@ Lines to be added tp ssh/config file.
 
 Default value: `[]`
 
-##### <a name="order"></a>`order`
+##### <a name="-ssh--config_entry--order"></a>`order`
 
 Data type: `Integer[0]`
 
@@ -2365,67 +2463,399 @@ Order of entries in the ssh/config file used for concatenation.
 
 Default value: `10`
 
-##### <a name="owner"></a>`owner`
+##### <a name="-ssh--config_entry--owner"></a>`owner`
 
 Data type: `String[1]`
 
 User/Owner used for the generated ssh/config file.
 
-##### <a name="path"></a>`path`
+##### <a name="-ssh--config_entry--path"></a>`path`
 
 Data type: `Stdlib::Absolutepath`
 
 Absolute path used for the generated ssh/config file.
 
+### <a name="ssh--config_file_client"></a>`ssh::config_file_client`
+
+Manage an entry in ~/.ssh/config for a particular user. Lines model the
+lines in each Host block.
+
+#### Parameters
+
+The following parameters are available in the `ssh::config_file_client` defined type:
+
+* [`owner`](#-ssh--config_file_client--owner)
+* [`group`](#-ssh--config_file_client--group)
+* [`mode`](#-ssh--config_file_client--mode)
+* [`ensure`](#-ssh--config_file_client--ensure)
+* [`lines`](#-ssh--config_file_client--lines)
+* [`custom`](#-ssh--config_file_client--custom)
+
+##### <a name="-ssh--config_file_client--owner"></a>`owner`
+
+Data type: `String[1]`
+
+User/Owner used for the generated ssh/config file.
+
+Default value: `'root'`
+
+##### <a name="-ssh--config_file_client--group"></a>`group`
+
+Data type: `String[1]`
+
+User group used for the generated ssh/config file.
+
+Default value: `'root'`
+
+##### <a name="-ssh--config_file_client--mode"></a>`mode`
+
+Data type: `Stdlib::Filemode`
+
+File mode used for the generated ssh/config file.
+
+Default value: `'0644'`
+
+##### <a name="-ssh--config_file_client--ensure"></a>`ensure`
+
+Data type: `Enum['present','absent']`
+
+ensure attribute for entry.
+
+Default value: `'present'`
+
+##### <a name="-ssh--config_file_client--lines"></a>`lines`
+
+Data type: `Ssh::Ssh_Config`
+
+Lines to be added tp ssh/config file.
+These lines will be verified for valid directive names and values.
+
+Default value: `{}`
+
+##### <a name="-ssh--config_file_client--custom"></a>`custom`
+
+Data type: `Array`
+
+Lines to be added tp ssh/config file.
+These lines will not be verified and can be used to add future and past directives.
+
+Default value: `[]`
+
+### <a name="ssh--config_file_server"></a>`ssh::config_file_server`
+
+Manage an entry in ~/.ssh/config for a particular user. Lines model the
+lines in each Host block.
+
+#### Parameters
+
+The following parameters are available in the `ssh::config_file_server` defined type:
+
+* [`owner`](#-ssh--config_file_server--owner)
+* [`group`](#-ssh--config_file_server--group)
+* [`mode`](#-ssh--config_file_server--mode)
+* [`ensure`](#-ssh--config_file_server--ensure)
+* [`lines`](#-ssh--config_file_server--lines)
+* [`custom`](#-ssh--config_file_server--custom)
+
+##### <a name="-ssh--config_file_server--owner"></a>`owner`
+
+Data type: `String[1]`
+
+User/Owner used for the generated ssh/config file.
+
+Default value: `'root'`
+
+##### <a name="-ssh--config_file_server--group"></a>`group`
+
+Data type: `String[1]`
+
+User group used for the generated ssh/config file.
+
+Default value: `'root'`
+
+##### <a name="-ssh--config_file_server--mode"></a>`mode`
+
+Data type: `Stdlib::Filemode`
+
+File mode used for the generated ssh/config file.
+
+Default value: `'0600'`
+
+##### <a name="-ssh--config_file_server--ensure"></a>`ensure`
+
+Data type: `Enum['present','absent']`
+
+ensure attribute for entry.
+
+Default value: `'present'`
+
+##### <a name="-ssh--config_file_server--lines"></a>`lines`
+
+Data type: `Ssh::Sshd_Config`
+
+Lines to be added tp ssh/config file.
+These lines will be verified for valid directive names and values.
+
+Default value: `{}`
+
+##### <a name="-ssh--config_file_server--custom"></a>`custom`
+
+Data type: `Array`
+
+Lines to be added tp ssh/config file.
+These lines will not be verified and can be used to add future and past directives.
+
+Default value: `[]`
+
 ## Data types
 
-### <a name="sshkeytype"></a>`Ssh::Key::Type`
+### <a name="Ssh--Key--Type"></a>`Ssh::Key::Type`
 
 From https://github.com/puppetlabs/puppetlabs-sshkeys_core/blob/master/lib/puppet/type/sshkey.rb v1.0.2
 
-Alias of
+Alias of `Enum['ssh-dss', 'ssh-ed25519', 'ssh-rsa', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'ed25519', 'rsa', 'dsa']`
 
-```puppet
-Enum['ssh-dss', 'ssh-ed25519', 'ssh-rsa', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'ed25519', 'rsa', 'dsa']
-```
-
-### <a name="sshlog_level"></a>`Ssh::Log_level`
+### <a name="Ssh--Log_level"></a>`Ssh::Log_level`
 
 The Ssh::Log_level data type.
 
-Alias of
+Alias of `Enum['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE', 'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3']`
 
-```puppet
-Enum['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE', 'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3']
-```
-
-### <a name="sshpermit_root_login"></a>`Ssh::Permit_root_login`
+### <a name="Ssh--Permit_root_login"></a>`Ssh::Permit_root_login`
 
 'without-password' is a deprecated alias for 'prohibit-password'
 
+Alias of `Enum['yes', 'prohibit-password', 'without-password', 'forced-commands-only', 'no']`
+
+### <a name="Ssh--Ssh_Config"></a>`Ssh::Ssh_Config`
+
+ssh_config configuration file parameters
+
 Alias of
 
 ```puppet
-Enum['yes', 'prohibit-password', 'without-password', 'forced-commands-only', 'no']
+Struct[{
+    Optional['Host']                             => Stdlib::Host,
+    Optional['Match']                            => String[1],
+    Optional['AddKeysToAgent']                   => Enum['yes', 'no', 'ask', 'confirm'],
+    Optional['AddressFamily']                    => Enum['any', 'inet', 'inet6'],
+    Optional['BatchMode']                        => Ssh::Yes_no,
+    Optional['BindAddress']                      => String[1],
+    Optional['BindInterface']                    => String[1],
+    Optional['CanonicalDomains']                 => String[1],
+    Optional['CanonicalizeFallbackLocal']        => Ssh::Yes_no,
+    Optional['CanonicalizeHostname']             => Enum['yes', 'no', 'always'],
+    Optional['CanonicalizeMaxDots']              => Integer[0],
+    Optional['CanonicalizePermittedCNAMEs']      => String[1],
+    Optional['CASignatureAlgorithms']            => String[1],
+    Optional['CertificateFile']                  => String[1],
+    Optional['CheckHostIP']                      => Ssh::Yes_no,
+    Optional['Ciphers']                          => String[1],
+    Optional['ClearAllForwardings']              => Ssh::Yes_no,
+    Optional['Compression']                      => Ssh::Yes_no,
+    Optional['ConnectionAttempts']               => Integer[0],
+    Optional['ConnectTimeout']                   => Integer[0],
+    Optional['ControlMaster']                    => Enum['yes', 'no', 'ask', 'auto', 'autoask'],
+    Optional['ControlPath']                      => String[1],
+    Optional['ControlPersist']                   => String[1],
+    Optional['DynamicForward']                   => String[1],
+    Optional['EnableEscapeCommandline']          => Ssh::Yes_no,
+    Optional['EnableSSHKeysign']                 => Ssh::Yes_no,
+    Optional['EscapeChar']                       => String[1],
+    Optional['ExitOnForwardFailure']             => Ssh::Yes_no,
+    Optional['FingerprintHash']                  => Enum['sha256', 'md5'],
+    Optional['ForkAfterAuthentication']          => Ssh::Yes_no,
+    Optional['ForwardAgent']                     => Ssh::Yes_no,
+    Optional['ForwardX11']                       => Ssh::Yes_no,
+    Optional['ForwardX11Timeout']                => Variant[String[1], Integer[0]],
+    Optional['ForwardX11Trusted']                => Ssh::Yes_no,
+    Optional['GatewayPorts']                     => Ssh::Yes_no,
+    Optional['GlobalKnownHostsFile']             => String[1],
+    Optional['GSSAPIAuthentication']             => Ssh::Yes_no,
+    Optional['GSSAPIDelegateCredentials']        => Ssh::Yes_no,
+    Optional['HashKnownHosts']                   => Ssh::Yes_no,
+    Optional['HostbasedAcceptedAlgorithms']      => String[1],
+    Optional['HostbasedAuthentication']          => Ssh::Yes_no,
+    Optional['HostKeyAlgorithms']                => String[1],
+    Optional['HostKeyAlias']                     => String[1],
+    Optional['Hostname']                         => String[1],
+    Optional['IdentitiesOnly']                   => Ssh::Yes_no,
+    Optional['IdentityAgent']                    => String[1],
+    Optional['IdentityFile']                     => String[1],
+    Optional['IgnoreUnknown']                    => String[1],
+    Optional['Include']                          => String[1],
+    Optional['IPQoS']                            => String[1],
+    Optional['KbdInteractiveAuthentication']     => Ssh::Yes_no,
+    Optional['KbdInteractiveDevices']            => String[1],
+    Optional['KexAlgorithms']                    => String[1],
+    Optional['KnownHostsCommand']                => String[1],
+    Optional['LocalCommand']                     => String[1],
+    Optional['LocalForward']                     => String[1],
+    Optional['LogLevel']                         => Ssh::Log_level,
+    Optional['LogVerbose']                       => String[1],
+    Optional['MACs']                             => String[1],
+    Optional['NoHostAuthenticationForLocalhost'] => Ssh::Yes_no,
+    Optional['NumberOfPasswordPrompts']          => Integer[0],
+    Optional['PasswordAuthentication']           => Ssh::Yes_no,
+    Optional['PermitLocalCommand']               => Ssh::Yes_no,
+    Optional['PermitRemoteOpen']                 => String[1],
+    Optional['PKCS11Provider']                   => String[1],
+    Optional['Port']                             => Stdlib::Port,
+    Optional['PreferredAuthentications']         => String[1],
+    Optional['ProxyCommand']                     => String[1],
+    Optional['ProxyJump']                        => String[1],
+    Optional['ProxyUseFdpass']                   => Ssh::Yes_no,
+    Optional['PubkeyAcceptedAlgorithms']         => String[1],
+    Optional['PubkeyAuthentication']             => Ssh::Yes_no,
+    Optional['RekeyLimit']                       => String[1],
+    Optional['RemoteCommand']                    => String[1],
+    Optional['RemoteForward']                    => String[1],
+    Optional['RequestTTY']                       => Enum['no', 'yes', 'force', 'auto'],
+    Optional['RequiredRSASize']                  => Integer[0],
+    Optional['RevokedHostKeys']                  => String[1],
+    Optional['SecurityKeyProvider']              => String[1],
+    Optional['SendEnv']                          => String[1],
+    Optional['ServerAliveCountMax']              => Variant[String[1], Integer[0]],
+    Optional['ServerAliveInterval']              => Variant[String[1], Integer[0]],
+    Optional['SessionType']                      => Enum['default', 'none', 'subsystem'],
+    Optional['SetEnv']                           => String[1],
+    Optional['StdinNull']                        => Ssh::Yes_no,
+    Optional['StreamLocalBindMask']              => Stdlib::Filemode,
+    Optional['StreamLocalBindUnlink']            => Ssh::Yes_no,
+    Optional['StrictHostKeyChecking']            => Enum['yes', 'no', 'accept-new', 'off', 'ask'],
+    Optional['SyslogFacility']                   => Ssh::Syslog_facility,
+    Optional['TCPKeepAlive']                     => Ssh::Yes_no,
+    Optional['Tunnel']                           => Enum['yes', 'no', 'point-to-point', 'ethernet'],
+    Optional['TunnelDevice']                     => String[1],
+    Optional['UpdateHostKeys']                   => Ssh::Yes_no,
+    Optional['User']                             => String[1],
+    Optional['UserKnownHostsFile']               => String[1],
+    Optional['VerifyHostKeyDNS']                 => Enum['yes', 'no', 'ask'],
+    Optional['VisualHostKey']                    => Ssh::Yes_no,
+    Optional['XAuthLocation']                    => String[1],
+    Optional['custom']                           => Array,
+  }]
 ```
 
-### <a name="sshsyslog_facility"></a>`Ssh::Syslog_facility`
+### <a name="Ssh--Sshd_Config"></a>`Ssh::Sshd_Config`
+
+sshd_config configuration file parameters
+
+Alias of
+
+```puppet
+Struct[{
+    Optional['AcceptEnv']                       => String[1],
+    Optional['AddressFamily']                   => Enum['any', 'inet', 'inet6'],
+    Optional['AllowAgentForwarding']            => Ssh::Yes_no,
+    Optional['AllowGroups']                     => String[1],
+    Optional['AllowStreamLocalForwarding']      => Enum['yes', 'all', 'no', 'local', 'remote'],
+    Optional['AllowTcpForwarding']              => Enum['yes', 'no', 'local', 'remote'],
+    Optional['AllowUsers']                      => String[1],
+    Optional['AuthenticationMethods']           => String[1],
+    Optional['AuthorizedKeysCommand']           => String[1],
+    Optional['AuthorizedKeysCommandUser']       => String[1],
+    Optional['AuthorizedKeysFile']              => String[1],
+    Optional['AuthorizedPrincipalsCommand']     => String[1],
+    Optional['AuthorizedPrincipalsCommandUser'] => String[1],
+    Optional['AuthorizedPrincipalsFile']        => String[1],
+    Optional['Banner']                          => String[1],
+    Optional['CASignatureAlgorithms']           => String[1],
+    Optional['ChallengeResponseAuthentication'] => Ssh::Yes_no,
+    Optional['ChannelTimeout']                  => String[1],
+    Optional['ChrootDirectory']                 => String[1],
+    Optional['Ciphers']                         => String[1],
+    Optional['ClientAliveCountMax']             => Integer[0],
+    Optional['ClientAliveInterval']             => Integer[0],
+    Optional['Compression']                     => Enum['yes', 'delayed', 'no'],
+    Optional['DenyGroups']                      => String[1],
+    Optional['DenyUsers']                       => String[1],
+    Optional['DisableForwarding']               => Ssh::Yes_no,
+    Optional['ExposeAuthInfo']                  => Ssh::Yes_no,
+    Optional['FingerprintHash']                 => Enum['md5', 'sha256'],
+    Optional['ForceCommand']                    => String[1],
+    Optional['GatewayPorts']                    => Enum['no', 'yes', 'clientspecified'],
+    Optional['GSSAPIAuthentication']            => Ssh::Yes_no,
+    Optional['GSSAPICleanupCredentials']        => Ssh::Yes_no,
+    Optional['GSSAPIStrictAcceptorCheck']       => Ssh::Yes_no,
+    Optional['HostbasedAcceptedAlgorithms']     => String[1],
+    Optional['HostbasedAuthentication']         => Ssh::Yes_no,
+    Optional['HostbasedUsesNameFromPacketOnly'] => Ssh::Yes_no,
+    Optional['HostCertificate']                 => String[1],
+    Optional['HostKey']                         => String[1],
+    Optional['HostKeyAgent']                    => String[1],
+    Optional['HostKeyAlgorithms']               => String[1],
+    Optional['IgnoreRhosts']                    => Ssh::Yes_no,
+    Optional['IgnoreUserKnownHosts']            => Ssh::Yes_no,
+    Optional['Include']                         => String[1],
+    Optional['IPQoS']                           => String[1],
+    Optional['KbdInteractiveAuthentication']    => Ssh::Yes_no,
+    Optional['KerberosAuthentication']          => Ssh::Yes_no,
+    Optional['KerberosGetAFSToken']             => Ssh::Yes_no,
+    Optional['KerberosOrLocalPasswd']           => Ssh::Yes_no,
+    Optional['KerberosTicketCleanup']           => Ssh::Yes_no,
+    Optional['KexAlgorithms']                   => String[1],
+    Optional['ListenAddress']                   => String[1],
+    Optional['LoginGraceTime']                  => Integer[0],
+    Optional['LogLevel']                        => Ssh::Log_level,
+    Optional['LogVerbose']                      => String[1],
+    Optional['MACs']                            => String[1],
+    Optional['Match']                           => String[1],
+    Optional['MaxAuthTries']                    => Integer[2],
+    Optional['MaxSessions']                     => Integer[0],
+    Optional['MaxStartups']                     => String[1],
+    Optional['ModuliFile']                      => Stdlib::Absolutepath,
+    Optional['PasswordAuthentication']          => Ssh::Yes_no,
+    Optional['PermitEmptyPasswords']            => Ssh::Yes_no,
+    Optional['PermitListen']                    => String[1],
+    Optional['PermitOpen']                      => String[1],
+    Optional['PermitRootLogin']                 => Ssh::Permit_root_login,
+    Optional['PermitTTY']                       => Ssh::Yes_no,
+    Optional['PermitTunnel']                    => Enum['yes', 'point-to-point', 'ethernet', 'no'],
+    Optional['PermitUserEnvironmen']            => String[1],
+    Optional['PermitUserRC']                    => Ssh::Yes_no,
+    Optional['PerSourceMaxStartups']            => String[1],
+    Optional['PerSourceNetBlockSize']           => String[1],
+    Optional['PidFile']                         => String[1],
+    Optional['Port']                            => Stdlib::Port,
+    Optional['PrintLastLog']                    => Ssh::Yes_no,
+    Optional['PrintMotd']                       => Ssh::Yes_no,
+    Optional['PubkeyAcceptedAlgorithms']        => String[1],
+    Optional['PubkeyAuthOptions']               => Enum['none', 'touch-required', 'verify-required'],
+    Optional['PubkeyAuthentication']            => Ssh::Yes_no,
+    Optional['RekeyLimit']                      => String[1],
+    Optional['RequiredRSASize']                 => Integer[0],
+    Optional['RevokedKeys']                     => String[1],
+    Optional['RDomain']                         => String[1],
+    Optional['SecurityKeyProvider']             => Stdlib::Absolutepath,
+    Optional['SetEnv']                          => String[1],
+    Optional['StreamLocalBindMask']             => Stdlib::Filemode,
+    Optional['StreamLocalBindUnlink']           => Ssh::Yes_no,
+    Optional['StrictModes']                     => Ssh::Yes_no,
+    Optional['Subsystem']                       => String[1],
+    Optional['SyslogFacility']                  => Ssh::Syslog_facility,
+    Optional['TCPKeepAlive']                    => Ssh::Yes_no,
+    Optional['TrustedUserCAKeys']               => String[1],
+    Optional['UseDNS']                          => Ssh::Yes_no,
+    Optional['UsePAM']                          => Ssh::Yes_no,
+    Optional['VersionAddendum']                 => String[1],
+    Optional['X11DisplayOffset']                => Integer[0],
+    Optional['X11Forwarding']                   => Ssh::Yes_no,
+    Optional['X11UseLocalhost']                 => Ssh::Yes_no,
+    Optional['XAuthLocation']                   => String[1],
+    Optional['custom']                          => Array,
+  }]
+```
+
+### <a name="Ssh--Syslog_facility"></a>`Ssh::Syslog_facility`
 
 The Ssh::Syslog_facility data type.
 
-Alias of
+Alias of `Enum['DAEMON', 'USER', 'AUTH', 'LOCAL0', 'LOCAL1', 'LOCAL2', 'LOCAL3', 'LOCAL4', 'LOCAL5', 'LOCAL6', 'LOCAL7', 'AUTHPRIV']`
 
-```puppet
-Enum['DAEMON', 'USER', 'AUTH', 'LOCAL0', 'LOCAL1', 'LOCAL2', 'LOCAL3', 'LOCAL4', 'LOCAL5', 'LOCAL6', 'LOCAL7', 'AUTHPRIV']
-```
-
-### <a name="sshyes_no"></a>`Ssh::Yes_no`
+### <a name="Ssh--Yes_no"></a>`Ssh::Yes_no`
 
 The Ssh::Yes_no data type.
 
-Alias of
-
-```puppet
-Enum['yes', 'no']
-```
+Alias of `Enum['yes', 'no']`
 
