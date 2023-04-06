@@ -6,11 +6,10 @@ describe 'ssh' do
     |#
     |# See https://man.openbsd.org/ssh_config for more info
     |
-    |Host *
   END
 
   # these tests are OS independent, so we use a fictional OS without any default values
-  let(:facts) { { os: { family: 'UnitTesting' } } }
+  let(:facts) { { root_home: '/root', operatingsystem: 'UnitTesting', os: { family: 'UnitTesting' } } }
 
   parameters = {
     'add_keys_to_agent'                    => { str: 'AddKeysToAgent',                    val: ['yes', 'no', 'ask', 'confirm'], },
@@ -58,7 +57,7 @@ describe 'ssh' do
     'identity_agent'                       => { str: 'IdentityAgent',                     val: ['/test/ing', '~/test/ing'], },
     'identity_file'                        => { str: 'IdentityFile',                      val: [['~/.ssh/id_dsa'], ['/test/ing1', '/test/ing2']], sep: ',', },
     'ignore_unknown'                       => { str: 'IgnoreUnknown',                     val: [['AddKeysToAgent'], ['AddKeysToAgent', 'UseKeychain']], sep: ',', },
-    'include'                              => { str: 'Include',                           val: ['/test/ing', '~/test/ing'], },
+    'include'                              => { str: 'Include',                           val: ['/test/ing', '/test/ing/*.conf'], },
     'ip_qos'                               => { str: 'IPQoS',                             val: ['af42', 'af42 cs3'], },
     'kbd_interactive_authentication'       => { str: 'KbdInteractiveAuthentication',      val: ['yes', 'no'], },
     'kbd_interactive_devices'              => { str: 'KbdInteractiveDevices',             val: [['pam'], ['bsdauth', 'pam']], sep: ',', },

@@ -29,12 +29,15 @@ known to work on many, many platforms since its creation in 2010.
 
 ### Known to work
 
+ * Archlinux
  * Debian 10
  * Debian 11
  * EL 7
  * EL 8
+ * EL 9
  * Ubuntu 18.04 LTS
  * Ubuntu 20.04 LTS
+ * Ubuntu 22.04 LTS
  * Solaris 10
  * Solaris 11
 
@@ -115,6 +118,72 @@ ssh::config_entry { 'jenkins github.com':
 }
 ```
 
+# Manage configurations files in .d directories
+SSH supports configuration files in .d directories via the `include` directive. This module enables you to also manage these files. You need to set directives for the server (eg: /etc/ssh/sshd_config.d) and client (eg: /etc/ssh/ssh_config.d) part seperatly as they support different directives.
+
+You can activate the management by ensuring `$include` is defined and pass a hash with the needed SSH directives and their values.
+Directives can be passed as hash via the `$ssh::config_files` and `$ssh::server::config_files` parameters. Directives passed as hash via `lines` will be checked for correct names and values. Directives passed as array via `custom` will not be checked and will be added to the configuration file. Similar to the main configuration files.
+
+Different file permissions can be specified via `owner`, `group`, or `mode`.
+You can remove a file by setting `ensure` to `absent`.
+
+## Sample usage:
+Manage the client configuration file /etc/ssh/ssh_config.d/50-redhat.conf with some directives and default file permissions (0644 root:root).
+``` yaml
+ssh::include: /etc/ssh/ssh_config.d/*.conf
+ssh::config_files:
+  '50-redhat':
+    lines:
+      Match: 'final all'
+      Include: '/etc/crypto-policies/back-ends/openssh.config'
+      GSSAPIAuthentication: 'yes'
+      ForwardX11Trusted: 'yes'
+```
+
+Manage the server configuration file /etc/ssh/sshd_config.d/50-redhat.conf with some directives and default file permissions (0600 root:root).
+``` yaml
+ssh::server::include: /etc/ssh/sshd_config.d/*.conf
+ssh::server::config_files:
+  '50-redhat':
+    lines:
+      Include: '/etc/crypto-policies/back-ends/opensshserver.config'
+      SyslogFacility: 'AUTHPRIV'
+      ChallengeResponseAuthentication: 'no'
+      GSSAPIAuthentication: 'yes'
+      GSSAPICleanupCredentials: 'no'
+      UsePAM: 'yes'
+      X11Forwarding: 'yes'
+      PrintMotd: 'no'
+```
+You can also specify different file permissions by setting $owner, $group, or $mode accordingly:
+``` yaml
+ssh::include: /etc/ssh/ssh_config.d/*.conf
+ssh::config_files:
+  '50-redhat':
+    owner: 'name'
+    group: 'group'
+    mode:  '0664'
+    lines:
+      Match: 'final all'
+      GSSAPIAuthentication: 'yes'
+```
+Using directives that are not supported by this module:
+``` yaml
+ssh::include: /etc/ssh/ssh_config.d/*.conf
+ssh::config_files:
+  '50-redhat':
+    custom:
+      - 'Directive1 Value1'
+      - 'Directive2 Value2'
+```
+
+Remove the file /etc/ssh/ssh_config.d/50-redhat.conf:
+``` yaml
+ssh::include: /etc/ssh/ssh_config.d/*.conf
+ssh::config_files:
+  '50-redhat':
+    ensure: 'absent'
+```
 
 ## Upgrading
 

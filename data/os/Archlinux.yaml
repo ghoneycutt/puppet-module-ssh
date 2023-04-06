@@ -1,0 +1,12 @@
+---
+ssh::packages:
+  - 'openssh'
+ssh::server::service_name: 'sshd'
+ssh::server::config_mode: '0644'
+
+ssh::server::authorized_keys_file:
+  - '.ssh/authorized_keys'
+ssh::server::permit_root_login: 'yes'
+ssh::server::print_motd: 'no'
+ssh::server::subsystem: 'sftp /usr/lib/ssh/sftp-server'
+ssh::server::use_pam: 'yes'

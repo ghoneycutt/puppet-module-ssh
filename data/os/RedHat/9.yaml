@@ -1,0 +1,30 @@
+---
+ssh::config_files:
+  '50-redhat':
+    lines:
+      Match: 'final all'
+      Include: '/etc/crypto-policies/back-ends/openssh.config'
+      GSSAPIAuthentication: 'yes'
+      ForwardX11Trusted: 'yes'
+ssh::packages:
+  - 'openssh-clients'
+ssh::server::packages:
+  - 'openssh-server'
+
+ssh::include: '/etc/ssh/ssh_config.d/*.conf'
+
+ssh::server::authorized_keys_file:
+  - '.ssh/authorized_keys'
+ssh::server::config_files:
+  '50-redhat':
+    lines:
+      Include: '/etc/crypto-policies/back-ends/opensshserver.config'
+      SyslogFacility: 'AUTHPRIV'
+      ChallengeResponseAuthentication: 'no'
+      GSSAPIAuthentication: 'yes'
+      GSSAPICleanupCredentials: 'no'
+      UsePAM: 'yes'
+      X11Forwarding: 'yes'
+      PrintMotd: 'no'
+ssh::server::include: '/etc/ssh/sshd_config.d/*.conf'
+ssh::server::subsystem: 'sftp /usr/libexec/openssh/sftp-server'

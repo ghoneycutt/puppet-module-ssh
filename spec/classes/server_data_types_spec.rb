@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'ssh::server' do
   context 'validate data types of parameters' do
     # these tests are OS independent, so we use a fictional OS without any default values
-    let(:facts) { { os: { family: 'UnitTesting' } } }
+    let(:facts) { { root_home: '/root', operatingsystem: 'UnitTesting', os: { family: 'UnitTesting' } } }
 
     validations = {
       'Array of Stdlib::Port (optional)' => {
@@ -42,7 +42,7 @@ describe 'ssh::server' do
         message: 'expects a (match for|match for Stdlib::Absolutepath =|Stdlib::Absolutepath =) Variant\[Stdlib::Windowspath.*Stdlib::Unixpath',
       },
       'Stdlib::Absolutepath (optional)' => {
-        name:     ['packages_adminfile', 'packages_source', 'security_key_provider'],
+        name:     ['packages_adminfile', 'packages_source', 'security_key_provider', 'include'],
         valid:    ['/absolute/filepath', '/absolute/directory/', :undef],
         invalid:  ['../invalid', ['array'], { 'ha' => 'sh' }, 3, 2.42, false],
         message: 'expects a (match for|match for Stdlib::Absolutepath =|Stdlib::Absolutepath =) Variant\[Stdlib::Windowspath.*Stdlib::Unixpath',

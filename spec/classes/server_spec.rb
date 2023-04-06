@@ -4,25 +4,47 @@ describe 'ssh::server' do
     context "on #{os} with default values for parameters" do
       let(:facts) { os_facts }
 
-      fixture = fixtures("testing/#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}_sshd_config")
+      platform = if os_facts[:os]['family'] == 'RedHat'
+                   "#{os_facts[:os]['family']}-#{os_facts[:os]['release']['major']}"
+                 else
+                   "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}"
+                 end
+      fixture = fixtures("testing/#{platform}_sshd_config")
       # OS specific defaults
-      case "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['full']}"
-      when %r{CentOS.*}, %r{OracleLinux.*}, %r{RedHat.*}, %r{Scientific.*}
+      case platform
+      when %r{Archlinux.*}
+        config_mode       = '0644'
+        packages          = []
+        service_hasstatus = true
+        service_name      = 'sshd'
+      when %r{RedHat-9}
         config_mode       = '0600'
         packages          = ['openssh-server']
         service_hasstatus = true
         service_name      = 'sshd'
-        fixture           = fixtures("testing/#{os_facts[:os]['family']}-#{os_facts[:os]['release']['major']}_sshd_config")
+        config_files      = '50-redhat'
+        include_dir       = '/etc/ssh/sshd_config.d'
+      when %r{RedHat-(7|8)}
+        config_mode       = '0600'
+        packages          = ['openssh-server']
+        service_hasstatus = true
+        service_name      = 'sshd'
       when %r{SLED.*}, %r{SLES.*}
         config_mode       = '0600'
         packages          = []
         service_name      = 'sshd'
         service_hasstatus = true
-      when %r{Debian.*}, %r{Ubuntu.*}
+      when %r{Debian-10}, %r{Ubuntu-18.04}
         config_mode       = '0600'
         packages          = ['openssh-server']
         service_hasstatus = true
         service_name      = 'ssh'
+      when %r{Debian-11}, %r{Ubuntu-(20.04|22.04)}
+        config_mode       = '0600'
+        packages          = ['openssh-server']
+        service_hasstatus = true
+        service_name      = 'ssh'
+        include_dir       = '/etc/ssh/sshd_config.d'
       when %r{Solaris-9.*}
         config_mode       = '0644'
         packages          = 'SUNWsshdr', 'SUNWsshdu'
@@ -73,6 +95,23 @@ describe 'ssh::server' do
         )
       end
 
+      if include_dir
+        it do
+          is_expected.to contain_file('sshd_config_include_dir').with(
+            ensure: 'directory',
+            path: include_dir,
+            owner: 'root',
+            group: 'root',
+            mode: '0700',
+            purge: 'true',
+            recurse: 'true',
+            force: 'true',
+          )
+        end
+      else
+        it { is_expected.not_to contain_file('sshd_config_include_dir') }
+      end
+
       it { is_expected.not_to contain_file('sshd_banner') }
 
       it do
@@ -86,6 +125,15 @@ describe 'ssh::server' do
             'subscribe'  => 'File[sshd_config]',
           },
         )
+      end
+
+      if config_files
+        content_config_files = File.read(fixtures("testing/#{platform}_sshd_config.d"))
+        it { is_expected.to have_ssh__config_file_server_resource_count(1) }
+        it { is_expected.to contain_ssh__config_file_server(config_files) }
+        it { is_expected.to contain_file("/etc/ssh/sshd_config.d/#{config_files}.conf").with_content(content_config_files) }
+      else
+        it { is_expected.to have_ssh__config_file_server_resource_count(0) }
       end
     end
   end
@@ -213,5 +261,86 @@ describe 'ssh::server' do
 
       it { is_expected.to contain_service('sshd_service').with_hasstatus('false') }
     end
+
+    context "on #{os} with config_files set to a valid hash" do
+      let(:params) do
+        {
+          include: '/etc/ssh/sshd_config.d/*.conf',
+          config_files: {
+            '50-redhat' => {
+              'lines' => {
+                'GSSAPIAuthentication' => 'yes',
+              },
+            },
+          }
+        }
+      end
+
+      it { is_expected.to have_ssh__config_file_server_resource_count(1) }
+      it { is_expected.to contain_ssh__config_file_server('50-redhat') }
+    end
+
+    context "on #{os} when config_files set to a valid hash" do
+      let(:params) do
+        {
+          include: '/etc/ssh/sshd_config.d/*.conf',
+          config_files: {
+            '42-testing' => {
+              'ensure' => 'present',
+              'owner'  => 'test',
+              'group'  => 'test',
+              'mode'   => '0242',
+              'lines'  => {
+                'GSSAPIAuthentication'     => 'yes',
+                'GSSAPICleanupCredentials' => 'no',
+              },
+            },
+            '50-redhat' => {
+              'lines' => {
+                'X11Forwarding' => 'yes',
+              },
+            },
+          }
+        }
+      end
+
+      it { is_expected.to have_ssh__config_file_server_resource_count(2) }
+
+      it do
+        is_expected.to contain_ssh__config_file_server('42-testing').only_with(
+          {
+            'ensure' => 'present',
+            'owner'  => 'test',
+            'group'  => 'test',
+            'mode'   => '0242',
+            'lines'  => {
+              'GSSAPIAuthentication'     => 'yes',
+              'GSSAPICleanupCredentials' => 'no',
+            },
+            'custom' => [],
+          },
+        )
+      end
+
+      it do
+        is_expected.to contain_ssh__config_file_server('50-redhat').only_with(
+          {
+            'ensure' => 'present',
+            'owner'  => 'root',
+            'group'  => 'root',
+            'mode'   => '0600',
+            'lines'  => {
+              'X11Forwarding' => 'yes',
+            },
+            'custom' => [],
+          },
+        )
+      end
+
+      it { is_expected.to contain_file('/etc/ssh/sshd_config.d/42-testing.conf') } # only needed for 100% resource coverage
+      it { is_expected.to contain_file('/etc/ssh/sshd_config.d/50-redhat.conf') }  # only needed for 100% resource coverage
+    end
   end
 end
+
+at_exit { RSpec::Puppet::Coverage.report! }

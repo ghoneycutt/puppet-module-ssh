@@ -55,6 +55,11 @@
 # @param service_hasstatus
 #   hasstatus attribute for SSH daemon.
 #
+# @param config_files
+#   Hash of configuration entries passed to ssh::config_file_server define.
+#   Please check the docs for ssh::config_file_client and the type Ssh::Sshd_Config
+#   for a list and details of the parameters usable here.
+#
 # @param service_name
 #   Name of the SSH daemon.
 #
@@ -225,6 +230,18 @@
 # @param include
 #   Value(s) passed to Include parameter in sshd_config. Unused if empty.
 #   Check https://man.openbsd.org/sshd_config#Include for possible values.
+#
+# @param include_dir_owner
+#   The owner of the include directory
+#
+# @param include_dir_group
+#   The group of the include directory
+#
+# @param include_dir_mode
+#   The mode of the include directory
+#
+# @param include_dir_purge
+#   Sets whether to purge the include_dir of unmanaged files
 #
 # @param ip_qos
 #   Value(s) passed to IPQoS parameter in sshd_config. Unused if empty.
@@ -463,6 +480,7 @@ class ssh::server (
   Boolean $service_enable = true,
   Boolean $service_hasrestart = true,
   Boolean $service_hasstatus = true,
+  Hash $config_files = {},
   # all paramters below this line are for sshd_config
   Optional[Array[String[1]]] $accept_env = undef,
   Optional[Enum['any', 'inet', 'inet6']] $address_family = undef,
@@ -505,7 +523,11 @@ class ssh::server (
   Optional[Array[String[1]]] $host_key_algorithms = undef,
   Optional[Ssh::Yes_no] $ignore_rhosts = undef,
   Optional[Ssh::Yes_no] $ignore_user_known_hosts = undef,
-  Optional[String[1]] $include = undef,
+  Optional[Stdlib::Absolutepath] $include = undef,
+  String[1] $include_dir_owner = 'root',
+  String[1] $include_dir_group = 'root',
+  Stdlib::Filemode $include_dir_mode = '0700',
+  Boolean $include_dir_purge = true,
   Optional[String[1]] $ip_qos = undef,
   Optional[Ssh::Yes_no] $kbd_interactive_authentication = undef,
   Optional[Ssh::Yes_no] $kerberos_authentication = undef,
@@ -580,6 +602,24 @@ class ssh::server (
     content => template('ssh/sshd_config.erb'),
   }
 
+  if $include {
+    $include_dir = dirname($include)
+    file { 'sshd_config_include_dir':
+      ensure  => 'directory',
+      path    => $include_dir,
+      owner   => $include_dir_owner,
+      group   => $include_dir_group,
+      mode    => $include_dir_mode,
+      purge   => $include_dir_purge,
+      recurse => $include_dir_purge,
+      force   => $include_dir_purge,
+      require => Package[$packages],
+      notify  => Service['sshd_service'],
+    }
+  } else {
+    $include_dir = undef
+  }
+
   if $banner_content != undef {
     file { 'sshd_banner' :
       ensure  => file,
@@ -600,6 +640,12 @@ class ssh::server (
       hasrestart => $service_hasrestart,
       hasstatus  => $service_hasstatus,
       subscribe  => File['sshd_config'],
+    }
+  }
+
+  $config_files.each |$file, $lines| {
+    ssh::config_file_server { $file:
+      * => $lines,
     }
   }
 }
