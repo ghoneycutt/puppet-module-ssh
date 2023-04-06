@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Data Type: Ssh::Ssh_Config
+  
+    &mdash; Documentation by YARD 0.9.28
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "puppet_data_type_aliases::Ssh::Ssh_Config";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../puppet_data_type_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (S)</a> &raquo;
+    <span class='title'><span class='object_link'>Puppet Data Type Aliases</span></span>
+     &raquo; 
+    <span class="title">Ssh::Ssh_Config</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="puppet_class_list_link"
+        href="../puppet_class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Puppet Data Type Alias: Ssh::Ssh_Config</h1>
+<div class="box_info">
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>
+      types/ssh_config.pp
+    </dd>
+  </dl>
+</div>
+
+<h2>Overview</h2>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>ssh_config configuration file parameters</p>
+
+  </div>
+</div>
+
+<div class="tags">
+  <p class="tag_title">Alias of</p>
+  <div class="docstring">
+    <div class="discussion">
+      <pre class="code"><span class="info">Struct[{
+    Optional['Host']                             => Stdlib::Host,
+    Optional['Match']                            => String[1],
+    Optional['AddKeysToAgent']                   => Enum['yes', 'no', 'ask', 'confirm'],
+    Optional['AddressFamily']                    => Enum['any', 'inet', 'inet6'],
+    Optional['BatchMode']                        => Ssh::Yes_no,
+    Optional['BindAddress']                      => String[1],
+    Optional['BindInterface']                    => String[1],
+    Optional['CanonicalDomains']                 => String[1],
+    Optional['CanonicalizeFallbackLocal']        => Ssh::Yes_no,
+    Optional['CanonicalizeHostname']             => Enum['yes', 'no', 'always'],
+    Optional['CanonicalizeMaxDots']              => Integer[0],
+    Optional['CanonicalizePermittedCNAMEs']      => String[1],
+    Optional['CASignatureAlgorithms']            => String[1],
+    Optional['CertificateFile']                  => String[1],
+    Optional['CheckHostIP']                      => Ssh::Yes_no,
+    Optional['Ciphers']                          => String[1],
+    Optional['ClearAllForwardings']              => Ssh::Yes_no,
+    Optional['Compression']                      => Ssh::Yes_no,
+    Optional['ConnectionAttempts']               => Integer[0],
+    Optional['ConnectTimeout']                   => Integer[0],
+    Optional['ControlMaster']                    => Enum['yes', 'no', 'ask', 'auto', 'autoask'],
+    Optional['ControlPath']                      => String[1],
+    Optional['ControlPersist']                   => String[1],
+    Optional['DynamicForward']                   => String[1],
+    Optional['EnableEscapeCommandline']          => Ssh::Yes_no,
+    Optional['EnableSSHKeysign']                 => Ssh::Yes_no,
+    Optional['EscapeChar']                       => String[1],
+    Optional['ExitOnForwardFailure']             => Ssh::Yes_no,
+    Optional['FingerprintHash']                  => Enum['sha256', 'md5'],
+    Optional['ForkAfterAuthentication']          => Ssh::Yes_no,
+    Optional['ForwardAgent']                     => Ssh::Yes_no,
+    Optional['ForwardX11']                       => Ssh::Yes_no,
+    Optional['ForwardX11Timeout']                => Variant[String[1], Integer[0]],
+    Optional['ForwardX11Trusted']                => Ssh::Yes_no,
+    Optional['GatewayPorts']                     => Ssh::Yes_no,
+    Optional['GlobalKnownHostsFile']             => String[1],
+    Optional['GSSAPIAuthentication']             => Ssh::Yes_no,
+    Optional['GSSAPIDelegateCredentials']        => Ssh::Yes_no,
+    Optional['HashKnownHosts']                   => Ssh::Yes_no,
+    Optional['HostbasedAcceptedAlgorithms']      => String[1],
+    Optional['HostbasedAuthentication']          => Ssh::Yes_no,
+    Optional['HostKeyAlgorithms']                => String[1],
+    Optional['HostKeyAlias']                     => String[1],
+    Optional['Hostname']                         => String[1],
+    Optional['IdentitiesOnly']                   => Ssh::Yes_no,
+    Optional['IdentityAgent']                    => String[1],
+    Optional['IdentityFile']                     => String[1],
+    Optional['IgnoreUnknown']                    => String[1],
+    Optional['Include']                          => String[1],
+    Optional['IPQoS']                            => String[1],
+    Optional['KbdInteractiveAuthentication']     => Ssh::Yes_no,
+    Optional['KbdInteractiveDevices']            => String[1],
+    Optional['KexAlgorithms']                    => String[1],
+    Optional['KnownHostsCommand']                => String[1],
+    Optional['LocalCommand']                     => String[1],
+    Optional['LocalForward']                     => String[1],
+    Optional['LogLevel']                         => Ssh::Log_level,
+    Optional['LogVerbose']                       => String[1],
+    Optional['MACs']                             => String[1],
+    Optional['NoHostAuthenticationForLocalhost'] => Ssh::Yes_no,
+    Optional['NumberOfPasswordPrompts']          => Integer[0],
+    Optional['PasswordAuthentication']           => Ssh::Yes_no,
+    Optional['PermitLocalCommand']               => Ssh::Yes_no,
+    Optional['PermitRemoteOpen']                 => String[1],
+    Optional['PKCS11Provider']                   => String[1],
+    Optional['Port']                             => Stdlib::Port,
+    Optional['PreferredAuthentications']         => String[1],
+    Optional['ProxyCommand']                     => String[1],
+    Optional['ProxyJump']                        => String[1],
+    Optional['ProxyUseFdpass']                   => Ssh::Yes_no,
+    Optional['PubkeyAcceptedAlgorithms']         => String[1],
+    Optional['PubkeyAuthentication']             => Ssh::Yes_no,
+    Optional['RekeyLimit']                       => String[1],
+    Optional['RemoteCommand']                    => String[1],
+    Optional['RemoteForward']                    => String[1],
+    Optional['RequestTTY']                       => Enum['no', 'yes', 'force', 'auto'],
+    Optional['RequiredRSASize']                  => Integer[0],
+    Optional['RevokedHostKeys']                  => String[1],
+    Optional['SecurityKeyProvider']              => String[1],
+    Optional['SendEnv']                          => String[1],
+    Optional['ServerAliveCountMax']              => Variant[String[1], Integer[0]],
+    Optional['ServerAliveInterval']              => Variant[String[1], Integer[0]],
+    Optional['SessionType']                      => Enum['default', 'none', 'subsystem'],
+    Optional['SetEnv']                           => String[1],
+    Optional['StdinNull']                        => Ssh::Yes_no,
+    Optional['StreamLocalBindMask']              => Stdlib::Filemode,
+    Optional['StreamLocalBindUnlink']            => Ssh::Yes_no,
+    Optional['StrictHostKeyChecking']            => Enum['yes', 'no', 'accept-new', 'off', 'ask'],
+    Optional['SyslogFacility']                   => Ssh::Syslog_facility,
+    Optional['TCPKeepAlive']                     => Ssh::Yes_no,
+    Optional['Tunnel']                           => Enum['yes', 'no', 'point-to-point', 'ethernet'],
+    Optional['TunnelDevice']                     => String[1],
+    Optional['UpdateHostKeys']                   => Ssh::Yes_no,
+    Optional['User']                             => String[1],
+    Optional['UserKnownHostsFile']               => String[1],
+    Optional['VerifyHostKeyDNS']                 => Enum['yes', 'no', 'ask'],
+    Optional['VisualHostKey']                    => Ssh::Yes_no,
+    Optional['XAuthLocation']                    => String[1],
+    Optional['custom']                           => Array,
+  }]</span></pre>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="tags">
+  
+
+
+</div><div class="method_details_list">
+  <table class="source_code">
+    <tr>
+      <td>
+        <pre class="lines">
+
+
+</pre>
+      </td>
+      <td>
+        <pre class="code"><span class="info file"># File 'types/ssh_config.pp', line 2</span>
+
+</pre>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+
+      <div id="footer">
+     Generated by <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>.
+</div>
+
+    </div>
+  </body>
+</html>

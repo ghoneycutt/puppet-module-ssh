@@ -87,6 +87,8 @@
 
 <h3 id="label-Known+to+work">Known to work</h3>
 <ul><li>
+<p>Archlinux</p>
+</li><li>
 <p>Debian 10</p>
 </li><li>
 <p>Debian 11</p>
@@ -95,9 +97,13 @@
 </li><li>
 <p>EL 8</p>
 </li><li>
+<p>EL 9</p>
+</li><li>
 <p>Ubuntu 18.04 LTS</p>
 </li><li>
 <p>Ubuntu 20.04 LTS</p>
+</li><li>
+<p>Ubuntu 22.04 LTS</p>
 </li><li>
 <p>Solaris 10</p>
 </li><li>
@@ -170,6 +176,22 @@ ssh::config_entry { &#39;jenkins github.com&#39;:
   order =&gt; &#39;20&#39;,
 }
 </code></pre>
+
+<h1 id="label-Manage+configurations+files+in+.d+directories">Manage configurations files in .d directories</h1>
+
+<p>SSH supports configuration files in .d directories via the <code>include</code> directive. This module enables you to also manage these files. You need to set directives for the server (eg: /etc/ssh/sshd_config.d) and client (eg: /etc/ssh/ssh_config.d) part seperatly as they support different directives.</p>
+
+<p>You can activate the management by ensuring <code>$include</code> is defined and pass a hash with the needed SSH directives and their values. Directives can be passed as hash via the <code>$ssh::config_files</code> and <code>$ssh::server::config_files</code> parameters. Directives passed as hash via <code>lines</code> will be checked for correct names and values. Directives passed as array via <code>custom</code> will not be checked and will be added to the configuration file. Similar to the main configuration files.</p>
+
+<p>Different file permissions can be specified via <code>owner</code>, <code>group</code>, or <code>mode</code>. You can remove a file by setting <code>ensure</code> to <code>absent</code>.</p>
+
+<h2 id="label-Sample+usage-3A">Sample usage:</h2>
+
+<p>Manage the client configuration file /etc/ssh/ssh_config.d/50-redhat.conf with some directives and default file permissions (0644 root:root). <code>yaml ssh::include: /etc/ssh/ssh_config.d/*.conf ssh::config_files:   &#39;50-redhat&#39;:     lines:       Match: &#39;final all&#39;       Include: &#39;/etc/crypto-policies/back-ends/openssh.config&#39;       GSSAPIAuthentication: &#39;yes&#39;       ForwardX11Trusted: &#39;yes&#39; </code></p>
+
+<p>Manage the server configuration file /etc/ssh/sshd_config.d/50-redhat.conf with some directives and default file permissions (0600 root:root). <code>yaml ssh::server::include: /etc/ssh/sshd_config.d/*.conf ssh::server::config_files:   &#39;50-redhat&#39;:     lines:       Include: &#39;/etc/crypto-policies/back-ends/opensshserver.config&#39;       SyslogFacility: &#39;AUTHPRIV&#39;       ChallengeResponseAuthentication: &#39;no&#39;       GSSAPIAuthentication: &#39;yes&#39;       GSSAPICleanupCredentials: &#39;no&#39;       UsePAM: &#39;yes&#39;       X11Forwarding: &#39;yes&#39;       PrintMotd: &#39;no&#39; </code> You can also specify different file permissions by setting $owner, $group, or $mode accordingly: <code>yaml ssh::include: /etc/ssh/ssh_config.d/*.conf ssh::config_files:   &#39;50-redhat&#39;:     owner: &#39;name&#39;     group: &#39;group&#39;     mode:  &#39;0664&#39;     lines:       Match: &#39;final all&#39;       GSSAPIAuthentication: &#39;yes&#39; </code> Using directives that are not supported by this module: <code>yaml ssh::include: /etc/ssh/ssh_config.d/*.conf ssh::config_files:   &#39;50-redhat&#39;:     custom:       - &#39;Directive1 Value1&#39;       - &#39;Directive2 Value2&#39; </code></p>
+
+<p>Remove the file /etc/ssh/ssh_config.d/50-redhat.conf: <code>yaml ssh::include: /etc/ssh/ssh_config.d/*.conf ssh::config_files:   &#39;50-redhat&#39;:     ensure: &#39;absent&#39; </code></p>
 
 <h2 id="label-Upgrading">Upgrading</h2>
 

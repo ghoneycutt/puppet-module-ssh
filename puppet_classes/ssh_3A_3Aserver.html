@@ -396,6 +396,24 @@
   
     <li>
       
+        <span class='name'>config_files</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Hash of configuration entries passed to ssh::config_file_server define. Please check the docs for ssh::config_file_client and the type Ssh::Sshd_Config for a list and details of the parameters usable here.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>service_name</span>
       
       
@@ -1155,7 +1173,7 @@
         <span class='name'>include</span>
       
       
-        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+        <span class='type'>(<tt>Optional[Stdlib::Absolutepath]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -1164,6 +1182,78 @@
         &mdash;
         <div class='inline'>
 <p>Value(s) passed to Include parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#Include">man.openbsd.org/sshd_config#Include</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>include_dir_owner</span>
+      
+      
+        <span class='type'>(<tt>String[1]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;root&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The owner of the include directory</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>include_dir_group</span>
+      
+      
+        <span class='type'>(<tt>String[1]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;root&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The group of the include directory</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>include_dir_mode</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Filemode</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;0700&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The mode of the include directory</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>include_dir_purge</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Sets whether to purge the include_dir of unmanaged files</p>
 </div>
       
     </li>
@@ -2151,23 +2241,6 @@
         <pre class="lines">
 
 
-447
-448
-449
-450
-451
-452
-453
-454
-455
-456
-457
-458
-459
-460
-461
-462
-463
 464
 465
 466
@@ -2309,10 +2382,56 @@
 602
 603
 604
-605</pre>
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/server.pp', line 447</span>
+        <pre class="code"><span class="info file"># File 'manifests/server.pp', line 464</span>
 
 class ssh::server (
   Array[String[1]] $packages = [],
@@ -2333,6 +2452,7 @@ class ssh::server (
   Boolean $service_enable = true,
   Boolean $service_hasrestart = true,
   Boolean $service_hasstatus = true,
+  Hash $config_files = {},
   # all paramters below this line are for sshd_config
   Optional[Array[String[1]]] $accept_env = undef,
   Optional[Enum[&#39;any&#39;, &#39;inet&#39;, &#39;inet6&#39;]] $address_family = undef,
@@ -2375,7 +2495,11 @@ class ssh::server (
   Optional[Array[String[1]]] $host_key_algorithms = undef,
   Optional[Ssh::Yes_no] $ignore_rhosts = undef,
   Optional[Ssh::Yes_no] $ignore_user_known_hosts = undef,
-  Optional[String[1]] $include = undef,
+  Optional[Stdlib::Absolutepath] $include = undef,
+  String[1] $include_dir_owner = &#39;root&#39;,
+  String[1] $include_dir_group = &#39;root&#39;,
+  Stdlib::Filemode $include_dir_mode = &#39;0700&#39;,
+  Boolean $include_dir_purge = true,
   Optional[String[1]] $ip_qos = undef,
   Optional[Ssh::Yes_no] $kbd_interactive_authentication = undef,
   Optional[Ssh::Yes_no] $kerberos_authentication = undef,
@@ -2450,6 +2574,24 @@ class ssh::server (
     content =&gt; template(&#39;ssh/sshd_config.erb&#39;),
   }
 
+  if $include {
+    $include_dir = dirname($include)
+    file { &#39;sshd_config_include_dir&#39;:
+      ensure  =&gt; &#39;directory&#39;,
+      path    =&gt; $include_dir,
+      owner   =&gt; $include_dir_owner,
+      group   =&gt; $include_dir_group,
+      mode    =&gt; $include_dir_mode,
+      purge   =&gt; $include_dir_purge,
+      recurse =&gt; $include_dir_purge,
+      force   =&gt; $include_dir_purge,
+      require =&gt; Package[$packages],
+      notify  =&gt; Service[&#39;sshd_service&#39;],
+    }
+  } else {
+    $include_dir = undef
+  }
+
   if $banner_content != undef {
     file { &#39;sshd_banner&#39; :
       ensure  =&gt; file,
@@ -2470,6 +2612,12 @@ class ssh::server (
       hasrestart =&gt; $service_hasrestart,
       hasstatus  =&gt; $service_hasstatus,
       subscribe  =&gt; File[&#39;sshd_config&#39;],
+    }
+  }
+
+  $config_files.each |$file, $lines| {
+    ssh::config_file_server { $file:
+      * =&gt; $lines,
     }
   }
 }</pre>

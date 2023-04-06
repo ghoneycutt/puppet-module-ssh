@@ -432,13 +432,31 @@
   
     <li>
       
+        <span class='name'>config_files</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Hash of configuration entries passed to ssh::config_file_client define. Please check the docs for ssh::config_file_client and the type Ssh::Ssh_Config for a list and details of the parameters usable here.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>host</span>
       
       
-        <span class='type'>(<tt>String[1]</tt>)</span>
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>&#39;*&#39;</tt>)</em>
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
       
       
         &mdash;
@@ -1263,7 +1281,7 @@
         <span class='name'>include</span>
       
       
-        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+        <span class='type'>(<tt>Optional[Stdlib::Absolutepath]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -1272,6 +1290,78 @@
         &mdash;
         <div class='inline'>
 <p>Value(s) passed to Include parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#Include">man.openbsd.org/ssh_config#Include</a> for possible values.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>include_dir_owner</span>
+      
+      
+        <span class='type'>(<tt>String[1]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;root&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The owner of the include directory</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>include_dir_group</span>
+      
+      
+        <span class='type'>(<tt>String[1]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;root&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The group of the include directory</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>include_dir_mode</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Filemode</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;0755&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The mode of the include directory</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>include_dir_purge</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Sets whether to purge the include_dir of unmanaged files</p>
 </div>
       
     </li>
@@ -2187,23 +2277,6 @@
         <pre class="lines">
 
 
-452
-453
-454
-455
-456
-457
-458
-459
-460
-461
-462
-463
-464
-465
-466
-467
-468
 469
 470
 471
@@ -2386,10 +2459,55 @@
 648
 649
 650
-651</pre>
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 452</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 469</span>
 
 class ssh (
   Hash $config_entries = {},
@@ -2411,8 +2529,9 @@ class ssh (
   Optional[Stdlib::Absolutepath] $packages_source = undef,
   Boolean $purge_keys = true,
   String[1] $root_ssh_config_content = &quot;# This file is being maintained by Puppet.\n# DO NOT EDIT\n&quot;,
+  Hash $config_files = {},
   # class parameters below this line directly correlate with ssh_config parameters
-  String[1] $host = &#39;*&#39;,
+  Optional[String[1]] $host = undef,
   Optional[Enum[&#39;yes&#39;, &#39;no&#39;, &#39;ask&#39;, &#39;confirm&#39;]] $add_keys_to_agent = undef,
   Optional[Enum[&#39;any&#39;, &#39;inet&#39;, &#39;inet6&#39;]] $address_family = undef,
   Optional[Ssh::Yes_no] $batch_mode = undef,
@@ -2458,7 +2577,11 @@ class ssh (
   Optional[String[1]] $identity_agent = undef,
   Optional[Array[String[1]]] $identity_file = undef,
   Optional[Array[String[1]]] $ignore_unknown = undef,
-  Optional[String[1]] $include = undef,
+  Optional[Stdlib::Absolutepath] $include = undef,
+  String[1] $include_dir_owner = &#39;root&#39;,
+  String[1] $include_dir_group = &#39;root&#39;,
+  Stdlib::Filemode $include_dir_mode = &#39;0755&#39;,
+  Boolean $include_dir_purge = true,
   Optional[String[1]] $ip_qos = undef,
   Optional[Ssh::Yes_no] $kbd_interactive_authentication = undef,
   Optional[Array[String[1]]] $kbd_interactive_devices = undef,
@@ -2529,6 +2652,23 @@ class ssh (
     content =&gt; template(&#39;ssh/ssh_config.erb&#39;),
   }
 
+  if $include {
+    $include_dir = dirname($include)
+    file { &#39;ssh_config_include_dir&#39;:
+      ensure  =&gt; &#39;directory&#39;,
+      path    =&gt; $include_dir,
+      owner   =&gt; $include_dir_owner,
+      group   =&gt; $include_dir_group,
+      mode    =&gt; $include_dir_mode,
+      purge   =&gt; $include_dir_purge,
+      recurse =&gt; $include_dir_purge,
+      force   =&gt; $include_dir_purge,
+      require =&gt; Package[$packages],
+    }
+  } else {
+    $include_dir = undef
+  }
+
   if $manage_root_ssh_config == true {
     exec { &quot;mkdir_p-${facts[&#39;root_home&#39;]}/.ssh&quot;:
       command =&gt; &quot;mkdir -p ${facts[&#39;root_home&#39;]}/.ssh&quot;,
@@ -2584,6 +2724,12 @@ class ssh (
   $keys.each |$key,$values| {
     ssh_authorized_key { $key:
       * =&gt; $values,
+    }
+  }
+
+  $config_files.each |$file, $lines| {
+    ssh::config_file_client { $file:
+      * =&gt; $lines,
     }
   }
 
