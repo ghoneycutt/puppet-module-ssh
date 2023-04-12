@@ -111,7 +111,9 @@ HostbasedAuthentication <%= @hostbased_authentication %>
 HostbasedUsesNameFromPacketOnly <%= @hostbased_uses_name_from_packet_only %>
 <% end -%>
 <% if @host_certificate != nil -%>
-HostCertificate <%= @host_certificate %>
+<%   @host_certificate.each do |v| -%>
+HostCertificate <%= v %>
+<%   end -%>
 <% end -%>
 <% if @host_key != nil -%>
 <%   @host_key.each do |v| -%>

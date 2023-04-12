@@ -15,7 +15,7 @@ describe 'ssh::server' do
       'Array of strings (optional)' => {
         name:     ['accept_env', 'allow_groups', 'allow_users', 'authentication_methods',
                    'authorized_keys_file', 'ca_signature_algorithms', 'ciphers', 'custom',
-                   'deny_groups', 'deny_users', 'host_key', 'host_key_algorithms',
+                   'deny_groups', 'deny_users', 'host_key', 'host_certificate', 'host_key_algorithms',
                    'hostbased_accepted_algorithms', 'kex_algorithms', 'listen_address', 'macs',
                    'packages', 'permit_listen', 'permit_open', 'pubkey_accepted_algorithms',
                    'set_env'],
@@ -63,7 +63,7 @@ describe 'ssh::server' do
         name:     ['authorized_keys_command', 'authorized_keys_command_user',
                    'authorized_principals_command', 'authorized_principals_command_user',
                    'authorized_principals_file', 'banner', 'banner_content', 'chroot_directory',
-                   'force_command', 'host_certificate', 'host_key_agent', 'ip_qos', 'log_verbose',
+                   'force_command', 'host_key_agent', 'ip_qos', 'log_verbose',
                    'max_startups', 'permit_user_environment', 'per_source_max_startups',
                    'per_source_net_block_size', 'pid_file', 'rdomain', 'rekey_limit', 'revoked_keys',
                    'subsystem', 'trusted_user_ca_keys', 'version_addendum', 'xauth_location'],
