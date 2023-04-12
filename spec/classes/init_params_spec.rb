@@ -55,7 +55,7 @@ describe 'ssh' do
     'hostname'                             => { str: 'Hostname',                          val: ['testhost', '242.242.242.242'], },
     'identities_only'                      => { str: 'IdentitiesOnly',                    val: ['yes', 'no'], },
     'identity_agent'                       => { str: 'IdentityAgent',                     val: ['/test/ing', '~/test/ing'], },
-    'identity_file'                        => { str: 'IdentityFile',                      val: [['~/.ssh/id_dsa'], ['/test/ing1', '/test/ing2']], sep: ',', },
+    'identity_file'                        => { str: 'IdentityFile',                      val: [['~/.ssh/id_dsa'], ['/test/ing1', '/test/ing2']], sep: "\n  IdentityFile ", },
     'ignore_unknown'                       => { str: 'IgnoreUnknown',                     val: [['AddKeysToAgent'], ['AddKeysToAgent', 'UseKeychain']], sep: ',', },
     'include'                              => { str: 'Include',                           val: ['/test/ing', '/test/ing/*.conf'], },
     'ip_qos'                               => { str: 'IPQoS',                             val: ['af42', 'af42 cs3'], },
