@@ -50,6 +50,9 @@
 # @param packages
 #   Installation package(s) for the SSH client.
 #
+# @param packages_ensure
+#   Ensure parameter to SSH client package(s).
+#
 # @param packages_adminfile
 #   Path to adminfile for SSH client package(s) installation. Needed for Solaris.
 #
@@ -482,6 +485,7 @@ class ssh (
   Boolean $manage_server = true,
   Boolean $manage_sshkey = true,
   Array[String[1]] $packages = [],
+  Variant[Enum['present', 'absent', 'purged', 'disabled', 'installed', 'latest'], String[1]] $packages_ensure = 'installed',
   Optional[Stdlib::Absolutepath] $packages_adminfile = undef,
   Optional[Stdlib::Absolutepath] $packages_source = undef,
   Boolean $purge_keys = true,
@@ -594,7 +598,7 @@ class ssh (
 ) {
 
   package { $packages:
-    ensure    => installed,
+    ensure    => $packages_ensure,
     source    => $packages_source,
     adminfile => $packages_adminfile,
     before    => 'File[ssh_config]',

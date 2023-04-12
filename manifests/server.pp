@@ -37,6 +37,9 @@
 #   Installation package(s) for the SSH server. Leave empty if the client package(s) also
 #   include the server binaries (eg: Suse SLES and SLED).
 #
+# @param packages_ensure
+#   Ensure parameter to SSH server package(s).
+#
 # @param packages_adminfile
 #   Path to adminfile for SSH server package(s) installation. Needed for Solaris.
 #
@@ -463,6 +466,7 @@
 #
 class ssh::server (
   Array[String[1]] $packages = [],
+  Variant[Enum['present', 'absent', 'purged', 'disabled', 'installed', 'latest'], String[1]] $packages_ensure = 'installed',
   Optional[Stdlib::Absolutepath] $packages_adminfile = undef,
   Optional[Stdlib::Absolutepath] $packages_source = undef,
   Stdlib::Absolutepath $config_path = '/etc/ssh/sshd_config',
@@ -587,7 +591,7 @@ class ssh::server (
 ) {
 
   package { $packages:
-    ensure    => installed,
+    ensure    => $packages_ensure,
     source    => $packages_source,
     adminfile => $packages_adminfile,
     before    => 'File[sshd_config]',

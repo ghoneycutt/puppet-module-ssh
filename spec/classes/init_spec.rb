@@ -370,6 +370,12 @@ describe 'ssh' do
       it { is_expected.to contain_package('strings') }
     end
 
+    context "on #{os} with packages_ensure set to valid latest" do
+      let(:params) { { packages_ensure: 'latest' } }
+
+      it { is_expected.to contain_package('openssh-clients').with_ensure('latest') }
+    end
+
     context "on #{os} with packages_adminfile set to valid /unit/test" do
       let(:params) { { packages_adminfile: '/unit/test' } }
 
