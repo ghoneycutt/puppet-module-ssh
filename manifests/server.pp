@@ -33,6 +33,9 @@
 # @param manage_service
 #   Boolean to choose if the SSH daemon should be managed.
 #
+# @param manage_packages
+#   Boolean to choose if SSH client packages should be managed.
+#
 # @param packages
 #   Installation package(s) for the SSH server. Leave empty if the client package(s) also
 #   include the server binaries (eg: Suse SLES and SLED).
@@ -465,6 +468,7 @@
 #   Uses one array item per line to be added.
 #
 class ssh::server (
+  Boolean $manage_packages = true,
   Array[String[1]] $packages = [],
   Variant[Enum['present', 'absent', 'purged', 'disabled', 'installed', 'latest'], String[1]] $packages_ensure = 'installed',
   Optional[Stdlib::Absolutepath] $packages_adminfile = undef,
@@ -589,12 +593,16 @@ class ssh::server (
   # the sshd_config file.
   Optional[Array[String[1]]] $custom = undef,
 ) {
-
-  package { $packages:
-    ensure    => $packages_ensure,
-    source    => $packages_source,
-    adminfile => $packages_adminfile,
-    before    => 'File[sshd_config]',
+  if $manage_packages {
+    package { $packages:
+      ensure    => $packages_ensure,
+      source    => $packages_source,
+      adminfile => $packages_adminfile,
+      before    => 'File[sshd_config]',
+    }
+    $packages_require = Package[$packages]
+  } else {
+    $packages_require = undef
   }
 
   file { 'sshd_config' :
@@ -617,7 +625,7 @@ class ssh::server (
       purge   => $include_dir_purge,
       recurse => $include_dir_purge,
       force   => $include_dir_purge,
-      require => Package[$packages],
+      require => $packages_require,
       notify  => Service['sshd_service'],
     }
   } else {

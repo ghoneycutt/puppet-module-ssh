@@ -151,6 +151,26 @@ describe 'ssh::server' do
   on_supported_os(redhat).sort.each do |os, os_facts|
     let(:facts) { os_facts }
 
+    context "on #{os} with manage_packages set to valid false" do
+      let(:params) { { manage_packages: false } }
+
+      it { is_expected.not_to contain_package('openssh-server') }
+    end
+
+    context "on #{os} with manage_packages set to valid false when include dir is set" do
+      let(:params) { { manage_packages: false, include: '/test/ing' } }
+
+      it { is_expected.not_to contain_package('openssh-server') }
+      it { is_expected.to contain_file('sshd_config_include_dir').with_require(nil) }
+    end
+
+    context "on #{os} with manage_packages set to valid true when include dir is set" do
+      let(:params) { { manage_packages: true, include: '/test/ing' } }
+
+      it { is_expected.to contain_package('openssh-server') }
+      it { is_expected.to contain_file('sshd_config_include_dir').with_require(['Package[openssh-server]']) }
+    end
+
     context "on #{os} with packages set to valid array [array, of, strings]" do
       let(:params) { { packages: ['array', 'of', 'strings'] } }
 

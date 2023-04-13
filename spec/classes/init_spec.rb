@@ -358,7 +358,27 @@ describe 'ssh' do
     context "on #{os} with manage_sshkey set to valid false" do
       let(:params) { { manage_sshkey: false } }
 
-      it { is_expected.not_to contain_resources('sshkey') }
+      it { is_expected.not_to contain_package('sshkey') }
+    end
+
+    context "on #{os} with manage_packages set to valid false" do
+      let(:params) { { manage_packages: false } }
+
+      it { is_expected.not_to contain_package('openssh-clients') }
+    end
+
+    context "on #{os} with manage_packages set to valid false when include dir is set" do
+      let(:params) { { manage_packages: false, include: '/test/ing' } }
+
+      it { is_expected.not_to contain_package('openssh-clients') }
+      it { is_expected.to contain_file('ssh_config_include_dir').with_require(nil) }
+    end
+
+    context "on #{os} with manage_packages set to valid true when include dir is set" do
+      let(:params) { { manage_packages: true, include: '/test/ing' } }
+
+      it { is_expected.to contain_package('openssh-clients') }
+      it { is_expected.to contain_file('ssh_config_include_dir').with_require(['Package[openssh-clients]']) }
     end
 
     context "on #{os} with packages set to valid array [array, of, strings]" do
