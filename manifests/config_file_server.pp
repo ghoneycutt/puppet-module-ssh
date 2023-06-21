@@ -1,7 +1,8 @@
 # @summary Create config files to be used 
 #
-# Manage an entry in ~/.ssh/config for a particular user. Lines model the
-# lines in each Host block.
+# Manage an entry in the ssh server include directory 
+# (e.g. /etc/ssh/sshd-config.d).  Lines model the lines
+# in each Host block.
 #
 # @param owner
 #   User/Owner used for the generated ssh/config file.
@@ -43,5 +44,6 @@ define ssh::config_file_server (
     group   => $group,
     mode    => $mode,
     content => epp('ssh/config_file.epp', { 'lines' => $lines, 'custom' => $custom }),
+    notify => Service['sshd_service'],
   }
 }
