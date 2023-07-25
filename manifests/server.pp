@@ -129,7 +129,7 @@
 #
 # @param challenge_response_authentication
 #   Value(s) passed to ChallengeResponseAuthentication parameter in sshd_config. Unused if empty.
-#   Check https://man.openbsd.org/sshd_config#ChrootDirectory for possible values.
+#   Check https://man.openbsd.org/sshd_config#KbdInteractiveAuthentication for possible values.
 #
 # @param chroot_directory
 #   Value(s) passed to ChrootDirectory parameter in sshd_config. Unused if empty.
