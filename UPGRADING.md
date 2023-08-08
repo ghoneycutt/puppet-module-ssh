@@ -138,7 +138,7 @@ Server configuration file related parameters:
 |AuthorizedPrincipalsFile          |sshd_config_authorized_principals_file  |authorized_principals_file            |
 |Banner                            |sshd_config_banner                      |banner                                |
 |CASignatureAlgorithms             |                                        |ca_signature_algorithms               |
-|ChallengeResponseAuthentication   |sshd_config_challenge_resp_auth         |kbd_interactive_authentication        |
+|ChallengeResponseAuthentication   |sshd_config_challenge_resp_auth         |challenge_response_authentication     |
 |ChrootDirectory                   |sshd_config_chrootdirectory             |chroot_directory                      |
 |Ciphers                           |sshd_config_ciphers                     |ciphers                               |
 |ClientAliveCountMax               |sshd_client_alive_count_max             |client_alive_count_max                |
