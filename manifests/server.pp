@@ -647,5 +647,8 @@ class ssh::server (
     ssh::config_file_server { $file:
       * => $lines,
     }
+    if $manage_service {
+      Ssh::Config_file_server[$file] -> Service[$service_name]
+    }
   }
 }
