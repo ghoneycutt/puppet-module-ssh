@@ -24,11 +24,11 @@ jobs:
             fixtures: .fixtures-latest.yml
             allow_failure: true
           - ruby: 3.2.2
-            puppet: 8
+            puppet: 7
             fixtures: .fixtures.yml
             allow_failure: false
           - ruby: 3.2.2
-            puppet: 8
+            puppet: 7
             fixtures: .fixtures-latest.yml
             allow_failure: true
     env:
@@ -63,7 +63,6 @@ jobs:
           - "ubuntu-2204"
         puppet:
           - "puppet7"
-          - "puppet8"
     env:
       BUNDLE_WITHOUT: development:release
       BEAKER_debug: true
