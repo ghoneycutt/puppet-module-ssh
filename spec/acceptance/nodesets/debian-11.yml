@@ -1,0 +1,27 @@
+HOSTS:
+  debian11:
+    roles:
+      - agent
+    platform: debian-11-amd64
+    hypervisor: docker
+    image: debian:11
+    docker_preserve_image: true
+    docker_cmd:
+      - '/sbin/init'
+    docker_image_commands:
+      - 'apt-get install -y wget net-tools systemd-sysv locales apt-transport-https ca-certificates'
+      - 'echo "LC_ALL=en_US.UTF-8" >> /etc/environment'
+      - 'echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen'
+      - 'echo "LANG=en_US.UTF-8" > /etc/locale.conf'
+      - 'locale-gen en_US.UTF-8'
+    docker_env:
+      - LANG=en_US.UTF-8
+      - LANGUAGE=en_US.UTF-8
+      - LC_ALL=en_US.UTF-8
+    docker_container_name: 'ssh-debian11'
+CONFIG:
+  log_level: debug
+  type: foss
+ssh:
+  password: root
+  auth_methods: ["password"]

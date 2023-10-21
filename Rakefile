@@ -46,6 +46,7 @@ PuppetLint.configuration.send('disable_manifest_whitespace_opening_brace_after')
 PuppetLint.configuration.send('disable_relative')
 PuppetLint.configuration.send('fail_on_warnings')
 
+
 if Bundler.rubygems.find_name('github_changelog_generator').any?
   GitHubChangelogGenerator::RakeTask.new :changelog do |config|
     raise "Set CHANGELOG_GITHUB_TOKEN environment variable eg 'export CHANGELOG_GITHUB_TOKEN=valid_token_here'" if Rake.application.top_level_tasks.include? "changelog" and ENV['CHANGELOG_GITHUB_TOKEN'].nil?
@@ -56,7 +57,7 @@ if Bundler.rubygems.find_name('github_changelog_generator').any?
     config.header = "# Change log\n\nAll notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org)."
     config.add_pr_wo_labels = true
     config.issues = false
-    config.merge_prefix = "### UNCATEGORIZED PRS; LABEL THEM ON GITHUB"
+    config.merge_prefix = "### Merged pull requests:"
     config.configure_sections = {
       "Changed" => {
         "prefix" => "### Changed",

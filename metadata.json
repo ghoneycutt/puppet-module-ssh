@@ -10,11 +10,11 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 8.0.0 < 9.0.0"
+      "version_requirement": ">= 9.0.0 < 10.0.0"
     },
     {
       "name": "puppetlabs/concat",
-      "version_requirement": ">= 7.0.0 < 8.0.0"
+      "version_requirement": ">= 9.0.0 < 10.0.0"
     },
     {
       "name": "puppetlabs/sshkeys_core",
@@ -99,7 +99,7 @@
     }
   ],
   "description": "Manage SSH",
-  "pdk-version": "2.6.1",
+  "pdk-version": "3.0.0",
   "template-url": "https://github.com/tailored-automation/pdk-templates#main",
-  "template-ref": "heads/main-0-g37b4517"
+  "template-ref": "heads/main-0-g53868f7"
 }

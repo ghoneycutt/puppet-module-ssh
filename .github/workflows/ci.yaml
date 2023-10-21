@@ -15,27 +15,35 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - ruby: 2.7.6
+          - ruby: 2.7.8
             puppet: 7
             fixtures: .fixtures.yml
             allow_failure: false
-          - ruby: 2.7.6
+          - ruby: 2.7.8
+            puppet: 7
+            fixtures: .fixtures-latest.yml
+            allow_failure: true
+          - ruby: 3.2.2
+            puppet: 7
+            fixtures: .fixtures.yml
+            allow_failure: false
+          - ruby: 3.2.2
             puppet: 7
             fixtures: .fixtures-latest.yml
             allow_failure: true
     env:
       BUNDLE_WITHOUT: system_tests:release
       PUPPET_GEM_VERSION: "~> ${{ matrix.puppet }}.0"
-      FACTER_GEM_VERSION: "< 4.0"
       FIXTURES_YML: ${{ matrix.fixtures }}
     name: Puppet ${{ matrix.puppet }} (Ruby ${{ matrix.ruby }} fixtures=${{ matrix.fixtures }})
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
+          cache-version: 2
           bundler: '2.1.0'
       - name: Validate
         run: bundle exec rake check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop syntax lint metadata_lint
@@ -47,11 +55,11 @@ jobs:
       fail-fast: false
       matrix:
         set:
+          - "el8"
+          - "el9"
           - "debian-10"
-          - "centos-7"
-          - "rocky-8"
-          - "rocky-9"
-          - "ubuntu-1804"
+          - "debian-11"
+          - "ubuntu-2004"
           - "ubuntu-2204"
         puppet:
           - "puppet7"
@@ -71,12 +79,13 @@ jobs:
             sudo apt-get remove mysql-server --purge
             sudo apt-get install apparmor-profiles
             sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7'
           bundler-cache: true
+          cache-version: 2
           bundler: '2.1.0'
       - name: Run tests
         run: bundle exec rake beaker
