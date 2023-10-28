@@ -17,7 +17,7 @@ ruby_version_segments = Gem::Version.new(RUBY_VERSION.dup).segments
 minor_version = ruby_version_segments[0..1].join('.')
 
 group :development do
-  gem "voxpupuli-test", '5.4.1',    require: false
+  gem "voxpupuli-test", '6.0.0',    require: false
   gem "faraday", '~> 1.0',          require: false
   gem "github_changelog_generator", require: false
   gem "puppet-blacksmith",          require: false
