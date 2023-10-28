@@ -3,10 +3,10 @@ fixtures:
   repositories:
     stdlib:
       repo: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
-      ref: 'v8.0.0'
+      ref: 'v9.4.0'
     concat:
       repo: 'https://github.com/puppetlabs/puppetlabs-concat.git'
-      ref: 'v7.0.0'
+      ref: 'v9.0.0'
     sshkeys:
       repo: 'https://github.com/puppetlabs/puppetlabs-sshkeys_core.git'
-      ref: 'v2.3.0'
+      ref: 'v2.4.0'
