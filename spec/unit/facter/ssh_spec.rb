@@ -20,8 +20,7 @@ describe 'Facter::Util::Fact' do
           Facter.clear
           # Stub exec for older Facter Otherwise this spec will fail with
           # unexpected invocation: Facter::Util::Resolution.exec('uname -s')
-          Facter::Util::Resolution.stubs(:exec)
-          Facter::Util::Resolution.stubs(:exec).with('ssh -V 2>&1').returns(ssh_version_string.to_s)
+          allow(Facter::Util::Resolution).to receive(:exec).with('ssh -V 2>&1').and_return(ssh_version_string.to_s)
         end
 
         context "ssh_version should return <#{result[:ssh_version]}>" do

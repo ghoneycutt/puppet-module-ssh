@@ -1,17 +1,17 @@
 HOSTS:
-  rocky-9:
+  el9:
     roles:
       - agent
     platform: el-9-x86_64
     hypervisor: docker
-    image: rockylinux/rockylinux:9
+    image: almalinux:9
     docker_preserve_image: true
     docker_cmd:
       - '/usr/sbin/init'
     docker_image_commands:
       - 'dnf install -y dnf-utils'
       - 'dnf config-manager --set-enabled crb'
-      - 'dnf install -y wget which cronie iproute initscripts langpacks-en glibc-all-langpacks glibc-langpack-en cpio'
+      - 'dnf install -y wget which cronie iproute initscripts'
     docker_env:
       - LANG=en_US.UTF-8
       - LANGUAGE=en_US.UTF-8

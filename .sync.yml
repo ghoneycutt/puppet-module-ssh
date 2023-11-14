@@ -6,18 +6,27 @@
 # See https://github.com/puppetlabs/pdk-templates/blob/main/config_defaults.yml
 # for the default values.
 ---
-appveyor.yml:
-  delete: true
-
-.gitlab-ci.yml:
-  delete: true
-
-.travis.yml:
-  delete: true
-
+.github/workflows/ci.yaml:
+  acceptance_matrix:
+    set:
+      - el7
+      - el8
+      - el9
+      - debian-11
+      - ubuntu-2004
+      - ubuntu-2204
+    puppet:
+      - puppet7
+      - puppet8
+.github/workflows/release.yaml:
+  username: ghoneycutt
 spec/spec_helper.rb:
   coverage_report: true
   minimum_code_coverage_percentage: 100
-  # add hiera data for testing
-  hiera_config: 'spec/fixtures/hiera/hiera.yaml'
-  mock_with: ':mocha'
+  hiera_config: spec/hiera.yaml
+appveyor.yml:
+  delete: true
+.gitlab-ci.yml:
+  delete: true
+.travis.yml:
+  delete: true
