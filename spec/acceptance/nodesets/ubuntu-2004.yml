@@ -1,21 +1,24 @@
 HOSTS:
-  ubuntu1804:
+  ubuntu2004:
     roles:
       - agent
-    platform: ubuntu-18.04-amd64
+    platform: ubuntu-20.04-amd64
     hypervisor : docker
-    image: ubuntu:18.04
+    image: ubuntu:20.04
     docker_preserve_image: true
     docker_cmd: '["/sbin/init"]'
     docker_image_commands:
       - "rm -f /etc/dpkg/dpkg.cfg.d/excludes"
-      - 'apt-get install -y wget net-tools locales apt-transport-https ca-certificates'
+      - 'apt-get install -y wget net-tools iproute2 locales apt-transport-https ca-certificates'
       - 'locale-gen en_US.UTF-8'
-    docker_container_name: 'ssh-ubuntu1804'
+    docker_env:
+      - LANG=en_US.UTF-8
+      - LANGUAGE=en_US.UTF-8
+      - LC_ALL=en_US.UTF-8
+    docker_container_name: 'ssh-ubuntu2004'
 CONFIG:
   log_level: debug
   type: foss
 ssh:
   password: root
   auth_methods: ["password"]
-
