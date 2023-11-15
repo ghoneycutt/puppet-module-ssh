@@ -138,7 +138,9 @@ Host <%= @host %>
   IdentityAgent <%= @identity_agent %>
 <% end -%>
 <% if @identity_file != nil -%>
-  IdentityFile <%= @identity_file.join(',') %>
+<%   @identity_file.each do |v| -%>
+  IdentityFile <%= v %>
+<%   end -%>
 <% end -%>
 <% if @ignore_unknown != nil -%>
   IgnoreUnknown <%= @ignore_unknown.join(',') %>
