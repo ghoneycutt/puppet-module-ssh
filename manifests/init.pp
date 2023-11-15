@@ -47,8 +47,14 @@
 # @param manage_sshkey
 #   Boolean to choose if SSH keys should be managed. Also see $purge_keys.
 #
+# @param manage_packages
+#   Boolean to choose if SSH client packages should be managed.
+#
 # @param packages
 #   Installation package(s) for the SSH client.
+#
+# @param packages_ensure
+#   Ensure parameter to SSH client package(s).
 #
 # @param packages_adminfile
 #   Path to adminfile for SSH client package(s) installation. Needed for Solaris.
@@ -481,7 +487,9 @@ class ssh (
   Boolean $manage_root_ssh_config = false,
   Boolean $manage_server = true,
   Boolean $manage_sshkey = true,
+  Boolean $manage_packages = true,
   Array[String[1]] $packages = [],
+  Variant[Enum['present', 'absent', 'purged', 'disabled', 'installed', 'latest'], String[1]] $packages_ensure = 'installed',
   Optional[Stdlib::Absolutepath] $packages_adminfile = undef,
   Optional[Stdlib::Absolutepath] $packages_source = undef,
   Boolean $purge_keys = true,
@@ -592,12 +600,16 @@ class ssh (
   # the ssh_config file.
   Optional[Array[String[1]]] $custom = undef
 ) {
-
-  package { $packages:
-    ensure    => installed,
-    source    => $packages_source,
-    adminfile => $packages_adminfile,
-    before    => 'File[ssh_config]',
+  if $manage_packages {
+    package { $packages:
+      ensure    => $packages_ensure,
+      source    => $packages_source,
+      adminfile => $packages_adminfile,
+      before    => 'File[ssh_config]',
+    }
+    $packages_require = Package[$packages]
+  } else {
+    $packages_require = undef
   }
 
   file { 'ssh_config' :
@@ -620,7 +632,7 @@ class ssh (
       purge   => $include_dir_purge,
       recurse => $include_dir_purge,
       force   => $include_dir_purge,
-      require => Package[$packages],
+      require => $packages_require,
     }
   } else {
     $include_dir = undef
