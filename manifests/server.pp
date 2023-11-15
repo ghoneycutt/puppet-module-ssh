@@ -517,7 +517,7 @@ class ssh::server (
   Optional[Array[String[1]]] $hostbased_accepted_algorithms = undef,
   Optional[Ssh::Yes_no] $hostbased_authentication = undef,
   Optional[Ssh::Yes_no] $hostbased_uses_name_from_packet_only = undef,
-  Optional[String[1]] $host_certificate = undef,
+  Optional[Array[String[1]]] $host_certificate = undef,
   Optional[Array[String[1]]] $host_key = undef,
   Optional[String[1]] $host_key_agent = undef,
   Optional[Array[String[1]]] $host_key_algorithms = undef,

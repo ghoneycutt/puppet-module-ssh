@@ -46,7 +46,7 @@ describe 'ssh::server' do
     'hostbased_accepted_algorithms'        => { str: 'HostbasedAcceptedAlgorithms',      val: [['ssh-ed25519'], ['ssh-ed25519', 'rsa-sha2-512']], sep: ',', },
     'hostbased_authentication'             => { str: 'HostbasedAuthentication',          val: ['yes', 'no'], },
     'hostbased_uses_name_from_packet_only' => { str: 'HostbasedUsesNameFromPacketOnly',  val: ['yes', 'no'], },
-    'host_certificate'                     => { str: 'HostCertificate',                  val: ['/test/ing', '/test/ing2'], },
+    'host_certificate'                     => { str: 'HostCertificate',                  val: [['/test/ing'], ['/test/ing1', '/test/ing2']], sep: "\nHostCertificate ", },
     'host_key'                             => { str: 'HostKey',                          val: [['/test/ing'], ['/test/ing1', '/test/ing2']], sep: "\nHostKey ", },
     'host_key_agent'                       => { str: 'HostKeyAgent',                     val: ['/test/ing', '/test/ing2'], },
     'host_key_algorithms'                  => { str: 'HostKeyAlgorithms',                val: [['ssh-ed25519'], ['ssh-ed25519', 'rsa-sha2-512']], sep: ',', },
