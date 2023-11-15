@@ -605,6 +605,12 @@ class ssh::server (
     $packages_require = undef
   }
 
+  if $manage_service {
+    $notify_service = Service['sshd_service']
+  } else {
+    $notify_service = undef
+  }
+
   file { 'sshd_config' :
     ensure  => file,
     path    => $config_path,
@@ -626,7 +632,7 @@ class ssh::server (
       recurse => $include_dir_purge,
       force   => $include_dir_purge,
       require => $packages_require,
-      notify  => Service['sshd_service'],
+      notify  => $notify_service,
     }
   } else {
     $include_dir = undef

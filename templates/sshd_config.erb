@@ -3,6 +3,9 @@
 #
 # See https://man.openbsd.org/sshd_config for more info
 
+<% if @include != nil -%>
+Include <%= @include %>
+<% end -%>
 <% if @accept_env != nil -%>
 <%   @accept_env.each do |v| -%>
 AcceptEnv <%= v %>
@@ -131,9 +134,6 @@ IgnoreRhosts <%= @ignore_rhosts %>
 <% end -%>
 <% if @ignore_user_known_hosts != nil -%>
 IgnoreUserKnownHosts <%= @ignore_user_known_hosts %>
-<% end -%>
-<% if @include != nil -%>
-Include <%= @include %>
 <% end -%>
 <% if @ip_qos != nil -%>
 IPQoS <%= @ip_qos %>

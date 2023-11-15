@@ -106,6 +106,7 @@ describe 'ssh::server' do
             purge: 'true',
             recurse: 'true',
             force: 'true',
+            notify: 'Service[sshd_service]',
           )
         end
       else
@@ -143,7 +144,7 @@ describe 'ssh::server' do
     supported_os: [
       {
         'operatingsystem'        => 'RedHat',
-        'operatingsystemrelease' => ['7'],
+        'operatingsystemrelease' => ['8'],
       },
     ],
   }

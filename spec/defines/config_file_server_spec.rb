@@ -31,9 +31,23 @@ describe 'ssh::config_file_server' do
             'group'   => 'root',
             'mode'    => '0600',
             'content' => content_header,
+            'notify'  => 'Service[sshd_service]',
           },
         )
       end
+    end
+
+    context 'when not managing the sshd service' do
+      let(:pre_condition) do
+        <<-PP
+          class { 'ssh::server':
+            manage_service => false,
+          }
+        PP
+      end
+
+      it { is_expected.to compile.with_all_deps }
+      it { is_expected.to contain_file('/etc/ssh/sshd_config.d/ing.conf').without_notify }
     end
 
     context "on #{os} with ensure set to valid value" do
