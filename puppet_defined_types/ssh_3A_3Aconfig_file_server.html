@@ -6,7 +6,7 @@
 <title>
   Defined Type: ssh::config_file_server
   
-    &mdash; Documentation by YARD 0.9.28
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
@@ -80,6 +80,7 @@
 
   </div>
 </div>
+
 
 
 <div class="tags">
@@ -226,7 +227,8 @@
 44
 45
 46
-47</pre>
+47
+48</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/config_file_server.pp', line 26</span>
@@ -251,6 +253,7 @@ define ssh::config_file_server (
     group   =&gt; $group,
     mode    =&gt; $mode,
     content =&gt; epp(&#39;ssh/config_file.epp&#39;, { &#39;lines&#39; =&gt; $lines, &#39;custom&#39; =&gt; $custom }),
+    notify  =&gt; $ssh::server::notify_service,
   }
 }</pre>
       </td>

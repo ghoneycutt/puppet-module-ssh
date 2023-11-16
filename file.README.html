@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.28
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
@@ -124,9 +124,9 @@
 
 <p>Please keep in mind that this module does not include any sanity checks. Depending on the set parameters or values and the running version of SSH the resulting configuration could stop SSH from working.</p>
 
-<p>See <a href="REFERENCE.md">REFERENCE.md</a> for a list of all parameters.</p>
+<p>See <a href="REFERENCE_md.html">REFERENCE.md</a> for a list of all parameters.</p>
 
-<h1 id="label-Manage+user-27s+ssh_authorized_keys">Manage user&#39;s ssh_authorized_keys</h1>
+<h1 id="label-Manage+user-27s+ssh_authorized_keys">Manage user’s ssh_authorized_keys</h1>
 
 <p>The hash ssh::keys is passed to ssh_authorized_key type. Because of this, you may specify any valid parameter for ssh_authorized_key. See the <a href="https://github.com/puppetlabs/puppetlabs-sshkeys_core/blob/main/REFERENCE.md#ssh_authorized_key">Type Reference</a> for a complete list.</p>
 
@@ -187,19 +187,72 @@ ssh::config_entry { &#39;jenkins github.com&#39;:
 
 <h2 id="label-Sample+usage-3A">Sample usage:</h2>
 
-<p>Manage the client configuration file /etc/ssh/ssh_config.d/50-redhat.conf with some directives and default file permissions (0644 root:root). <code>yaml ssh::include: /etc/ssh/ssh_config.d/*.conf ssh::config_files:   &#39;50-redhat&#39;:     lines:       Match: &#39;final all&#39;       Include: &#39;/etc/crypto-policies/back-ends/openssh.config&#39;       GSSAPIAuthentication: &#39;yes&#39;       ForwardX11Trusted: &#39;yes&#39; </code></p>
+<p>Manage the client configuration file /etc/ssh/ssh_config.d/50-redhat.conf with some directives and default file permissions (0644 root:root).</p>
 
-<p>Manage the server configuration file /etc/ssh/sshd_config.d/50-redhat.conf with some directives and default file permissions (0600 root:root). <code>yaml ssh::server::include: /etc/ssh/sshd_config.d/*.conf ssh::server::config_files:   &#39;50-redhat&#39;:     lines:       Include: &#39;/etc/crypto-policies/back-ends/opensshserver.config&#39;       SyslogFacility: &#39;AUTHPRIV&#39;       ChallengeResponseAuthentication: &#39;no&#39;       GSSAPIAuthentication: &#39;yes&#39;       GSSAPICleanupCredentials: &#39;no&#39;       UsePAM: &#39;yes&#39;       X11Forwarding: &#39;yes&#39;       PrintMotd: &#39;no&#39; </code> You can also specify different file permissions by setting $owner, $group, or $mode accordingly: <code>yaml ssh::include: /etc/ssh/ssh_config.d/*.conf ssh::config_files:   &#39;50-redhat&#39;:     owner: &#39;name&#39;     group: &#39;group&#39;     mode:  &#39;0664&#39;     lines:       Match: &#39;final all&#39;       GSSAPIAuthentication: &#39;yes&#39; </code> Using directives that are not supported by this module: <code>yaml ssh::include: /etc/ssh/ssh_config.d/*.conf ssh::config_files:   &#39;50-redhat&#39;:     custom:       - &#39;Directive1 Value1&#39;       - &#39;Directive2 Value2&#39; </code></p>
+<pre class="code ruby"><code class="ruby">ssh::include: /etc/ssh/ssh_config.d/*.conf
+ssh::config_files:
+  &#39;50-redhat&#39;:
+    lines:
+      Match: &#39;final all&#39;
+      Include: &#39;/etc/crypto-policies/back-ends/openssh.config&#39;
+      GSSAPIAuthentication: &#39;yes&#39;
+      ForwardX11Trusted: &#39;yes&#39;
+</code></pre>
 
-<p>Remove the file /etc/ssh/ssh_config.d/50-redhat.conf: <code>yaml ssh::include: /etc/ssh/ssh_config.d/*.conf ssh::config_files:   &#39;50-redhat&#39;:     ensure: &#39;absent&#39; </code></p>
+<p>Manage the server configuration file /etc/ssh/sshd_config.d/50-redhat.conf with some directives and default file permissions (0600 root:root).</p>
+
+<pre class="code ruby"><code class="ruby">ssh::server::include: /etc/ssh/sshd_config.d/*.conf
+ssh::server::config_files:
+  &#39;50-redhat&#39;:
+    lines:
+      Include: &#39;/etc/crypto-policies/back-ends/opensshserver.config&#39;
+      SyslogFacility: &#39;AUTHPRIV&#39;
+      ChallengeResponseAuthentication: &#39;no&#39;
+      GSSAPIAuthentication: &#39;yes&#39;
+      GSSAPICleanupCredentials: &#39;no&#39;
+      UsePAM: &#39;yes&#39;
+      X11Forwarding: &#39;yes&#39;
+      PrintMotd: &#39;no&#39;
+</code></pre>
+
+<p>You can also specify different file permissions by setting $owner, $group, or $mode accordingly:</p>
+
+<pre class="code ruby"><code class="ruby">ssh::include: /etc/ssh/ssh_config.d/*.conf
+ssh::config_files:
+  &#39;50-redhat&#39;:
+    owner: &#39;name&#39;
+    group: &#39;group&#39;
+    mode:  &#39;0664&#39;
+    lines:
+      Match: &#39;final all&#39;
+      GSSAPIAuthentication: &#39;yes&#39;
+</code></pre>
+
+<p>Using directives that are not supported by this module:</p>
+
+<pre class="code ruby"><code class="ruby">ssh::include: /etc/ssh/ssh_config.d/*.conf
+ssh::config_files:
+  &#39;50-redhat&#39;:
+    custom:
+      - &#39;Directive1 Value1&#39;
+      - &#39;Directive2 Value2&#39;
+</code></pre>
+
+<p>Remove the file /etc/ssh/ssh_config.d/50-redhat.conf:</p>
+
+<pre class="code ruby"><code class="ruby">ssh::include: /etc/ssh/ssh_config.d/*.conf
+ssh::config_files:
+  &#39;50-redhat&#39;:
+    ensure: &#39;absent&#39;
+</code></pre>
 
 <h2 id="label-Upgrading">Upgrading</h2>
 
-<p>The SSH module v4 was completely rewritten. In this process all parameters for the SSH configuration files have been renamed. Users that want to upgrade need to change their running configuration. To make your upgrade easier there is a list of old and new parameter names. Consult <a href="UPGRADING.md">UPGRADING.md</a></p>
+<p>The SSH module v4 was completely rewritten. In this process all parameters for the SSH configuration files have been renamed. Users that want to upgrade need to change their running configuration. To make your upgrade easier there is a list of old and new parameter names. Consult <a href="UPGRADING_md.html">UPGRADING.md</a></p>
 
 <h2 id="label-Contributing">Contributing</h2>
 
-<p>Please check <a href="CONTRIBUTING.md">CONTRIBUTING.md</a></p>
+<p>Please check <a href="CONTRIBUTING_md.html">CONTRIBUTING.md</a></p>
 </div></div>
 
       <div id="footer">

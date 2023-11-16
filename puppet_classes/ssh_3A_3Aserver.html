@@ -6,7 +6,7 @@
 <title>
   Puppet Class: ssh::server
   
-    &mdash; Documentation by YARD 0.9.28
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
@@ -82,6 +82,7 @@
 
   </div>
 </div>
+
 
 
 <div class="tags">
@@ -270,6 +271,24 @@
   
     <li>
       
+        <span class='name'>manage_packages</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Boolean to choose if SSH client packages should be managed.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>packages</span>
       
       
@@ -282,6 +301,24 @@
         &mdash;
         <div class='inline'>
 <p>Installation package(s) for the SSH server. Leave empty if the client package(s) also include the server binaries (eg: Suse SLES and SLED).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>packages_ensure</span>
+      
+      
+        <span class='type'>(<tt>Variant[Enum['present', 'absent', 'purged', 'disabled', 'installed', 'latest'], String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;installed&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Ensure parameter to SSH server package(s).</p>
 </div>
       
     </li>
@@ -731,7 +768,7 @@
       
         &mdash;
         <div class='inline'>
-<p>Value(s) passed to ChallengeResponseAuthentication parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#ChrootDirectory">man.openbsd.org/sshd_config#ChrootDirectory</a> for possible values.</p>
+<p>Value(s) passed to ChallengeResponseAuthentication parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#KbdInteractiveAuthentication">man.openbsd.org/sshd_config#KbdInteractiveAuthentication</a> for possible values.</p>
 </div>
       
     </li>
@@ -1065,7 +1102,7 @@
         <span class='name'>host_certificate</span>
       
       
-        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+        <span class='type'>(<tt>Optional[Array[String[1]]]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -2117,7 +2154,7 @@
       
         &mdash;
         <div class='inline'>
-<p>Value(s) passed to UsePAM parameter in sshd_config. Unused if empty. Possible values are &#39;yes&#39; and &#39;no&#39;. There is no mentioning of this parameter in the current man pages of OpenSSH v7. But it is mentioned in the release notes of OpenSSH v8. <a href="https://www.openssh.com/txt/release-8.0">www.openssh.com/txt/release-8.0</a></p>
+<p>Value(s) passed to UsePAM parameter in sshd_config. Unused if empty. Possible values are ‘yes’ and ‘no’. There is no mentioning of this parameter in the current man pages of OpenSSH v7. But it is mentioned in the release notes of OpenSSH v8. <a href="https://www.openssh.com/txt/release-8.0">www.openssh.com/txt/release-8.0</a></p>
 </div>
       
     </li>
@@ -2241,12 +2278,6 @@
         <pre class="lines">
 
 
-464
-465
-466
-467
-468
-469
 470
 471
 472
@@ -2428,13 +2459,33 @@
 648
 649
 650
-651</pre>
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/server.pp', line 464</span>
+        <pre class="code"><span class="info file"># File 'manifests/server.pp', line 470</span>
 
 class ssh::server (
+  Boolean $manage_packages = true,
   Array[String[1]] $packages = [],
+  Variant[Enum[&#39;present&#39;, &#39;absent&#39;, &#39;purged&#39;, &#39;disabled&#39;, &#39;installed&#39;, &#39;latest&#39;], String[1]] $packages_ensure = &#39;installed&#39;,
   Optional[Stdlib::Absolutepath] $packages_adminfile = undef,
   Optional[Stdlib::Absolutepath] $packages_source = undef,
   Stdlib::Absolutepath $config_path = &#39;/etc/ssh/sshd_config&#39;,
@@ -2489,7 +2540,7 @@ class ssh::server (
   Optional[Array[String[1]]] $hostbased_accepted_algorithms = undef,
   Optional[Ssh::Yes_no] $hostbased_authentication = undef,
   Optional[Ssh::Yes_no] $hostbased_uses_name_from_packet_only = undef,
-  Optional[String[1]] $host_certificate = undef,
+  Optional[Array[String[1]]] $host_certificate = undef,
   Optional[Array[String[1]]] $host_key = undef,
   Optional[String[1]] $host_key_agent = undef,
   Optional[Array[String[1]]] $host_key_algorithms = undef,
@@ -2557,12 +2608,22 @@ class ssh::server (
   # the sshd_config file.
   Optional[Array[String[1]]] $custom = undef,
 ) {
+  if $manage_packages {
+    package { $packages:
+      ensure    =&gt; $packages_ensure,
+      source    =&gt; $packages_source,
+      adminfile =&gt; $packages_adminfile,
+      before    =&gt; &#39;File[sshd_config]&#39;,
+    }
+    $packages_require = Package[$packages]
+  } else {
+    $packages_require = undef
+  }
 
-  package { $packages:
-    ensure    =&gt; installed,
-    source    =&gt; $packages_source,
-    adminfile =&gt; $packages_adminfile,
-    before    =&gt; &#39;File[sshd_config]&#39;,
+  if $manage_service {
+    $notify_service = Service[&#39;sshd_service&#39;]
+  } else {
+    $notify_service = undef
   }
 
   file { &#39;sshd_config&#39; :
@@ -2585,8 +2646,8 @@ class ssh::server (
       purge   =&gt; $include_dir_purge,
       recurse =&gt; $include_dir_purge,
       force   =&gt; $include_dir_purge,
-      require =&gt; Package[$packages],
-      notify  =&gt; Service[&#39;sshd_service&#39;],
+      require =&gt; $packages_require,
+      notify  =&gt; $notify_service,
     }
   } else {
     $include_dir = undef

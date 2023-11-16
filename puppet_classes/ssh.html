@@ -6,7 +6,7 @@
 <title>
   Puppet Class: ssh
   
-    &mdash; Documentation by YARD 0.9.28
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
@@ -82,6 +82,7 @@
 
   </div>
 </div>
+
 
 
 <div class="tags">
@@ -342,6 +343,24 @@
   
     <li>
       
+        <span class='name'>manage_packages</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Boolean to choose if SSH client packages should be managed.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>packages</span>
       
       
@@ -354,6 +373,24 @@
         &mdash;
         <div class='inline'>
 <p>Installation package(s) for the SSH client.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>packages_ensure</span>
+      
+      
+        <span class='type'>(<tt>Variant[Enum['present', 'absent', 'purged', 'disabled', 'installed', 'latest'], String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;installed&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Ensure parameter to SSH client package(s).</p>
 </div>
       
     </li>
@@ -2277,12 +2314,6 @@
         <pre class="lines">
 
 
-469
-470
-471
-472
-473
-474
 475
 476
 477
@@ -2504,10 +2535,22 @@
 693
 694
 695
-696</pre>
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 469</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 475</span>
 
 class ssh (
   Hash $config_entries = {},
@@ -2524,7 +2567,9 @@ class ssh (
   Boolean $manage_root_ssh_config = false,
   Boolean $manage_server = true,
   Boolean $manage_sshkey = true,
+  Boolean $manage_packages = true,
   Array[String[1]] $packages = [],
+  Variant[Enum[&#39;present&#39;, &#39;absent&#39;, &#39;purged&#39;, &#39;disabled&#39;, &#39;installed&#39;, &#39;latest&#39;], String[1]] $packages_ensure = &#39;installed&#39;,
   Optional[Stdlib::Absolutepath] $packages_adminfile = undef,
   Optional[Stdlib::Absolutepath] $packages_source = undef,
   Boolean $purge_keys = true,
@@ -2635,12 +2680,16 @@ class ssh (
   # the ssh_config file.
   Optional[Array[String[1]]] $custom = undef
 ) {
-
-  package { $packages:
-    ensure    =&gt; installed,
-    source    =&gt; $packages_source,
-    adminfile =&gt; $packages_adminfile,
-    before    =&gt; &#39;File[ssh_config]&#39;,
+  if $manage_packages {
+    package { $packages:
+      ensure    =&gt; $packages_ensure,
+      source    =&gt; $packages_source,
+      adminfile =&gt; $packages_adminfile,
+      before    =&gt; &#39;File[ssh_config]&#39;,
+    }
+    $packages_require = Package[$packages]
+  } else {
+    $packages_require = undef
   }
 
   file { &#39;ssh_config&#39; :
@@ -2663,7 +2712,7 @@ class ssh (
       purge   =&gt; $include_dir_purge,
       recurse =&gt; $include_dir_purge,
       force   =&gt; $include_dir_purge,
-      require =&gt; Package[$packages],
+      require =&gt; $packages_require,
     }
   } else {
     $include_dir = undef
