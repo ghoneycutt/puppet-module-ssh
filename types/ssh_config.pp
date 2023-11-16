@@ -1,4 +1,5 @@
-# ssh_config configuration file parameters
+# @summary ssh_config configuration file parameters
+#
 type Ssh::Ssh_Config = Struct[
   {
     Optional['Host']                             => Stdlib::Host,

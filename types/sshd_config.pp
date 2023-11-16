@@ -1,4 +1,5 @@
-# sshd_config configuration file parameters
+# @summary sshd_config configuration file parameters
+#
 type Ssh::Sshd_Config = Struct[
   {
     Optional['AcceptEnv']                       => String[1],
