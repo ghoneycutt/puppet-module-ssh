@@ -50,7 +50,9 @@ The following parameters are available in the `ssh` class:
 * [`manage_root_ssh_config`](#-ssh--manage_root_ssh_config)
 * [`manage_server`](#-ssh--manage_server)
 * [`manage_sshkey`](#-ssh--manage_sshkey)
+* [`manage_packages`](#-ssh--manage_packages)
 * [`packages`](#-ssh--packages)
+* [`packages_ensure`](#-ssh--packages_ensure)
 * [`packages_adminfile`](#-ssh--packages_adminfile)
 * [`packages_source`](#-ssh--packages_source)
 * [`purge_keys`](#-ssh--purge_keys)
@@ -272,6 +274,14 @@ Boolean to choose if SSH keys should be managed. Also see $purge_keys.
 
 Default value: `true`
 
+##### <a name="-ssh--manage_packages"></a>`manage_packages`
+
+Data type: `Boolean`
+
+Boolean to choose if SSH client packages should be managed.
+
+Default value: `true`
+
 ##### <a name="-ssh--packages"></a>`packages`
 
 Data type: `Array[String[1]]`
@@ -279,6 +289,14 @@ Data type: `Array[String[1]]`
 Installation package(s) for the SSH client.
 
 Default value: `[]`
+
+##### <a name="-ssh--packages_ensure"></a>`packages_ensure`
+
+Data type: `Variant[Enum['present', 'absent', 'purged', 'disabled', 'installed', 'latest'], String[1]]`
+
+Ensure parameter to SSH client package(s).
+
+Default value: `'installed'`
 
 ##### <a name="-ssh--packages_adminfile"></a>`packages_adminfile`
 
@@ -1245,7 +1263,9 @@ The following parameters are available in the `ssh::server` class:
 * [`config_owner`](#-ssh--server--config_owner)
 * [`config_path`](#-ssh--server--config_path)
 * [`manage_service`](#-ssh--server--manage_service)
+* [`manage_packages`](#-ssh--server--manage_packages)
 * [`packages`](#-ssh--server--packages)
+* [`packages_ensure`](#-ssh--server--packages_ensure)
 * [`packages_adminfile`](#-ssh--server--packages_adminfile)
 * [`packages_source`](#-ssh--server--packages_source)
 * [`service_enable`](#-ssh--server--service_enable)
@@ -1435,6 +1455,14 @@ Boolean to choose if the SSH daemon should be managed.
 
 Default value: `true`
 
+##### <a name="-ssh--server--manage_packages"></a>`manage_packages`
+
+Data type: `Boolean`
+
+Boolean to choose if SSH client packages should be managed.
+
+Default value: `true`
+
 ##### <a name="-ssh--server--packages"></a>`packages`
 
 Data type: `Array[String[1]]`
@@ -1443,6 +1471,14 @@ Installation package(s) for the SSH server. Leave empty if the client package(s)
 include the server binaries (eg: Suse SLES and SLED).
 
 Default value: `[]`
+
+##### <a name="-ssh--server--packages_ensure"></a>`packages_ensure`
+
+Data type: `Variant[Enum['present', 'absent', 'purged', 'disabled', 'installed', 'latest'], String[1]]`
+
+Ensure parameter to SSH server package(s).
+
+Default value: `'installed'`
 
 ##### <a name="-ssh--server--packages_adminfile"></a>`packages_adminfile`
 
@@ -1659,7 +1695,7 @@ Default value: `undef`
 Data type: `Optional[Ssh::Yes_no]`
 
 Value(s) passed to ChallengeResponseAuthentication parameter in sshd_config. Unused if empty.
-Check https://man.openbsd.org/sshd_config#ChrootDirectory for possible values.
+Check https://man.openbsd.org/sshd_config#KbdInteractiveAuthentication for possible values.
 
 Default value: `undef`
 
@@ -1827,7 +1863,7 @@ Default value: `undef`
 
 ##### <a name="-ssh--server--host_certificate"></a>`host_certificate`
 
-Data type: `Optional[String[1]]`
+Data type: `Optional[Array[String[1]]]`
 
 Value(s) passed to HostCertificate parameter in sshd_config. Unused if empty.
 Check https://man.openbsd.org/sshd_config#HostCertificate for possible values.

@@ -2,11 +2,26 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v5.0.0](https://github.com/ghoneycutt/puppet-module-ssh/tree/v5.0.0) (2023-11-16)
+
+[Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v4.1.0...v5.0.0)
+
+### Merged pull requests:
+
+- Notify sshd when conf.d files change [\#419](https://github.com/ghoneycutt/puppet-module-ssh/pull/419) ([treydock](https://github.com/treydock))
+- Test stdlib 9.x with regular unit tests [\#418](https://github.com/ghoneycutt/puppet-module-ssh/pull/418) ([treydock](https://github.com/treydock))
+- Support Puppet 8 and stdlib 9.x [\#417](https://github.com/ghoneycutt/puppet-module-ssh/pull/417) ([treydock](https://github.com/treydock))
+- \(docs\) Fix ChallengeResponseAuthentication Option [\#411](https://github.com/ghoneycutt/puppet-module-ssh/pull/411) ([jplindquist](https://github.com/jplindquist))
+- Update documentation to use correct link to man page [\#410](https://github.com/ghoneycutt/puppet-module-ssh/pull/410) ([arjenz](https://github.com/arjenz))
+- Fix for multiple HostCertificate files [\#405](https://github.com/ghoneycutt/puppet-module-ssh/pull/405) ([Phil-Friderici](https://github.com/Phil-Friderici))
+- Fix for multiple IdentityFile files [\#404](https://github.com/ghoneycutt/puppet-module-ssh/pull/404) ([Phil-Friderici](https://github.com/Phil-Friderici))
+- Add $package\_ensure to package resources and option to manage packages [\#403](https://github.com/ghoneycutt/puppet-module-ssh/pull/403) ([Phil-Friderici](https://github.com/Phil-Friderici))
+
 ## [v4.1.0](https://github.com/ghoneycutt/puppet-module-ssh/tree/v4.1.0) (2023-04-06)
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v4.0.0...v4.1.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - OS support updates and manage config.d files [\#402](https://github.com/ghoneycutt/puppet-module-ssh/pull/402) ([treydock](https://github.com/treydock))
 
@@ -14,7 +29,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.62.0...v4.0.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - V4 again take 2 [\#390](https://github.com/ghoneycutt/puppet-module-ssh/pull/390) ([treydock](https://github.com/treydock))
 - Allow not exporting SSH keys [\#367](https://github.com/ghoneycutt/puppet-module-ssh/pull/367) ([mattock](https://github.com/mattock))
@@ -24,7 +39,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.61.0...v3.62.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add Ubuntu 20.04 support [\#343](https://github.com/ghoneycutt/puppet-module-ssh/pull/343) ([mergwyn](https://github.com/mergwyn))
 - Add debian10 [\#341](https://github.com/ghoneycutt/puppet-module-ssh/pull/341) ([ghoneycutt](https://github.com/ghoneycutt))
@@ -35,7 +50,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.60.1...v3.61.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add support for Ubuntu 18.04 LTS [\#312](https://github.com/ghoneycutt/puppet-module-ssh/pull/312) ([hdep](https://github.com/hdep))
 - Add support for Debian8 [\#311](https://github.com/ghoneycutt/puppet-module-ssh/pull/311) ([hdep](https://github.com/hdep))
@@ -48,7 +63,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.59.1...v3.60.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add for the possibility of an IPv6 address [\#310](https://github.com/ghoneycutt/puppet-module-ssh/pull/310) ([bjvrielink](https://github.com/bjvrielink))
 - Add support for debian9 [\#309](https://github.com/ghoneycutt/puppet-module-ssh/pull/309) ([hdep](https://github.com/hdep))
@@ -57,7 +72,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.59.0...v3.59.1)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Make sure Match-configuration is at the bottom [\#305](https://github.com/ghoneycutt/puppet-module-ssh/pull/305) ([ghoneycutt](https://github.com/ghoneycutt))
 - Fix spec tests by pinning version of Bundler [\#304](https://github.com/ghoneycutt/puppet-module-ssh/pull/304) ([ghoneycutt](https://github.com/ghoneycutt))
@@ -66,7 +81,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.58.0...v3.59.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add support for Puppet 6 [\#298](https://github.com/ghoneycutt/puppet-module-ssh/pull/298) ([Phil-Friderici](https://github.com/Phil-Friderici))
 - Allow puppetlabs-concat \< 6.0.0 [\#296](https://github.com/ghoneycutt/puppet-module-ssh/pull/296) ([djschaap](https://github.com/djschaap))
@@ -75,7 +90,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.57.1...v3.58.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add RevokedKeys option to sshd\_config [\#293](https://github.com/ghoneycutt/puppet-module-ssh/pull/293) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -83,7 +98,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.57.0...v3.57.1)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Disable ServerkeyBits on RHEL 7.4 and later [\#278](https://github.com/ghoneycutt/puppet-module-ssh/pull/278) ([tuxmea](https://github.com/tuxmea))
 - Fixing an inaccuracy within README.md [\#266](https://github.com/ghoneycutt/puppet-module-ssh/pull/266) ([meowomancer](https://github.com/meowomancer))
@@ -92,7 +107,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.56.1...v3.57.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add support for AllowAgentForwarding option in sshd\_config [\#258](https://github.com/ghoneycutt/puppet-module-ssh/pull/258) ([ghoneycutt](https://github.com/ghoneycutt))
 - Add sshd\_config\_authenticationmethods parameter [\#257](https://github.com/ghoneycutt/puppet-module-ssh/pull/257) ([baurmatt](https://github.com/baurmatt))
@@ -101,7 +116,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.56.0...v3.56.1)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - \(ci\) Stop testing on minor releases [\#253](https://github.com/ghoneycutt/puppet-module-ssh/pull/253) ([ghoneycutt](https://github.com/ghoneycutt))
 - \(GH-251\) Fix regex for sshd\_config\_maxstartups [\#252](https://github.com/ghoneycutt/puppet-module-ssh/pull/252) ([ghoneycutt](https://github.com/ghoneycutt))
@@ -110,7 +125,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.55.0...v3.56.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Update concat dependency to be compatible with concat 3.x and 4.x [\#248](https://github.com/ghoneycutt/puppet-module-ssh/pull/248) ([dhollinger](https://github.com/dhollinger))
 
@@ -118,7 +133,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.54.0...v3.55.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add ssh::config\_entry defined type \(with ssh::config\_entries and tests\) [\#246](https://github.com/ghoneycutt/puppet-module-ssh/pull/246) ([Phil-Friderici](https://github.com/Phil-Friderici))
 - Add ssh::config\_entry defined type [\#245](https://github.com/ghoneycutt/puppet-module-ssh/pull/245) ([jeffmccune](https://github.com/jeffmccune))
@@ -127,7 +142,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.53.0...v3.54.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add more SSH CA related fixes and paramaters [\#240](https://github.com/ghoneycutt/puppet-module-ssh/pull/240) ([dhollinger](https://github.com/dhollinger))
 
@@ -135,7 +150,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.52.0...v3.53.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Fix testing [\#241](https://github.com/ghoneycutt/puppet-module-ssh/pull/241) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -143,7 +158,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.51.1...v3.52.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add PrintLastLog, UsePrivilegeSeparation and Compression params [\#225](https://github.com/ghoneycutt/puppet-module-ssh/pull/225) ([mears148](https://github.com/mears148))
 
@@ -151,7 +166,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.51.0...v3.51.1)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Make sure the ssh config dir is present before trying to define the known host file. [\#215](https://github.com/ghoneycutt/puppet-module-ssh/pull/215) ([Arakmar](https://github.com/Arakmar))
 
@@ -159,7 +174,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.50.0...v3.51.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - 223 new params [\#224](https://github.com/ghoneycutt/puppet-module-ssh/pull/224) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -167,7 +182,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.49.1...v3.50.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add support for PubkeyAcceptedKeyTypes option to sshd\_config [\#218](https://github.com/ghoneycutt/puppet-module-ssh/pull/218) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -175,7 +190,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.49.0...v3.49.1)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Fix parameters not compatible with Solaris [\#213](https://github.com/ghoneycutt/puppet-module-ssh/pull/213) ([Phil-Friderici](https://github.com/Phil-Friderici))
 - Support Puppet \>= 4.9 [\#212](https://github.com/ghoneycutt/puppet-module-ssh/pull/212) ([Phil-Friderici](https://github.com/Phil-Friderici))
@@ -186,7 +201,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.48.0...v3.49.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Expose PermitTunnel from sshd\_config [\#186](https://github.com/ghoneycutt/puppet-module-ssh/pull/186) ([andrei693](https://github.com/andrei693))
 
@@ -194,7 +209,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.47.0...v3.48.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Ssh config proxy command [\#198](https://github.com/ghoneycutt/puppet-module-ssh/pull/198) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -202,7 +217,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.46.0...v3.47.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - adding support for KexAlgorithms [\#195](https://github.com/ghoneycutt/puppet-module-ssh/pull/195) ([Asteao](https://github.com/Asteao))
 
@@ -210,7 +225,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.45.0...v3.46.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add configurable param X11UseLocalhost to sshd\_config [\#193](https://github.com/ghoneycutt/puppet-module-ssh/pull/193) ([boandersson](https://github.com/boandersson))
 
@@ -218,7 +233,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.44.0...v3.45.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Ubuntu1604 [\#189](https://github.com/ghoneycutt/puppet-module-ssh/pull/189) ([Phil-Friderici](https://github.com/Phil-Friderici))
 - Ubuntu1604 [\#188](https://github.com/ghoneycutt/puppet-module-ssh/pull/188) ([ghoneycutt](https://github.com/ghoneycutt))
@@ -227,7 +242,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.43.0...v3.44.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Expose TCPKeepAlive from sshd\_config [\#181](https://github.com/ghoneycutt/puppet-module-ssh/pull/181) ([andrei693](https://github.com/andrei693))
 
@@ -235,7 +250,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.42.0...v3.43.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Support Ruby v2.3.1 [\#184](https://github.com/ghoneycutt/puppet-module-ssh/pull/184) ([ghoneycutt](https://github.com/ghoneycutt))
 - Allow puppet-lint v1 so community plugins work [\#182](https://github.com/ghoneycutt/puppet-module-ssh/pull/182) ([ghoneycutt](https://github.com/ghoneycutt))
@@ -244,7 +259,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.41.1...v3.42.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Adding two new options for sshd\_config PermitEmptyPasswords and PermitUserEnvironment [\#178](https://github.com/ghoneycutt/puppet-module-ssh/pull/178) ([jthiesfeld](https://github.com/jthiesfeld))
 
@@ -256,7 +271,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.40.0...v3.41.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add support for UserKnownHostsFile and add multiple files support for GlobalKnownHostsFile [\#177](https://github.com/ghoneycutt/puppet-module-ssh/pull/177) ([ghoneycutt](https://github.com/ghoneycutt))
 - Add support for UserKnownHostsFile and add multiple files support for GlobalKnownHostsFile [\#176](https://github.com/ghoneycutt/puppet-module-ssh/pull/176) ([sergiik](https://github.com/sergiik))
@@ -265,7 +280,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.39.0...v3.40.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Change sshd\_config\_port to support multiple port numbers [\#162](https://github.com/ghoneycutt/puppet-module-ssh/pull/162) ([andrei693](https://github.com/andrei693))
 
@@ -273,7 +288,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.38.0...v3.39.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - allow ecdsa-sha2-nistp256 hostkeys,  add host\_aliases attribute to sshkey resource, add support for PubkeyAuthentication [\#173](https://github.com/ghoneycutt/puppet-module-ssh/pull/173) ([florianfa](https://github.com/florianfa))
 - Remove needless file [\#172](https://github.com/ghoneycutt/puppet-module-ssh/pull/172) ([Phil-Friderici](https://github.com/Phil-Friderici))
@@ -282,7 +297,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.37.1...v3.38.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Prep v3.80.0 [\#171](https://github.com/ghoneycutt/puppet-module-ssh/pull/171) ([ghoneycutt](https://github.com/ghoneycutt))
 - Add param to manage MaxAuthTries in sshd\_config [\#170](https://github.com/ghoneycutt/puppet-module-ssh/pull/170) ([ghoneycutt](https://github.com/ghoneycutt))
@@ -291,7 +306,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.37.0...v3.37.1)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Fix Solaris ssh issue - AddressFamily not supported [\#161](https://github.com/ghoneycutt/puppet-module-ssh/pull/161) ([nbentoumi](https://github.com/nbentoumi))
 
@@ -299,7 +314,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.36.0...v3.37.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add ssh params [\#168](https://github.com/ghoneycutt/puppet-module-ssh/pull/168) ([ghoneycutt](https://github.com/ghoneycutt))
 - Specs for ssh\* facts [\#154](https://github.com/ghoneycutt/puppet-module-ssh/pull/154) ([Phil-Friderici](https://github.com/Phil-Friderici))
@@ -308,7 +323,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.35.0...v3.36.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - UseRoaming on supported versions only [\#157](https://github.com/ghoneycutt/puppet-module-ssh/pull/157) ([anders-larsson](https://github.com/anders-larsson))
 
@@ -316,7 +331,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.34.0...v3.35.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - WIP - Add facts for ssh version [\#133](https://github.com/ghoneycutt/puppet-module-ssh/pull/133) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -324,7 +339,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.33.1...v3.34.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Use roaming [\#149](https://github.com/ghoneycutt/puppet-module-ssh/pull/149) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -332,7 +347,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.33.0...v3.33.1)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Support puppet v430 [\#143](https://github.com/ghoneycutt/puppet-module-ssh/pull/143) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -340,7 +355,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.32.0...v3.33.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Sshd addressfamily [\#142](https://github.com/ghoneycutt/puppet-module-ssh/pull/142) ([ghoneycutt](https://github.com/ghoneycutt))
 - Change formatting in README to be explicit about example types [\#140](https://github.com/ghoneycutt/puppet-module-ssh/pull/140) ([ghoneycutt](https://github.com/ghoneycutt))
@@ -350,7 +365,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.31.0...v3.32.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add a parameter to allow disabling management of the ssh service [\#134](https://github.com/ghoneycutt/puppet-module-ssh/pull/134) ([dfairhurst](https://github.com/dfairhurst))
 
@@ -358,7 +373,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.30.0...v3.31.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - add default SFTP subsystem for SLES12 [\#132](https://github.com/ghoneycutt/puppet-module-ssh/pull/132) ([Phil-Friderici](https://github.com/Phil-Friderici))
 
@@ -366,7 +381,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.29.1...v3.30.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add parameter for KerberosAuthentication option to sshd [\#127](https://github.com/ghoneycutt/puppet-module-ssh/pull/127) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -374,7 +389,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.29.0...v3.29.1)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - fix for hiera\_array\(\) always returning an empty array [\#121](https://github.com/ghoneycutt/puppet-module-ssh/pull/121) ([Phil-Friderici](https://github.com/Phil-Friderici))
 
@@ -382,7 +397,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.28.0...v3.29.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Support Puppetv4 and v3 with future parser [\#120](https://github.com/ghoneycutt/puppet-module-ssh/pull/120) ([ghoneycutt](https://github.com/ghoneycutt))
 - Update README for HostbasedAuthentication and small styling fixes [\#117](https://github.com/ghoneycutt/puppet-module-ssh/pull/117) ([kTitan](https://github.com/kTitan))
@@ -392,7 +407,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.27.2...v3.28.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add parameter for HostbasedAuthentication option in sshd\_config [\#115](https://github.com/ghoneycutt/puppet-module-ssh/pull/115) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -400,7 +415,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.27.1...v3.27.2)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Fix style issues [\#114](https://github.com/ghoneycutt/puppet-module-ssh/pull/114) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -408,7 +423,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.27.0...v3.27.1)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Remove if statement for sshd\_gssapiauthentication. [\#111](https://github.com/ghoneycutt/puppet-module-ssh/pull/111) ([kylefu8](https://github.com/kylefu8))
 
@@ -416,7 +431,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.26.0...v3.27.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Parameterize GSSAPIAuthentication in ssh\_config. [\#109](https://github.com/ghoneycutt/puppet-module-ssh/pull/109) ([kylefu8](https://github.com/kylefu8))
 
@@ -424,7 +439,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.25.0...v3.26.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add parameters for AuthorizedKeysCommand and AuthorizedKeysCommandUser [\#108](https://github.com/ghoneycutt/puppet-module-ssh/pull/108) ([ghoneycutt](https://github.com/ghoneycutt))
 - move empty line into conditional block [\#107](https://github.com/ghoneycutt/puppet-module-ssh/pull/107) ([Phil-Friderici](https://github.com/Phil-Friderici))
@@ -433,7 +448,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.24.0...v3.25.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Sftp settings [\#106](https://github.com/ghoneycutt/puppet-module-ssh/pull/106) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -441,7 +456,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.23.1...v3.24.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Known hosts [\#101](https://github.com/ghoneycutt/puppet-module-ssh/pull/101) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -449,7 +464,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.23.0...v3.23.1)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Support versions of Puppet Enterprise greater than 3.3 [\#100](https://github.com/ghoneycutt/puppet-module-ssh/pull/100) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -457,7 +472,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.22.0...v3.23.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Maxstartups and maxsessions [\#99](https://github.com/ghoneycutt/puppet-module-ssh/pull/99) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -465,7 +480,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.21.0...v3.22.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add sshd listen address [\#94](https://github.com/ghoneycutt/puppet-module-ssh/pull/94) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -473,7 +488,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.20.0...v3.21.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Style fix - no functional changes [\#91](https://github.com/ghoneycutt/puppet-module-ssh/pull/91) ([ghoneycutt](https://github.com/ghoneycutt))
 - Add support for changing HostKey option [\#85](https://github.com/ghoneycutt/puppet-module-ssh/pull/85) ([diddi-](https://github.com/diddi-))
@@ -482,7 +497,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.19.1...v3.20.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - El7 [\#90](https://github.com/ghoneycutt/puppet-module-ssh/pull/90) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -490,7 +505,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.19.0...v3.19.1)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Release v3.19.1 - Bugfix: default GSSAPIDelegateCredentials to undef [\#89](https://github.com/ghoneycutt/puppet-module-ssh/pull/89) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -498,7 +513,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.18.0...v3.19.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add support for GSSAPIDelegateCredentials in ssh\_config. [\#88](https://github.com/ghoneycutt/puppet-module-ssh/pull/88) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -506,7 +521,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.17.0...v3.18.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - permit custom templates for ssh\_config and sshd\_config [\#82](https://github.com/ghoneycutt/puppet-module-ssh/pull/82) ([wolfspyre](https://github.com/wolfspyre))
 
@@ -514,7 +529,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.16.0...v3.17.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Use hiera array for deep merge [\#81](https://github.com/ghoneycutt/puppet-module-ssh/pull/81) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -522,7 +537,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.15.2...v3.16.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - permit customization of sshd config loglevel [\#79](https://github.com/ghoneycutt/puppet-module-ssh/pull/79) ([wolfspyre](https://github.com/wolfspyre))
 
@@ -530,7 +545,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.15.1...v3.15.2)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - adding PE 3.3 support [\#77](https://github.com/ghoneycutt/puppet-module-ssh/pull/77) ([robbyt](https://github.com/robbyt))
 
@@ -538,7 +553,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.15.0...v3.15.1)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Sol11 [\#76](https://github.com/ghoneycutt/puppet-module-ssh/pull/76) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -546,7 +561,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.14.0...v3.15.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add Allow/Deny options to sshd\_config [\#74](https://github.com/ghoneycutt/puppet-module-ssh/pull/74) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -554,7 +569,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.13.0...v3.14.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add ability to specify DenyUsers in sshd\_config [\#73](https://github.com/ghoneycutt/puppet-module-ssh/pull/73) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -562,7 +577,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.12.0...v3.13.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add macs params [\#72](https://github.com/ghoneycutt/puppet-module-ssh/pull/72) ([ghoneycutt](https://github.com/ghoneycutt))
 - Add ability to specify Ciphers option in ssh\_config and sshd\_config [\#71](https://github.com/ghoneycutt/puppet-module-ssh/pull/71) ([ghoneycutt](https://github.com/ghoneycutt))
@@ -571,7 +586,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.11.0...v3.12.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add sshd config serverkeybits [\#70](https://github.com/ghoneycutt/puppet-module-ssh/pull/70) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -579,7 +594,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.10.0...v3.11.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add StrictModes parameter for sshd [\#68](https://github.com/ghoneycutt/puppet-module-ssh/pull/68) ([ghoneycutt](https://github.com/ghoneycutt))
 - Add version dependency to firewall module to support Forge [\#65](https://github.com/ghoneycutt/puppet-module-ssh/pull/65) ([ghoneycutt](https://github.com/ghoneycutt))
@@ -588,7 +603,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.9.0...v3.10.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add option to specify AuthorizedKeysFile [\#64](https://github.com/ghoneycutt/puppet-module-ssh/pull/64) ([ghost](https://github.com/ghost))
 
@@ -596,7 +611,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.8.0...v3.9.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Ssh key import [\#63](https://github.com/ghoneycutt/puppet-module-ssh/pull/63) ([ghoneycutt](https://github.com/ghoneycutt))
 - Update spec tests to use contain\_class as include\_class is deprecated [\#61](https://github.com/ghoneycutt/puppet-module-ssh/pull/61) ([ghoneycutt](https://github.com/ghoneycutt))
@@ -605,7 +620,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.7.0...v3.8.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Added ClientAliveCountMax config parameter [\#56](https://github.com/ghoneycutt/puppet-module-ssh/pull/56) ([mlehner616](https://github.com/mlehner616))
 
@@ -613,7 +628,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.6.1...v3.7.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Support solaris [\#54](https://github.com/ghoneycutt/puppet-module-ssh/pull/54) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -621,7 +636,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.6.0...v3.6.1)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Support Puppet v3.4 and Ruby v2.0.0 [\#51](https://github.com/ghoneycutt/puppet-module-ssh/pull/51) ([ghoneycutt](https://github.com/ghoneycutt))
 - Travis [\#49](https://github.com/ghoneycutt/puppet-module-ssh/pull/49) ([ghoneycutt](https://github.com/ghoneycutt))
@@ -630,7 +645,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.5.0...v3.6.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Hiera merge [\#48](https://github.com/ghoneycutt/puppet-module-ssh/pull/48) ([ghoneycutt](https://github.com/ghoneycutt))
 - Support rspec-puppet v1.0.0 [\#43](https://github.com/ghoneycutt/puppet-module-ssh/pull/43) ([ghoneycutt](https://github.com/ghoneycutt))
@@ -639,7 +654,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.4.0...v3.5.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - \(\#244\) Add banner file [\#40](https://github.com/ghoneycutt/puppet-module-ssh/pull/40) ([ghoneycutt](https://github.com/ghoneycutt))
 - fixing spec warnings [\#39](https://github.com/ghoneycutt/puppet-module-ssh/pull/39) ([Phil-Friderici](https://github.com/Phil-Friderici))
@@ -648,7 +663,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.3.0...v3.4.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - ssh\_config\_hash\_known\_hosts option added [\#38](https://github.com/ghoneycutt/puppet-module-ssh/pull/38) ([Phil-Friderici](https://github.com/Phil-Friderici))
 
@@ -656,7 +671,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.2.1...v3.3.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Change default value for sshd\_config\_challenge\_resp\_auth to 'yes' [\#36](https://github.com/ghoneycutt/puppet-module-ssh/pull/36) ([dantremblay](https://github.com/dantremblay))
 
@@ -664,7 +679,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.2.0...v3.2.1)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Validate keys parameter [\#35](https://github.com/ghoneycutt/puppet-module-ssh/pull/35) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -672,7 +687,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.0.0...v3.2.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Specify port [\#34](https://github.com/ghoneycutt/puppet-module-ssh/pull/34) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -680,7 +695,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v2.5.1...v3.0.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Release v3.0.0 [\#33](https://github.com/ghoneycutt/puppet-module-ssh/pull/33) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -688,7 +703,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v2.5.0...v2.5.1)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Revert sshd\_config\_sendenv\_xmodifiers which introduced a bug [\#32](https://github.com/ghoneycutt/puppet-module-ssh/pull/32) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -696,7 +711,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v2.4.0...v2.5.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Add feature to allow setting 'SendEnv XMODIFIERS' [\#31](https://github.com/ghoneycutt/puppet-module-ssh/pull/31) ([ghoneycutt](https://github.com/ghoneycutt))
 - Add more params [\#30](https://github.com/ghoneycutt/puppet-module-ssh/pull/30) ([ghoneycutt](https://github.com/ghoneycutt))
@@ -705,7 +720,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v2.3.0...v2.4.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - New master [\#23](https://github.com/ghoneycutt/puppet-module-ssh/pull/23) ([ghoneycutt](https://github.com/ghoneycutt))
 
@@ -713,7 +728,7 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/7f6c2336416a5f1494bc20662ab35eb6cf0c50ff...v2.3.0)
 
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+### Merged pull requests:
 
 - Improve spec tests [\#19](https://github.com/ghoneycutt/puppet-module-ssh/pull/19) ([ghoneycutt](https://github.com/ghoneycutt))
 - Fix undef variables in template [\#18](https://github.com/ghoneycutt/puppet-module-ssh/pull/18) ([ghoneycutt](https://github.com/ghoneycutt))
