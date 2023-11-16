@@ -1,3 +1,5 @@
+# @summary validate syslog facilities used by SSH
+#
 type Ssh::Syslog_facility = Enum[
   'DAEMON',
   'USER',

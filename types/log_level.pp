@@ -1,3 +1,5 @@
+# @summary validate SSH log levels
+#
 type Ssh::Log_level = Enum[
   'QUIET',
   'FATAL',
