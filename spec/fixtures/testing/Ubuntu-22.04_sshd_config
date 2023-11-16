@@ -3,9 +3,9 @@
 #
 # See https://man.openbsd.org/sshd_config for more info
 
+Include /etc/ssh/sshd_config.d/*.conf
 AcceptEnv LANG
 AcceptEnv LC_*
-Include /etc/ssh/sshd_config.d/*.conf
 KbdInteractiveAuthentication no
 PasswordAuthentication yes
 PrintMotd no

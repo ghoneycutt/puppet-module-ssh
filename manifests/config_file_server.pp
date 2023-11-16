@@ -43,5 +43,6 @@ define ssh::config_file_server (
     group   => $group,
     mode    => $mode,
     content => epp('ssh/config_file.epp', { 'lines' => $lines, 'custom' => $custom }),
+    notify  => $ssh::server::notify_service,
   }
 }
