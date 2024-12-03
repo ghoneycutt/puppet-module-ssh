@@ -60,7 +60,6 @@ jobs:
           - "debian-11"
           - "ubuntu-2004"
           - "ubuntu-2204"
-          - "el7"
         puppet:
           - "puppet7"
           - "puppet8"
