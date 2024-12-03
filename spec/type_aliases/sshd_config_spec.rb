@@ -262,7 +262,7 @@ describe 'Ssh::Sshd_Config' do
       'Banner', 'CASignatureAlgorithms', 'ChannelTimeout', 'ChrootDirectory', 'Ciphers', 'DenyGroups', 'DenyUsers',
       'ForceCommand', 'HostbasedAcceptedAlgorithms', 'HostCertificate', 'HostKey', 'HostKeyAgent', 'HostKeyAlgorithms',
       'Include', 'IPQoS', 'KexAlgorithms', 'ListenAddress', 'LogVerbose', 'MACs', 'Match', 'MaxStartups', 'PermitListen',
-      'PermitOpen', 'PermitUserEnvironmen', 'PerSourceMaxStartups', 'PerSourceNetBlockSize', 'PidFile', 'PubkeyAcceptedAlgorithms',
+      'PermitOpen', 'PermitUserEnvironment', 'PerSourceMaxStartups', 'PerSourceNetBlockSize', 'PidFile', 'PubkeyAcceptedAlgorithms',
       'RekeyLimit', 'RevokedKeys', 'RDomain', 'SetEnv', 'Subsystem', 'TrustedUserCAKeys', 'VersionAddendum', 'XAuthLocation'
     ].each do |directive|
       describe directive.inspect do

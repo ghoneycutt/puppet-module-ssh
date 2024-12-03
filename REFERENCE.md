@@ -17,13 +17,13 @@
 
 ### Data types
 
-* [`Ssh::Key::Type`](#Ssh--Key--Type): From https://github.com/puppetlabs/puppetlabs-sshkeys_core/blob/master/lib/puppet/type/sshkey.rb v1.0.2
-* [`Ssh::Log_level`](#Ssh--Log_level)
-* [`Ssh::Permit_root_login`](#Ssh--Permit_root_login): 'without-password' is a deprecated alias for 'prohibit-password'
+* [`Ssh::Key::Type`](#Ssh--Key--Type): validate SSH key types
+* [`Ssh::Log_level`](#Ssh--Log_level): validate SSH log levels
+* [`Ssh::Permit_root_login`](#Ssh--Permit_root_login): validate configuration options for permit_root_login
 * [`Ssh::Ssh_Config`](#Ssh--Ssh_Config): ssh_config configuration file parameters
 * [`Ssh::Sshd_Config`](#Ssh--Sshd_Config): sshd_config configuration file parameters
-* [`Ssh::Syslog_facility`](#Ssh--Syslog_facility)
-* [`Ssh::Yes_no`](#Ssh--Yes_no)
+* [`Ssh::Syslog_facility`](#Ssh--Syslog_facility): validate syslog facilities used by SSH
+* [`Ssh::Yes_no`](#Ssh--Yes_no): validate SSH configuration that uses yes/no.
 
 ## Classes
 
@@ -2653,7 +2653,7 @@ Alias of `Enum['ssh-dss', 'ssh-ed25519', 'ssh-rsa', 'ecdsa-sha2-nistp256', 'ecds
 
 ### <a name="Ssh--Log_level"></a>`Ssh::Log_level`
 
-The Ssh::Log_level data type.
+validate SSH log levels
 
 Alias of `Enum['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE', 'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3']`
 
@@ -2848,7 +2848,7 @@ Struct[{
     Optional['PermitRootLogin']                 => Ssh::Permit_root_login,
     Optional['PermitTTY']                       => Ssh::Yes_no,
     Optional['PermitTunnel']                    => Enum['yes', 'point-to-point', 'ethernet', 'no'],
-    Optional['PermitUserEnvironmen']            => String[1],
+    Optional['PermitUserEnvironment']           => String[1],
     Optional['PermitUserRC']                    => Ssh::Yes_no,
     Optional['PerSourceMaxStartups']            => String[1],
     Optional['PerSourceNetBlockSize']           => String[1],
@@ -2885,13 +2885,13 @@ Struct[{
 
 ### <a name="Ssh--Syslog_facility"></a>`Ssh::Syslog_facility`
 
-The Ssh::Syslog_facility data type.
+validate syslog facilities used by SSH
 
 Alias of `Enum['DAEMON', 'USER', 'AUTH', 'LOCAL0', 'LOCAL1', 'LOCAL2', 'LOCAL3', 'LOCAL4', 'LOCAL5', 'LOCAL6', 'LOCAL7', 'AUTHPRIV']`
 
 ### <a name="Ssh--Yes_no"></a>`Ssh::Yes_no`
 
-The Ssh::Yes_no data type.
+validate SSH configuration that uses yes/no.
 
 Alias of `Enum['yes', 'no']`
 
