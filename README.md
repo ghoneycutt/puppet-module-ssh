@@ -32,12 +32,14 @@ known to work on many, many platforms since its creation in 2010.
  * Archlinux
  * Debian 10
  * Debian 11
+ * Debian 12
  * EL 7
  * EL 8
  * EL 9
  * Ubuntu 18.04 LTS
  * Ubuntu 20.04 LTS
  * Ubuntu 22.04 LTS
+ * Ubuntu 24.04 LTS
  * Solaris 10
  * Solaris 11
 
