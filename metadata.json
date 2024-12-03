@@ -97,7 +97,7 @@
     }
   ],
   "description": "Manage SSH",
-  "pdk-version": "3.0.0",
+  "pdk-version": "3.3.0",
   "template-url": "https://github.com/tailored-automation/pdk-templates#main",
-  "template-ref": "heads/main-0-g53868f7"
+  "template-ref": "heads/main-0-g8e0611a"
 }
