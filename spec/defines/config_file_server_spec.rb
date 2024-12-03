@@ -145,7 +145,7 @@ describe 'ssh::config_file_server' do
             'PermitRootLogin'                 => 'prohibit-password',
             'PermitTTY'                       => 'yes',
             'PermitTunnel'                    => 'point-to-point',
-            'PermitUserEnvironmen'            => 'test',
+            'PermitUserEnvironment'           => 'test',
             'PermitUserRC'                    => 'yes',
             'PerSourceMaxStartups'            => 'test',
             'PerSourceNetBlockSize'           => 'test',
@@ -251,7 +251,7 @@ describe 'ssh::config_file_server' do
         |PermitRootLogin prohibit-password
         |PermitTTY yes
         |PermitTunnel point-to-point
-        |PermitUserEnvironmen test
+        |PermitUserEnvironment test
         |PermitUserRC yes
         |PerSourceMaxStartups test
         |PerSourceNetBlockSize test
