@@ -22,7 +22,7 @@ describe 'ssh' do
     when %r{Debian-10}, %r{Ubuntu-18.04}
       packages_client = ['openssh-client']
       packages_server = ['openssh-server']
-    when %r{Debian-11}, %r{Ubuntu-(20.04|22.04)}
+    when %r{Debian-1[12]}, %r{Ubuntu-(20.04|22.04|24.04)}
       packages_client = ['openssh-client']
       packages_server = ['openssh-server']
       include_dir     = '/etc/ssh/ssh_config.d'
