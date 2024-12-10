@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v5.1.0](https://github.com/ghoneycutt/puppet-module-ssh/tree/v5.1.0) (2024-12-10)
+
+[Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v5.0.0...v5.1.0)
+
+### Added
+
+- Add support for Debian 12 and Ubuntu 24.04 [\#428](https://github.com/ghoneycutt/puppet-module-ssh/pull/428) ([flichtenheld](https://github.com/flichtenheld))
+
+### Merged pull requests:
+
+- Stop testing with EL7 as it is no longer supported [\#431](https://github.com/ghoneycutt/puppet-module-ssh/pull/431) ([ghoneycutt](https://github.com/ghoneycutt))
+- Param spelling [\#430](https://github.com/ghoneycutt/puppet-module-ssh/pull/430) ([ghoneycutt](https://github.com/ghoneycutt))
+- \(docs\) Add puppet strings documentation for types [\#420](https://github.com/ghoneycutt/puppet-module-ssh/pull/420) ([ghoneycutt](https://github.com/ghoneycutt))
+
 ## [v5.0.0](https://github.com/ghoneycutt/puppet-module-ssh/tree/v5.0.0) (2023-11-16)
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v4.1.0...v5.0.0)
