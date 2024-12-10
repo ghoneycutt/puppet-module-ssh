@@ -39,7 +39,7 @@ describe 'ssh::server' do
         packages          = ['openssh-server']
         service_hasstatus = true
         service_name      = 'ssh'
-      when %r{Debian-11}, %r{Ubuntu-(20.04|22.04)}
+      when %r{Debian-1[12]}, %r{Ubuntu-(20.04|22.04|24.04)}
         config_mode       = '0600'
         packages          = ['openssh-server']
         service_hasstatus = true
