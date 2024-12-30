@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v5.1.1](https://github.com/ghoneycutt/puppet-module-ssh/tree/v5.1.1) (2024-12-30)
+
+[Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v5.1.0...v5.1.1)
+
+### Merged pull requests:
+
+- Fix data type for 'host' to allow for wildcards [\#432](https://github.com/ghoneycutt/puppet-module-ssh/pull/432) ([ghoneycutt](https://github.com/ghoneycutt))
+
 ## [v5.1.0](https://github.com/ghoneycutt/puppet-module-ssh/tree/v5.1.0) (2024-12-10)
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v5.0.0...v5.1.0)
