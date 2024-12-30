@@ -1,4 +1,4 @@
-# @summary Create config files to be used 
+# @summary Create config files to be used
 #
 # Manage an entry in ~/.ssh/config for a particular user. Lines model the
 # lines in each Host block.
