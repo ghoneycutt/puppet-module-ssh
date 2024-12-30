@@ -68,7 +68,7 @@ jobs:
     env:
       BUNDLE_WITHOUT: development:release
       BEAKER_debug: true
-    name: 
+    name:
     steps:
       - name: Enable IPv6 on docker
         run: |
