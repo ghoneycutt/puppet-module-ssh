@@ -276,13 +276,18 @@ describe 'Ssh::Ssh_Config' do
 
   context 'String[1]' do
     [
-      'Match', 'BindAddress', 'BindInterface', 'CanonicalDomains', 'CanonicalizePermittedCNAMEs', 'CASignatureAlgorithms',
-      'CertificateFile', 'Ciphers', 'ControlPath', 'ControlPersist', 'DynamicForward', 'EscapeChar', 'GlobalKnownHostsFile',
-      'HostbasedAcceptedAlgorithms', 'HostKeyAlgorithms', 'HostKeyAlias', 'Hostname', 'IdentityAgent', 'IdentityFile',
-      'IgnoreUnknown', 'Include', 'IPQoS', 'KbdInteractiveDevices', 'KexAlgorithms', 'KnownHostsCommand', 'LocalCommand',
-      'LocalForward', 'LogVerbose', 'MACs', 'PermitRemoteOpen', 'PKCS11Provider', 'PreferredAuthentications', 'ProxyCommand',
-      'ProxyJump', 'PubkeyAcceptedAlgorithms', 'RekeyLimit', 'RemoteCommand', 'RemoteForward', 'RevokedHostKeys',
-      'SecurityKeyProvider', 'SendEnv', 'SetEnv', 'TunnelDevice', 'User', 'UserKnownHostsFile', 'XAuthLocation'
+      'Match', 'BindAddress', 'BindInterface', 'CanonicalDomains',
+      'CanonicalizePermittedCNAMEs', 'CASignatureAlgorithms',
+      'CertificateFile', 'Ciphers', 'ControlPath', 'ControlPersist',
+      'DynamicForward', 'EscapeChar', 'GlobalKnownHostsFile', 'Host',
+      'HostbasedAcceptedAlgorithms', 'HostKeyAlgorithms', 'HostKeyAlias',
+      'Hostname', 'IdentityAgent', 'IdentityFile', 'IgnoreUnknown', 'Include',
+      'IPQoS', 'KbdInteractiveDevices', 'KexAlgorithms', 'KnownHostsCommand',
+      'LocalCommand', 'LocalForward', 'LogVerbose', 'MACs', 'PermitRemoteOpen',
+      'PKCS11Provider', 'PreferredAuthentications', 'ProxyCommand',
+      'ProxyJump', 'PubkeyAcceptedAlgorithms', 'RekeyLimit', 'RemoteCommand',
+      'RemoteForward', 'RevokedHostKeys', 'SecurityKeyProvider', 'SendEnv',
+      'SetEnv', 'TunnelDevice', 'User', 'UserKnownHostsFile', 'XAuthLocation'
     ].each do |directive|
       describe directive.inspect do
         [
@@ -330,25 +335,6 @@ describe 'Ssh::Ssh_Config' do
         end
         [
           '0999', 'a=Xr,g=W', 'string', 'ネット', ['array'], { 'ha' => 'sh' }, [], '', 242, 0x242, true, false, nil, [nil], [nil, nil], :keyword
-        ].each do |invalid|
-          it { is_expected.not_to allow_value(directive => invalid) }
-        end
-      end
-    end
-  end
-
-  context 'Stdlib::Host' do
-    [
-      'Host',
-    ].each do |directive|
-      describe directive.inspect do
-        [
-          'string', 'host.domain.tld', '242.242.242.242', '242', nil, :keyword # FIXME: unsure why nil and :keyword are actually supported
-        ].each do |valid|
-          it { is_expected.to allow_value(directive => valid) }
-        end
-        [
-          '_invalid.domain.tld', 'ネット', ['array'], { 'ha' => 'sh' }, [], '', 242, 0x242, true, false, [nil], [nil, nil]
         ].each do |invalid|
           it { is_expected.not_to allow_value(directive => invalid) }
         end

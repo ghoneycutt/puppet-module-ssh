@@ -2671,7 +2671,7 @@ Alias of
 
 ```puppet
 Struct[{
-    Optional['Host']                             => Stdlib::Host,
+    Optional['Host']                             => String[1],
     Optional['Match']                            => String[1],
     Optional['AddKeysToAgent']                   => Enum['yes', 'no', 'ask', 'confirm'],
     Optional['AddressFamily']                    => Enum['any', 'inet', 'inet6'],
