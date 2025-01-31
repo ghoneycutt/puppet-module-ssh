@@ -463,6 +463,10 @@
 # @param visual_host_key
 #   Value(s) passed to VisualHostKey parameter in ssh_config. Unused if empty.
 #   Check https://man.openbsd.org/ssh_config#VisualHostKey for possible values.
+# 
+# @param x11_use_localhost
+#   Value(s) passed to X11UseLocalhost parameter in ssh_config. Unused if empty.
+#   Check https://man.openbsd.org/sshd_config#X11UseLocalhost for possible values.
 #
 # @param xauth_location
 #   Value(s) passed to XAuthLocation parameter in ssh_config. Unused if empty.
@@ -595,6 +599,7 @@ class ssh (
   Optional[Ssh::Yes_no] $use_roaming = undef,
   Optional[Enum['yes', 'no', 'ask']] $verify_host_key_dns = undef,
   Optional[Ssh::Yes_no] $visual_host_key = undef,
+  Optional[Ssh::Yes_no] $x11_use_localhost = undef,
   Optional[String[1]] $xauth_location = undef,
   # custom is a string that allows for multiple lines to be appended to end of
   # the ssh_config file.
