@@ -293,6 +293,9 @@ Host <%= @host %>
 <% if @visual_host_key != nil -%>
   VisualHostKey <%= @visual_host_key %>
 <% end -%>
+<% if @x11_use_localhost -%>
+X11UseLocalhost <%= @x11_use_localhost %>
+<% end -%>
 <% if @xauth_location != nil -%>
   XAuthLocation <%= @xauth_location %>
 <% end -%>
