@@ -105,6 +105,7 @@ describe 'ssh' do
     'user_known_hosts_file'                => { str: 'UserKnownHostsFile',                val: [['/test/ing'], ['/test', '/ing']], sep: ' ', },
     'verify_host_key_dns'                  => { str: 'VerifyHostKeyDNS',                  val: ['yes', 'no', 'ask'], },
     'visual_host_key'                      => { str: 'VisualHostKey',                     val: ['yes', 'no'], },
+    'x11_use_localhost'                    => { str: 'X11UseLocalhost',                   val: ['yes', 'no'], },
     'xauth_location'                       => { str: 'XAuthLocation',                     val: ['/test/ing', '~/test/ing'], },
   }
 
