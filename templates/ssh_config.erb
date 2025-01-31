@@ -281,6 +281,9 @@ Host <%= @host %>
 <% if @update_host_keys != nil -%>
   UpdateHostKeys <%= @update_host_keys %>
 <% end -%>
+<% if @use_roaming != nil -%>
+  UseRoaming <%= @use_roaming %>
+<% end -%>
 <% if @user != nil -%>
   User <%= @user %>
 <% end -%>
