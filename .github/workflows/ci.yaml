@@ -50,6 +50,7 @@ jobs:
           - "el8"
           - "el9"
           - "el10"
+          - "debian-13"
           - "ubuntu-2204"
           - "ubuntu-2404"
           - "ubuntu-2604"
