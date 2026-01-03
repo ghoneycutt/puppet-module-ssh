@@ -11,6 +11,7 @@
     set:
       - el8
       - el9
+      - el10
       - debian-11
       - ubuntu-2004
       - ubuntu-2204
