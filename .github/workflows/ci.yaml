@@ -49,6 +49,7 @@ jobs:
         set:
           - "el8"
           - "el9"
+          - "el10"
           - "ubuntu-2204"
           - "ubuntu-2404"
         puppet:
