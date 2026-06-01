@@ -489,7 +489,7 @@ class ssh::server (
   Boolean $service_hasrestart = true,
   Boolean $service_hasstatus = true,
   Hash $config_files = {},
-  # all paramters below this line are for sshd_config
+  # all parameters below this line are for sshd_config
   Optional[Array[String[1]]] $accept_env = undef,
   Optional[Enum['any', 'inet', 'inet6']] $address_family = undef,
   Optional[Ssh::Yes_no] $allow_agent_forwarding = undef,
