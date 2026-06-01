@@ -23,11 +23,11 @@ jobs:
             puppet: 7
             fixtures: .fixtures-latest.yml
             allow_failure: true
-          - ruby: 3.2.2
+          - ruby: 3.2.4
             puppet: 8
             fixtures: .fixtures.yml
             allow_failure: false
-          - ruby: 3.2.2
+          - ruby: 3.2.4
             puppet: 8
             fixtures: .fixtures-latest.yml
             allow_failure: true
