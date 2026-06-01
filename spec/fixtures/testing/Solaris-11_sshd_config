@@ -5,6 +5,7 @@
 
 AllowTcpForwarding yes
 Banner none
+ChallengeResponseAuthentication yes
 ClientAliveCountMax 3
 ClientAliveInterval 0
 GSSAPIAuthentication yes
@@ -23,7 +24,6 @@ SyslogFacility AUTH
 X11Forwarding yes
 X11UseLocalhost yes
 XAuthLocation /usr/openwin/bin/xauth
-ChallengeResponseAuthentication yes
 GSSAPIKeyExchange yes
 PAMAuthenticationViaKBDInt yes
 ServerKeyBits 768
