@@ -9,7 +9,6 @@ ssh::packages:
 ssh::send_env:
   - 'LANG'
   - 'LC_*'
-
 ssh::server::accept_env:
   - 'LANG'
   - 'LC_*'

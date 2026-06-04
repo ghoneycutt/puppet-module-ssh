@@ -1,5 +1,5 @@
 ---
-# Debian 11 defaults in alphabetical order per class
+# Debian defaults in alphabetical order per class
 ssh::gss_api_authentication: 'yes'
 ssh::hash_known_hosts: 'yes'
 ssh::host: '*'
@@ -9,7 +9,6 @@ ssh::packages:
 ssh::send_env:
   - 'LANG'
   - 'LC_*'
-
 ssh::server::accept_env:
   - 'LANG'
   - 'LC_*'
