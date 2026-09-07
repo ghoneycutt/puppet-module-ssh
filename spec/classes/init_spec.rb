@@ -132,7 +132,7 @@ describe 'ssh' do
     supported_os: [
       {
         'operatingsystem'        => 'RedHat',
-        'operatingsystemrelease' => ['7'],
+        'operatingsystemrelease' => ['9'],
       },
     ],
   }
@@ -379,6 +379,10 @@ describe 'ssh' do
 
       it { is_expected.to contain_package('openssh-clients') }
       it { is_expected.to contain_file('ssh_config_include_dir').with_require(['Package[openssh-clients]']) }
+      # only needed for 100% resource coverage: redhat-9's module-default config_files entry
+      # ('50-redhat') is still active here even though include is overridden, so its underlying
+      # file ends up under the overridden include dir instead of the default one.
+      it { is_expected.to contain_file('/test/50-redhat.conf') } if os =~ %r{^redhat-9}
     end
 
     context "on #{os} with packages set to valid array [array, of, strings]" do
