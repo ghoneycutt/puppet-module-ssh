@@ -40,6 +40,7 @@ known to work on many, many platforms since its creation in 2010.
  * Ubuntu 20.04 LTS
  * Ubuntu 22.04 LTS
  * Ubuntu 24.04 LTS
+ * Solaris 9
  * Solaris 10
  * Solaris 11
 

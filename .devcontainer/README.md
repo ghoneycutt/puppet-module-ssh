@@ -3,12 +3,9 @@
 
 For format details, see https://aka.ms/devcontainer.json.
 
-For config options, see the README at:
-https://github.com/microsoft/vscode-dev-containers/tree/v0.140.1/containers/puppet
-
 ``` json
 {
-	"name": "Puppet Development Kit (Community)",
+	"name": "OpenVox Module Development",
 	"dockerFile": "Dockerfile",
 
 	// Set *default* container specific settings.json values on container create.
@@ -26,13 +23,7 @@ https://github.com/microsoft/vscode-dev-containers/tree/v0.140.1/containers/pupp
 		"rebornix.Ruby"
 	],
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [],
-
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "pdk --version",
+	"postCreateCommand": "bundle install"
 }
 ```
-
-
-

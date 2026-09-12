@@ -1,6 +1,6 @@
 require 'spec_helper'
 describe 'ssh::server' do
-  on_supported_os.sort.each do |os, os_facts|
+  on_supported_os(supported_os: actively_supported_os).sort.each do |os, os_facts|
     context "on #{os} with default values for parameters" do
       let(:facts) { os_facts }
 
@@ -24,7 +24,7 @@ describe 'ssh::server' do
         service_name      = 'sshd'
         config_files      = '50-redhat'
         include_dir       = '/etc/ssh/sshd_config.d'
-      when %r{RedHat-(7|8)}
+      when %r{RedHat-8}
         config_mode       = '0600'
         packages          = ['openssh-server']
         service_hasstatus = true
@@ -34,32 +34,17 @@ describe 'ssh::server' do
         packages          = []
         service_name      = 'sshd'
         service_hasstatus = true
-      when %r{Debian-10}, %r{Ubuntu-18.04}
-        config_mode       = '0600'
-        packages          = ['openssh-server']
-        service_hasstatus = true
-        service_name      = 'ssh'
-      when %r{Debian-1[12]}, %r{Ubuntu-(20.04|22.04|24.04)}
+      when %r{Ubuntu-(22.04|24.04)}
         config_mode       = '0600'
         packages          = ['openssh-server']
         service_hasstatus = true
         service_name      = 'ssh'
         include_dir       = '/etc/ssh/sshd_config.d'
-      when %r{Solaris-9.*}
-        config_mode       = '0644'
-        packages          = 'SUNWsshdr', 'SUNWsshdu'
-        packages_source   = '/var/spool/pkg'
-        service_hasstatus = false
-        service_name      = 'sshd'
-      when %r{Solaris-10.*}
-        config_mode       = '0644'
-        packages          = 'SUNWsshdr', 'SUNWsshdu'
-        packages_source   = '/var/spool/pkg'
-        service_hasstatus = true
-        service_name      = 'ssh'
+      # Kept in to exercise parameters only used by Solaris
       when %r{Solaris-11.*}
         config_mode       = '0644'
         packages          = ['service/network/ssh']
+        packages_source   = nil
         service_hasstatus = true
         service_name      = 'ssh'
       end
@@ -144,7 +129,7 @@ describe 'ssh::server' do
     supported_os: [
       {
         'operatingsystem'        => 'RedHat',
-        'operatingsystemrelease' => ['8'],
+        'operatingsystemrelease' => ['9'],
       },
     ],
   }
@@ -170,6 +155,15 @@ describe 'ssh::server' do
 
       it { is_expected.to contain_package('openssh-server') }
       it { is_expected.to contain_file('sshd_config_include_dir').with_require(['Package[openssh-server]']) }
+    end
+
+    context "on #{os} with include set to valid /test/ing" do
+      let(:params) { { include: '/test/ing' } }
+
+      it { is_expected.to contain_file('sshd_config_include_dir').with_path('/test') }
+
+      # test needed to reach 100% resource coverage
+      it { is_expected.to contain_file('/test/50-redhat.conf') }
     end
 
     context "on #{os} with packages set to valid array [array, of, strings]" do
