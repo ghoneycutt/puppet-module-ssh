@@ -295,6 +295,12 @@ Performance/UriDefaultParser:
   Enabled: false
 RSpec/Be:
   Enabled: false
+RSpec/Capybara/CurrentPathExpectation:
+  Enabled: false
+RSpec/Capybara/FeatureMethods:
+  Enabled: false
+RSpec/Capybara/VisibilityMatcher:
+  Enabled: false
 RSpec/ContextMethod:
   Enabled: false
 RSpec/ContextWording:
@@ -317,6 +323,12 @@ RSpec/ExpectChange:
   Enabled: false
 RSpec/ExpectInHook:
   Enabled: false
+RSpec/FactoryBot/AttributeDefinedStatically:
+  Enabled: false
+RSpec/FactoryBot/CreateList:
+  Enabled: false
+RSpec/FactoryBot/FactoryClassName:
+  Enabled: false
 RSpec/HooksBeforeExamples:
   Enabled: false
 RSpec/ImplicitBlockExpectation:
@@ -334,8 +346,6 @@ RSpec/MultipleExpectations:
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
 RSpec/MultipleSubjects:
-  Enabled: false
-RSpec/NoExpectationExample:
   Enabled: false
 RSpec/NestedGroups:
   Enabled: false

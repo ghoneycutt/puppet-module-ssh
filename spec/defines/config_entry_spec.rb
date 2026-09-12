@@ -14,7 +14,7 @@ describe 'ssh::config_entry' do
     supported_os: [
       {
         'operatingsystem'        => 'RedHat',
-        'operatingsystemrelease' => ['9'],
+        'operatingsystemrelease' => ['8'],
       },
     ],
   }
