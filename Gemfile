@@ -46,6 +46,12 @@ gems['rake'] = [require: false]
 gems['puppetlabs_spec_helper'] = [require: false]
 gems['puppet'] = location_for(puppet_version)
 
+# rubocop >= 1.31 depends on a real json gem; on Ruby 2.7 the newest json
+# releases break Puppet 7's deprecated PSON compatibility shim
+# (NameError: constant PSON::Parser not defined), so keep json pinned to
+# a version that predates that break on this Ruby.
+gems['json'] = ['~> 2.3.0', require: false] if minor_version == '2.7'
+
 # If facter or hiera versions have been specified via the environment
 # variables
 
