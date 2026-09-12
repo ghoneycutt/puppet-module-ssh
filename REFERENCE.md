@@ -612,7 +612,7 @@ Default value: `undef`
 
 ##### <a name="-ssh--forward_x11_timeout"></a>`forward_x11_timeout`
 
-Data type: `Variant[Undef, String[1], Integer[0]]`
+Data type: `Optional[Variant[String[1], Integer[0]]]`
 
 Value(s) passed to ForwardX11Timeout parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ForwardX11Timeout for possible values.
@@ -1067,7 +1067,7 @@ Default value: `undef`
 
 ##### <a name="-ssh--server_alive_count_max"></a>`server_alive_count_max`
 
-Data type: `Variant[Undef, String[1], Integer[0]]`
+Data type: `Optional[Variant[String[1], Integer[0]]]`
 
 Value(s) passed to ServerAliveCountMax parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ServerAliveCountMax for possible values.
@@ -1076,7 +1076,7 @@ Default value: `undef`
 
 ##### <a name="-ssh--server_alive_interval"></a>`server_alive_interval`
 
-Data type: `Variant[Undef, String[1], Integer[0]]`
+Data type: `Optional[Variant[String[1], Integer[0]]]`
 
 Value(s) passed to ServerAliveInterval parameter in ssh_config. Unused if empty.
 Check https://man.openbsd.org/ssh_config#ServerAliveInterval for possible values.

@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.0.0](https://github.com/ghoneycutt/puppet-module-ssh/tree/v6.0.0) (2026-09-12)
+
+[Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v5.1.1...v6.0.0)
+
+### Added
+
+- Add support for Debian 13 [\#458](https://github.com/ghoneycutt/puppet-module-ssh/pull/458) ([ghoneycutt](https://github.com/ghoneycutt))
+- Add support for Ubuntu 26.04 [\#457](https://github.com/ghoneycutt/puppet-module-ssh/pull/457) ([ghoneycutt](https://github.com/ghoneycutt))
+- RHEL10 [\#450](https://github.com/ghoneycutt/puppet-module-ssh/pull/450) ([ghoneycutt](https://github.com/ghoneycutt))
+- Allow puppetlabs-sshkeys\_core 3.x [\#445](https://github.com/ghoneycutt/puppet-module-ssh/pull/445) ([rjd1](https://github.com/rjd1))
+
+### Fixed
+
+- \(ISSUE-437\) ChallengeResponseAuthentication cannot be reset [\#446](https://github.com/ghoneycutt/puppet-module-ssh/pull/446) ([ghoneycutt](https://github.com/ghoneycutt))
+
+### Merged pull requests:
+
+- Remove remnants of platforms no longer tested [\#459](https://github.com/ghoneycutt/puppet-module-ssh/pull/459) ([ghoneycutt](https://github.com/ghoneycutt))
+- Drop EOL platforms from testing matrix along with puppet7 and fix CI [\#456](https://github.com/ghoneycutt/puppet-module-ssh/pull/456) ([ghoneycutt](https://github.com/ghoneycutt))
+- Revert "Remove 18.04 from README" [\#452](https://github.com/ghoneycutt/puppet-module-ssh/pull/452) ([ghoneycutt](https://github.com/ghoneycutt))
+- Upgrade github actions/checkout to v6 [\#449](https://github.com/ghoneycutt/puppet-module-ssh/pull/449) ([ghoneycutt](https://github.com/ghoneycutt))
+- Add dependabot [\#447](https://github.com/ghoneycutt/puppet-module-ssh/pull/447) ([ghoneycutt](https://github.com/ghoneycutt))
+- Fix typo [\#436](https://github.com/ghoneycutt/puppet-module-ssh/pull/436) ([arjenz](https://github.com/arjenz))
+- Remove 18.04 from README [\#435](https://github.com/ghoneycutt/puppet-module-ssh/pull/435) ([arjenz](https://github.com/arjenz))
+
 ## [v5.1.1](https://github.com/ghoneycutt/puppet-module-ssh/tree/v5.1.1) (2024-12-30)
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v5.1.0...v5.1.1)
@@ -216,7 +241,7 @@ All notable changes to this project will be documented in this file. The format 
 
 - Fix parameters not compatible with Solaris [\#213](https://github.com/ghoneycutt/puppet-module-ssh/pull/213) ([Phil-Friderici](https://github.com/Phil-Friderici))
 - Support Puppet \>= 4.9 [\#212](https://github.com/ghoneycutt/puppet-module-ssh/pull/212) ([Phil-Friderici](https://github.com/Phil-Friderici))
-- Remove join from validate\_absolute\_path for sshd\_config\_hostkey [\#201](https://github.com/ghoneycutt/puppet-module-ssh/pull/201) ([bc-bjoern](https://github.com/bc-bjoern))
+- Remove join from validate\_absolute\_path for sshd\_config\_hostkey [\#201](https://github.com/ghoneycutt/puppet-module-ssh/pull/201) ([epik0r](https://github.com/epik0r))
 - Fix ruby dependencies [\#200](https://github.com/ghoneycutt/puppet-module-ssh/pull/200) ([ghoneycutt](https://github.com/ghoneycutt))
 
 ## [v3.49.0](https://github.com/ghoneycutt/puppet-module-ssh/tree/v3.49.0) (2016-10-25)
@@ -625,10 +650,6 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.9.0...v3.10.0)
 
-### Merged pull requests:
-
-- Add option to specify AuthorizedKeysFile [\#64](https://github.com/ghoneycutt/puppet-module-ssh/pull/64) ([ghost](https://github.com/ghost))
-
 ## [v3.9.0](https://github.com/ghoneycutt/puppet-module-ssh/tree/v3.9.0) (2014-04-14)
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v3.8.0...v3.9.0)
@@ -762,7 +783,6 @@ All notable changes to this project will be documented in this file. The format 
 - Update for nomalize testing. [\#8](https://github.com/ghoneycutt/puppet-module-ssh/pull/8) ([narf-](https://github.com/narf-))
 - Add spec tests [\#7](https://github.com/ghoneycutt/puppet-module-ssh/pull/7) ([ghoneycutt](https://github.com/ghoneycutt))
 - Remove trailing whitespace from manifest [\#6](https://github.com/ghoneycutt/puppet-module-ssh/pull/6) ([ghoneycutt](https://github.com/ghoneycutt))
-- Added documentation [\#3](https://github.com/ghoneycutt/puppet-module-ssh/pull/3) ([ghost](https://github.com/ghost))
 
 
 
