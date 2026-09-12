@@ -23,9 +23,12 @@ Host entries in a personal `~/.ssh/config` file.
 
 ## Compatibility
 
-This module officially supports the platforms listed in the
-`metadata.json`. It does not fail on unsupported platforms and has been
-known to work on many, many platforms since its creation in 2010.
+This module officially supports the platforms listed with versions in
+`metadata.json` and those are actively tested in CI. It does not fail on
+unsupported platforms and has been known to work on many, many platforms
+since its creation in 2010. Older platforms are no longer tested, though
+their OS specific defaults are kept in `data/os/` so they continue to
+work.
 
 ### Known to work
 

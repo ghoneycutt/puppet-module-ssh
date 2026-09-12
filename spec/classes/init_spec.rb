@@ -16,18 +16,13 @@ describe 'ssh' do
       packages_server = ['openssh-server']
       config_files    = '50-redhat'
       include_dir     = '/etc/ssh/ssh_config.d'
-    when %r{Archlinux.*}, %r{SLED.*}, %r{SLES.*}
+    when %r{Archlinux.*}
       packages_client = ['openssh']
       packages_server = []
     when %r{Debian-13}, %r{Ubuntu-(22.04|24.04|26.04)}
       packages_client = ['openssh-client']
       packages_server = ['openssh-server']
       include_dir     = '/etc/ssh/ssh_config.d'
-    # Kept in to exercise parameters only used by Solaris
-    when %r{Solaris-11.*}
-      packages_client = ['network/ssh', 'network/ssh/ssh-key']
-      packages_server = ['service/network/ssh']
-      packages_ssh_source = nil
     end
 
     describe "on #{os} with default values for parameters" do
@@ -41,7 +36,7 @@ describe 'ssh' do
           is_expected.to contain_package(package).only_with(
             {
               'ensure'    => 'installed',
-              'source'    => packages_ssh_source,
+              'source'    => nil,
               'adminfile' => nil,
               'before'    => 'File[ssh_config]',
             },

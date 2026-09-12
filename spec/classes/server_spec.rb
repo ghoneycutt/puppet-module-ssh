@@ -36,24 +36,12 @@ describe 'ssh::server' do
         packages          = ['openssh-server']
         service_hasstatus = true
         service_name      = 'sshd'
-      when %r{SLED.*}, %r{SLES.*}
-        config_mode       = '0600'
-        packages          = []
-        service_name      = 'sshd'
-        service_hasstatus = true
       when %r{Debian-13}, %r{Ubuntu-(22.04|24.04|26.04)}
         config_mode       = '0600'
         packages          = ['openssh-server']
         service_hasstatus = true
         service_name      = 'ssh'
         include_dir       = '/etc/ssh/sshd_config.d'
-      # Kept in to exercise parameters only used by Solaris
-      when %r{Solaris-11.*}
-        config_mode       = '0644'
-        packages          = ['service/network/ssh']
-        packages_source   = nil
-        service_hasstatus = true
-        service_name      = 'ssh'
       end
 
       it { is_expected.to compile.with_all_deps }
@@ -64,7 +52,7 @@ describe 'ssh::server' do
           is_expected.to contain_package(package).only_with(
             {
               'ensure'    => 'installed',
-              'source'    => packages_source,
+              'source'    => nil,
               'adminfile' => nil,
               'before'    => 'File[sshd_config]',
             },
