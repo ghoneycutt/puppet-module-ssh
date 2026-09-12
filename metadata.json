@@ -41,7 +41,10 @@
       ]
     },
     {
-      "operatingsystem": "Debian"
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "13"
+      ]
     },
     {
       "operatingsystem": "OracleLinux"

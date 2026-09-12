@@ -33,6 +33,7 @@ known to work on many, many platforms since its creation in 2010.
  * Debian 10
  * Debian 11
  * Debian 12
+ * Debian 13
  * EL 7
  * EL 8
  * EL 9
