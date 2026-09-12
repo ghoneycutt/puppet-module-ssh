@@ -22,7 +22,14 @@ describe 'ssh::server' do
         packages          = ['openssh-server']
         service_hasstatus = true
         service_name      = 'sshd'
-        config_files      = '50-redhat'
+        config_files      = ['50-redhat']
+        include_dir       = '/etc/ssh/sshd_config.d'
+      when %r{RedHat-10}
+        config_mode       = '0600'
+        packages          = ['openssh-server']
+        service_hasstatus = true
+        service_name      = 'sshd'
+        config_files      = ['40-redhat-crypto-policies', '50-redhat']
         include_dir       = '/etc/ssh/sshd_config.d'
       when %r{RedHat-8}
         config_mode       = '0600'
@@ -114,10 +121,12 @@ describe 'ssh::server' do
       end
 
       if config_files
-        content_config_files = File.read(fixtures("testing/#{platform}_sshd_config.d"))
-        it { is_expected.to have_ssh__config_file_server_resource_count(1) }
-        it { is_expected.to contain_ssh__config_file_server(config_files) }
-        it { is_expected.to contain_file("/etc/ssh/sshd_config.d/#{config_files}.conf").with_content(content_config_files) }
+        it { is_expected.to have_ssh__config_file_server_resource_count(config_files.length) }
+        config_files.each do |config_file|
+          content_config_file = File.read(fixtures("testing/#{platform}_sshd_config.d_#{config_file}"))
+          it { is_expected.to contain_ssh__config_file_server(config_file) }
+          it { is_expected.to contain_file("/etc/ssh/sshd_config.d/#{config_file}.conf").with_content(content_config_file) }
+        end
       else
         it { is_expected.to have_ssh__config_file_server_resource_count(0) }
       end

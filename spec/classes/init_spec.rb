@@ -11,7 +11,7 @@ describe 'ssh' do
     when %r{RedHat-8}
       packages_client = ['openssh-clients']
       packages_server = ['openssh-server']
-    when %r{RedHat-9}
+    when %r{RedHat-(9|10)}
       packages_client = ['openssh-clients']
       packages_server = ['openssh-server']
       config_files    = '50-redhat'
