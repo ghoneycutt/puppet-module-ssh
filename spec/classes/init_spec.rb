@@ -19,7 +19,7 @@ describe 'ssh' do
     when %r{Archlinux.*}, %r{SLED.*}, %r{SLES.*}
       packages_client = ['openssh']
       packages_server = []
-    when %r{Ubuntu-(22.04|24.04)}
+    when %r{Ubuntu-(22.04|24.04|26.04)}
       packages_client = ['openssh-client']
       packages_server = ['openssh-server']
       include_dir     = '/etc/ssh/ssh_config.d'
