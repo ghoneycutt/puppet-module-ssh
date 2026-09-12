@@ -1,5 +1,5 @@
 {
-	"name": "Puppet Development Kit (Community)",
+	"name": "OpenVox Module Development",
 	"dockerFile": "Dockerfile",
 
 	"settings": {
@@ -13,5 +13,7 @@
 	"extensions": [
 		"puppet.puppet-vscode",
 		"rebornix.Ruby"
-	]
+	],
+
+	"postCreateCommand": "bundle install"
 }

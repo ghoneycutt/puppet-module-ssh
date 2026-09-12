@@ -1,6 +1,6 @@
 require 'spec_helper'
 describe 'ssh' do
-  on_supported_os.sort.each do |os, os_facts|
+  on_supported_os(supported_os: actively_supported_os).sort.each do |os, os_facts|
     # OS specific module defaults
     platform = if os_facts[:os]['family'] == 'RedHat'
                  "#{os_facts[:os]['family']}-#{os_facts[:os]['release']['major']}"
@@ -8,7 +8,7 @@ describe 'ssh' do
                  "#{os_facts[:os]['name']}-#{os_facts[:os]['release']['major']}"
                end
     case platform
-    when %r{RedHat-(7|8)}
+    when %r{RedHat-8}
       packages_client = ['openssh-clients']
       packages_server = ['openssh-server']
     when %r{RedHat-9}
@@ -19,17 +19,11 @@ describe 'ssh' do
     when %r{Archlinux.*}, %r{SLED.*}, %r{SLES.*}
       packages_client = ['openssh']
       packages_server = []
-    when %r{Debian-10}, %r{Ubuntu-18.04}
-      packages_client = ['openssh-client']
-      packages_server = ['openssh-server']
-    when %r{Debian-1[12]}, %r{Ubuntu-(20.04|22.04|24.04)}
+    when %r{Ubuntu-(22.04|24.04)}
       packages_client = ['openssh-client']
       packages_server = ['openssh-server']
       include_dir     = '/etc/ssh/ssh_config.d'
-    when %r{Solaris-9.*}, %r{Solaris-10.*}
-      packages_client = ['SUNWsshcu', 'SUNWsshr', 'SUNWsshu']
-      packages_server = ['SUNWsshdr', 'SUNWsshdu']
-      packages_ssh_source = '/var/spool/pkg'
+    # Kept in to exercise parameters only used by Solaris
     when %r{Solaris-11.*}
       packages_client = ['network/ssh', 'network/ssh/ssh-key']
       packages_server = ['service/network/ssh']
@@ -132,7 +126,7 @@ describe 'ssh' do
     supported_os: [
       {
         'operatingsystem'        => 'RedHat',
-        'operatingsystemrelease' => ['7'],
+        'operatingsystemrelease' => ['9'],
       },
     ],
   }

@@ -1,12 +1,33 @@
 # frozen_string_literal: true
 
+# silence "IO::Buffer is experimental" warning from the io-event gem
+Warning[:experimental] = false
+
 require 'bundler'
-require 'beaker-rspec/rake_task' if Bundler.rubygems.find_name('beaker-rspec').any?
-require 'puppetlabs_spec_helper/rake_tasks'
-require 'puppet-syntax/tasks/puppet-syntax'
+
+begin
+  require 'voxpupuli/test/rake'
+rescue LoadError
+  # only available if gem group development is installed
+end
+
+begin
+  require 'voxpupuli/acceptance/rake'
+rescue LoadError
+  # only available if gem group system_tests is installed
+end
+
 require 'puppet_blacksmith/rake_tasks' if Bundler.rubygems.find_name('puppet-blacksmith').any?
 require 'github_changelog_generator/task' if Bundler.rubygems.find_name('github_changelog_generator').any?
-require 'puppet-strings/tasks' if Bundler.rubygems.find_name('puppet-strings').any?
+require 'openvox-strings/tasks' if Bundler.rubygems.find_name('openvox-strings').any?
+
+# silence MultiJSON deprecation notice from json-schema (used by metadata_lint)
+begin
+  require 'json-schema'
+  JSON::Validator.use_multi_json = false
+rescue LoadError
+  nil
+end
 
 def changelog_user
   return unless (Rake.application.top_level_tasks.include?("changelog") || Rake.application.top_level_tasks.include?("release"))
@@ -40,11 +61,13 @@ def changelog_future_release
   returnVal
 end
 
-PuppetLint.configuration.send('disable_80chars')
-PuppetLint.configuration.send('disable_140chars')
-PuppetLint.configuration.send('disable_manifest_whitespace_opening_brace_after')
-PuppetLint.configuration.send('disable_relative')
-PuppetLint.configuration.send('fail_on_warnings')
+if defined?(PuppetLint)
+  PuppetLint.configuration.send('disable_80chars')
+  PuppetLint.configuration.send('disable_140chars')
+  PuppetLint.configuration.send('disable_manifest_whitespace_opening_brace_after')
+  PuppetLint.configuration.send('disable_relative')
+  PuppetLint.configuration.send('fail_on_warnings')
+end
 
 
 if Bundler.rubygems.find_name('github_changelog_generator').any?

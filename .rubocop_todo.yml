@@ -1,0 +1,124 @@
+---
+# Offenses that predate the adoption of the voxpupuli-rubocop ruleset are
+# excluded here rather than fixed, to avoid a mass style rewrite that would
+# obliterate git history and conflict with open PRs. New code outside these
+# exclusions must comply.
+
+Layout/HashAlignment:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/LineLength:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/SpaceInsideArrayLiteralBrackets:
+  Exclude:
+    - 'spec/**/*'
+
+Lint/RedundantCopDisableDirective:
+  Exclude:
+    - 'spec/**/*'
+
+Naming/HeredocDelimiterNaming:
+  Exclude:
+    - 'spec/**/*'
+
+Performance/CollectionLiteralInLoop:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/ContextWording:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/EmptyLineAfterExample:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/ExampleLength:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/HookArgument:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/ImplicitSubject:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/MultipleExpectations:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/NestedGroups:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/NoExpectationExample:
+  Exclude:
+    - 'spec/**/*'
+
+Style/ClassEqualityComparison:
+  Exclude:
+    - 'spec/**/*'
+
+Style/CommentedKeyword:
+  Exclude:
+    - 'spec/**/*'
+
+Style/Dir:
+  Exclude:
+    - 'spec/**/*'
+
+Style/Encoding:
+  Exclude:
+    - 'spec/**/*'
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - 'lib/facter/ssh.rb'
+    - 'spec/**/*'
+
+Style/IfUnlessModifier:
+  Exclude:
+    - 'lib/facter/ssh.rb'
+    - 'spec/**/*'
+
+Style/MixinUsage:
+  Exclude:
+    - 'spec/**/*'
+
+Style/RedundantRegexpEscape:
+  Exclude:
+    - 'spec/**/*'
+
+Style/RegexpLiteral:
+  Exclude:
+    - 'lib/facter/ssh.rb'
+    - 'spec/**/*'
+
+Style/RescueStandardError:
+  Exclude:
+    - 'spec/**/*'
+
+Style/StringConcatenation:
+  Exclude:
+    - 'spec/**/*'
+
+Style/TrailingCommaInArrayLiteral:
+  Exclude:
+    - 'spec/**/*'
+
+Style/TrailingCommaInHashLiteral:
+  Exclude:
+    - 'spec/**/*'
+
+Style/WordArray:
+  Exclude:
+    - 'spec/**/*'
