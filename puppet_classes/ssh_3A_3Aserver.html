@@ -6,13 +6,13 @@
 <title>
   Puppet Class: ssh::server
   
-    &mdash; Documentation by YARD 0.9.36
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "puppet_classes::ssh::server";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../puppet_class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -77,9 +79,8 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>Notes: <code>Match</code> attribute is not directly supported as multiple match blocks can exist. Use the <code>custom</code> parameter for that.</p>
-
+    <p>Notes: <code>Match</code> attribute is not directly supported as multiple match blocks can
+exist. Use the <code>custom</code> parameter for that.</p>
   </div>
 </div>
 
@@ -101,9 +102,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Content of SSHd banner file.</p>
-</div>
+        <div class='inline'><p>Content of SSHd banner file.</p></div>
       
     </li>
   
@@ -119,9 +118,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>User group used for SSHd banner file.</p>
-</div>
+        <div class='inline'><p>User group used for SSHd banner file.</p></div>
       
     </li>
   
@@ -137,9 +134,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>File mode used for SSHd banner file.</p>
-</div>
+        <div class='inline'><p>File mode used for SSHd banner file.</p></div>
       
     </li>
   
@@ -155,9 +150,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>User/Owner used for SSHd banner file.</p>
-</div>
+        <div class='inline'><p>User/Owner used for SSHd banner file.</p></div>
       
     </li>
   
@@ -173,9 +166,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Absolute path to SSHd banner file.</p>
-</div>
+        <div class='inline'><p>Absolute path to SSHd banner file.</p></div>
       
     </li>
   
@@ -191,9 +182,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>User group used for sshd_config file.</p>
-</div>
+        <div class='inline'><p>User group used for sshd_config file.</p></div>
       
     </li>
   
@@ -209,9 +198,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>File mode used for sshd_config file.</p>
-</div>
+        <div class='inline'><p>File mode used for sshd_config file.</p></div>
       
     </li>
   
@@ -227,9 +214,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>User/Owner used for sshd_config file.</p>
-</div>
+        <div class='inline'><p>User/Owner used for sshd_config file.</p></div>
       
     </li>
   
@@ -245,9 +230,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Absolute path to sshd_config file.</p>
-</div>
+        <div class='inline'><p>Absolute path to sshd_config file.</p></div>
       
     </li>
   
@@ -263,9 +246,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Boolean to choose if the SSH daemon should be managed.</p>
-</div>
+        <div class='inline'><p>Boolean to choose if the SSH daemon should be managed.</p></div>
       
     </li>
   
@@ -281,9 +262,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Boolean to choose if SSH client packages should be managed.</p>
-</div>
+        <div class='inline'><p>Boolean to choose if SSH client packages should be managed.</p></div>
       
     </li>
   
@@ -299,9 +278,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Installation package(s) for the SSH server. Leave empty if the client package(s) also include the server binaries (eg: Suse SLES and SLED).</p>
-</div>
+        <div class='inline'><p>Installation package(s) for the SSH server. Leave empty if the client package(s) also
+include the server binaries (eg: Suse SLES and SLED).</p></div>
       
     </li>
   
@@ -317,9 +295,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Ensure parameter to SSH server package(s).</p>
-</div>
+        <div class='inline'><p>Ensure parameter to SSH server package(s).</p></div>
       
     </li>
   
@@ -335,9 +311,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Path to adminfile for SSH server package(s) installation. Needed for Solaris.</p>
-</div>
+        <div class='inline'><p>Path to adminfile for SSH server package(s) installation. Needed for Solaris.</p></div>
       
     </li>
   
@@ -353,9 +327,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Source to SSH server package(s). Needed for Solaris.</p>
-</div>
+        <div class='inline'><p>Source to SSH server package(s). Needed for Solaris.</p></div>
       
     </li>
   
@@ -371,9 +343,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>enable attribure for SSH daemon.</p>
-</div>
+        <div class='inline'><p>enable attribure for SSH daemon.</p></div>
       
     </li>
   
@@ -389,9 +359,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>ensure attribute for SSH daemon.</p>
-</div>
+        <div class='inline'><p>ensure attribute for SSH daemon.</p></div>
       
     </li>
   
@@ -407,9 +375,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>hasrestart attribute for SSH daemon.</p>
-</div>
+        <div class='inline'><p>hasrestart attribute for SSH daemon.</p></div>
       
     </li>
   
@@ -425,9 +391,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>hasstatus attribute for SSH daemon.</p>
-</div>
+        <div class='inline'><p>hasstatus attribute for SSH daemon.</p></div>
       
     </li>
   
@@ -443,9 +407,9 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of configuration entries passed to ssh::config_file_server define. Please check the docs for ssh::config_file_client and the type Ssh::Sshd_Config for a list and details of the parameters usable here.</p>
-</div>
+        <div class='inline'><p>Hash of configuration entries passed to ssh::config_file_server define.
+Please check the docs for ssh::config_file_client and the type Ssh::Sshd_Config
+for a list and details of the parameters usable here.</p></div>
       
     </li>
   
@@ -461,9 +425,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Name of the SSH daemon.</p>
-</div>
+        <div class='inline'><p>Name of the SSH daemon.</p></div>
       
     </li>
   
@@ -479,9 +441,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AcceptEnv parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#AcceptEnv">man.openbsd.org/sshd_config#AcceptEnv</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AcceptEnv parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#AcceptEnv">https://man.openbsd.org/sshd_config#AcceptEnv</a> for possible values.</p></div>
       
     </li>
   
@@ -497,9 +458,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AddressFamily parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#AddressFamily">man.openbsd.org/sshd_config#AddressFamily</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AddressFamily parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#AddressFamily">https://man.openbsd.org/sshd_config#AddressFamily</a> for possible values.</p></div>
       
     </li>
   
@@ -515,9 +475,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AllowAgentForwarding parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#AllowAgentForwarding">man.openbsd.org/sshd_config#AllowAgentForwarding</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AllowAgentForwarding parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#AllowAgentForwarding">https://man.openbsd.org/sshd_config#AllowAgentForwarding</a> for possible values.</p></div>
       
     </li>
   
@@ -533,9 +492,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AllowGroups parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#AllowGroups">man.openbsd.org/sshd_config#AllowGroups</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AllowGroups parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#AllowGroups">https://man.openbsd.org/sshd_config#AllowGroups</a> for possible values.</p></div>
       
     </li>
   
@@ -551,9 +509,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AllowStreamLocalForwarding parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#AllowStreamLocalForwarding">man.openbsd.org/sshd_config#AllowStreamLocalForwarding</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AllowStreamLocalForwarding parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#AllowStreamLocalForwarding">https://man.openbsd.org/sshd_config#AllowStreamLocalForwarding</a> for possible values.</p></div>
       
     </li>
   
@@ -569,9 +526,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AllowTcpForwarding parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#AllowTcpForwarding">man.openbsd.org/sshd_config#AllowTcpForwarding</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AllowTcpForwarding parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#AllowTcpForwarding">https://man.openbsd.org/sshd_config#AllowTcpForwarding</a> for possible values.</p></div>
       
     </li>
   
@@ -587,9 +543,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AllowUsers parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#AllowUsers">man.openbsd.org/sshd_config#AllowUsers</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AllowUsers parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#AllowUsers">https://man.openbsd.org/sshd_config#AllowUsers</a> for possible values.</p></div>
       
     </li>
   
@@ -605,9 +560,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AuthenticationMethods parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#AuthenticationMethods">man.openbsd.org/sshd_config#AuthenticationMethods</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AuthenticationMethods parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#AuthenticationMethods">https://man.openbsd.org/sshd_config#AuthenticationMethods</a> for possible values.</p></div>
       
     </li>
   
@@ -623,9 +577,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AuthorizedKeysCommand parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#AuthorizedKeysCommand">man.openbsd.org/sshd_config#AuthorizedKeysCommand</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AuthorizedKeysCommand parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#AuthorizedKeysCommand">https://man.openbsd.org/sshd_config#AuthorizedKeysCommand</a> for possible values.</p></div>
       
     </li>
   
@@ -641,9 +594,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AuthorizedKeysCommandUser parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#AuthorizedKeysCommandUser">man.openbsd.org/sshd_config#AuthorizedKeysCommandUser</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AuthorizedKeysCommandUser parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#AuthorizedKeysCommandUser">https://man.openbsd.org/sshd_config#AuthorizedKeysCommandUser</a> for possible values.</p></div>
       
     </li>
   
@@ -659,9 +611,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AuthorizedKeysFile parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#AuthorizedKeysFile">man.openbsd.org/sshd_config#AuthorizedKeysFile</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AuthorizedKeysFile parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#AuthorizedKeysFile">https://man.openbsd.org/sshd_config#AuthorizedKeysFile</a> for possible values.</p></div>
       
     </li>
   
@@ -677,9 +628,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AuthorizedPrincipalsCommand parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#AuthorizedPrincipalsCommand">man.openbsd.org/sshd_config#AuthorizedPrincipalsCommand</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AuthorizedPrincipalsCommand parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#AuthorizedPrincipalsCommand">https://man.openbsd.org/sshd_config#AuthorizedPrincipalsCommand</a> for possible values.</p></div>
       
     </li>
   
@@ -695,9 +645,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AuthorizedPrincipalsCommandUser parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#AuthorizedPrincipalsCommandUser">man.openbsd.org/sshd_config#AuthorizedPrincipalsCommandUser</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AuthorizedPrincipalsCommandUser parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#AuthorizedPrincipalsCommandUser">https://man.openbsd.org/sshd_config#AuthorizedPrincipalsCommandUser</a> for possible values.</p></div>
       
     </li>
   
@@ -713,9 +662,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AuthorizedPrincipalsFile parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#AuthorizedPrincipalsFile">man.openbsd.org/sshd_config#AuthorizedPrincipalsFile</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AuthorizedPrincipalsFile parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#AuthorizedPrincipalsFile">https://man.openbsd.org/sshd_config#AuthorizedPrincipalsFile</a> for possible values.</p></div>
       
     </li>
   
@@ -731,9 +679,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to Banner parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#Banner">man.openbsd.org/sshd_config#Banner</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to Banner parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#Banner">https://man.openbsd.org/sshd_config#Banner</a> for possible values.</p></div>
       
     </li>
   
@@ -749,9 +696,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to CASignatureAlgorithms parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#CASignatureAlgorithms">man.openbsd.org/sshd_config#CASignatureAlgorithms</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to CASignatureAlgorithms parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#CASignatureAlgorithms">https://man.openbsd.org/sshd_config#CASignatureAlgorithms</a> for possible values.</p></div>
       
     </li>
   
@@ -767,9 +713,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ChallengeResponseAuthentication parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#KbdInteractiveAuthentication">man.openbsd.org/sshd_config#KbdInteractiveAuthentication</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ChallengeResponseAuthentication parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#KbdInteractiveAuthentication">https://man.openbsd.org/sshd_config#KbdInteractiveAuthentication</a> for possible values.</p></div>
       
     </li>
   
@@ -785,9 +730,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ChrootDirectory parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#ChrootDirectory">man.openbsd.org/sshd_config#ChrootDirectory</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ChrootDirectory parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#ChrootDirectory">https://man.openbsd.org/sshd_config#ChrootDirectory</a> for possible values.</p></div>
       
     </li>
   
@@ -803,9 +747,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to Ciphers parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#Ciphers">man.openbsd.org/sshd_config#Ciphers</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to Ciphers parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#Ciphers">https://man.openbsd.org/sshd_config#Ciphers</a> for possible values.</p></div>
       
     </li>
   
@@ -821,9 +764,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ClientAliveCountMax parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#ClientAliveCountMax">man.openbsd.org/sshd_config#ClientAliveCountMax</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ClientAliveCountMax parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#ClientAliveCountMax">https://man.openbsd.org/sshd_config#ClientAliveCountMax</a> for possible values.</p></div>
       
     </li>
   
@@ -839,9 +781,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ClientAliveInterval parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#ClientAliveInterval">man.openbsd.org/sshd_config#ClientAliveInterval</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ClientAliveInterval parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#ClientAliveInterval">https://man.openbsd.org/sshd_config#ClientAliveInterval</a> for possible values.</p></div>
       
     </li>
   
@@ -857,9 +798,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to Compression parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#Compression">man.openbsd.org/sshd_config#Compression</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to Compression parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#Compression">https://man.openbsd.org/sshd_config#Compression</a> for possible values.</p></div>
       
     </li>
   
@@ -875,9 +815,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to DenyGroups parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#DenyGroups">man.openbsd.org/sshd_config#DenyGroups</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to DenyGroups parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#DenyGroups">https://man.openbsd.org/sshd_config#DenyGroups</a> for possible values.</p></div>
       
     </li>
   
@@ -893,9 +832,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to DenyUsers parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#DenyUsers">man.openbsd.org/sshd_config#DenyUsers</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to DenyUsers parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#DenyUsers">https://man.openbsd.org/sshd_config#DenyUsers</a> for possible values.</p></div>
       
     </li>
   
@@ -911,9 +849,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to DisableForwarding parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#DisableForwarding">man.openbsd.org/sshd_config#DisableForwarding</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to DisableForwarding parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#DisableForwarding">https://man.openbsd.org/sshd_config#DisableForwarding</a> for possible values.</p></div>
       
     </li>
   
@@ -929,9 +866,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ExposeAuthInfo parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#ExposeAuthInfo">man.openbsd.org/sshd_config#ExposeAuthInfo</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ExposeAuthInfo parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#ExposeAuthInfo">https://man.openbsd.org/sshd_config#ExposeAuthInfo</a> for possible values.</p></div>
       
     </li>
   
@@ -947,9 +883,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to FingerprintHash parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#FingerprintHash">man.openbsd.org/sshd_config#FingerprintHash</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to FingerprintHash parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#FingerprintHash">https://man.openbsd.org/sshd_config#FingerprintHash</a> for possible values.</p></div>
       
     </li>
   
@@ -965,9 +900,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ForceCommand parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#ForceCommand">man.openbsd.org/sshd_config#ForceCommand</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ForceCommand parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#ForceCommand">https://man.openbsd.org/sshd_config#ForceCommand</a> for possible values.</p></div>
       
     </li>
   
@@ -983,9 +917,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to GatewayPorts parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#GatewayPorts">man.openbsd.org/sshd_config#GatewayPorts</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to GatewayPorts parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#GatewayPorts">https://man.openbsd.org/sshd_config#GatewayPorts</a> for possible values.</p></div>
       
     </li>
   
@@ -1001,9 +934,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to GSSAPIAuthentication parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#GSSAPIAuthentication">man.openbsd.org/sshd_config#GSSAPIAuthentication</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to GSSAPIAuthentication parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#GSSAPIAuthentication">https://man.openbsd.org/sshd_config#GSSAPIAuthentication</a> for possible values.</p></div>
       
     </li>
   
@@ -1019,9 +951,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to GSSAPICleanupCredentials parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#GSSAPICleanupCredentials">man.openbsd.org/sshd_config#GSSAPICleanupCredentials</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to GSSAPICleanupCredentials parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#GSSAPICleanupCredentials">https://man.openbsd.org/sshd_config#GSSAPICleanupCredentials</a> for possible values.</p></div>
       
     </li>
   
@@ -1037,9 +968,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to GSSAPIStrictAcceptorCheck parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#GSSAPIStrictAcceptorCheck">man.openbsd.org/sshd_config#GSSAPIStrictAcceptorCheck</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to GSSAPIStrictAcceptorCheck parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#GSSAPIStrictAcceptorCheck">https://man.openbsd.org/sshd_config#GSSAPIStrictAcceptorCheck</a> for possible values.</p></div>
       
     </li>
   
@@ -1055,9 +985,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to HostbasedAcceptedAlgorithms parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#HostbasedAcceptedAlgorithms">man.openbsd.org/sshd_config#HostbasedAcceptedAlgorithms</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to HostbasedAcceptedAlgorithms parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#HostbasedAcceptedAlgorithms">https://man.openbsd.org/sshd_config#HostbasedAcceptedAlgorithms</a> for possible values.</p></div>
       
     </li>
   
@@ -1073,9 +1002,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to HostbasedAuthentication parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#HostbasedAuthentication">man.openbsd.org/sshd_config#HostbasedAuthentication</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to HostbasedAuthentication parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#HostbasedAuthentication">https://man.openbsd.org/sshd_config#HostbasedAuthentication</a> for possible values.</p></div>
       
     </li>
   
@@ -1091,9 +1019,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to HostbasedUsesNameFromPacketOnly parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#HostbasedUsesNameFromPacketOnly">man.openbsd.org/sshd_config#HostbasedUsesNameFromPacketOnly</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to HostbasedUsesNameFromPacketOnly parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#HostbasedUsesNameFromPacketOnly">https://man.openbsd.org/sshd_config#HostbasedUsesNameFromPacketOnly</a> for possible values.</p></div>
       
     </li>
   
@@ -1109,9 +1036,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to HostCertificate parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#HostCertificate">man.openbsd.org/sshd_config#HostCertificate</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to HostCertificate parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#HostCertificate">https://man.openbsd.org/sshd_config#HostCertificate</a> for possible values.</p></div>
       
     </li>
   
@@ -1127,9 +1053,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to HostKey parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#HostKey">man.openbsd.org/sshd_config#HostKey</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to HostKey parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#HostKey">https://man.openbsd.org/sshd_config#HostKey</a> for possible values.</p></div>
       
     </li>
   
@@ -1145,9 +1070,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to HostKeyAgent parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#HostKeyAgent">man.openbsd.org/sshd_config#HostKeyAgent</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to HostKeyAgent parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#HostKeyAgent">https://man.openbsd.org/sshd_config#HostKeyAgent</a> for possible values.</p></div>
       
     </li>
   
@@ -1163,9 +1087,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to HostKeyAlgorithms parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#HostKeyAlgorithms">man.openbsd.org/sshd_config#HostKeyAlgorithms</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to HostKeyAlgorithms parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#HostKeyAlgorithms">https://man.openbsd.org/sshd_config#HostKeyAlgorithms</a> for possible values.</p></div>
       
     </li>
   
@@ -1181,9 +1104,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to IgnoreRhosts parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#IgnoreRhosts">man.openbsd.org/sshd_config#IgnoreRhosts</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to IgnoreRhosts parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#IgnoreRhosts">https://man.openbsd.org/sshd_config#IgnoreRhosts</a> for possible values.</p></div>
       
     </li>
   
@@ -1199,9 +1121,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to IgnoreUserKnownHosts parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#IgnoreUserKnownHosts">man.openbsd.org/sshd_config#IgnoreUserKnownHosts</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to IgnoreUserKnownHosts parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#IgnoreUserKnownHosts">https://man.openbsd.org/sshd_config#IgnoreUserKnownHosts</a> for possible values.</p></div>
       
     </li>
   
@@ -1217,9 +1138,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to Include parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#Include">man.openbsd.org/sshd_config#Include</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to Include parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#Include">https://man.openbsd.org/sshd_config#Include</a> for possible values.</p></div>
       
     </li>
   
@@ -1235,9 +1155,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The owner of the include directory</p>
-</div>
+        <div class='inline'><p>The owner of the include directory</p></div>
       
     </li>
   
@@ -1253,9 +1171,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The group of the include directory</p>
-</div>
+        <div class='inline'><p>The group of the include directory</p></div>
       
     </li>
   
@@ -1271,9 +1187,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The mode of the include directory</p>
-</div>
+        <div class='inline'><p>The mode of the include directory</p></div>
       
     </li>
   
@@ -1289,9 +1203,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Sets whether to purge the include_dir of unmanaged files</p>
-</div>
+        <div class='inline'><p>Sets whether to purge the include_dir of unmanaged files</p></div>
       
     </li>
   
@@ -1307,9 +1219,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to IPQoS parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#IPQoS">man.openbsd.org/sshd_config#IPQoS</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to IPQoS parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#IPQoS">https://man.openbsd.org/sshd_config#IPQoS</a> for possible values.</p></div>
       
     </li>
   
@@ -1325,9 +1236,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to KbdInteractiveAuthentication parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#KbdInteractiveAuthentication">man.openbsd.org/sshd_config#KbdInteractiveAuthentication</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to KbdInteractiveAuthentication parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#KbdInteractiveAuthentication">https://man.openbsd.org/sshd_config#KbdInteractiveAuthentication</a> for possible values.</p></div>
       
     </li>
   
@@ -1343,9 +1253,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to KerberosAuthentication parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#KerberosAuthentication">man.openbsd.org/sshd_config#KerberosAuthentication</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to KerberosAuthentication parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#KerberosAuthentication">https://man.openbsd.org/sshd_config#KerberosAuthentication</a> for possible values.</p></div>
       
     </li>
   
@@ -1361,9 +1270,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to KerberosGetAFSToken parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#KerberosGetAFSToken">man.openbsd.org/sshd_config#KerberosGetAFSToken</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to KerberosGetAFSToken parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#KerberosGetAFSToken">https://man.openbsd.org/sshd_config#KerberosGetAFSToken</a> for possible values.</p></div>
       
     </li>
   
@@ -1379,9 +1287,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to KerberosOrLocalPasswd parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#KerberosOrLocalPasswd">man.openbsd.org/sshd_config#KerberosOrLocalPasswd</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to KerberosOrLocalPasswd parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#KerberosOrLocalPasswd">https://man.openbsd.org/sshd_config#KerberosOrLocalPasswd</a> for possible values.</p></div>
       
     </li>
   
@@ -1397,9 +1304,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to KerberosTicketCleanup parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#KerberosTicketCleanup">man.openbsd.org/sshd_config#KerberosTicketCleanup</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to KerberosTicketCleanup parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#KerberosTicketCleanup">https://man.openbsd.org/sshd_config#KerberosTicketCleanup</a> for possible values.</p></div>
       
     </li>
   
@@ -1415,9 +1321,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to KexAlgorithms parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#KexAlgorithms">man.openbsd.org/sshd_config#KexAlgorithms</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to KexAlgorithms parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#KexAlgorithms">https://man.openbsd.org/sshd_config#KexAlgorithms</a> for possible values.</p></div>
       
     </li>
   
@@ -1433,9 +1338,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ListenAddress parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#ListenAddress">man.openbsd.org/sshd_config#ListenAddress</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ListenAddress parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#ListenAddress">https://man.openbsd.org/sshd_config#ListenAddress</a> for possible values.</p></div>
       
     </li>
   
@@ -1451,9 +1355,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to LoginGraceTime parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#LoginGraceTime">man.openbsd.org/sshd_config#LoginGraceTime</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to LoginGraceTime parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#LoginGraceTime">https://man.openbsd.org/sshd_config#LoginGraceTime</a> for possible values.</p></div>
       
     </li>
   
@@ -1469,9 +1372,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to LogLevel parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#LogLevel">man.openbsd.org/sshd_config#LogLevel</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to LogLevel parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#LogLevel">https://man.openbsd.org/sshd_config#LogLevel</a> for possible values.</p></div>
       
     </li>
   
@@ -1487,9 +1389,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to LogVerbose parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#LogVerbose">man.openbsd.org/sshd_config#LogVerbose</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to LogVerbose parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#LogVerbose">https://man.openbsd.org/sshd_config#LogVerbose</a> for possible values.</p></div>
       
     </li>
   
@@ -1505,9 +1406,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to MACs parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#MACs">man.openbsd.org/sshd_config#MACs</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to MACs parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#MACs">https://man.openbsd.org/sshd_config#MACs</a> for possible values.</p></div>
       
     </li>
   
@@ -1523,9 +1423,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to MaxAuthTries parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#MaxAuthTries">man.openbsd.org/sshd_config#MaxAuthTries</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to MaxAuthTries parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#MaxAuthTries">https://man.openbsd.org/sshd_config#MaxAuthTries</a> for possible values.</p></div>
       
     </li>
   
@@ -1541,9 +1440,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to MaxSessions parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#MaxSessions">man.openbsd.org/sshd_config#MaxSessions</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to MaxSessions parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#MaxSessions">https://man.openbsd.org/sshd_config#MaxSessions</a> for possible values.</p></div>
       
     </li>
   
@@ -1559,9 +1457,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to MaxStartups parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#MaxStartups">man.openbsd.org/sshd_config#MaxStartups</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to MaxStartups parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#MaxStartups">https://man.openbsd.org/sshd_config#MaxStartups</a> for possible values.</p></div>
       
     </li>
   
@@ -1577,9 +1474,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ModuliFile parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#ModuliFile">man.openbsd.org/sshd_config#ModuliFile</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ModuliFile parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#ModuliFile">https://man.openbsd.org/sshd_config#ModuliFile</a> for possible values.</p></div>
       
     </li>
   
@@ -1595,9 +1491,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PasswordAuthentication parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PasswordAuthentication">man.openbsd.org/sshd_config#PasswordAuthentication</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PasswordAuthentication parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PasswordAuthentication">https://man.openbsd.org/sshd_config#PasswordAuthentication</a> for possible values.</p></div>
       
     </li>
   
@@ -1613,9 +1508,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PermitEmptyPasswords parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PermitEmptyPasswords">man.openbsd.org/sshd_config#PermitEmptyPasswords</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PermitEmptyPasswords parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PermitEmptyPasswords">https://man.openbsd.org/sshd_config#PermitEmptyPasswords</a> for possible values.</p></div>
       
     </li>
   
@@ -1631,9 +1525,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PermitListen parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PermitListen">man.openbsd.org/sshd_config#PermitListen</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PermitListen parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PermitListen">https://man.openbsd.org/sshd_config#PermitListen</a> for possible values.</p></div>
       
     </li>
   
@@ -1649,9 +1542,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PermitOpen parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PermitOpen">man.openbsd.org/sshd_config#PermitOpen</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PermitOpen parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PermitOpen">https://man.openbsd.org/sshd_config#PermitOpen</a> for possible values.</p></div>
       
     </li>
   
@@ -1667,9 +1559,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PermitRootLogin parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PermitRootLogin">man.openbsd.org/sshd_config#PermitRootLogin</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PermitRootLogin parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PermitRootLogin">https://man.openbsd.org/sshd_config#PermitRootLogin</a> for possible values.</p></div>
       
     </li>
   
@@ -1685,9 +1576,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PermitTTY parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PermitTTY">man.openbsd.org/sshd_config#PermitTTY</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PermitTTY parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PermitTTY">https://man.openbsd.org/sshd_config#PermitTTY</a> for possible values.</p></div>
       
     </li>
   
@@ -1703,9 +1593,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PermitTunnel parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PermitTunnel">man.openbsd.org/sshd_config#PermitTunnel</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PermitTunnel parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PermitTunnel">https://man.openbsd.org/sshd_config#PermitTunnel</a> for possible values.</p></div>
       
     </li>
   
@@ -1721,9 +1610,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PermitUserEnvironment parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PermitUserEnvironment">man.openbsd.org/sshd_config#PermitUserEnvironment</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PermitUserEnvironment parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PermitUserEnvironment">https://man.openbsd.org/sshd_config#PermitUserEnvironment</a> for possible values.</p></div>
       
     </li>
   
@@ -1739,9 +1627,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PermitUserRC parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PermitUserRC">man.openbsd.org/sshd_config#PermitUserRC</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PermitUserRC parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PermitUserRC">https://man.openbsd.org/sshd_config#PermitUserRC</a> for possible values.</p></div>
       
     </li>
   
@@ -1757,9 +1644,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PerSourceMaxStartups parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PerSourceMaxStartups">man.openbsd.org/sshd_config#PerSourceMaxStartups</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PerSourceMaxStartups parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PerSourceMaxStartups">https://man.openbsd.org/sshd_config#PerSourceMaxStartups</a> for possible values.</p></div>
       
     </li>
   
@@ -1775,9 +1661,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PerSourceNetBlockSize parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PerSourceNetBlockSize">man.openbsd.org/sshd_config#PerSourceNetBlockSize</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PerSourceNetBlockSize parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PerSourceNetBlockSize">https://man.openbsd.org/sshd_config#PerSourceNetBlockSize</a> for possible values.</p></div>
       
     </li>
   
@@ -1793,9 +1678,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PidFile parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PidFile">man.openbsd.org/sshd_config#PidFile</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PidFile parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PidFile">https://man.openbsd.org/sshd_config#PidFile</a> for possible values.</p></div>
       
     </li>
   
@@ -1811,9 +1695,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to Port parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#Port">man.openbsd.org/sshd_config#Port</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to Port parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#Port">https://man.openbsd.org/sshd_config#Port</a> for possible values.</p></div>
       
     </li>
   
@@ -1829,9 +1712,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PrintLastLog parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PrintLastLog">man.openbsd.org/sshd_config#PrintLastLog</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PrintLastLog parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PrintLastLog">https://man.openbsd.org/sshd_config#PrintLastLog</a> for possible values.</p></div>
       
     </li>
   
@@ -1847,9 +1729,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PrintMotd parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PrintMotd">man.openbsd.org/sshd_config#PrintMotd</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PrintMotd parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PrintMotd">https://man.openbsd.org/sshd_config#PrintMotd</a> for possible values.</p></div>
       
     </li>
   
@@ -1865,9 +1746,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PubkeyAcceptedAlgorithms parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PubkeyAcceptedAlgorithms">man.openbsd.org/sshd_config#PubkeyAcceptedAlgorithms</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PubkeyAcceptedAlgorithms parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PubkeyAcceptedAlgorithms">https://man.openbsd.org/sshd_config#PubkeyAcceptedAlgorithms</a> for possible values.</p></div>
       
     </li>
   
@@ -1883,9 +1763,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PubkeyAuthOptions parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PubkeyAuthOptions">man.openbsd.org/sshd_config#PubkeyAuthOptions</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PubkeyAuthOptions parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PubkeyAuthOptions">https://man.openbsd.org/sshd_config#PubkeyAuthOptions</a> for possible values.</p></div>
       
     </li>
   
@@ -1901,9 +1780,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PubkeyAuthentication parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#PubkeyAuthentication">man.openbsd.org/sshd_config#PubkeyAuthentication</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PubkeyAuthentication parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#PubkeyAuthentication">https://man.openbsd.org/sshd_config#PubkeyAuthentication</a> for possible values.</p></div>
       
     </li>
   
@@ -1919,9 +1797,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to RekeyLimit parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#RekeyLimit">man.openbsd.org/sshd_config#RekeyLimit</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to RekeyLimit parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#RekeyLimit">https://man.openbsd.org/sshd_config#RekeyLimit</a> for possible values.</p></div>
       
     </li>
   
@@ -1937,9 +1814,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to RevokedKeys parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#RevokedKeys">man.openbsd.org/sshd_config#RevokedKeys</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to RevokedKeys parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#RevokedKeys">https://man.openbsd.org/sshd_config#RevokedKeys</a> for possible values.</p></div>
       
     </li>
   
@@ -1955,9 +1831,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to RDomain parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#RDomain">man.openbsd.org/sshd_config#RDomain</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to RDomain parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#RDomain">https://man.openbsd.org/sshd_config#RDomain</a> for possible values.</p></div>
       
     </li>
   
@@ -1973,9 +1848,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to SecurityKeyProvider parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#SecurityKeyProvider">man.openbsd.org/sshd_config#SecurityKeyProvider</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to SecurityKeyProvider parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#SecurityKeyProvider">https://man.openbsd.org/sshd_config#SecurityKeyProvider</a> for possible values.</p></div>
       
     </li>
   
@@ -1991,9 +1865,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to SetEnv parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#SetEnv">man.openbsd.org/sshd_config#SetEnv</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to SetEnv parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#SetEnv">https://man.openbsd.org/sshd_config#SetEnv</a> for possible values.</p></div>
       
     </li>
   
@@ -2009,9 +1882,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to StreamLocalBindMask parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#StreamLocalBindMask">man.openbsd.org/sshd_config#StreamLocalBindMask</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to StreamLocalBindMask parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#StreamLocalBindMask">https://man.openbsd.org/sshd_config#StreamLocalBindMask</a> for possible values.</p></div>
       
     </li>
   
@@ -2027,9 +1899,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to StreamLocalBindUnlink parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#StreamLocalBindUnlink">man.openbsd.org/sshd_config#StreamLocalBindUnlink</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to StreamLocalBindUnlink parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#StreamLocalBindUnlink">https://man.openbsd.org/sshd_config#StreamLocalBindUnlink</a> for possible values.</p></div>
       
     </li>
   
@@ -2045,9 +1916,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to StrictModes parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#StrictModes">man.openbsd.org/sshd_config#StrictModes</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to StrictModes parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#StrictModes">https://man.openbsd.org/sshd_config#StrictModes</a> for possible values.</p></div>
       
     </li>
   
@@ -2063,9 +1933,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to Subsystem parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#Subsystem">man.openbsd.org/sshd_config#Subsystem</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to Subsystem parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#Subsystem">https://man.openbsd.org/sshd_config#Subsystem</a> for possible values.</p></div>
       
     </li>
   
@@ -2081,9 +1950,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to SyslogFacility parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#SyslogFacility">man.openbsd.org/sshd_config#SyslogFacility</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to SyslogFacility parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#SyslogFacility">https://man.openbsd.org/sshd_config#SyslogFacility</a> for possible values.</p></div>
       
     </li>
   
@@ -2099,9 +1967,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to TCPKeepAlive parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#TCPKeepAlive">man.openbsd.org/sshd_config#TCPKeepAlive</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to TCPKeepAlive parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#TCPKeepAlive">https://man.openbsd.org/sshd_config#TCPKeepAlive</a> for possible values.</p></div>
       
     </li>
   
@@ -2117,9 +1984,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to TrustedUserCAKeys parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#TrustedUserCAKeys">man.openbsd.org/sshd_config#TrustedUserCAKeys</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to TrustedUserCAKeys parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#TrustedUserCAKeys">https://man.openbsd.org/sshd_config#TrustedUserCAKeys</a> for possible values.</p></div>
       
     </li>
   
@@ -2135,9 +2001,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to UseDNS parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#UseDNS">man.openbsd.org/sshd_config#UseDNS</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to UseDNS parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#UseDNS">https://man.openbsd.org/sshd_config#UseDNS</a> for possible values.</p></div>
       
     </li>
   
@@ -2153,9 +2018,10 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to UsePAM parameter in sshd_config. Unused if empty. Possible values are &#39;yes&#39; and &#39;no&#39;. There is no mentioning of this parameter in the current man pages of OpenSSH v7. But it is mentioned in the release notes of OpenSSH v8. <a href="https://www.openssh.com/txt/release-8.0">www.openssh.com/txt/release-8.0</a></p>
-</div>
+        <div class='inline'><p>Value(s) passed to UsePAM parameter in sshd_config. Unused if empty.
+Possible values are 'yes' and 'no'.
+There is no mentioning of this parameter in the current man pages of OpenSSH v7.
+But it is mentioned in the release notes of OpenSSH v8. <a href="https://www.openssh.com/txt/release-8.0">https://www.openssh.com/txt/release-8.0</a></p></div>
       
     </li>
   
@@ -2171,9 +2037,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to VersionAddendum parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#VersionAddendum">man.openbsd.org/sshd_config#VersionAddendum</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to VersionAddendum parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#VersionAddendum">https://man.openbsd.org/sshd_config#VersionAddendum</a> for possible values.</p></div>
       
     </li>
   
@@ -2189,9 +2054,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to X11DisplayOffset parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#X11DisplayOffset">man.openbsd.org/sshd_config#X11DisplayOffset</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to X11DisplayOffset parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#X11DisplayOffset">https://man.openbsd.org/sshd_config#X11DisplayOffset</a> for possible values.</p></div>
       
     </li>
   
@@ -2207,9 +2071,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to X11Forwarding parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#X11Forwarding">man.openbsd.org/sshd_config#X11Forwarding</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to X11Forwarding parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#X11Forwarding">https://man.openbsd.org/sshd_config#X11Forwarding</a> for possible values.</p></div>
       
     </li>
   
@@ -2225,9 +2088,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to X11UseLocalhost parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#X11UseLocalhost">man.openbsd.org/sshd_config#X11UseLocalhost</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to X11UseLocalhost parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#X11UseLocalhost">https://man.openbsd.org/sshd_config#X11UseLocalhost</a> for possible values.</p></div>
       
     </li>
   
@@ -2243,9 +2105,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to XAuthLocation parameter in sshd_config. Unused if empty. Check <a href="https://man.openbsd.org/sshd_config#XAuthLocation">man.openbsd.org/sshd_config#XAuthLocation</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to XAuthLocation parameter in sshd_config. Unused if empty.
+Check <a href="https://man.openbsd.org/sshd_config#XAuthLocation">https://man.openbsd.org/sshd_config#XAuthLocation</a> for possible values.</p></div>
       
     </li>
   
@@ -2261,9 +2122,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Array of custom lines to be added to server configuration file sshd_config. Uses one array item per line to be added.</p>
-</div>
+        <div class='inline'><p>Array of custom lines to be added to server configuration file sshd_config.
+Uses one array item per line to be added.</p></div>
       
     </li>
   
@@ -2504,7 +2364,7 @@ class ssh::server (
   Boolean $service_hasrestart = true,
   Boolean $service_hasstatus = true,
   Hash $config_files = {},
-  # all paramters below this line are for sshd_config
+  # all parameters below this line are for sshd_config
   Optional[Array[String[1]]] $accept_env = undef,
   Optional[Enum[&#39;any&#39;, &#39;inet&#39;, &#39;inet6&#39;]] $address_family = undef,
   Optional[Ssh::Yes_no] $allow_agent_forwarding = undef,

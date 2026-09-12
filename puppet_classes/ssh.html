@@ -6,13 +6,13 @@
 <title>
   Puppet Class: ssh
   
-    &mdash; Documentation by YARD 0.9.36
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "puppet_classes::ssh";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../puppet_class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -77,9 +79,8 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>Notes: <code>Match</code> and <code>Host</code> attributes are not directly supported as multiple match/host blocks can exist. Use the <code>custom</code> parameter for that.</p>
-
+    <p>Notes: <code>Match</code> and <code>Host</code> attributes are not directly supported as multiple
+match/host blocks can exist. Use the <code>custom</code> parameter for that.</p>
   </div>
 </div>
 
@@ -101,9 +102,9 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of configuration entries passed to ssh::config_entries define. Please check the docs for ssh::config_entries for a list and details of the parameters usable here.</p>
-</div>
+        <div class='inline'><p>Hash of configuration entries passed to ssh::config_entries define.
+Please check the docs for ssh::config_entries for a list and details
+of the parameters usable here.</p></div>
       
     </li>
   
@@ -119,9 +120,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>User group used for ssh_config file.</p>
-</div>
+        <div class='inline'><p>User group used for ssh_config file.</p></div>
       
     </li>
   
@@ -137,9 +136,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>File mode used for ssh_config file.</p>
-</div>
+        <div class='inline'><p>File mode used for ssh_config file.</p></div>
       
     </li>
   
@@ -155,9 +152,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>User/Owner used for ssh_config file.</p>
-</div>
+        <div class='inline'><p>User/Owner used for ssh_config file.</p></div>
       
     </li>
   
@@ -173,9 +168,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Absolute path to ssh_config file.</p>
-</div>
+        <div class='inline'><p>Absolute path to ssh_config file.</p></div>
       
     </li>
   
@@ -191,9 +184,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>User group used for global used known_hosts file.</p>
-</div>
+        <div class='inline'><p>User group used for global used known_hosts file.</p></div>
       
     </li>
   
@@ -209,9 +200,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>File mode used for global used known_hosts file.</p>
-</div>
+        <div class='inline'><p>File mode used for global used known_hosts file.</p></div>
       
     </li>
   
@@ -227,9 +216,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>User/Owner used for global used known_hosts file.</p>
-</div>
+        <div class='inline'><p>User/Owner used for global used known_hosts file.</p></div>
       
     </li>
   
@@ -245,9 +232,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Absolute path to global used known_hosts file.</p>
-</div>
+        <div class='inline'><p>Absolute path to global used known_hosts file.</p></div>
       
     </li>
   
@@ -263,9 +248,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of keys to be added to ~/.ssh/authorized_keys for users.</p>
-</div>
+        <div class='inline'><p>Hash of keys to be added to ~/.ssh/authorized_keys for users.</p></div>
       
     </li>
   
@@ -281,9 +264,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Boolean to choose if the global used known hosts file should be managed.</p>
-</div>
+        <div class='inline'><p>Boolean to choose if the global used known hosts file should be managed.</p></div>
       
     </li>
   
@@ -299,9 +280,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Boolean to choose if the ssh_config file of root should be managed.</p>
-</div>
+        <div class='inline'><p>Boolean to choose if the ssh_config file of root should be managed.</p></div>
       
     </li>
   
@@ -317,9 +296,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Boolean to choose if the SSH daemon and its configuration should be managed.</p>
-</div>
+        <div class='inline'><p>Boolean to choose if the SSH daemon and its configuration should be managed.</p></div>
       
     </li>
   
@@ -335,9 +312,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Boolean to choose if SSH keys should be managed. Also see $purge_keys.</p>
-</div>
+        <div class='inline'><p>Boolean to choose if SSH keys should be managed. Also see $purge_keys.</p></div>
       
     </li>
   
@@ -353,9 +328,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Boolean to choose if SSH client packages should be managed.</p>
-</div>
+        <div class='inline'><p>Boolean to choose if SSH client packages should be managed.</p></div>
       
     </li>
   
@@ -371,9 +344,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Installation package(s) for the SSH client.</p>
-</div>
+        <div class='inline'><p>Installation package(s) for the SSH client.</p></div>
       
     </li>
   
@@ -389,9 +360,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Ensure parameter to SSH client package(s).</p>
-</div>
+        <div class='inline'><p>Ensure parameter to SSH client package(s).</p></div>
       
     </li>
   
@@ -407,9 +376,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Path to adminfile for SSH client package(s) installation. Needed for Solaris.</p>
-</div>
+        <div class='inline'><p>Path to adminfile for SSH client package(s) installation. Needed for Solaris.</p></div>
       
     </li>
   
@@ -425,9 +392,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Source to SSH client package(s). Needed for Solaris.</p>
-</div>
+        <div class='inline'><p>Source to SSH client package(s). Needed for Solaris.</p></div>
       
     </li>
   
@@ -443,9 +408,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>If SSH keys not managed by Puppet should get removed. Also see $manage_sshkey.</p>
-</div>
+        <div class='inline'><p>If SSH keys not managed by Puppet should get removed. Also see $manage_sshkey.</p></div>
       
     </li>
   
@@ -461,9 +424,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Content of the ssh_config file of root.</p>
-</div>
+        <div class='inline'><p>Content of the ssh_config file of root.</p></div>
       
     </li>
   
@@ -479,9 +440,9 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of configuration entries passed to ssh::config_file_client define. Please check the docs for ssh::config_file_client and the type Ssh::Ssh_Config for a list and details of the parameters usable here.</p>
-</div>
+        <div class='inline'><p>Hash of configuration entries passed to ssh::config_file_client define.
+Please check the docs for ssh::config_file_client and the type Ssh::Ssh_Config
+for a list and details of the parameters usable here.</p></div>
       
     </li>
   
@@ -497,9 +458,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to Host parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#Host">man.openbsd.org/ssh_config#Host</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to Host parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#Host">https://man.openbsd.org/ssh_config#Host</a> for possible values.</p></div>
       
     </li>
   
@@ -515,9 +475,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AddKeysToAgent parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#AddKeysToAgent">man.openbsd.org/ssh_config#AddKeysToAgent</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AddKeysToAgent parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#AddKeysToAgent">https://man.openbsd.org/ssh_config#AddKeysToAgent</a> for possible values.</p></div>
       
     </li>
   
@@ -533,9 +492,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to AddressFamily parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#AddressFamily">man.openbsd.org/ssh_config#AddressFamily</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to AddressFamily parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#AddressFamily">https://man.openbsd.org/ssh_config#AddressFamily</a> for possible values.</p></div>
       
     </li>
   
@@ -551,9 +509,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to BatchMode parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#BatchMode">man.openbsd.org/ssh_config#BatchMode</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to BatchMode parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#BatchMode">https://man.openbsd.org/ssh_config#BatchMode</a> for possible values.</p></div>
       
     </li>
   
@@ -569,9 +526,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to BindAddress parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#BindAddress">man.openbsd.org/ssh_config#BindAddress</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to BindAddress parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#BindAddress">https://man.openbsd.org/ssh_config#BindAddress</a> for possible values.</p></div>
       
     </li>
   
@@ -587,9 +543,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to BindInterface parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#BindInterface">man.openbsd.org/ssh_config#BindInterface</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to BindInterface parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#BindInterface">https://man.openbsd.org/ssh_config#BindInterface</a> for possible values.</p></div>
       
     </li>
   
@@ -605,9 +560,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to CanonicalDomains parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CanonicalDomains">man.openbsd.org/ssh_config#CanonicalDomains</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to CanonicalDomains parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#CanonicalDomains">https://man.openbsd.org/ssh_config#CanonicalDomains</a> for possible values.</p></div>
       
     </li>
   
@@ -623,9 +577,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to CanonicalizeFallbackLocal parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CanonicalizeFallbackLocal">man.openbsd.org/ssh_config#CanonicalizeFallbackLocal</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to CanonicalizeFallbackLocal parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#CanonicalizeFallbackLocal">https://man.openbsd.org/ssh_config#CanonicalizeFallbackLocal</a> for possible values.</p></div>
       
     </li>
   
@@ -641,9 +594,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to CanonicalizeHostname parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CanonicalizeHostname">man.openbsd.org/ssh_config#CanonicalizeHostname</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to CanonicalizeHostname parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#CanonicalizeHostname">https://man.openbsd.org/ssh_config#CanonicalizeHostname</a> for possible values.</p></div>
       
     </li>
   
@@ -659,9 +611,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to CanonicalizeMaxDots parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CanonicalizeMaxDots">man.openbsd.org/ssh_config#CanonicalizeMaxDots</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to CanonicalizeMaxDots parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#CanonicalizeMaxDots">https://man.openbsd.org/ssh_config#CanonicalizeMaxDots</a> for possible values.</p></div>
       
     </li>
   
@@ -677,9 +628,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to CanonicalizePermittedCNAMEs parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CanonicalizePermittedCNAMEs">man.openbsd.org/ssh_config#CanonicalizePermittedCNAMEs</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to CanonicalizePermittedCNAMEs parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#CanonicalizePermittedCNAMEs">https://man.openbsd.org/ssh_config#CanonicalizePermittedCNAMEs</a> for possible values.</p></div>
       
     </li>
   
@@ -695,9 +645,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to CASignatureAlgorithms parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CASignatureAlgorithms">man.openbsd.org/ssh_config#CASignatureAlgorithms</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to CASignatureAlgorithms parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#CASignatureAlgorithms">https://man.openbsd.org/ssh_config#CASignatureAlgorithms</a> for possible values.</p></div>
       
     </li>
   
@@ -713,9 +662,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to CertificateFile parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CertificateFile">man.openbsd.org/ssh_config#CertificateFile</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to CertificateFile parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#CertificateFile">https://man.openbsd.org/ssh_config#CertificateFile</a> for possible values.</p></div>
       
     </li>
   
@@ -731,9 +679,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to CheckHostIP parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#CheckHostIP">man.openbsd.org/ssh_config#CheckHostIP</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to CheckHostIP parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#CheckHostIP">https://man.openbsd.org/ssh_config#CheckHostIP</a> for possible values.</p></div>
       
     </li>
   
@@ -749,9 +696,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to Ciphers parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#Ciphers">man.openbsd.org/ssh_config#Ciphers</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to Ciphers parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#Ciphers">https://man.openbsd.org/ssh_config#Ciphers</a> for possible values.</p></div>
       
     </li>
   
@@ -767,9 +713,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ClearAllForwardings parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ClearAllForwardings">man.openbsd.org/ssh_config#ClearAllForwardings</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ClearAllForwardings parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ClearAllForwardings">https://man.openbsd.org/ssh_config#ClearAllForwardings</a> for possible values.</p></div>
       
     </li>
   
@@ -785,9 +730,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to Compression parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#Compression">man.openbsd.org/ssh_config#Compression</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to Compression parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#Compression">https://man.openbsd.org/ssh_config#Compression</a> for possible values.</p></div>
       
     </li>
   
@@ -803,9 +747,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ConnectionAttempts parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ConnectionAttempts">man.openbsd.org/ssh_config#ConnectionAttempts</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ConnectionAttempts parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ConnectionAttempts">https://man.openbsd.org/ssh_config#ConnectionAttempts</a> for possible values.</p></div>
       
     </li>
   
@@ -821,9 +764,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ConnectTimeout parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ConnectTimeout">man.openbsd.org/ssh_config#ConnectTimeout</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ConnectTimeout parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ConnectTimeout">https://man.openbsd.org/ssh_config#ConnectTimeout</a> for possible values.</p></div>
       
     </li>
   
@@ -839,9 +781,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ControlMaster parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ControlMaster">man.openbsd.org/ssh_config#ControlMaster</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ControlMaster parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ControlMaster">https://man.openbsd.org/ssh_config#ControlMaster</a> for possible values.</p></div>
       
     </li>
   
@@ -857,9 +798,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ControlPath parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ControlPath">man.openbsd.org/ssh_config#ControlPath</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ControlPath parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ControlPath">https://man.openbsd.org/ssh_config#ControlPath</a> for possible values.</p></div>
       
     </li>
   
@@ -875,9 +815,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ControlPersist parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ControlPersist">man.openbsd.org/ssh_config#ControlPersist</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ControlPersist parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ControlPersist">https://man.openbsd.org/ssh_config#ControlPersist</a> for possible values.</p></div>
       
     </li>
   
@@ -893,9 +832,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to DynamicForward parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#DynamicForward">man.openbsd.org/ssh_config#DynamicForward</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to DynamicForward parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#DynamicForward">https://man.openbsd.org/ssh_config#DynamicForward</a> for possible values.</p></div>
       
     </li>
   
@@ -911,9 +849,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to EnableSSHKeysign parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#EnableSSHKeysign">man.openbsd.org/ssh_config#EnableSSHKeysign</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to EnableSSHKeysign parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#EnableSSHKeysign">https://man.openbsd.org/ssh_config#EnableSSHKeysign</a> for possible values.</p></div>
       
     </li>
   
@@ -929,9 +866,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to EscapeChar parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#EscapeChar">man.openbsd.org/ssh_config#EscapeChar</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to EscapeChar parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#EscapeChar">https://man.openbsd.org/ssh_config#EscapeChar</a> for possible values.</p></div>
       
     </li>
   
@@ -947,9 +883,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ExitOnForwardFailure parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ExitOnForwardFailure">man.openbsd.org/ssh_config#ExitOnForwardFailure</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ExitOnForwardFailure parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ExitOnForwardFailure">https://man.openbsd.org/ssh_config#ExitOnForwardFailure</a> for possible values.</p></div>
       
     </li>
   
@@ -965,9 +900,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to FingerprintHash parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#FingerprintHash">man.openbsd.org/ssh_config#FingerprintHash</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to FingerprintHash parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#FingerprintHash">https://man.openbsd.org/ssh_config#FingerprintHash</a> for possible values.</p></div>
       
     </li>
   
@@ -983,9 +917,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ForkAfterAuthentication parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ForkAfterAuthentication">man.openbsd.org/ssh_config#ForkAfterAuthentication</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ForkAfterAuthentication parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ForkAfterAuthentication">https://man.openbsd.org/ssh_config#ForkAfterAuthentication</a> for possible values.</p></div>
       
     </li>
   
@@ -1001,9 +934,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ForwardAgent parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ForwardAgent">man.openbsd.org/ssh_config#ForwardAgent</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ForwardAgent parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ForwardAgent">https://man.openbsd.org/ssh_config#ForwardAgent</a> for possible values.</p></div>
       
     </li>
   
@@ -1019,9 +951,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ForwardX11 parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ForwardX11">man.openbsd.org/ssh_config#ForwardX11</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ForwardX11 parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ForwardX11">https://man.openbsd.org/ssh_config#ForwardX11</a> for possible values.</p></div>
       
     </li>
   
@@ -1030,16 +961,15 @@
         <span class='name'>forward_x11_timeout</span>
       
       
-        <span class='type'>(<tt>Variant[Undef, String[1], Integer[0]]</tt>)</span>
+        <span class='type'>(<tt>Optional[Variant[String[1], Integer[0]]]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ForwardX11Timeout parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ForwardX11Timeout">man.openbsd.org/ssh_config#ForwardX11Timeout</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ForwardX11Timeout parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ForwardX11Timeout">https://man.openbsd.org/ssh_config#ForwardX11Timeout</a> for possible values.</p></div>
       
     </li>
   
@@ -1055,9 +985,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ForwardX11Trusted parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ForwardX11Trusted">man.openbsd.org/ssh_config#ForwardX11Trusted</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ForwardX11Trusted parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ForwardX11Trusted">https://man.openbsd.org/ssh_config#ForwardX11Trusted</a> for possible values.</p></div>
       
     </li>
   
@@ -1073,9 +1002,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to GatewayPorts parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#GatewayPorts">man.openbsd.org/ssh_config#GatewayPorts</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to GatewayPorts parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#GatewayPorts">https://man.openbsd.org/ssh_config#GatewayPorts</a> for possible values.</p></div>
       
     </li>
   
@@ -1091,9 +1019,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to GlobalKnownHostsFile parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#GlobalKnownHostsFile">man.openbsd.org/ssh_config#GlobalKnownHostsFile</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to GlobalKnownHostsFile parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#GlobalKnownHostsFile">https://man.openbsd.org/ssh_config#GlobalKnownHostsFile</a> for possible values.</p></div>
       
     </li>
   
@@ -1109,9 +1036,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to GSSAPIAuthentication parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#GSSAPIAuthentication">man.openbsd.org/ssh_config#GSSAPIAuthentication</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to GSSAPIAuthentication parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#GSSAPIAuthentication">https://man.openbsd.org/ssh_config#GSSAPIAuthentication</a> for possible values.</p></div>
       
     </li>
   
@@ -1127,9 +1053,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to GSSAPIDelegateCredentials parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#GSSAPIDelegateCredentials">man.openbsd.org/ssh_config#GSSAPIDelegateCredentials</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to GSSAPIDelegateCredentials parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#GSSAPIDelegateCredentials">https://man.openbsd.org/ssh_config#GSSAPIDelegateCredentials</a> for possible values.</p></div>
       
     </li>
   
@@ -1145,9 +1070,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to HashKnownHosts parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#HashKnownHosts">man.openbsd.org/ssh_config#HashKnownHosts</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to HashKnownHosts parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#HashKnownHosts">https://man.openbsd.org/ssh_config#HashKnownHosts</a> for possible values.</p></div>
       
     </li>
   
@@ -1163,9 +1087,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to HostbasedAcceptedAlgorithms parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#HostbasedAcceptedAlgorithms">man.openbsd.org/ssh_config#HostbasedAcceptedAlgorithms</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to HostbasedAcceptedAlgorithms parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#HostbasedAcceptedAlgorithms">https://man.openbsd.org/ssh_config#HostbasedAcceptedAlgorithms</a> for possible values.</p></div>
       
     </li>
   
@@ -1181,9 +1104,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to HostbasedAuthentication parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#HostbasedAuthentication">man.openbsd.org/ssh_config#HostbasedAuthentication</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to HostbasedAuthentication parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#HostbasedAuthentication">https://man.openbsd.org/ssh_config#HostbasedAuthentication</a> for possible values.</p></div>
       
     </li>
   
@@ -1199,9 +1121,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to HostKeyAlgorithms parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#HostKeyAlgorithms">man.openbsd.org/ssh_config#HostKeyAlgorithms</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to HostKeyAlgorithms parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#HostKeyAlgorithms">https://man.openbsd.org/ssh_config#HostKeyAlgorithms</a> for possible values.</p></div>
       
     </li>
   
@@ -1217,9 +1138,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to HostKeyAlias parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#HostKeyAlias">man.openbsd.org/ssh_config#HostKeyAlias</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to HostKeyAlias parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#HostKeyAlias">https://man.openbsd.org/ssh_config#HostKeyAlias</a> for possible values.</p></div>
       
     </li>
   
@@ -1235,9 +1155,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to Hostname parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#Hostname">man.openbsd.org/ssh_config#Hostname</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to Hostname parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#Hostname">https://man.openbsd.org/ssh_config#Hostname</a> for possible values.</p></div>
       
     </li>
   
@@ -1253,9 +1172,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to IdentitiesOnly parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#IdentitiesOnly">man.openbsd.org/ssh_config#IdentitiesOnly</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to IdentitiesOnly parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#IdentitiesOnly">https://man.openbsd.org/ssh_config#IdentitiesOnly</a> for possible values.</p></div>
       
     </li>
   
@@ -1271,9 +1189,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to IdentityAgent parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#IdentityAgent">man.openbsd.org/ssh_config#IdentityAgent</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to IdentityAgent parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#IdentityAgent">https://man.openbsd.org/ssh_config#IdentityAgent</a> for possible values.</p></div>
       
     </li>
   
@@ -1289,9 +1206,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to IdentityFile parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#IdentityFile">man.openbsd.org/ssh_config#IdentityFile</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to IdentityFile parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#IdentityFile">https://man.openbsd.org/ssh_config#IdentityFile</a> for possible values.</p></div>
       
     </li>
   
@@ -1307,9 +1223,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to IgnoreUnknown parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#IgnoreUnknown">man.openbsd.org/ssh_config#IgnoreUnknown</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to IgnoreUnknown parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#IgnoreUnknown">https://man.openbsd.org/ssh_config#IgnoreUnknown</a> for possible values.</p></div>
       
     </li>
   
@@ -1325,9 +1240,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to Include parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#Include">man.openbsd.org/ssh_config#Include</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to Include parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#Include">https://man.openbsd.org/ssh_config#Include</a> for possible values.</p></div>
       
     </li>
   
@@ -1343,9 +1257,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The owner of the include directory</p>
-</div>
+        <div class='inline'><p>The owner of the include directory</p></div>
       
     </li>
   
@@ -1361,9 +1273,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The group of the include directory</p>
-</div>
+        <div class='inline'><p>The group of the include directory</p></div>
       
     </li>
   
@@ -1379,9 +1289,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The mode of the include directory</p>
-</div>
+        <div class='inline'><p>The mode of the include directory</p></div>
       
     </li>
   
@@ -1397,9 +1305,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Sets whether to purge the include_dir of unmanaged files</p>
-</div>
+        <div class='inline'><p>Sets whether to purge the include_dir of unmanaged files</p></div>
       
     </li>
   
@@ -1415,9 +1321,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to IPQoS parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#IPQoS">man.openbsd.org/ssh_config#IPQoS</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to IPQoS parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#IPQoS">https://man.openbsd.org/ssh_config#IPQoS</a> for possible values.</p></div>
       
     </li>
   
@@ -1433,9 +1338,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to KbdInteractiveAuthentication parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#KbdInteractiveAuthentication">man.openbsd.org/ssh_config#KbdInteractiveAuthentication</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to KbdInteractiveAuthentication parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#KbdInteractiveAuthentication">https://man.openbsd.org/ssh_config#KbdInteractiveAuthentication</a> for possible values.</p></div>
       
     </li>
   
@@ -1451,9 +1355,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to KbdInteractiveDevices parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#KbdInteractiveDevices">man.openbsd.org/ssh_config#KbdInteractiveDevices</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to KbdInteractiveDevices parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#KbdInteractiveDevices">https://man.openbsd.org/ssh_config#KbdInteractiveDevices</a> for possible values.</p></div>
       
     </li>
   
@@ -1469,9 +1372,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to KexAlgorithms parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#KexAlgorithms">man.openbsd.org/ssh_config#KexAlgorithms</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to KexAlgorithms parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#KexAlgorithms">https://man.openbsd.org/ssh_config#KexAlgorithms</a> for possible values.</p></div>
       
     </li>
   
@@ -1487,9 +1389,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to KnownHostsCommand parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#KnownHostsCommand">man.openbsd.org/ssh_config#KnownHostsCommand</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to KnownHostsCommand parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#KnownHostsCommand">https://man.openbsd.org/ssh_config#KnownHostsCommand</a> for possible values.</p></div>
       
     </li>
   
@@ -1505,9 +1406,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to LocalCommand parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#LocalCommand">man.openbsd.org/ssh_config#LocalCommand</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to LocalCommand parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#LocalCommand">https://man.openbsd.org/ssh_config#LocalCommand</a> for possible values.</p></div>
       
     </li>
   
@@ -1523,9 +1423,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to LocalForward parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#LocalForward">man.openbsd.org/ssh_config#LocalForward</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to LocalForward parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#LocalForward">https://man.openbsd.org/ssh_config#LocalForward</a> for possible values.</p></div>
       
     </li>
   
@@ -1541,9 +1440,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to LogLevel parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#LogLevel">man.openbsd.org/ssh_config#LogLevel</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to LogLevel parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#LogLevel">https://man.openbsd.org/ssh_config#LogLevel</a> for possible values.</p></div>
       
     </li>
   
@@ -1559,9 +1457,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to LogVerbose parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#LogVerbose">man.openbsd.org/ssh_config#LogVerbose</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to LogVerbose parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#LogVerbose">https://man.openbsd.org/ssh_config#LogVerbose</a> for possible values.</p></div>
       
     </li>
   
@@ -1577,9 +1474,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to MACs parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#MACs">man.openbsd.org/ssh_config#MACs</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to MACs parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#MACs">https://man.openbsd.org/ssh_config#MACs</a> for possible values.</p></div>
       
     </li>
   
@@ -1595,9 +1491,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to NoHostAuthenticationForLocalhost parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#NoHostAuthenticationForLocalhost">man.openbsd.org/ssh_config#NoHostAuthenticationForLocalhost</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to NoHostAuthenticationForLocalhost parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#NoHostAuthenticationForLocalhost">https://man.openbsd.org/ssh_config#NoHostAuthenticationForLocalhost</a> for possible values.</p></div>
       
     </li>
   
@@ -1613,9 +1508,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to NumberOfPasswordPrompts parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#NumberOfPasswordPrompts">man.openbsd.org/ssh_config#NumberOfPasswordPrompts</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to NumberOfPasswordPrompts parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#NumberOfPasswordPrompts">https://man.openbsd.org/ssh_config#NumberOfPasswordPrompts</a> for possible values.</p></div>
       
     </li>
   
@@ -1631,9 +1525,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PasswordAuthentication parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#PasswordAuthentication">man.openbsd.org/ssh_config#PasswordAuthentication</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PasswordAuthentication parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#PasswordAuthentication">https://man.openbsd.org/ssh_config#PasswordAuthentication</a> for possible values.</p></div>
       
     </li>
   
@@ -1649,9 +1542,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PermitLocalCommand parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#PermitLocalCommand">man.openbsd.org/ssh_config#PermitLocalCommand</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PermitLocalCommand parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#PermitLocalCommand">https://man.openbsd.org/ssh_config#PermitLocalCommand</a> for possible values.</p></div>
       
     </li>
   
@@ -1667,9 +1559,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PermitRemoteOpen parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#PermitRemoteOpen">man.openbsd.org/ssh_config#PermitRemoteOpen</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PermitRemoteOpen parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#PermitRemoteOpen">https://man.openbsd.org/ssh_config#PermitRemoteOpen</a> for possible values.</p></div>
       
     </li>
   
@@ -1685,9 +1576,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PKCS11Provider parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#PKCS11Provider">man.openbsd.org/ssh_config#PKCS11Provider</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PKCS11Provider parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#PKCS11Provider">https://man.openbsd.org/ssh_config#PKCS11Provider</a> for possible values.</p></div>
       
     </li>
   
@@ -1703,9 +1593,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to Port parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#Port">man.openbsd.org/ssh_config#Port</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to Port parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#Port">https://man.openbsd.org/ssh_config#Port</a> for possible values.</p></div>
       
     </li>
   
@@ -1721,9 +1610,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PreferredAuthentications parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#PreferredAuthentications">man.openbsd.org/ssh_config#PreferredAuthentications</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PreferredAuthentications parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#PreferredAuthentications">https://man.openbsd.org/ssh_config#PreferredAuthentications</a> for possible values.</p></div>
       
     </li>
   
@@ -1739,9 +1627,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ProxyCommand parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ProxyCommand">man.openbsd.org/ssh_config#ProxyCommand</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ProxyCommand parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ProxyCommand">https://man.openbsd.org/ssh_config#ProxyCommand</a> for possible values.</p></div>
       
     </li>
   
@@ -1757,9 +1644,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ProxyJump parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ProxyJump">man.openbsd.org/ssh_config#ProxyJump</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ProxyJump parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ProxyJump">https://man.openbsd.org/ssh_config#ProxyJump</a> for possible values.</p></div>
       
     </li>
   
@@ -1775,9 +1661,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ProxyUseFdpass parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ProxyUseFdpass">man.openbsd.org/ssh_config#ProxyUseFdpass</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ProxyUseFdpass parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ProxyUseFdpass">https://man.openbsd.org/ssh_config#ProxyUseFdpass</a> for possible values.</p></div>
       
     </li>
   
@@ -1793,9 +1678,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PubkeyAcceptedAlgorithms parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#PubkeyAcceptedAlgorithms">man.openbsd.org/ssh_config#PubkeyAcceptedAlgorithms</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PubkeyAcceptedAlgorithms parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#PubkeyAcceptedAlgorithms">https://man.openbsd.org/ssh_config#PubkeyAcceptedAlgorithms</a> for possible values.</p></div>
       
     </li>
   
@@ -1811,9 +1695,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to PubkeyAuthentication parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#PubkeyAuthentication">man.openbsd.org/ssh_config#PubkeyAuthentication</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to PubkeyAuthentication parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#PubkeyAuthentication">https://man.openbsd.org/ssh_config#PubkeyAuthentication</a> for possible values.</p></div>
       
     </li>
   
@@ -1829,9 +1712,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to RekeyLimit parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#RekeyLimit">man.openbsd.org/ssh_config#RekeyLimit</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to RekeyLimit parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#RekeyLimit">https://man.openbsd.org/ssh_config#RekeyLimit</a> for possible values.</p></div>
       
     </li>
   
@@ -1847,9 +1729,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to RemoteCommand parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#RemoteCommand">man.openbsd.org/ssh_config#RemoteCommand</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to RemoteCommand parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#RemoteCommand">https://man.openbsd.org/ssh_config#RemoteCommand</a> for possible values.</p></div>
       
     </li>
   
@@ -1865,9 +1746,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to RemoteForward parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#RemoteForward">man.openbsd.org/ssh_config#RemoteForward</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to RemoteForward parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#RemoteForward">https://man.openbsd.org/ssh_config#RemoteForward</a> for possible values.</p></div>
       
     </li>
   
@@ -1883,9 +1763,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to RequestTTY parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#RequestTTY">man.openbsd.org/ssh_config#RequestTTY</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to RequestTTY parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#RequestTTY">https://man.openbsd.org/ssh_config#RequestTTY</a> for possible values.</p></div>
       
     </li>
   
@@ -1901,9 +1780,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to RevokedHostKeys parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#RevokedHostKeys">man.openbsd.org/ssh_config#RevokedHostKeys</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to RevokedHostKeys parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#RevokedHostKeys">https://man.openbsd.org/ssh_config#RevokedHostKeys</a> for possible values.</p></div>
       
     </li>
   
@@ -1919,9 +1797,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to SecurityKeyProvider parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#SecurityKeyProvider">man.openbsd.org/ssh_config#SecurityKeyProvider</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to SecurityKeyProvider parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#SecurityKeyProvider">https://man.openbsd.org/ssh_config#SecurityKeyProvider</a> for possible values.</p></div>
       
     </li>
   
@@ -1937,9 +1814,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to SendEnv parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#SendEnv">man.openbsd.org/ssh_config#SendEnv</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to SendEnv parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#SendEnv">https://man.openbsd.org/ssh_config#SendEnv</a> for possible values.</p></div>
       
     </li>
   
@@ -1948,16 +1824,15 @@
         <span class='name'>server_alive_count_max</span>
       
       
-        <span class='type'>(<tt>Variant[Undef, String[1], Integer[0]]</tt>)</span>
+        <span class='type'>(<tt>Optional[Variant[String[1], Integer[0]]]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ServerAliveCountMax parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ServerAliveCountMax">man.openbsd.org/ssh_config#ServerAliveCountMax</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ServerAliveCountMax parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ServerAliveCountMax">https://man.openbsd.org/ssh_config#ServerAliveCountMax</a> for possible values.</p></div>
       
     </li>
   
@@ -1966,16 +1841,15 @@
         <span class='name'>server_alive_interval</span>
       
       
-        <span class='type'>(<tt>Variant[Undef, String[1], Integer[0]]</tt>)</span>
+        <span class='type'>(<tt>Optional[Variant[String[1], Integer[0]]]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to ServerAliveInterval parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#ServerAliveInterval">man.openbsd.org/ssh_config#ServerAliveInterval</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to ServerAliveInterval parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#ServerAliveInterval">https://man.openbsd.org/ssh_config#ServerAliveInterval</a> for possible values.</p></div>
       
     </li>
   
@@ -1991,9 +1865,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to SessionType parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#SessionType">man.openbsd.org/ssh_config#SessionType</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to SessionType parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#SessionType">https://man.openbsd.org/ssh_config#SessionType</a> for possible values.</p></div>
       
     </li>
   
@@ -2009,9 +1882,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to SetEnv parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#SetEnv">man.openbsd.org/ssh_config#SetEnv</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to SetEnv parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#SetEnv">https://man.openbsd.org/ssh_config#SetEnv</a> for possible values.</p></div>
       
     </li>
   
@@ -2027,9 +1899,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to StdinNull parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#StdinNull">man.openbsd.org/ssh_config#StdinNull</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to StdinNull parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#StdinNull">https://man.openbsd.org/ssh_config#StdinNull</a> for possible values.</p></div>
       
     </li>
   
@@ -2045,9 +1916,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to StreamLocalBindMask parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#StreamLocalBindMask">man.openbsd.org/ssh_config#StreamLocalBindMask</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to StreamLocalBindMask parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#StreamLocalBindMask">https://man.openbsd.org/ssh_config#StreamLocalBindMask</a> for possible values.</p></div>
       
     </li>
   
@@ -2063,9 +1933,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to StreamLocalBindUnlink parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#StreamLocalBindUnlink">man.openbsd.org/ssh_config#StreamLocalBindUnlink</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to StreamLocalBindUnlink parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#StreamLocalBindUnlink">https://man.openbsd.org/ssh_config#StreamLocalBindUnlink</a> for possible values.</p></div>
       
     </li>
   
@@ -2081,9 +1950,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to StrictHostKeyChecking parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#StrictHostKeyChecking">man.openbsd.org/ssh_config#StrictHostKeyChecking</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to StrictHostKeyChecking parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#StrictHostKeyChecking">https://man.openbsd.org/ssh_config#StrictHostKeyChecking</a> for possible values.</p></div>
       
     </li>
   
@@ -2099,9 +1967,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to SyslogFacility parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#SyslogFacility">man.openbsd.org/ssh_config#SyslogFacility</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to SyslogFacility parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#SyslogFacility">https://man.openbsd.org/ssh_config#SyslogFacility</a> for possible values.</p></div>
       
     </li>
   
@@ -2117,9 +1984,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to TCPKeepAlive parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#TCPKeepAlive">man.openbsd.org/ssh_config#TCPKeepAlive</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to TCPKeepAlive parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#TCPKeepAlive">https://man.openbsd.org/ssh_config#TCPKeepAlive</a> for possible values.</p></div>
       
     </li>
   
@@ -2135,9 +2001,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to Tunnel parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#Tunnel">man.openbsd.org/ssh_config#Tunnel</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to Tunnel parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#Tunnel">https://man.openbsd.org/ssh_config#Tunnel</a> for possible values.</p></div>
       
     </li>
   
@@ -2153,9 +2018,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to TunnelDevice parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#TunnelDevice">man.openbsd.org/ssh_config#TunnelDevice</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to TunnelDevice parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#TunnelDevice">https://man.openbsd.org/ssh_config#TunnelDevice</a> for possible values.</p></div>
       
     </li>
   
@@ -2171,9 +2035,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to UpdateHostKeys parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#UpdateHostKeys">man.openbsd.org/ssh_config#UpdateHostKeys</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to UpdateHostKeys parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#UpdateHostKeys">https://man.openbsd.org/ssh_config#UpdateHostKeys</a> for possible values.</p></div>
       
     </li>
   
@@ -2189,9 +2052,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to User parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#User">man.openbsd.org/ssh_config#User</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to User parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#User">https://man.openbsd.org/ssh_config#User</a> for possible values.</p></div>
       
     </li>
   
@@ -2207,9 +2069,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to UserKnownHostsFile parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#UserKnownHostsFile">man.openbsd.org/ssh_config#UserKnownHostsFile</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to UserKnownHostsFile parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#UserKnownHostsFile">https://man.openbsd.org/ssh_config#UserKnownHostsFile</a> for possible values.</p></div>
       
     </li>
   
@@ -2225,9 +2086,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to the UseRoaming parameter in ssh_config. Unused if empty.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to the UseRoaming parameter in ssh_config. Unused if empty.</p></div>
       
     </li>
   
@@ -2243,9 +2102,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to VerifyHostKeyDNS parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#VerifyHostKeyDNS">man.openbsd.org/ssh_config#VerifyHostKeyDNS</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to VerifyHostKeyDNS parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#VerifyHostKeyDNS">https://man.openbsd.org/ssh_config#VerifyHostKeyDNS</a> for possible values.</p></div>
       
     </li>
   
@@ -2261,9 +2119,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to VisualHostKey parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#VisualHostKey">man.openbsd.org/ssh_config#VisualHostKey</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to VisualHostKey parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#VisualHostKey">https://man.openbsd.org/ssh_config#VisualHostKey</a> for possible values.</p></div>
       
     </li>
   
@@ -2279,9 +2136,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Value(s) passed to XAuthLocation parameter in ssh_config. Unused if empty. Check <a href="https://man.openbsd.org/ssh_config#XAuthLocation">man.openbsd.org/ssh_config#XAuthLocation</a> for possible values.</p>
-</div>
+        <div class='inline'><p>Value(s) passed to XAuthLocation parameter in ssh_config. Unused if empty.
+Check <a href="https://man.openbsd.org/ssh_config#XAuthLocation">https://man.openbsd.org/ssh_config#XAuthLocation</a> for possible values.</p></div>
       
     </li>
   
@@ -2297,9 +2153,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Array of custom lines to be added to client configuration file ssh_config. Uses one array item per line to be added.</p>
-</div>
+        <div class='inline'><p>Array of custom lines to be added to client configuration file ssh_config.
+Uses one array item per line to be added.</p></div>
       
     </li>
   
@@ -2606,7 +2461,7 @@ class ssh (
   Optional[Ssh::Yes_no] $fork_after_authentication = undef,
   Optional[Ssh::Yes_no] $forward_agent = undef,
   Optional[Ssh::Yes_no] $forward_x11 = undef,
-  Variant[Undef, String[1], Integer[0]] $forward_x11_timeout = undef,
+  Optional[Variant[String[1], Integer[0]]] $forward_x11_timeout = undef,
   Optional[Ssh::Yes_no] $forward_x11_trusted = undef,
   Optional[Ssh::Yes_no] $gateway_ports = undef,
   Optional[Array[String[1]]] $global_known_hosts_file = undef,
@@ -2657,8 +2512,8 @@ class ssh (
   Optional[String[1]] $revoked_host_keys = undef,
   Optional[String[1]] $security_key_provider = undef,
   Optional[Array[String[1]]] $send_env = undef,
-  Variant[Undef, String[1], Integer[0]] $server_alive_count_max = undef,
-  Variant[Undef, String[1], Integer[0]] $server_alive_interval = undef,
+  Optional[Variant[String[1], Integer[0]]] $server_alive_count_max = undef,
+  Optional[Variant[String[1], Integer[0]]] $server_alive_interval = undef,
   Optional[Enum[&#39;default&#39;, &#39;none&#39;, &#39;subsystem&#39;]] $session_type = undef,
   Optional[Array[String[1]]] $set_env = undef,
   Optional[Ssh::Yes_no] $stdin_null = undef,
