@@ -16,18 +16,26 @@ jobs:
       matrix:
         include:
           - ruby: 3.2.4
-            puppet: 8
+            openvox: 8
             fixtures: .fixtures.yml
             allow_failure: false
           - ruby: 3.2.4
-            puppet: 8
+            openvox: 8
+            fixtures: .fixtures-latest.yml
+            allow_failure: true
+          - ruby: '4.0'
+            openvox: 9
+            fixtures: .fixtures.yml
+            allow_failure: false
+          - ruby: '4.0'
+            openvox: 9
             fixtures: .fixtures-latest.yml
             allow_failure: true
     env:
       BUNDLE_WITHOUT: system_tests:release
-      PUPPET_GEM_VERSION: "~> ${{ matrix.puppet }}.0"
+      OPENVOX_GEM_VERSION: "~> ${{ matrix.openvox }}.0"
       FIXTURES_YML: ${{ matrix.fixtures }}
-    name: Puppet ${{ matrix.puppet }} (Ruby ${{ matrix.ruby }} fixtures=${{ matrix.fixtures }})
+    name: OpenVox ${{ matrix.openvox }} (Ruby ${{ matrix.ruby }} fixtures=${{ matrix.fixtures }})
     steps:
       - uses: actions/checkout@v7
       - name: Setup ruby
@@ -36,7 +44,6 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
           cache-version: 2
-          bundler: '2.1.0'
       - name: Validate
         run: bundle exec rake check:git_ignore check:dot_underscore check:test_file rubocop syntax lint metadata_lint
       - name: Run tests
@@ -54,8 +61,9 @@ jobs:
           - "ubuntu-2204"
           - "ubuntu-2404"
           - "ubuntu-2604"
-        puppet:
+        collection:
           - "openvox8"
+          - "openvox9"
     env:
       BUNDLE_WITHOUT: development:release
       BEAKER_debug: true
@@ -82,5 +90,5 @@ jobs:
       - name: Run tests
         run: bundle exec rake beaker
         env:
-          BEAKER_PUPPET_COLLECTION: ${{ matrix.puppet }}
+          BEAKER_PUPPET_COLLECTION: ${{ matrix.collection }}
           BEAKER_set: ${{ matrix.set }}
