@@ -20,6 +20,10 @@ Lint/RedundantCopDisableDirective:
   Exclude:
     - 'spec/**/*'
 
+Lint/RedundantDirGlobSort:
+  Exclude:
+    - 'spec/**/*'
+
 Naming/HeredocDelimiterNaming:
   Exclude:
     - 'spec/**/*'
@@ -52,15 +56,11 @@ RSpec/ImplicitSubject:
   Exclude:
     - 'spec/**/*'
 
-RSpec/MultipleExpectations:
+RSpec/LeakyLocalVariable:
   Exclude:
     - 'spec/**/*'
 
 RSpec/NestedGroups:
-  Exclude:
-    - 'spec/**/*'
-
-RSpec/NoExpectationExample:
   Exclude:
     - 'spec/**/*'
 
@@ -120,5 +120,9 @@ Style/TrailingCommaInHashLiteral:
     - 'spec/**/*'
 
 Style/WordArray:
+  Exclude:
+    - 'spec/**/*'
+
+Style/YAMLFileRead:
   Exclude:
     - 'spec/**/*'

@@ -10,13 +10,13 @@ OpenVox / Vox Pupuli ecosystem, not Puppet Labs / Perforce tooling.
 ## Toolchain rules
 
 - Use OpenVox and Vox Pupuli tooling, never the Puppet Labs equivalents:
-  the `openvox` gem (selected via `PUPPET_GEM_VERSION`), `openfact`,
+  the `openvox` gem (selected via `OPENVOX_GEM_VERSION`), `openfact`,
   `voxpupuli-test`, `voxpupuli-acceptance`, `voxpupuli-rubocop`,
   `openvox-strings`, `beaker_puppet_helpers`. The `puppet` and `facter`
   gems must never appear in `Gemfile.lock`.
 - PDK is not used. Do not suggest `pdk update` or pdk-templates.
 - Acceptance tests install `openvox-agent` from the Vox Pupuli repositories
-  (`BEAKER_PUPPET_COLLECTION=openvox8`) into Docker containers defined by
+  (`BEAKER_PUPPET_COLLECTION`, openvox8 or openvox9) into Docker containers defined by
   `spec/acceptance/nodesets/*.yml`.
 
 ## Commands
