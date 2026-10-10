@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.1.0](https://github.com/ghoneycutt/puppet-module-ssh/tree/v6.1.0) (2026-10-10)
+
+[Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v6.0.0...v6.1.0)
+
+### Added
+
+- Add OpenVox 9 support [\#463](https://github.com/ghoneycutt/puppet-module-ssh/pull/463) ([ghoneycutt](https://github.com/ghoneycutt))
+- Create CLAUDE.md [\#461](https://github.com/ghoneycutt/puppet-module-ssh/pull/461) ([justmedude](https://github.com/justmedude))
+- Add AGENTS.md and playbooks for common platform work [\#460](https://github.com/ghoneycutt/puppet-module-ssh/pull/460) ([ghoneycutt](https://github.com/ghoneycutt))
+
+### Merged pull requests:
+
+- Declare openvox requirement in metadata [\#462](https://github.com/ghoneycutt/puppet-module-ssh/pull/462) ([ghoneycutt](https://github.com/ghoneycutt))
+
 ## [v6.0.0](https://github.com/ghoneycutt/puppet-module-ssh/tree/v6.0.0) (2026-09-12)
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-ssh/compare/v5.1.1...v6.0.0)

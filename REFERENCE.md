@@ -2894,4 +2894,3 @@ Alias of `Enum['DAEMON', 'USER', 'AUTH', 'LOCAL0', 'LOCAL1', 'LOCAL2', 'LOCAL3',
 validate SSH configuration that uses yes/no.
 
 Alias of `Enum['yes', 'no']`
-
